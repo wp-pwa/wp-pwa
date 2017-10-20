@@ -1,16 +1,13 @@
 const path = require('path')
 const webpack = require('webpack')
 
-const entry = path.resolve(__dirname, '../../init/server.js');
-const output = path.resolve(__dirname, '../../../../buildServer');
-
 module.exports = {
   name: 'server',
   target: 'node',
   devtool: 'source-map',
-  entry: [entry],
+  entry: [path.resolve(__dirname, '../../init/server.js')],
   output: {
-    path: output,
+    path: path.resolve(__dirname, '../../../../.build/pwa/server'),
     filename: '[name].js',
     libraryTarget: 'commonjs2'
   },
