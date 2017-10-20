@@ -1,9 +1,58 @@
 {
-  "presets": [["es2015", { "modules": false }], "react", "stage-2"],
-  "plugins": ["universal-import"],
   "env": {
-    "development": {
-      "plugins": ["react-hot-loader/babel"]
+    "devClient": {
+      "presets": [
+        [
+          "env",
+          {
+            "targets": { "browsers": ["android >= 4.4", "ios_saf > 9", "and_chr >= 56"] },
+            "useBuiltIns": "usage"
+          }
+        ],
+        "react"
+      ],
+      "plugins": [
+        "syntax-dynamic-import",
+        "transform-object-rest-spread",
+        "transform-class-properties",
+        "universal-import",
+        "react-hot-loader/babel"
+      ]
+    },
+    "prodClient": {
+      "presets": [
+        [
+          "env",
+          {
+            "targets": { "browsers": ["android >= 4.4", "ios_saf > 9", "and_chr >= 56"] },
+            "useBuiltIns": "usage"
+          }
+        ],
+        "react"
+      ],
+      "plugins": [
+        "syntax-dynamic-import",
+        "transform-object-rest-spread",
+        "transform-class-properties",
+        "universal-import"
+      ]
+    },
+    "server": {
+      "presets": [
+        [
+          "env",
+          {
+            "targets": { "node": "current" }
+          }
+        ],
+        "react"
+      ],
+      "plugins": [
+        "syntax-dynamic-import",
+        "transform-object-rest-spread",
+        "transform-class-properties",
+        "universal-import"
+      ]
     }
   }
 }
