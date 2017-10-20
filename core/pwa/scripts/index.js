@@ -1,5 +1,6 @@
 /* eslint-disable no-console, global-require */
 const { emptyDir } = require('fs-extra');
+const path = require('path');
 const express = require('express');
 const webpack = require('webpack');
 const noFavicon = require('express-no-favicons');
@@ -10,8 +11,6 @@ const clientConfig = require('./webpack/client.dev');
 const serverConfig = require('./webpack/server.dev');
 const clientConfigProd = require('./webpack/client.prod');
 const serverConfigProd = require('./webpack/server.prod');
-
-const { publicPath, path: outputPath } = clientConfig.output;
 
 const DEV = process.env.NODE_ENV === 'development';
 
@@ -33,8 +32,9 @@ const start = async () => {
   if (DEV) {
     const compiler = webpack([clientConfig, serverConfig]);
     const clientCompiler = compiler.compilers[0];
-    const options = { publicPath, stats: { colors: true } };
+    const options = { stats: { colors: true } };
 
+    app.use('/static', express.static(path.resolve(__dirname, '../../../.build/pwa/client')));
     app.use(webpackDevMiddleware(compiler, options));
     app.use(webpackHotMiddleware(clientCompiler));
     app.use(webpackHotServerMiddleware(compiler));
@@ -45,7 +45,7 @@ const start = async () => {
       const clientStats = stats.toJson().children[0];
       const serverRender = require('../../../.build/pwa/server/main.js').default;
 
-      app.use(publicPath, express.static(outputPath));
+      app.use('/static', express.static(clientConfigProd.output.outputPath));
       app.use(serverRender({ clientStats }));
 
       done();
