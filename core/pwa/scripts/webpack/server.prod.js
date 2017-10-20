@@ -1,10 +1,8 @@
 const path = require('path')
 const webpack = require('webpack')
 
-const res = p => path.resolve(__dirname, p)
-
-const entry = res('../server/render.js')
-const output = res('../buildServer')
+const entry = path.resolve(__dirname, '../../init/server.js');
+const output = path.resolve(__dirname, '../../../../buildServer');
 
 module.exports = {
   name: 'server',

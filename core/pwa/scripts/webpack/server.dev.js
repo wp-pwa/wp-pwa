@@ -3,22 +3,16 @@ const path = require('path')
 const webpack = require('webpack')
 const WriteFilePlugin = require('write-file-webpack-plugin')
 
-const res = p => path.resolve(__dirname, p)
-
-const nodeModules = res('../node_modules')
-const entry = res('../server/render.js')
-const output = res('../buildServer')
-
 // if you're specifying externals to leave unbundled, you need to tell Webpack
 // to still bundle `react-universal-component`, `webpack-flush-chunks` and
 // `require-universal-module` so that they know they are running
 // within Webpack and can properly make connections to client modules:
 const externals = fs
-  .readdirSync(nodeModules)
+  .readdirSync(path.resolve(__dirname, '../../../../node_modules'))
   .filter(x => !/\.bin|react-universal-component|webpack-flush-chunks/.test(x))
-  .reduce((externals, mod) => {
-    externals[mod] = `commonjs ${mod}`
-    return externals
+  .reduce((external, mod) => {
+    external[mod] = `commonjs ${mod}`
+    return external
   }, {})
 
 externals['react-dom/server'] = 'commonjs react-dom/server'
@@ -28,10 +22,10 @@ module.exports = {
   target: 'node',
   // devtool: 'source-map',
   devtool: 'eval',
-  entry: [entry],
+  entry: [path.resolve(__dirname, '../../init/server.js')],
   externals,
   output: {
-    path: output,
+    path: path.resolve(__dirname, '../../../../buildServer'),
     filename: '[name].js',
     libraryTarget: 'commonjs2'
   },

@@ -1,16 +1,16 @@
+/* eslint-disable no-console, global-require */
 const express = require('express');
 const webpack = require('webpack');
 const noFavicon = require('express-no-favicons');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpackHotServerMiddleware = require('webpack-hot-server-middleware');
-const clientConfig = require('../webpack/client.dev');
-const serverConfig = require('../webpack/server.dev');
-const clientConfigProd = require('../webpack/client.prod');
-const serverConfigProd = require('../webpack/server.prod');
+const clientConfig = require('./webpack/client.dev');
+const serverConfig = require('./webpack/server.dev');
+const clientConfigProd = require('./webpack/client.prod');
+const serverConfigProd = require('./webpack/server.prod');
 
-const publicPath = clientConfig.output.publicPath;
-const outputPath = clientConfig.output.path;
+const { publicPath, path: outputPath } = clientConfig.output.publicPath;
 const DEV = process.env.NODE_ENV === 'development';
 const app = express();
 app.use(noFavicon());
@@ -37,7 +37,7 @@ if (DEV) {
 } else {
   webpack([clientConfigProd, serverConfigProd]).run((err, stats) => {
     const clientStats = stats.toJson().children[0];
-    const serverRender = require('../buildServer/main.js').default;
+    const serverRender = require('../../../buildServer/main.js').default;
 
     app.use(publicPath, express.static(outputPath));
     app.use(serverRender({ clientStats }));

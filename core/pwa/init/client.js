@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 import React from 'react'
 import ReactDOM from 'react-dom'
 import createHistory from 'history/createBrowserHistory'
@@ -6,18 +7,18 @@ import App from './components/App'
 
 const history = createHistory()
 
-const render = App =>
+const render = Component =>
   ReactDOM.hydrate(
     <AppContainer>
-      <App history={history} />
+      <Component history={history} />
     </AppContainer>,
     document.getElementById('root')
   )
 
 if (process.env.NODE_ENV === 'development' && module.hot) {
   module.hot.accept('./components/App.js', () => {
-    const App = require('./components/App').default
-    render(App)
+    const Component = require('./components/App').default
+    render(Component)
   })
 }
 

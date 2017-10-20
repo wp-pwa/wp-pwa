@@ -7,9 +7,8 @@
   "author": "luis@wppwa.com",
   "license": "MIT",
   "scripts": {
-    "start": "npm run clean && cross-env NODE_ENV=development node server/index.js",
-    "start:prod": "npm run clean && cross-env NODE_ENV=production node server/index.js",
-    "format": "prettier --single-quote --semi=false --write '{src,server,webpack}/**/*.js' && eslint --fix src server webpack",
+    "start:pwa": "npm run clean && cross-env NODE_ENV=development node core/pwa/scripts/index.js",
+    "start:pwa:prod": "npm run clean && cross-env NODE_ENV=production node core/pwa/scripts/index.js",
     "clean": "rimraf buildClient buildServer"
   },
   "dependencies": {
