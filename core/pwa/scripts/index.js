@@ -1,5 +1,5 @@
 /* eslint-disable no-console, global-require */
-const { emptyDir } = require('fs-extra');
+const { emptyDir, writeFile } = require('fs-extra');
 const path = require('path');
 const express = require('express');
 const webpack = require('webpack');
@@ -12,10 +12,15 @@ const serverConfig = require('./webpack/server.dev');
 const clientConfigProd = require('./webpack/client.prod');
 const serverConfigProd = require('./webpack/server.prod');
 
-const DEV = process.env.NODE_ENV === 'development';
+const dev = process.env.NODE_ENV === 'development';
 
 const start = async () => {
   await emptyDir('.build/pwa')
+  const buildInfo = {
+    buildPath: path.resolve(__dirname, '../../..'),
+    nodeEnv: dev ? 'development' : 'production',
+  };
+  await writeFile('.build/pwa/buildInfo.json', JSON.stringify(buildInfo, null, 2));
 
   const app = express();
   app.use(noFavicon());
@@ -29,7 +34,7 @@ const start = async () => {
     console.log('BUILD COMPLETE -- Listening @ http://localhost:3000');
   });
 
-  if (DEV) {
+  if (dev) {
     const compiler = webpack([clientConfig, serverConfig]);
     const clientCompiler = compiler.compilers[0];
     const options = { stats: { colors: true } };

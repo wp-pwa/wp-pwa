@@ -1,24 +1,35 @@
 /* eslint-disable no-console */
+import { readFile } from 'fs-extra';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import createHistory from 'history/createMemoryHistory';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 import mapValues from 'lodash/mapValues';
+import { buildPath } from '../../../.build/pwa/buildInfo.json'; // eslint-disable-line
 import App from './components/App';
 
-export default ({ clientStats }) => (req, res) => {
+export default ({ clientStats }) => async (req, res) => {
   const history = createHistory({ initialEntries: [req.path] });
-  const app = ReactDOM.renderToString(<App history={history} />);
-  const chunkNames = flushChunkNames();
 
+  // Generate React SSR.
+  const app = ReactDOM.renderToString(<App history={history} />);
+
+  // Flush chunk names and extract scripts, css and css<->scripts object.
+  const chunkNames = flushChunkNames();
   const { cssHashRaw, scripts, stylesheets } = flushChunks(clientStats, { chunkNames });
 
   const publicPath = req.query.static
     ? `${req.query.static.replace(/\/$/g, '')}/static/`
     : '/static/';
   const cssHash = JSON.stringify(mapValues(cssHashRaw, cssPath => `${publicPath}${cssPath}`));
-  const chunksForArray = scripts.map(script => `'${script}'`).join(',');
+  const scriptsWithoutBootstrap = scripts.filter(script => !/bootstrap/.test(script));
+  const chunksForArray = scriptsWithoutBootstrap.map(script => `'${script}'`).join(',');
+  const bootstrapFileName = scripts.filter(script => /bootstrap/.test(script));
+  const bootstrapString = await readFile(
+    `${buildPath}/.build/pwa/client/${bootstrapFileName}`,
+    'utf8',
+  );
   const styles = stylesheets
     .map(
       css => `<link rel="stylesheet" charset="utf-8" type="text/css" href="${publicPath}${css}" />`,
@@ -55,6 +66,7 @@ export default ({ clientStats }) => (req, res) => {
               ref.parentNode.insertBefore(js, ref);
             };
             scripts.forEach(function(sc) { loadScript(sc); });
+            ${bootstrapString}
           </script>
         </body>
       </html>`,
