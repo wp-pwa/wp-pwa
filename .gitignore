@@ -1,3 +1,5 @@
+buildClient
+buildServer
 node_modules
 *.log
 .build
