@@ -1,0 +1,14 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["airbnb", "prettier", "prettier/react"],
+  "globals": {
+    "window": true,
+    "document": true,
+  },
+  "rules": {
+    "import/no-extraneous-dependencies": 0,
+    "react/jsx-filename-extension": 0,
+    "no-underscore-dangle": ["error", { "allow": ["_id"] }],
+    "no-param-reassign": 0
+  }
+}
