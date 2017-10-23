@@ -72,3 +72,11 @@ This setting is for HMR only. You should use the `static` query to set the publi
 This sets Webpack's HMR path (`__webpack_hmr`) to a custom path:
 
 `npm start:pwa -- --hmr https://ngrok.io/xxx`
+
+### Analyze bundles
+
+If you want to analyze the bundles, you can pass:
+
+`npm start:pwa -- --analyze` or `npm start:pwa -- -a`
+
+The output `html` files will be located in the `.build/pwa/(client|server)/analyze` folders.

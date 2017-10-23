@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 const argv = require('minimist')(process.argv.slice(2));
+const { emptyDirSync } = require('fs-extra');
 const { spawn } = require('child_process');
 
 if (argv.serve && !argv.p && !argv.prod)
@@ -22,6 +23,13 @@ if (argv.hmr) {
   const protocol = argv.s || argv.https ? 'https://' : 'http://';
   process.env.HMR_PATH = `${protocol}localhost:3000/`;
   console.log(`> Using HMR_PATH=${protocol}localhost:3000/`);
+}
+
+if (argv.a || argv.analyze) {
+  emptyDirSync('.build/analyize/pwa')
+  process.env.ANALYZE = true;
+  console.log('> Using ANALYZE=true');
+  console.log('> You can load the stats in https://webpack.github.io/analyse/')
 }
 
 console.log();

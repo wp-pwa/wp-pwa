@@ -1,9 +1,10 @@
+/* eslint-disable global-require */
 const path = require('path');
 const webpack = require('webpack');
 const WriteFilePlugin = require('write-file-webpack-plugin'); // here so you can see what chunks are built
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 
-module.exports = {
+const config = {
   name: 'client',
   target: 'web',
   // devtool: 'eval',
@@ -66,3 +67,20 @@ module.exports = {
     new webpack.WatchIgnorePlugin([/\.build/]),
   ],
 };
+
+if (process.env.ANALYZE) {
+  const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+  const Visualizer = require('webpack-visualizer-plugin');
+  config.plugins.push(new BundleAnalyzerPlugin({
+    analyzerMode: 'static',
+    reportFilename: '../../analyize/pwa/client-analyzer.html',
+    openAnalyzer: false,
+    generateStatsFile: true,
+    statsFilename: '../../analyize/pwa/client-stats.json',
+  }));
+  config.plugins.push(new Visualizer({
+    filename: '../../analyize/pwa/client-visualizer.html',
+  }));
+}
+
+module.exports = config;

@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
@@ -17,7 +18,7 @@ const externals = fs
 
 externals['react-dom/server'] = 'commonjs react-dom/server';
 
-module.exports = {
+const config = {
   name: 'server',
   target: 'node',
   // devtool: 'source-map',
@@ -61,7 +62,6 @@ module.exports = {
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1,
     }),
-
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development'),
@@ -70,3 +70,20 @@ module.exports = {
     new webpack.WatchIgnorePlugin([/\.build/]),
   ],
 };
+
+if (process.env.ANALYZE) {
+  const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+  const Visualizer = require('webpack-visualizer-plugin');
+  config.plugins.push(new BundleAnalyzerPlugin({
+    analyzerMode: 'static',
+    reportFilename: '../../analyize/pwa/server-analyzer.html',
+    openAnalyzer: false,
+    generateStatsFile: true,
+    statsFilename: '../../analyize/pwa/server-stats.json',
+  }));
+  config.plugins.push(new Visualizer({
+    filename: '../../analyize/pwa/server-visualizer.html',
+  }));
+}
+
+module.exports = config;
