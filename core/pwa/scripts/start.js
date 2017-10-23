@@ -55,7 +55,7 @@ const start = async () => {
       const clientStats = stats.toJson().children[0];
       const serverRender = require('../../../.build/pwa/server/main.js').default; // eslint-disable-line
 
-      app.use('/static', express.static(clientConfigProd.output.outputPath));
+      app.use('/static', express.static(clientConfigProd.output.path));
       app.use(serverRender({ clientStats }));
 
       done();
