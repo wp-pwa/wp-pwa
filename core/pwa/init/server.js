@@ -30,6 +30,9 @@ export default ({ clientStats }) => async (req, res) => {
     `${buildPath}/.build/pwa/client/${bootstrapFileName}`,
     'utf8',
   );
+  const preloadScripts = scriptsWithoutBootstrap
+    .map(script => `<link rel="preload" href="${publicPath}${script}" as="script">`)
+    .join('\n');
   const styles = stylesheets
     .map(
       css => `<link rel="stylesheet" charset="utf-8" type="text/css" href="${publicPath}${css}" />`,
@@ -48,6 +51,7 @@ export default ({ clientStats }) => async (req, res) => {
           <meta charset="utf-8">
           <title>react-universal-component-boilerplate</title>
           ${styles}
+          ${preloadScripts}
         </head>
         <body>
           <div id="root">${app}</div>
