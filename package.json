@@ -7,8 +7,7 @@
   "author": "luis@wppwa.com",
   "license": "MIT",
   "scripts": {
-    "start:pwa": "cross-env NODE_ENV=development node core/pwa/scripts/index.js",
-    "start:pwa:prod": "cross-env NODE_ENV=production node core/pwa/scripts/index.js"
+    "start:pwa": "node core/pwa/scripts/index.js"
   },
   "dependencies": {
     "babel-core": "^6.26.0",
@@ -23,6 +22,8 @@
     "express-no-favicons": "^0.0.1",
     "fs-extra": "^4.0.2",
     "history": "^4.6.3",
+    "lodash": "^4.17.4",
+    "minimist": "^1.2.0",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
     "react-universal-component": "^2.5.1",
@@ -31,7 +32,6 @@
   },
   "devDependencies": {
     "babel-eslint": "^8.0.1",
-    "cross-env": "^5.0.1",
     "css-loader": "^0.28.7",
     "eslint": "^4.8.0",
     "eslint-config-airbnb": "^16.0.0",
@@ -45,7 +45,6 @@
     "react-hot-loader": "3.0.0-beta.7",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.1",
-    "travis-github-status": "^1.4.0",
     "webpack": "^3.5.1",
     "webpack-hot-middleware": "^2.17.1",
     "webpack-hot-server-middleware": "^0.1.0",

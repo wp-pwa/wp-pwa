@@ -3,5 +3,5 @@ import styles from '../../../css/Baz.css'
 
 export default () =>
   <div className={styles.container}>
-    <span>Bazzz -- loaded!</span>
+    <span>Baz -- loaded!</span>
   </div>

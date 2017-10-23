@@ -1,57 +1,36 @@
-/* eslint-disable no-console, global-require */
-const { emptyDir } = require('fs-extra');
-const express = require('express');
-const webpack = require('webpack');
-const noFavicon = require('express-no-favicons');
-const webpackDevMiddleware = require('webpack-dev-middleware');
-const webpackHotMiddleware = require('webpack-hot-middleware');
-const webpackHotServerMiddleware = require('webpack-hot-server-middleware');
-const clientConfig = require('./webpack/client.dev');
-const serverConfig = require('./webpack/server.dev');
-const clientConfigProd = require('./webpack/client.prod');
-const serverConfigProd = require('./webpack/server.prod');
+/* eslint-disable no-console */
+const argv = require('minimist')(process.argv.slice(2));
+const { spawn } = require('child_process');
 
-const { publicPath, path: outputPath } = clientConfig.output;
+if (argv.serve && !argv.p && !argv.prod)
+  throw new Error(
+    "'Serve only' mode can't be started in development mode. Please use 'npm start' or 'npm run build -- -p && npm run serve -- -p'."
+  );
 
-const DEV = process.env.NODE_ENV === 'development';
+process.env.NODE_ENV = argv.p || argv.prod ? 'production' : 'development';
+console.log(`> Using NODE_ENV=${process.env.NODE_ENV}`);
 
-const start = async () => {
-  await emptyDir('.build/pwa')
-
-  const app = express();
-  app.use(noFavicon());
-
-  let isBuilt = false;
-
-  const done = () =>
-  !isBuilt &&
-  app.listen(3000, () => {
-    isBuilt = true;
-    console.log('BUILD COMPLETE -- Listening @ http://localhost:3000');
-  });
-
-  if (DEV) {
-    const compiler = webpack([clientConfig, serverConfig]);
-    const clientCompiler = compiler.compilers[0];
-    const options = { publicPath, stats: { colors: true } };
-
-    app.use(webpackDevMiddleware(compiler, options));
-    app.use(webpackHotMiddleware(clientCompiler));
-    app.use(webpackHotServerMiddleware(compiler));
-
-    compiler.plugin('done', done);
-  } else {
-    webpack([clientConfigProd, serverConfigProd]).run((err, stats) => {
-      const clientStats = stats.toJson().children[0];
-      const serverRender = require('../../../.build/pwa/server/main.js').default;
-
-      app.use(publicPath, express.static(outputPath));
-      app.use(serverRender({ clientStats }));
-
-      done();
-    });
-  }
+if (!argv.build && !!(argv.s || argv.https)) {
+  process.env.HTTPS_SERVER = true;
+  console.log(`> Using HTTPS_SERVER=${process.env.HTTPS_SERVER}`);
 }
 
+if (argv.hmr) {
+  process.env.HMR_PATH = `${argv.hmr.replace(/\/$/g, '')}/`;
+  console.log(`> Using HMR_PATH=${process.env.HMR_PATH}`);
+} else if (argv.w || argv.wp) {
+  const protocol = argv.s || argv.https ? 'https://' : 'http://';
+  process.env.HMR_PATH = `${protocol}localhost:3000/`;
+  console.log(`> Using HMR_PATH=${protocol}localhost:3000/`);
+}
 
-start();
+console.log();
+
+const args = ['core/pwa/scripts/start.js'];
+
+if (argv.build) args.push('--build');
+else if (argv.serve) args.push('--serve');
+
+if (argv.d || argv.debug) args.unshift('--inspect');
+
+spawn('node', args, { stdio: 'inherit', env: process.env });
