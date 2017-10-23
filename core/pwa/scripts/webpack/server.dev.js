@@ -1,7 +1,7 @@
-const fs = require('fs')
-const path = require('path')
-const webpack = require('webpack')
-const WriteFilePlugin = require('write-file-webpack-plugin')
+const fs = require('fs');
+const path = require('path');
+const webpack = require('webpack');
+const WriteFilePlugin = require('write-file-webpack-plugin');
 
 // if you're specifying externals to leave unbundled, you need to tell Webpack
 // to still bundle `react-universal-component`, `webpack-flush-chunks` and
@@ -11,11 +11,11 @@ const externals = fs
   .readdirSync(path.resolve(__dirname, '../../../../node_modules'))
   .filter(x => !/\.bin|react-universal-component|webpack-flush-chunks/.test(x))
   .reduce((external, mod) => {
-    external[mod] = `commonjs ${mod}`
-    return external
-  }, {})
+    external[mod] = `commonjs ${mod}`;
+    return external;
+  }, {});
 
-externals['react-dom/server'] = 'commonjs react-dom/server'
+externals['react-dom/server'] = 'commonjs react-dom/server';
 
 module.exports = {
   name: 'server',
@@ -27,7 +27,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, '../../../../.build/pwa/server'),
     filename: '[name].js',
-    libraryTarget: 'commonjs2'
+    libraryTarget: 'commonjs2',
   },
   module: {
     rules: [
@@ -49,23 +49,24 @@ module.exports = {
             loader: 'css-loader/locals',
             options: {
               modules: true,
-              localIdentName: '[name]__[local]--[hash:base64:5]'
-            }
-          }
-        ]
-      }
-    ]
+              localIdentName: '[name]__[local]--[hash:base64:5]',
+            },
+          },
+        ],
+      },
+    ],
   },
   plugins: [
     new WriteFilePlugin(),
     new webpack.optimize.LimitChunkCountPlugin({
-      maxChunks: 1
+      maxChunks: 1,
     }),
 
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify('development')
-      }
-    })
-  ]
-}
+        NODE_ENV: JSON.stringify('development'),
+      },
+    }),
+    new webpack.WatchIgnorePlugin([/\.build/]),
+  ],
+};

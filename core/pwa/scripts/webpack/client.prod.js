@@ -69,6 +69,7 @@ module.exports = {
       },
       sourceMap: true,
     }),
-    new webpack.HashedModuleIdsPlugin(), // not needed for strategy to work (just good practice)
+    new webpack.HashedModuleIdsPlugin(),
+    new webpack.WatchIgnorePlugin([/\.build/]),
   ],
 };
