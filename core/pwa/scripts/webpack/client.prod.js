@@ -2,14 +2,18 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
+const vendors = require('../vendors');
 
 const config = {
   name: 'client',
   target: 'web',
-  entry: [
-    path.resolve(__dirname, '../../init/public-path.js'),
-    path.resolve(__dirname, '../../init/client.js'),
-  ],
+  entry: {
+    main: [
+      ...vendors,
+      path.resolve(__dirname, '../../init/public-path.js'),
+      path.resolve(__dirname, '../../init/client.js'),
+    ]
+  },
   output: {
     filename: '[name].[chunkhash].js',
     chunkFilename: '[name].[chunkhash].js',
@@ -70,7 +74,7 @@ const config = {
       },
       sourceMap: true,
     }),
-    new webpack.HashedModuleIdsPlugin(),
+    // new webpack.HashedModuleIdsPlugin(),
     new webpack.WatchIgnorePlugin([/\.build/]),
   ],
 };

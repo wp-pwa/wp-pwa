@@ -3,18 +3,22 @@ const path = require('path');
 const webpack = require('webpack');
 const WriteFilePlugin = require('write-file-webpack-plugin'); // here so you can see what chunks are built
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
+const vendors = require('../vendors');
 
 const config = {
   name: 'client',
   target: 'web',
   // devtool: 'eval',
-  entry: [
-    `webpack-hot-middleware/client?path=${process.env.HMR_PATH ||
-      '/'}__webpack_hmr&timeout=20000&reload=false&quiet=false&noInfo=false`,
-    'react-hot-loader/patch',
-    path.resolve(__dirname, '../../init/public-path.js'),
-    path.resolve(__dirname, '../../init/client.js'),
-  ],
+  entry: {
+    main: [
+      `webpack-hot-middleware/client?path=${process.env.HMR_PATH ||
+        '/'}__webpack_hmr&timeout=20000&reload=false&quiet=false&noInfo=false`,
+      'react-hot-loader/patch',
+      ...vendors,
+      path.resolve(__dirname, '../../init/public-path.js'),
+      path.resolve(__dirname, '../../init/client.js'),
+    ],
+  },
   output: {
     filename: '[name].js',
     chunkFilename: '[name].js',
