@@ -1,5 +1,6 @@
 /* eslint-disable no-console, global-require */
-const { emptyDir } = require('fs-extra');
+const path = require('path');
+const { emptyDir, writeFile } = require('fs-extra');
 const express = require('express');
 const webpack = require('webpack');
 const noFavicon = require('express-no-favicons');
@@ -11,12 +12,15 @@ const serverConfig = require('./webpack/server.dev');
 const clientConfigProd = require('./webpack/client.prod');
 const serverConfigProd = require('./webpack/server.prod');
 
-const { publicPath, path: outputPath } = clientConfig.output;
-
-const DEV = process.env.NODE_ENV === 'development';
+const dev = process.env.NODE_ENV === 'development';
 
 const start = async () => {
   await emptyDir('.build/pwa');
+  const buildInfo = {
+    buildPath: path.resolve(__dirname, '../../..'),
+    nodeEnv: dev ? 'development' : 'production',
+  };
+  await writeFile('.build/pwa/buildInfo.json', JSON.stringify(buildInfo, null, 2));
 
   const app = express();
   app.use(noFavicon());
@@ -30,11 +34,12 @@ const start = async () => {
       console.log('BUILD COMPLETE -- Listening @ http://localhost:3000');
     });
 
-  if (DEV) {
+  if (dev) {
     const compiler = webpack([clientConfig, serverConfig]);
     const clientCompiler = compiler.compilers[0];
-    const options = { publicPath, stats: { colors: true } };
+    const options = { stats: { colors: true } };
 
+    app.use('/static', express.static(path.resolve(__dirname, '../../../.build/pwa/client')));
     app.use(webpackDevMiddleware(compiler, options));
     app.use(webpackHotMiddleware(clientCompiler));
     app.use(webpackHotServerMiddleware(compiler));
@@ -45,7 +50,7 @@ const start = async () => {
       const clientStats = stats.toJson().children[0];
       const serverRender = require('../../../.build/pwa/server/main.js').default; // eslint-disable-line
 
-      app.use(publicPath, express.static(outputPath));
+      app.use('/static', express.static(clientConfigProd.output.outputPath));
       app.use(serverRender({ clientStats }));
 
       done();
