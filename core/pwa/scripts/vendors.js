@@ -2,7 +2,6 @@ module.exports = [
   'react',
   'prop-types',
   'react-dom',
-  'react-universal-component',
   // 'react-emotion',
   // 'react-helmet',
   // 'worona-deps',
