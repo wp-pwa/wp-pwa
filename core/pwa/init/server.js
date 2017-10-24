@@ -49,7 +49,7 @@ export default ({ clientStats }) => async (req, res) => {
       <html>
         <head>
           <meta charset="utf-8">
-          <title>react-universal-component-boilerplate</title>
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
           ${styles}
           ${preloadScripts}
         </head>
