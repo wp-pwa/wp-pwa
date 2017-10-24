@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom/server';
 import createHistory from 'history/createMemoryHistory';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
-import mapValues from 'lodash/mapValues';
+import { mapValues } from 'lodash';
 import { buildPath } from '../../../.build/pwa/buildInfo.json'; // eslint-disable-line
 import App from './components/App';
 
