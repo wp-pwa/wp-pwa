@@ -8,7 +8,7 @@ const vendors = require('../vendors');
 const config = {
   name: 'client',
   target: 'web',
-  // devtool: 'eval',
+  devtool: 'eval',
   entry: {
     main: [
       `webpack-hot-middleware/client?path=${process.env.HMR_PATH ||

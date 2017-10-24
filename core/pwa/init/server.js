@@ -1,7 +1,8 @@
 /* eslint-disable no-console */
 import { readFile } from 'fs-extra';
 import React from 'react';
-import ReactDOM from 'react-dom/server';
+import { renderToString } from 'react-dom/server';
+import { extractCritical } from 'emotion-server';
 import createHistory from 'history/createMemoryHistory';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
@@ -14,7 +15,7 @@ export default ({ clientStats }) => async (req, res) => {
   const history = createHistory({ initialEntries: [req.path] });
 
   // Generate React SSR.
-  const app = ReactDOM.renderToString(<App history={history} />);
+  const { html, ids, css } = extractCritical(renderToString(<App history={history} />));
 
   // Get static helmet strings.
   const helmet = Helmet.renderStatic();
@@ -39,7 +40,8 @@ export default ({ clientStats }) => async (req, res) => {
     .join('\n');
   const styles = stylesheets
     .map(
-      css => `<link rel="stylesheet" charset="utf-8" type="text/css" href="${publicPath}${css}" />`,
+      stylesheet =>
+        `<link rel="stylesheet" charset="utf-8" type="text/css" href="${publicPath}${stylesheet}" />`,
     )
     .join('\n');
 
@@ -59,13 +61,15 @@ export default ({ clientStats }) => async (req, res) => {
           ${helmet.title.toString()}
           ${helmet.meta.toString()}
           ${helmet.link.toString()}
+          <style>${css}</style>
         </head>
         <body ${helmet.bodyAttributes.toString()}>
-          <div id="root">${app}</div>
+          <div id="root">${html}</div>
           <script>
             window.__CSS_CHUNKS__ = ${cssHash};
             window.__wp_pwa__ = {
-              static: '${publicPath}'
+              static: '${publicPath}',
+              emotionIds: ${JSON.stringify(ids)}
             };
             var scripts = [${chunksForArray}];
             var loadScript = function(script) {

@@ -12,6 +12,7 @@
         "react"
       ],
       "plugins": [
+        "emotion",
         "syntax-dynamic-import",
         "transform-object-rest-spread",
         "transform-class-properties",
@@ -31,6 +32,7 @@
         "react"
       ],
       "plugins": [
+        "emotion",
         "syntax-dynamic-import",
         "transform-object-rest-spread",
         "transform-class-properties",
@@ -48,6 +50,7 @@
         "react"
       ],
       "plugins": [
+        "emotion",
         "syntax-dynamic-import",
         "transform-object-rest-spread",
         "transform-class-properties",

@@ -3,7 +3,7 @@ module.exports = [
   'prop-types',
   'react-dom',
   'react-helmet',
-  // 'react-emotion',
+  'react-emotion',
   // 'worona-deps',
   // 'superagent',
   // 'styled-components',
