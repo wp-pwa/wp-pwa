@@ -6,6 +6,7 @@ import createHistory from 'history/createMemoryHistory';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 import { mapValues } from 'lodash';
+import { Helmet } from 'react-helmet';
 import { buildPath } from '../../../.build/pwa/buildInfo.json'; // eslint-disable-line
 import App from './components/App';
 
@@ -14,6 +15,9 @@ export default ({ clientStats }) => async (req, res) => {
 
   // Generate React SSR.
   const app = ReactDOM.renderToString(<App history={history} />);
+
+  // Get static helmet strings.
+  const helmet = Helmet.renderStatic();
 
   // Flush chunk names and extract scripts, css and css<->scripts object.
   const chunkNames = flushChunkNames();
@@ -46,14 +50,17 @@ export default ({ clientStats }) => async (req, res) => {
 
   res.send(
     `<!doctype html>
-      <html>
+      <html ${helmet.htmlAttributes.toString()}>
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
           ${styles}
           ${preloadScripts}
+          ${helmet.title.toString()}
+          ${helmet.meta.toString()}
+          ${helmet.link.toString()}
         </head>
-        <body>
+        <body ${helmet.bodyAttributes.toString()}>
           <div id="root">${app}</div>
           <script>
             window.__CSS_CHUNKS__ = ${cssHash};
