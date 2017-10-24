@@ -3,11 +3,6 @@ const argv = require('minimist')(process.argv.slice(2));
 const { emptyDirSync } = require('fs-extra');
 const { spawn } = require('child_process');
 
-if (argv.serve && !argv.p && !argv.prod)
-  throw new Error(
-    "'Serve only' mode can't be started in development mode. Please use 'npm start' or 'npm run build -- -p && npm run serve -- -p'."
-  );
-
 process.env.NODE_ENV = argv.p || argv.prod ? 'production' : 'development';
 console.log(`> Using NODE_ENV=${process.env.NODE_ENV}`);
 

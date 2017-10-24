@@ -20,7 +20,6 @@ externals['react-dom/server'] = 'commonjs react-dom/server';
 const config = {
   name: 'server',
   target: 'node',
-  devtool: 'source-map',
   entry: [path.resolve(__dirname, '../../init/server.js')],
   output: {
     path: path.resolve(__dirname, '../../../../.build/pwa/server'),

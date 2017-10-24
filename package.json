@@ -7,7 +7,9 @@
   "author": "luis@wppwa.com",
   "license": "MIT",
   "scripts": {
-    "start:pwa": "node core/pwa/scripts/index.js"
+    "start:pwa": "node core/pwa/scripts/index.js",
+    "build:pwa": "node core/pwa/scripts/index.js --build",
+    "serve:pwa": "node core/pwa/scripts/index.js --serve"
   },
   "dependencies": {
     "babel-core": "^6.26.0",
