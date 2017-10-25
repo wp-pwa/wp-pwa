@@ -8,14 +8,16 @@ import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 import { mapValues } from 'lodash';
 import { Helmet } from 'react-helmet';
-import { buildPath } from '../../../.build/pwa/buildInfo.json'; // eslint-disable-line
-import App from './components/App';
+import { buildPath } from '../../../../.build/pwa/buildInfo.json'; // eslint-disable-line
+import App from '../components/App';
 
 export default ({ clientStats }) => async (req, res) => {
   const history = createHistory({ initialEntries: [req.path] });
 
   // Generate React SSR.
-  const { html, ids, css } = extractCritical(renderToString(<App history={history} />));
+  const { html, ids, css } = extractCritical(
+    renderToString(<App siteId={req.query.siteId} history={history} />),
+  );
 
   // Get static helmet strings.
   const helmet = Helmet.renderStatic();
@@ -68,6 +70,7 @@ export default ({ clientStats }) => async (req, res) => {
           <script>
             window.__CSS_CHUNKS__ = ${cssHash};
             window.__wp_pwa__ = {
+              siteId: ${req.query.siteId || null},
               static: '${publicPath}',
               emotionIds: ${JSON.stringify(ids)}
             };

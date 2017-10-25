@@ -23,7 +23,7 @@ const config = {
   target: 'node',
   // devtool: 'source-map',
   devtool: 'eval',
-  entry: [path.resolve(__dirname, '../../init/server.js')],
+  entry: [path.resolve(__dirname, '../../init/server')],
   externals,
   output: {
     path: path.resolve(__dirname, '../../../../.build/pwa/server'),

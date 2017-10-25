@@ -12,6 +12,8 @@ const UniversalComponent = universal(props => import(`../../../../packages/${pro
   error: NotFound,
 });
 
+const SiteIdMissing = universal(import('../components/SiteIdMissing'));
+
 export default class App extends React.Component {
   constructor(props) {
     super(props);
@@ -72,6 +74,7 @@ export default class App extends React.Component {
     const buttonClass = `${styles[page]} ${loadingClass}`;
 
     return (
+      this.props.siteId ?
       <div className={styles.container}>
         <Helmet>
           <title>WP PWA</title>
@@ -95,6 +98,7 @@ export default class App extends React.Component {
           <span>and view the source in Chrome for the real goods</span>
         </p>
       </div>
+    : <SiteIdMissing />
     );
   }
 }

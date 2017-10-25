@@ -11,7 +11,7 @@ const config = {
     main: [
       ...vendors,
       path.resolve(__dirname, '../../init/public-path.js'),
-      path.resolve(__dirname, '../../init/client.js'),
+      path.resolve(__dirname, '../../init/client'),
     ]
   },
   output: {

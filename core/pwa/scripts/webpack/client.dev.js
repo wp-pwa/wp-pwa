@@ -16,7 +16,7 @@ const config = {
       'react-hot-loader/patch',
       ...vendors,
       path.resolve(__dirname, '../../init/public-path.js'),
-      path.resolve(__dirname, '../../init/client.js'),
+      path.resolve(__dirname, '../../init/client'),
     ],
   },
   output: {
