@@ -4,7 +4,7 @@
   "private": true,
   "version": "1.0.0",
   "main": "server/index.js",
-  "author": "luis@wppwa.com",
+  "author": "luis@worona.org",
   "license": "MIT",
   "scripts": {
     "start:pwa": "node core/pwa/scripts/index.js",
