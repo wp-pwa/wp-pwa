@@ -74,8 +74,8 @@ const config = {
       },
       sourceMap: true,
     }),
-    // new webpack.HashedModuleIdsPlugin(),
     new webpack.WatchIgnorePlugin([/\.build/]),
+    new webpack.IgnorePlugin(/vertx/),
   ],
 };
 

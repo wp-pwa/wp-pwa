@@ -1,4 +1,5 @@
 /* eslint-disable global-require, no-underscore-dangle */
+import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import createHistory from 'history/createBrowserHistory';
