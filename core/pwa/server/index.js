@@ -29,6 +29,9 @@ export default ({ clientStats }) => async (req, res) => {
   // Get settings.
   const settings = await getSettings({ siteId, environment });
 
+  // If settings or siteId doesn't exist, return 404:
+  if (!siteId || !settings) res.status(404);
+
   const store = initStore({ reducer: combineReducers(reducers) });
 
   // Add settings to the state.

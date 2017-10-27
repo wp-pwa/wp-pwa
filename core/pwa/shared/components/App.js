@@ -22,11 +22,13 @@ const SiteIdMissing = universal(import('../components/SiteIdMissing'));
 class App extends React.Component {
   static propTypes = {
     siteId: PropTypes.string,
+    settings: PropTypes.bool,
     store: PropTypes.shape().isRequired,
   };
 
   static defaultProps = {
     siteId: null,
+    settings: false,
   };
 
   constructor(props) {
@@ -89,7 +91,7 @@ class App extends React.Component {
 
     return (
       <Provider store={this.props.store}>
-        {this.props.siteId ? (
+        {this.props.siteId && this.props.settings ? (
           <div className={styles.container}>
             <Helmet>
               <title>WP PWA</title>
@@ -123,6 +125,7 @@ class App extends React.Component {
 
 const mapState = state => ({
   siteId: state.build.siteId,
+  settings: !!state.settings.collection.generalSite,
 });
 
 export default connect(mapState)(App);
