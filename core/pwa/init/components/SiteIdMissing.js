@@ -26,6 +26,13 @@ class Form extends React.Component {
           <input name="siteId" type="text" value={this.state.siteId} onChange={this.handleChange} />
         </label>{' '}
         <input style={{ background: 'lightgrey' }} type="submit" value="Submit" />
+        <p>
+          Make sure it is a <strong>{process.env.SERVER_TYPE === 'prod'
+            ? 'PRODUCTION'
+            : 'PREPRODUCTION'}
+          </strong>{' '}
+          Site ID.
+        </p>
       </form>
     );
   }

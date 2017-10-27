@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { readFile } from 'fs-extra';
 import React from 'react';
+import { combineReducers } from 'redux';
 import { renderToString } from 'react-dom/server';
 import { extractCritical } from 'emotion-server';
 import createHistory from 'history/createMemoryHistory';
@@ -9,14 +10,29 @@ import flushChunks from 'webpack-flush-chunks';
 import { mapValues } from 'lodash';
 import { Helmet } from 'react-helmet';
 import { buildPath } from '../../../../.build/pwa/buildInfo.json'; // eslint-disable-line
+import buildModule from '../packages/build';
+import settingsModule from '../packages/settings';
 import App from '../components/App';
+import initStore from '../store';
+import reducers from '../store/reducers';
 
 export default ({ clientStats }) => async (req, res) => {
+  const { siteId, environment } = req.query;
+
   const history = createHistory({ initialEntries: [req.path] });
+
+  const store = initStore({ reducer: combineReducers(reducers) });
+
+  // Add settings to the state.
+  store.dispatch(buildModule.actions.serverStarted());
+  store.dispatch(buildModule.actions.buildUpdated({
+    siteId,
+    environment,
+  }));
 
   // Generate React SSR.
   const { html, ids, css } = extractCritical(
-    renderToString(<App siteId={req.query.siteId} history={history} />),
+    renderToString(<App history={history} store={store} />),
   );
 
   // Get static helmet strings.
@@ -70,7 +86,7 @@ export default ({ clientStats }) => async (req, res) => {
           <script>
             window.__CSS_CHUNKS__ = ${cssHash};
             window.__wp_pwa__ = {
-              siteId: ${req.query.siteId || null},
+              siteId: ${siteId || null},
               static: '${publicPath}',
               emotionIds: ${JSON.stringify(ids)}
             };

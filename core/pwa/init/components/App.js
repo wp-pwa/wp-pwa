@@ -74,7 +74,7 @@ export default class App extends React.Component {
     const buttonClass = `${styles[page]} ${loadingClass}`;
 
     return (
-      this.props.siteId ?
+      true ?
       <div className={styles.container}>
         <Helmet>
           <title>WP PWA</title>
