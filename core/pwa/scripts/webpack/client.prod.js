@@ -72,7 +72,7 @@ const config = {
         screw_ie8: true,
         comments: false,
       },
-      sourceMap: true,
+      sourceMap: false,
     }),
     new webpack.WatchIgnorePlugin([/\.build/]),
     new webpack.IgnorePlugin(/vertx|redux-logger|redux-devtools-extension/),
