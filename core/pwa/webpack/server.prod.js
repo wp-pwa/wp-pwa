@@ -8,7 +8,7 @@ const webpack = require('webpack');
 // `require-universal-module` so that they know they are running
 // within Webpack and can properly make connections to client modules:
 const externals = fs
-  .readdirSync(path.resolve(__dirname, '../../../../node_modules'))
+  .readdirSync(path.resolve(__dirname, '../../../node_modules'))
   .filter(x => !/\.bin|react-universal-component|webpack-flush-chunks/.test(x))
   .reduce((external, mod) => {
     external[mod] = `commonjs ${mod}`;
@@ -20,9 +20,9 @@ externals['react-dom/server'] = 'commonjs react-dom/server';
 const config = {
   name: 'server',
   target: 'node',
-  entry: [path.resolve(__dirname, '../../init/server')],
+  entry: [path.resolve(__dirname, '../server')],
   output: {
-    path: path.resolve(__dirname, '../../../../.build/pwa/server'),
+    path: path.resolve(__dirname, '../../../.build/pwa/server'),
     filename: '[name].js',
     libraryTarget: 'commonjs2',
   },

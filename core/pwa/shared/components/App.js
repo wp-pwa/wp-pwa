@@ -6,11 +6,14 @@ import Loading from './Loading';
 import NotFound from './NotFound';
 import { pages, nextIndex, indexFromPath } from '../utils';
 
-const UniversalComponent = universal(props => import(`../../../../packages/${props.page}/src/pwa`), {
-  minDelay: 1200,
-  loading: Loading,
-  error: NotFound,
-});
+const UniversalComponent = universal(
+  props => import(`../../../../packages/${props.page}/src/pwa`),
+  {
+    minDelay: 1200,
+    loading: Loading,
+    error: NotFound,
+  },
+);
 
 const SiteIdMissing = universal(import('../components/SiteIdMissing'));
 
@@ -73,8 +76,7 @@ export default class App extends React.Component {
     const loadingClass = loading ? styles.loading : '';
     const buttonClass = `${styles[page]} ${loadingClass}`;
 
-    return (
-      true ?
+    return true ? (
       <div className={styles.container}>
         <Helmet>
           <title>WP PWA</title>
@@ -98,7 +100,8 @@ export default class App extends React.Component {
           <span>and view the source in Chrome for the real goods</span>
         </p>
       </div>
-    : <SiteIdMissing />
+    ) : (
+      <SiteIdMissing />
     );
   }
 }

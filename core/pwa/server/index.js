@@ -9,12 +9,12 @@ import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 import { mapValues } from 'lodash';
 import { Helmet } from 'react-helmet';
-import { buildPath } from '../../../../.build/pwa/buildInfo.json'; // eslint-disable-line
-import buildModule from '../packages/build';
-import settingsModule from '../packages/settings';
-import App from '../components/App';
-import initStore from '../store';
-import reducers from '../store/reducers';
+import { buildPath } from '../../../.build/pwa/buildInfo.json'; // eslint-disable-line
+import buildModule from '../shared/packages/build';
+// import settingsModule from '../shared/packages/settings';
+import App from '../shared/components/App';
+import initStore from '../shared/store';
+import reducers from '../shared/store/reducers';
 
 export default ({ clientStats }) => async (req, res) => {
   const { siteId, environment } = req.query;

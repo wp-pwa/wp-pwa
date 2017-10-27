@@ -4,8 +4,8 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpackHotServerMiddleware = require('webpack-hot-server-middleware');
 const argv = require('minimist')(process.argv.slice(2));
-const clientConfig = require('./webpack/client.dev');
-const serverConfig = require('./webpack/server.dev');
+const clientConfig = require('../webpack/client.dev');
+const serverConfig = require('../webpack/server.dev');
 const { clean, build } = require('./build');
 const { serve, createApp } = require('./serve');
 

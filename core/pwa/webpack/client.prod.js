@@ -3,7 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
-const vendors = require('../vendors');
+const vendors = require('../shared/vendors');
 
 const config = {
   name: 'client',
@@ -11,14 +11,14 @@ const config = {
   entry: {
     main: [
       ...vendors,
-      path.resolve(__dirname, '../../init/public-path.js'),
-      path.resolve(__dirname, '../../init/client'),
+      path.resolve(__dirname, '../client/public-path.js'),
+      path.resolve(__dirname, '../client'),
     ]
   },
   output: {
     filename: '[name].[chunkhash].js',
     chunkFilename: '[name].[chunkhash].js',
-    path: path.resolve(__dirname, '../../../../.build/pwa/client'),
+    path: path.resolve(__dirname, '../../../.build/pwa/client'),
   },
   module: {
     rules: [

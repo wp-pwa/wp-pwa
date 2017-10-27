@@ -26,11 +26,11 @@ const clean = async () => {
 const build = async () => {
   // Import proper configuration files.
   const clientConfig = dev
-    ? require('./webpack/client.dev')
-    : require('./webpack/client.prod');
+    ? require('../webpack/client.dev')
+    : require('../webpack/client.prod');
   const serverConfig = dev
-    ? require('./webpack/server.dev')
-    : require('./webpack/server.prod');
+    ? require('../webpack/server.dev')
+    : require('../webpack/server.prod');
 
   // Run webpack and wait until it finishes. Then save clientStats to a file.
   const stats = await webpackPromise(clientConfig, serverConfig);

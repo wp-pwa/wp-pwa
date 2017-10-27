@@ -6,10 +6,10 @@ import { combineReducers } from 'redux';
 import createHistory from 'history/createBrowserHistory';
 import { AppContainer } from 'react-hot-loader';
 import { hydrate } from 'react-emotion';
-import App from '../components/App';
-import initStore from '../store';
-import reducers from '../store/reducers';
-import { clientStarted, clientSagasInitialized } from '../packages/build/actions';
+import App from '../shared/components/App';
+import initStore from '../shared/store';
+import reducers from '../shared/store/reducers';
+import { clientStarted, clientSagasInitialized } from '../shared/packages/build/actions';
 
 const history = createHistory();
 
@@ -41,8 +41,8 @@ const init = async () => {
 }
 
 if (process.env.NODE_ENV === 'development' && module.hot) {
-  module.hot.accept('../components/App.js', () => {
-    const Component = require('../components/App').default;
+  module.hot.accept('../shared/components/App.js', () => {
+    const Component = require('../shared/components/App').default;
     render(Component);
   });
 }
