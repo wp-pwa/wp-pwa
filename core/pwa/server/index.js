@@ -16,6 +16,7 @@ import settingsModule from '../shared/packages/settings';
 import App from '../shared/components/App';
 import initStore from '../shared/store';
 import reducers from '../shared/store/reducers';
+import { getSettings } from './settings';
 
 addPackage({ namespace: 'build', module: buildModule });
 addPackage({ namespace: 'settings', module: settingsModule });
@@ -26,15 +27,23 @@ export default ({ clientStats }) => async (req, res) => {
   const history = createHistory({ initialEntries: [req.path] });
 
   // Get settings.
+  const settings = await getSettings({ siteId, environment });
 
   const store = initStore({ reducer: combineReducers(reducers) });
 
   // Add settings to the state.
   store.dispatch(buildModule.actions.serverStarted());
-  store.dispatch(buildModule.actions.buildUpdated({
-    siteId,
-    environment,
-  }));
+  store.dispatch(
+    buildModule.actions.buildUpdated({
+      siteId,
+      environment,
+    }),
+  );
+  store.dispatch(
+    settingsModule.actions.settingsUpdated({
+      settings,
+    }),
+  );
 
   // Generate React SSR.
   const { html, ids, css } = extractCritical(
