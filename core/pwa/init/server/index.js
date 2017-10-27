@@ -88,7 +88,8 @@ export default ({ clientStats }) => async (req, res) => {
             window.__wp_pwa__ = {
               siteId: ${siteId || null},
               static: '${publicPath}',
-              emotionIds: ${JSON.stringify(ids)}
+              emotionIds: ${JSON.stringify(ids)},
+              initialState: ${JSON.stringify(store.getState())}
             };
             var scripts = [${chunksForArray}];
             var loadScript = function(script) {
