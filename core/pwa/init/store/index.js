@@ -1,22 +1,22 @@
 /* eslint-disable global-require */
 import { createStore, applyMiddleware, compose } from 'redux';
-import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 import worona from 'worona-deps';
 
 const dev = process.env.NODE_ENV !== 'production';
 
-// Add Redux Dev Tools.
-const composeEnhancers = dev ? composeWithDevTools({ serialize: false }) : compose;
-
-// Init saga and create middlewares.
+// Init compose, saga and create middlewares.
+let composeEnhancers = compose;
 const sagaMiddleware = createSagaMiddleware();
 const clientMiddleware = [sagaMiddleware];
 const serverMiddleware = [sagaMiddleware];
 
-// Add logger in dev mode.
 if (dev) {
+  const { composeWithDevTools } = require('redux-devtools-extension');
   const { createLogger } = require('redux-logger');
+  // Add Redux Dev Tools.
+  composeEnhancers = composeWithDevTools({ serialize: false });
+  // Add logger in dev mode.
   clientMiddleware.push(createLogger({ diff: true, collapsed: true }));
   serverMiddleware.push(createLogger({ diff: true, collapsed: true }));
 }

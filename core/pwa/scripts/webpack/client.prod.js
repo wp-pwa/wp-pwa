@@ -75,7 +75,7 @@ const config = {
       sourceMap: true,
     }),
     new webpack.WatchIgnorePlugin([/\.build/]),
-    new webpack.IgnorePlugin(/vertx/),
+    new webpack.IgnorePlugin(/vertx|redux-logger|redux-devtools-extension/),
   ],
 };
 
