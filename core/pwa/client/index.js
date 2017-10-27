@@ -6,10 +6,15 @@ import { combineReducers } from 'redux';
 import createHistory from 'history/createBrowserHistory';
 import { AppContainer } from 'react-hot-loader';
 import { hydrate } from 'react-emotion';
+import { addPackage } from 'worona-deps';
 import App from '../shared/components/App';
 import initStore from '../shared/store';
 import reducers from '../shared/store/reducers';
-import { clientStarted, clientSagasInitialized } from '../shared/packages/build/actions';
+import buildModule from '../shared/packages/build';
+import settingsModule from '../shared/packages/settings';
+
+addPackage({ namespace: 'build', module: buildModule });
+addPackage({ namespace: 'settings', module: settingsModule });
 
 const history = createHistory();
 
@@ -33,9 +38,9 @@ const init = async () => {
     initialState: window.__wp_pwa__.initialState,
   });
   // Start all the client sagas.
-  store.dispatch(clientStarted());
+  store.dispatch(buildModule.actions.clientStarted());
   // if (sagas) Object.values(sagas).forEach(saga => store.runSaga(saga));
-  store.dispatch(clientSagasInitialized());
+  store.dispatch(buildModule.actions.clientSagasInitialized());
   // Start App.
   render(App);
 }

@@ -8,18 +8,24 @@ import createHistory from 'history/createMemoryHistory';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 import { mapValues } from 'lodash';
+import { addPackage } from 'worona-deps';
 import { Helmet } from 'react-helmet';
 import { buildPath } from '../../../.build/pwa/buildInfo.json'; // eslint-disable-line
 import buildModule from '../shared/packages/build';
-// import settingsModule from '../shared/packages/settings';
+import settingsModule from '../shared/packages/settings';
 import App from '../shared/components/App';
 import initStore from '../shared/store';
 import reducers from '../shared/store/reducers';
+
+addPackage({ namespace: 'build', module: buildModule });
+addPackage({ namespace: 'settings', module: settingsModule });
 
 export default ({ clientStats }) => async (req, res) => {
   const { siteId, environment } = req.query;
 
   const history = createHistory({ initialEntries: [req.path] });
+
+  // Get settings.
 
   const store = initStore({ reducer: combineReducers(reducers) });
 
