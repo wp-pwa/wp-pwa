@@ -7,11 +7,11 @@ import styled from 'react-emotion';
 class FormClass extends React.Component {
   static propTypes = {
     env: PropTypes.string,
-  }
+  };
 
   static defaultProps = {
     env: 'pre',
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -26,7 +26,10 @@ class FormClass extends React.Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    window.location.href = `/?siteId=${this.state.siteId}`; // eslint-disable-line
+    window.location.href =
+      window.location.search === ''
+        ? `${window.location.href}?siteId=${this.state.siteId}`
+        : `${window.location.href}&siteId=${this.state.siteId}`;
   }
 
   render() {
@@ -38,24 +41,19 @@ class FormClass extends React.Component {
         </label>{' '}
         <Input type="submit" value="Submit" />
         <p>
-          Make sure it is a <strong>{this.props.env === 'prod'
-            ? 'PRODUCTION'
-            : 'PREPRODUCTION'}
-          </strong>{' '}
-          Site ID.
+          Make sure it is a{' '}
+          <strong>{this.props.env === 'prod' ? 'PRODUCTION' : 'PREPRODUCTION'}</strong> Site ID.
         </p>
       </form>
     );
   }
 }
 
-const Input = styled.input`
-  background-color: lightgrey;
-`;
+const Input = styled.input`background-color: lightgrey;`;
 
 const mapState = state => ({
   env: state.build.environment,
-})
+});
 
 const Form = connect(mapState)(FormClass);
 
