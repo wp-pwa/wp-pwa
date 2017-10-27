@@ -1,7 +1,18 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import styled from 'react-emotion';
 
-class Form extends React.Component {
+class FormClass extends React.Component {
+  static propTypes = {
+    env: PropTypes.string,
+  }
+
+  static defaultProps = {
+    env: 'pre',
+  }
+
   constructor(props) {
     super(props);
     this.state = { siteId: '' };
@@ -23,11 +34,11 @@ class Form extends React.Component {
       <form onSubmit={this.handleSubmit}>
         <label htmlFor="siteId">
           Please enter your Site ID:{' '}
-          <input name="siteId" type="text" value={this.state.siteId} onChange={this.handleChange} />
+          <Input name="siteId" type="text" value={this.state.siteId} onChange={this.handleChange} />
         </label>{' '}
-        <input style={{ background: 'lightgrey' }} type="submit" value="Submit" />
+        <Input type="submit" value="Submit" />
         <p>
-          Make sure it is a <strong>{process.env.SERVER_TYPE === 'prod'
+          Make sure it is a <strong>{this.props.env === 'prod'
             ? 'PRODUCTION'
             : 'PREPRODUCTION'}
           </strong>{' '}
@@ -37,6 +48,16 @@ class Form extends React.Component {
     );
   }
 }
+
+const Input = styled.input`
+  background-color: lightgrey;
+`;
+
+const mapState = state => ({
+  env: state.build.environment,
+})
+
+const Form = connect(mapState)(FormClass);
 
 export default () => (
   <div>

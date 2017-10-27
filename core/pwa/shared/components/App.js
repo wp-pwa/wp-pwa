@@ -1,5 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import universal from 'react-universal-component';
+import { connect, Provider } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import styles from '../css/App.css';
 import Loading from './Loading';
@@ -17,7 +19,16 @@ const UniversalComponent = universal(
 
 const SiteIdMissing = universal(import('../components/SiteIdMissing'));
 
-export default class App extends React.Component {
+class App extends React.Component {
+  static propTypes = {
+    siteId: PropTypes.string,
+    store: PropTypes.shape().isRequired,
+  };
+
+  static defaultProps = {
+    siteId: null,
+  };
+
   constructor(props) {
     super(props);
 
@@ -76,32 +87,42 @@ export default class App extends React.Component {
     const loadingClass = loading ? styles.loading : '';
     const buttonClass = `${styles[page]} ${loadingClass}`;
 
-    return true ? (
-      <div className={styles.container}>
-        <Helmet>
-          <title>WP PWA</title>
-        </Helmet>
-        <h1>Hello Reactlandia</h1>
-        {done && <div className={styles.checkmark}>all loaded ✔</div>}
+    return (
+      <Provider store={this.props.store}>
+        {this.props.siteId ? (
+          <div className={styles.container}>
+            <Helmet>
+              <title>WP PWA</title>
+            </Helmet>
+            <h1>Hello Reactlandia</h1>
+            {done && <div className={styles.checkmark}>all loaded ✔</div>}
 
-        <UniversalComponent
-          page={page}
-          onBefore={this.beforeChange}
-          onAfter={this.afterChange}
-          onError={this.handleError}
-        />
+            <UniversalComponent
+              page={page}
+              onBefore={this.beforeChange}
+              onAfter={this.afterChange}
+              onError={this.handleError}
+            />
 
-        <button className={buttonClass} onClick={this.changePage}>
-          {this.buttonText()}
-        </button>
+            <button className={buttonClass} onClick={this.changePage}>
+              {this.buttonText()}
+            </button>
 
-        <p>
-          <span>*why are you looking at this? refresh the page</span>
-          <span>and view the source in Chrome for the real goods</span>
-        </p>
-      </div>
-    ) : (
-      <SiteIdMissing />
+            <p>
+              <span>*why are you looking at this? refresh the page</span>
+              <span>and view the source in Chrome for the real goods</span>
+            </p>
+          </div>
+        ) : (
+          <SiteIdMissing />
+        )}
+      </Provider>
     );
   }
 }
+
+const mapState = state => ({
+  siteId: state.build.siteId,
+});
+
+export default connect(mapState)(App);
