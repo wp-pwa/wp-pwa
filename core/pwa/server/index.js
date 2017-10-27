@@ -92,7 +92,7 @@ export default ({ clientStats }) => async (req, res) => {
           <script>
             window.__CSS_CHUNKS__ = ${cssHash};
             window.__wp_pwa__ = {
-              siteId: ${siteId || null},
+              siteId: ${siteId ? `'${siteId}'` : null},
               static: '${publicPath}',
               emotionIds: ${JSON.stringify(ids)},
               initialState: ${JSON.stringify(store.getState())}
