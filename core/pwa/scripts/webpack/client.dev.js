@@ -3,6 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const WriteFilePlugin = require('write-file-webpack-plugin'); // here so you can see what chunks are built
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const vendors = require('../vendors');
 
 const config = {
@@ -70,6 +71,7 @@ const config = {
     }),
     new webpack.WatchIgnorePlugin([/\.build/]),
     new webpack.IgnorePlugin(/vertx/),
+    new LodashModuleReplacementPlugin(),
   ],
 };
 

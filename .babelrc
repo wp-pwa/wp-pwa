@@ -13,6 +13,7 @@
       ],
       "plugins": [
         "emotion",
+        ["lodash", { "id": ["lodash", "recompose"] }],
         "syntax-dynamic-import",
         "transform-object-rest-spread",
         "transform-class-properties",
@@ -33,6 +34,7 @@
       ],
       "plugins": [
         "emotion",
+        ["lodash", { "id": ["lodash", "recompose"] }],
         "syntax-dynamic-import",
         "transform-object-rest-spread",
         "transform-class-properties",
