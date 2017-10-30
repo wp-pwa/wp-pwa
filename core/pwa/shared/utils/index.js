@@ -1,12 +1,11 @@
 export const pages = [
-  'general-app-extension-worona',
-  'saturn-app-theme-worona',
-  'wp-org-connection-app-extension-worona',
+  'saturn-theme',
+  'wp-org-connection',
 ]
 
 export const nextIndex = index => ++index % pages.length
 
 export const indexFromPath = path => {
-  path = path === '/' ? '/general-app-extension-worona' : path
+  path = path === '/' ? '/saturn-theme' : path
   return pages.indexOf(path.substr(1))
 }
