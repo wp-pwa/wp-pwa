@@ -1,4 +1,4 @@
-/* eslint-disable no-console, global-require, import/no-dynamic-require */
+/* eslint-disable no-console */
 import { readFile } from 'fs-extra';
 import React from 'react';
 import { combineReducers } from 'redux';
@@ -17,28 +17,12 @@ import App from '../shared/components/App';
 import initStore from '../shared/store';
 import reducers from '../shared/store/reducers';
 import { getSettings } from './settings';
+import { requireModules } from './requires'
 
 const dev = process.env.NODE_ENV !== 'production';
 
 addPackage({ namespace: 'build', module: buildModule });
 addPackage({ namespace: 'settings', module: settingsModule });
-
-const requireModules = pkgs =>
-  pkgs.map(([namespace, name]) => {
-    try {
-      const module = require(`../../../packages/${name}/src/pwa`).default;
-      try {
-        // Only return serverSaga if it exists.
-        const serverSaga = require(`../../../packages/${name}/src/pwa/sagas/server`).default;
-        return { name, namespace, module, serverSaga };
-      } catch (e) {
-        return { name, namespace, module };
-      }
-    } catch (error) {
-      // If module is not installed, throw.
-      throw new Error(`Module ${name} not installed.`);
-    }
-  });
 
 export default ({ clientStats }) => async (req, res) => {
   const { siteId, environment } = req.query;
