@@ -1,4 +1,4 @@
-/* eslint-disable no-console */
+/* eslint-disable no-console, global-require */
 import { readFile } from 'fs-extra';
 import React from 'react';
 import { combineReducers } from 'redux';
@@ -150,6 +150,7 @@ export default ({ clientStats }) => async (req, res) => {
         </html>`,
     );
   } catch (error) {
+    console.error(error);
     res.status(500);
     if (dev) {
       const RedBox = require('redbox-react').RedBoxError;
