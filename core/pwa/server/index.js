@@ -59,11 +59,8 @@ export default ({ clientStats }) => async (req, res) => {
     // Extract activated packages array from settings.
     const activatedPackages = settings
       ? Object.values(settings)
-          .filter(
-            pkg =>
-              pkg.woronaInfo.namespace !== 'generalSite' ||
-              pkg.woronaInfo.namespace !== 'generalApp',
-          )
+          .filter(pkg => pkg.woronaInfo.namespace !== 'generalSite')
+          .filter(pkg => pkg.woronaInfo.namespace !== 'generalApp')
           .reduce((obj, pkg) => ({ ...obj, [pkg.woronaInfo.namespace]: pkg.woronaInfo.name }), {})
       : {};
 
