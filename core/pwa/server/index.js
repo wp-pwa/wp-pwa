@@ -60,11 +60,11 @@ export default ({ clientStats }) => async (req, res) => {
     const activatedPackages = settings
       ? Object.values(settings)
           .filter(pkg => pkg.woronaInfo.namespace !== 'generalSite')
-          // .filter(pkg => pkg.woronaInfo.namespace !== 'generalApp')
+          .filter(pkg => pkg.woronaInfo.namespace !== 'generalApp')
           .reduce((obj, pkg) => ({ ...obj, [pkg.woronaInfo.namespace]: pkg.woronaInfo.name }), {})
       : {};
 
-    // Load the modules, then add the reducers to the system.
+    // Load the modules.
     const pkgModules = await requireModules(Object.entries(activatedPackages));
 
     // Check for errors and load reducers and sagas.

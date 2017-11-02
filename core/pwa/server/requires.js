@@ -2,11 +2,17 @@
 no-restricted-syntax, no-restricted-globals, no-await-in-loop */
 import { pathExists } from 'fs-extra';
 
+const pathExistsPromise = name => new Promise((resolve, reject) => {
+  pathExists(`./packages/${name}/src/pwa`).
+  then(path => {
+    if (path) resolve(true);
+    else reject(new Error(`Module ${name} is not installed.`));
+  })
+})
+
 export const requireModules = async pkgs => {
-  for (const [, name] of pkgs) {
-    const path = await pathExists(`./packages/${name}/src/pwa`);
-    if (!path) throw new Error(`Module ${name} is not installed.`);
-  }
+  const pathPromises = pkgs.map(([, name]) => pathExistsPromise(name));
+  await Promise.all(pathPromises);
   return pkgs.map(([namespace, name]) => {
     const module = require(`../../../packages/${name}/src/pwa`).default;
     try {
