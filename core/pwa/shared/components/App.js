@@ -17,8 +17,6 @@ const UniversalComponent = universal(
   },
 );
 
-const SiteIdMissing = universal(import('../components/SiteIdMissing'));
-
 class App extends React.Component {
   static propTypes = {
     siteId: PropTypes.string,
@@ -91,33 +89,29 @@ class App extends React.Component {
 
     return (
       <Provider store={this.props.store}>
-        {this.props.siteId && this.props.settings ? (
-          <div className={styles.container}>
-            <Helmet>
-              <title>WP PWA</title>
-            </Helmet>
-            <h1>Hello Reactlandia</h1>
-            {done && <div className={styles.checkmark}>all loaded ✔</div>}
+        <div className={styles.container}>
+          <Helmet>
+            <title>WP PWA</title>
+          </Helmet>
+          <h1>Hello Reactlandia</h1>
+          {done && <div className={styles.checkmark}>all loaded ✔</div>}
 
-            <UniversalComponent
-              page={page}
-              onBefore={this.beforeChange}
-              onAfter={this.afterChange}
-              onError={this.handleError}
-            />
+          <UniversalComponent
+            page={page}
+            onBefore={this.beforeChange}
+            onAfter={this.afterChange}
+            onError={this.handleError}
+          />
 
-            <button className={buttonClass} onClick={this.changePage}>
-              {this.buttonText()}
-            </button>
+          <button className={buttonClass} onClick={this.changePage}>
+            {this.buttonText()}
+          </button>
 
-            <p>
-              <span>*why are you looking at this? refresh the page</span>
-              <span>and view the source in Chrome for the real goods</span>
-            </p>
-          </div>
-        ) : (
-          <SiteIdMissing />
-        )}
+          <p>
+            <span>*why are you looking at this? refresh the page</span>
+            <span>and view the source in Chrome for the real goods</span>
+          </p>
+        </div>
       </Provider>
     );
   }
