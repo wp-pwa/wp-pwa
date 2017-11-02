@@ -1,6 +1,13 @@
-/* eslint-disable global-require, import/no-dynamic-require, import/prefer-default-export */
-export const requireModules = pkgs =>
-  pkgs.map(([namespace, name]) => {
+/* eslint-disable global-require, import/no-dynamic-require, import/prefer-default-export,
+no-restricted-syntax, no-restricted-globals, no-await-in-loop */
+import { pathExists } from 'fs-extra';
+
+export const requireModules = async pkgs => {
+  for (const [, name] of pkgs) {
+    const path = await pathExists(`./packages/${name}/src/pwa`);
+    if (!path) throw new Error(`Module ${name} is not installed.`);
+  }
+  return pkgs.map(([namespace, name]) => {
     const module = require(`../../../packages/${name}/src/pwa`).default;
     try {
       // Only return serverSaga if it exists.
@@ -10,3 +17,4 @@ export const requireModules = pkgs =>
       return { name, namespace, module };
     }
   });
+}
