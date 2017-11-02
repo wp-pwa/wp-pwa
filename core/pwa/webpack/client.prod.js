@@ -77,7 +77,9 @@ const config = {
     }),
     new webpack.WatchIgnorePlugin([/\.build/]),
     new webpack.IgnorePlugin(/vertx|redux-logger|redux-devtools-extension|redbox-react/),
-    new LodashModuleReplacementPlugin(),
+    new LodashModuleReplacementPlugin({
+      currying: true,
+    }),
   ],
 };
 
