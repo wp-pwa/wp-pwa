@@ -1,18 +1,11 @@
 import { combineReducers } from 'redux';
-import { omit, find } from 'lodash';
 import * as types from '../types';
 
-export const extensions = (state = [], action) => {
+const packages = (state = {}, action) => {
   if (action.type === types.BUILD_UPDATED && action.packages)
-    return omit(action.packages, ['theme']);
+    return action.packages;
   return state;
-};
-
-export const theme = (state = '', action) => {
-  if (action.type === types.BUILD_UPDATED && action.packages)
-    return find(action.packages, (name, namespace) => namespace === 'theme');
-  return state;
-};
+}
 
 const siteId = (state = null, action) => {
   if (action.type === types.BUILD_UPDATED && action.siteId) return action.siteId;
@@ -35,10 +28,9 @@ const ssr = (state = true, action) => {
 };
 
 export default combineReducers({
-  extensions,
-  theme,
   ssr,
   siteId,
   environment,
   amp,
+  packages,
 });
