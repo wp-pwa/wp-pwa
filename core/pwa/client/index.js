@@ -20,6 +20,12 @@ const history = createHistory();
 
 let store = null;
 
+const importPromises = ({ name, namespace }) =>
+  new Promise((resolve, reject) => {
+    const universalModule = import(`../../../packages/${name}/src/pwa`);
+    universalModule.then(module => resolve({ name, namespace, module })).catch(reject);
+  });
+
 const render = async Component => {
   ReactDOM.hydrate(
     <AppContainer>
@@ -27,11 +33,21 @@ const render = async Component => {
     </AppContainer>,
     document.getElementById('root'),
   );
-}
+};
 
 const init = async () => {
   // Adds server generated styles to emotion cache.
   hydrate(window.__wp_pwa__.emotionIds);
+  // Wait for activated packages.
+  const pkgEntries = Object.entries(window.__wp_pwa__.initialState.build.packages);
+  const pkgPromises = pkgEntries.map(([namespace, name]) => importPromises({ name, namespace }));
+  const pkgModules = await Promise.all(pkgPromises);
+  // Load reducers and sagas.
+  pkgModules.forEach(pkg => {
+    if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers();
+    // if (pkg.serverSaga) serverSagas[pkg.name] = pkg.serverSaga;
+    addPackage({ namespace: pkg.namespace, module: pkg.module });
+  });
   // Init store.
   store = initStore({
     reducer: combineReducers(reducers),
@@ -43,7 +59,7 @@ const init = async () => {
   store.dispatch(buildModule.actions.clientSagasInitialized());
   // Start App.
   render(App);
-}
+};
 
 if (process.env.NODE_ENV === 'development' && module.hot) {
   module.hot.accept('../shared/components/App.js', () => {

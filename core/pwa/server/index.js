@@ -50,9 +50,9 @@ export default ({ clientStats }) => async (req, res) => {
     // Load the modules.
     const pkgModules = await requireModules(Object.entries(activatedPackages));
 
-    // Check for errors and load reducers and sagas.
+    // Load reducers and sagas.
     pkgModules.forEach(pkg => {
-      if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers;
+      if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers();
       // if (pkg.serverSaga) serverSagas[pkg.name] = pkg.serverSaga;
       addPackage({ namespace: pkg.namespace, module: pkg.module });
     });
@@ -66,6 +66,7 @@ export default ({ clientStats }) => async (req, res) => {
       buildModule.actions.buildUpdated({
         siteId,
         environment,
+        packages: activatedPackages,
       }),
     );
     store.dispatch(
