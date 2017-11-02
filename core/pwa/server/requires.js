@@ -14,7 +14,7 @@ export const requireModules = async pkgs => {
   const pathPromises = pkgs.map(([, name]) => pathExistsPromise(name));
   await Promise.all(pathPromises);
   return pkgs.map(([namespace, name]) => {
-    const module = require(`../../../packages/${name}/src/pwa`).default;
+    const module = require(`../../../packages/${name}/src/pwa`);
     try {
       // Only return serverSaga if it exists.
       const serverSaga = require(`../../../packages/${name}/src/pwa/sagas/server`).default;

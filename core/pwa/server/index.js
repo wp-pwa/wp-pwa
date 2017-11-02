@@ -39,23 +39,6 @@ export default ({ clientStats }) => async (req, res) => {
     if (!settings)
       throw new Error(`Settings for ${siteId} not found in the ${env.toUpperCase()} database.`);
 
-    // Init redux store.
-    const store = initStore({ reducer: combineReducers(reducers) });
-
-    // Add settings to the state.
-    store.dispatch(buildModule.actions.serverStarted());
-    store.dispatch(
-      buildModule.actions.buildUpdated({
-        siteId,
-        environment,
-      }),
-    );
-    store.dispatch(
-      settingsModule.actions.settingsUpdated({
-        settings,
-      }),
-    );
-
     // Extract activated packages array from settings.
     const activatedPackages = settings
       ? Object.values(settings)
@@ -73,6 +56,23 @@ export default ({ clientStats }) => async (req, res) => {
       // if (pkg.serverSaga) serverSagas[pkg.name] = pkg.serverSaga;
       addPackage({ namespace: pkg.namespace, module: pkg.module });
     });
+
+    // Init redux store.
+    const store = initStore({ reducer: combineReducers(reducers) });
+
+    // Add settings to the state.
+    store.dispatch(buildModule.actions.serverStarted());
+    store.dispatch(
+      buildModule.actions.buildUpdated({
+        siteId,
+        environment,
+      }),
+    );
+    store.dispatch(
+      settingsModule.actions.settingsUpdated({
+        settings,
+      }),
+    );
 
     // Generate React SSR.
     app = renderToString(<App history={history} store={store} />);
