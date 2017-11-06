@@ -3,7 +3,6 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { combineReducers } from 'redux';
-import createHistory from 'history/createBrowserHistory';
 import { AppContainer } from 'react-hot-loader';
 import { hydrate } from 'react-emotion';
 import { addPackage } from 'worona-deps';
@@ -17,14 +16,13 @@ import settingsModule from '../shared/packages/settings';
 addPackage({ namespace: 'build', module: buildModule });
 addPackage({ namespace: 'settings', module: settingsModule });
 
-const history = createHistory();
-
+const packages = Object.values(window.__wp_pwa__.initialState.build.packages);
 let store = null;
 
 const render = async Component => {
   ReactDOM.hydrate(
     <AppContainer>
-      <Component history={history} store={store} />
+      <Component store={store} packages={packages} />
     </AppContainer>,
     document.getElementById('root'),
   );

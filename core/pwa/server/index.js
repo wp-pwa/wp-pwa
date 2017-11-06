@@ -4,7 +4,6 @@ import React from 'react';
 import { combineReducers } from 'redux';
 import { renderToString } from 'react-dom/server';
 import { extractCritical } from 'emotion-server';
-import createHistory from 'history/createMemoryHistory';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 import { mapValues } from 'lodash';
@@ -27,8 +26,6 @@ addPackage({ namespace: 'settings', module: settingsModule });
 export default ({ clientStats }) => async (req, res) => {
   const { siteId, environment } = req.query;
   const env = environment === 'prod' ? 'prod' : 'pre';
-
-  const history = createHistory({ initialEntries: [req.path] });
 
   let app;
   try {
@@ -76,7 +73,7 @@ export default ({ clientStats }) => async (req, res) => {
     );
 
     // Generate React SSR.
-    app = renderToString(<App history={history} store={store} />);
+    app = renderToString(<App store={store} packages={Object.values(activatedPackages)} />);
 
     const { html, ids, css } = extractCritical(app);
 
