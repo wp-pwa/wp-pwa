@@ -6,8 +6,10 @@ export const UniversalComponent = universal(
   props => import(`../../../packages/${props.name}/src/pwa`),
   {
     minDelay: 1200,
-    onLoad: (module, info, { name, namespace }) => {
-      promiseCallbacks[name]({ name, namespace, module });
+    onLoad: (module, { isServer }, { name, namespace }) => {
+      if (!isServer && promiseCallbacks[name]) {
+        promiseCallbacks[name]({ name, namespace, module });
+      }
     },
   },
 );
