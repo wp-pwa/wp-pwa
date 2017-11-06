@@ -1,21 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import universal from 'react-universal-component';
 import { connect, Provider } from 'react-redux';
 import { Helmet } from 'react-helmet';
+import { UniversalComponent } from '../../client/universal';
 import styles from '../css/App.css';
-import Loading from './Loading';
-import NotFound from './NotFound';
-import { pages, nextIndex, indexFromPath } from '../utils';
 
-const UniversalComponent = universal(
-  props => import(`../../../../packages/${props.page}/src/pwa`),
-  {
-    minDelay: 1200,
-    loading: Loading,
-    error: NotFound,
-  },
-);
+import { pages, nextIndex, indexFromPath } from '../utils';
 
 class App extends React.Component {
   static propTypes = {
@@ -97,7 +87,7 @@ class App extends React.Component {
           {done && <div className={styles.checkmark}>all loaded ✔</div>}
 
           <UniversalComponent
-            page={page}
+            name={page}
             onBefore={this.beforeChange}
             onAfter={this.afterChange}
             onError={this.handleError}

@@ -8,6 +8,7 @@ import { AppContainer } from 'react-hot-loader';
 import { hydrate } from 'react-emotion';
 import { addPackage } from 'worona-deps';
 import App from '../shared/components/App';
+import { importPromises } from './universal';
 import initStore from '../shared/store';
 import reducers from '../shared/store/reducers';
 import buildModule from '../shared/packages/build';
@@ -19,12 +20,6 @@ addPackage({ namespace: 'settings', module: settingsModule });
 const history = createHistory();
 
 let store = null;
-
-const importPromises = ({ name, namespace }) =>
-  new Promise((resolve, reject) => {
-    const universalModule = import(`../../../packages/${name}/src/pwa`);
-    universalModule.then(module => resolve({ name, namespace, module })).catch(reject);
-  });
 
 const render = async Component => {
   ReactDOM.hydrate(
@@ -63,6 +58,10 @@ const init = async () => {
 
 if (process.env.NODE_ENV === 'development' && module.hot) {
   module.hot.accept('../shared/components/App.js', () => {
+    const Component = require('../shared/components/App').default;
+    render(Component);
+  });
+  module.hot.accept('./universal.js', () => {
     const Component = require('../shared/components/App').default;
     render(Component);
   });
