@@ -2,8 +2,8 @@ import universal from 'react-universal-component';
 
 const promiseCallbacks = {};
 
-export const UniversalComponent = universal(
-  props => import(`../../../packages/${props.name}/src/pwa`),
+export const Universal = universal(
+  props => import(`../../../../packages/${props.name}/src/pwa`),
   {
     minDelay: 1200,
     onLoad: (module, { isServer }, { name, namespace }) => {
@@ -17,5 +17,5 @@ export const UniversalComponent = universal(
 export const importPromises = ({ name, namespace }) =>
   new Promise(resolve => {
     promiseCallbacks[name] = resolve;
-    UniversalComponent.preload({ name, namespace });
+    Universal.preload({ name, namespace });
   });

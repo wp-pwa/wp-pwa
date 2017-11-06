@@ -7,7 +7,7 @@ import { AppContainer } from 'react-hot-loader';
 import { hydrate } from 'react-emotion';
 import { addPackage } from 'worona-deps';
 import App from '../shared/components/App';
-import { importPromises } from './universal';
+import { importPromises } from '../shared/components/Universal';
 import initStore from '../shared/store';
 import reducers from '../shared/store/reducers';
 import buildModule from '../shared/packages/build';
@@ -59,7 +59,7 @@ if (process.env.NODE_ENV === 'development' && module.hot) {
     const Component = require('../shared/components/App').default;
     render(Component);
   });
-  module.hot.accept('./universal.js', () => {
+  module.hot.accept('../shared/components/Universal.js', () => {
     const Component = require('../shared/components/App').default;
     render(Component);
   });

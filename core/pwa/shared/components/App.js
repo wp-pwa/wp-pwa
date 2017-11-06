@@ -2,17 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { Provider } from 'react-redux';
-import { UniversalComponent } from '../../client/universal';
-import styles from '../css/App.css';
+import { Universal } from './Universal';
 
 const App = ({ packages, store }) => (
   <Provider store={store}>
-    <div className={styles.container}>
+    <div>
       <Helmet>
         <title>WP PWA</title>
       </Helmet>
-      <h1>Hello Reactlandia</h1>
-      {packages.map(name => <UniversalComponent key={name} name={name} />)}
+      <h1>WP-PWA</h1>
+      {packages.map(name => <Universal key={name} name={name} />)}
     </div>
   </Provider>
 );
