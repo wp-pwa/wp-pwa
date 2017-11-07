@@ -15,8 +15,9 @@ import settingsModule from '../shared/packages/settings';
 import App from '../shared/components/App';
 import initStore from '../shared/store';
 import reducers from '../shared/store/reducers';
+import serverSagas from './sagas';
 import { getSettings } from './settings';
-import { requireModules } from './requires'
+import { requireModules } from './requires';
 
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -66,11 +67,14 @@ export default ({ clientStats }) => async (req, res) => {
         packages: activatedPackages,
       }),
     );
-    store.dispatch(
-      settingsModule.actions.settingsUpdated({
-        settings,
-      }),
-    );
+    store.dispatch(settingsModule.actions.settingsUpdated({ settings }));
+
+    // Run and wait until all the server sagas have run.
+    const startSagas = new Date();
+    const sagaPromises = Object.values(serverSagas).map(saga => store.runSaga(saga).done);
+    store.dispatch(buildModule.actions.serverSagasInitialized());
+    await Promise.all(sagaPromises);
+    store.dispatch(buildModule.actions.serverFinished({ timeToRunSagas: new Date() - startSagas }));
 
     // Generate React SSR.
     app = renderToString(<App store={store} packages={Object.values(activatedPackages)} />);
