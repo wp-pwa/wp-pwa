@@ -7,6 +7,8 @@ module.exports = [
   'worona-deps',
   'superagent',
   'styled-components',
+  'mobx',
+  'mobx-state-tree',
   'redux',
   'redux-saga',
   'redux-saga/effects',
