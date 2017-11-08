@@ -51,7 +51,7 @@ export default ({ clientStats }) => async (req, res) => {
     // Load reducers and sagas.
     pkgModules.forEach(pkg => {
       if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers();
-      if (pkg.serverSaga) serverSagas[pkg.name] = pkg.serverSaga;
+      // if (pkg.serverSaga) serverSagas[pkg.name] = pkg.serverSaga;
       addPackage({ namespace: pkg.namespace, module: pkg.module });
     });
 
