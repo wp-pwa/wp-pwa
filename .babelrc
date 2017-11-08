@@ -1,5 +1,23 @@
 {
   "env": {
+    "test": {
+      "presets": [
+        [
+          "env",
+          {
+            "targets": { "node": "current" }
+          }
+        ],
+        "react"
+      ],
+      "plugins": [
+        "emotion",
+        "syntax-dynamic-import",
+        "transform-object-rest-spread",
+        "transform-class-properties",
+        "universal-import"
+      ]
+    },
     "devClient": {
       "presets": [
         [

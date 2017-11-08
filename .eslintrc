@@ -4,6 +4,8 @@
   "globals": {
     "window": true,
     "document": true,
+    "test": true,
+    "expect": true
   },
   "rules": {
     "import/no-extraneous-dependencies": 0,
