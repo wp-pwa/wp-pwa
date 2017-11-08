@@ -10,8 +10,8 @@ import { mapValues } from 'lodash';
 import { addPackage } from 'worona-deps';
 import { Helmet } from 'react-helmet';
 import { buildPath } from '../../../.build/pwa/buildInfo.json'; // eslint-disable-line
-import buildModule from '../shared/packages/build';
-import settingsModule from '../shared/packages/settings';
+import buildModule from '../packages/build';
+import settingsModule from '../packages/settings';
 import App from '../shared/components/App';
 import initStore from '../shared/store';
 import reducers from '../shared/store/reducers';

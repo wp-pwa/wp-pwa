@@ -10,8 +10,8 @@ import App from '../shared/components/App';
 import { importPromises } from '../shared/components/Universal';
 import initStore from '../shared/store';
 import reducers from '../shared/store/reducers';
-import buildModule from '../shared/packages/build';
-import settingsModule from '../shared/packages/settings';
+import buildModule from '../packages/build';
+import settingsModule from '../packages/settings';
 
 addPackage({ namespace: 'build', module: buildModule });
 addPackage({ namespace: 'settings', module: settingsModule });

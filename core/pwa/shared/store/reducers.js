@@ -1,5 +1,5 @@
-import build from '../packages/build/reducers';
-import settings from '../packages/settings/reducers';
+import build from '../../packages/build/reducers';
+import settings from '../../packages/settings/reducers';
 
 const reducers = {
   build,
