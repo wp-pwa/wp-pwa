@@ -11,7 +11,7 @@
     "start:pwa": "node core/pwa/scripts/index.js",
     "build:pwa": "node core/pwa/scripts/index.js --build",
     "serve:pwa": "node core/pwa/scripts/index.js --serve",
-    "test": "node --inspect node_modules/.bin/jest --watch"
+    "test": "node --inspect node_modules/.bin/jest \"__tests__\/.*\\.tests\\.js\" --watch"
   },
   "dependencies": {
     "babel-core": "^6.26.0",
