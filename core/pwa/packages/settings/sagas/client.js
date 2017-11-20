@@ -1,3 +1,1 @@
-export default function* clientSagas() {
-  console.log('hi from client settings');
-}
+export default function* clientSagas() {}
