@@ -4,6 +4,7 @@ module.exports = [
   'react-dom',
   'react-helmet',
   'react-emotion',
+  'emotion-theming',
   'worona-deps',
   'superagent',
   'styled-components',
