@@ -1,6 +1,6 @@
 import * as actions from './actions';
-import * as types from './types';
+import * as actionTypes from './actionTypes';
 import reducers from './reducers';
 import * as selectors from './selectors';
 
-export default { actions, types, reducers, selectors };
+export default { actions, actionTypes, reducers, selectors };

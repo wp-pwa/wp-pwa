@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import * as types from '../types';
+import * as actionTypes from '../actionTypes';
 
 export const collection = (state = {}, { type, settings }) => {
-  if (type === types.SETTINGS_UPDATED)
+  if (type === actionTypes.SETTINGS_UPDATED)
     return { ...state, ...settings };
   return state;
 };

@@ -1,3 +1,4 @@
-import * as types from '../types';
+/* eslint-disable import/prefer-default-export */
+import * as actionTypes from '../actionTypes';
 
-export const settingsUpdated = ({ settings }) => ({ type: types.SETTINGS_UPDATED, settings });
+export const settingsUpdated = ({ settings }) => ({ type: actionTypes.SETTINGS_UPDATED, settings });
