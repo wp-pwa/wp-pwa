@@ -27,8 +27,14 @@ export const ssr = (state = true, action) => {
   return state;
 };
 
+export const server = (state = true, action) => {
+  if (action.type === types.CLIENT_STARTED) return false;
+  return state;
+};
+
 export default combineReducers({
   ssr,
+  server,
   siteId,
   environment,
   amp,

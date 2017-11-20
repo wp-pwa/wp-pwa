@@ -19,7 +19,7 @@ addPackage({ namespace: 'settings', module: settingsModule });
 const packages = Object.values(window.__wp_pwa__.initialState.build.packages);
 let store = null;
 
-const render = async Component => {
+const render = Component => {
   ReactDOM.hydrate(
     <AppContainer>
       <Component store={store} packages={packages} />
@@ -52,6 +52,8 @@ const init = async () => {
   store.dispatch(buildModule.actions.clientSagasInitialized());
   // Start App.
   render(App);
+  // Inform that the client has been rendered;
+  store.dispatch(buildModule.actions.clientRendered());
 };
 
 if (process.env.NODE_ENV === 'development' && module.hot) {
