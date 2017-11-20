@@ -37,5 +37,6 @@ export default ({ reducer, initialState = {} }) => {
     ...createStore(reducer, initialState, composeEnhancers(applyMiddleware(...clientMiddleware))),
     runSaga: sagaMiddleware.run,
   };
+  window.worona.store = store;
   return store;
 };
