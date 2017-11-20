@@ -10,6 +10,7 @@ import App from '../shared/components/App';
 import { importPromises } from '../shared/components/Universal';
 import initStore from '../shared/store';
 import reducers from '../shared/store/reducers';
+import clientSagas from './sagas';
 import buildModule from '../packages/build';
 import settingsModule from '../packages/settings';
 
@@ -38,7 +39,7 @@ const init = async () => {
   // Load reducers and sagas.
   pkgModules.forEach(pkg => {
     if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers();
-    // if (pkg.serverSaga) serverSagas[pkg.name] = pkg.serverSaga;
+    if (pkg.module.sagas) clientSagas[pkg.name] = pkg.module.sagas;
     addPackage({ namespace: pkg.namespace, module: pkg.module });
   });
   // Init store.
@@ -48,7 +49,7 @@ const init = async () => {
   });
   // Start all the client sagas.
   store.dispatch(buildModule.actions.clientStarted());
-  // if (sagas) Object.values(sagas).forEach(saga => store.runSaga(saga));
+  if (clientSagas) Object.values(clientSagas).forEach(saga => store.runSaga(saga));
   store.dispatch(buildModule.actions.clientSagasInitialized());
   // Start App.
   render(App);
