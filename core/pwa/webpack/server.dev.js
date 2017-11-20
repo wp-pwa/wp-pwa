@@ -67,7 +67,7 @@ const config = {
         NODE_ENV: JSON.stringify('development'),
       },
     }),
-    new webpack.WatchIgnorePlugin([/\.build/]),
+    new webpack.WatchIgnorePlugin([/\.build|\.git/]),
     new webpack.IgnorePlugin(/vertx/),
   ],
 };
