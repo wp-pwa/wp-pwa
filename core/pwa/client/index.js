@@ -17,7 +17,7 @@ import settingsModule from '../packages/settings';
 addPackage({ namespace: 'build', module: buildModule });
 addPackage({ namespace: 'settings', module: settingsModule });
 
-const packages = Object.values(window.__wp_pwa__.initialState.build.packages);
+const packages = Object.values(window['wp-pwa'].initialState.build.packages);
 let store = null;
 
 const render = Component => {
@@ -31,9 +31,9 @@ const render = Component => {
 
 const init = async () => {
   // Adds server generated styles to emotion cache.
-  hydrate(window.__wp_pwa__.emotionIds);
+  hydrate(window['wp-pwa'].emotionIds);
   // Wait for activated packages.
-  const pkgEntries = Object.entries(window.__wp_pwa__.initialState.build.packages);
+  const pkgEntries = Object.entries(window['wp-pwa'].initialState.build.packages);
   const pkgPromises = pkgEntries.map(([namespace, name]) => importPromises({ name, namespace }));
   const pkgModules = await Promise.all(pkgPromises);
   // Load reducers and sagas.
@@ -45,7 +45,7 @@ const init = async () => {
   // Init store.
   store = initStore({
     reducer: combineReducers(reducers),
-    initialState: window.__wp_pwa__.initialState,
+    initialState: window['wp-pwa'].initialState,
   });
   // Start all the client sagas.
   store.dispatch(buildModule.actions.clientStarted());

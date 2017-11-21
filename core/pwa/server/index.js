@@ -131,11 +131,10 @@ export default ({ clientStats }) => async (req, res) => {
             <div id="root">${html}</div>
             <script>
               window.__CSS_CHUNKS__ = ${cssHash};
-              window.__wp_pwa__ = {
-                static: '${publicPath}',
-                emotionIds: ${JSON.stringify(ids)},
-                initialState: ${JSON.stringify(store.getState())}
-              };
+              window['wp-pwa'] = window['wp-pwa'] || {};
+              window['wp-pwa'].publicPath = '${publicPath}';
+              window['wp-pwa'].emotionIds = ${JSON.stringify(ids)};
+              window['wp-pwa'].initialState = ${JSON.stringify(store.getState())};
               var scripts = [${chunksForArray}];
               var loadScript = function(script) {
                 if (document.getElementById(script)) return;
