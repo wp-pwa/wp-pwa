@@ -3,7 +3,7 @@
 
 ## Development
 
-Run `npm start:pwa` to start the project in development mode.
+Run `npm run start:pwa` to start the project in development mode.
 
 Run `npm run build:pwa -- -p && npm start:pwa -- -p` to start the project in production mode.
 
