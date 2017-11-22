@@ -3,3 +3,4 @@ buildServer
 node_modules
 *.log
 .build
+now.json
