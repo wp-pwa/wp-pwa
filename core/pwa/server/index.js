@@ -25,15 +25,15 @@ addPackage({ namespace: 'build', module: buildModule });
 addPackage({ namespace: 'settings', module: settingsModule });
 
 export default ({ clientStats }) => async (req, res) => {
-  const { siteId, environment } = req.query;
-  const env = environment === 'prod' ? 'prod' : 'pre';
+  const { siteId } = req.query;
+  const env = req.query.env === 'prod' ? 'prod' : 'pre';
 
   let app;
   try {
     if (!siteId) throw new Error("'?siteid=' query not found.");
 
     // Get settings.
-    const settings = await getSettings({ siteId, environment });
+    const settings = await getSettings({ siteId, env });
     if (!settings)
       throw new Error(`Settings for ${siteId} not found in the ${env.toUpperCase()} database.`);
 
@@ -63,7 +63,7 @@ export default ({ clientStats }) => async (req, res) => {
     store.dispatch(
       buildModule.actions.buildUpdated({
         siteId,
-        environment,
+        env,
         packages: activatedPackages,
       }),
     );

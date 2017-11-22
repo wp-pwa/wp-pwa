@@ -12,8 +12,8 @@ export const siteId = (state = null, action) => {
   return state;
 };
 
-export const environment = (state = 'pre', action) => {
-  if (action.type === actionTypes.BUILD_UPDATED && action.environment) return action.environment;
+export const env = (state = 'pre', action) => {
+  if (action.type === actionTypes.BUILD_UPDATED && action.env) return action.env;
   return state;
 };
 
@@ -36,7 +36,7 @@ export default combineReducers({
   ssr,
   server,
   siteId,
-  environment,
+  env,
   amp,
   packages,
 });

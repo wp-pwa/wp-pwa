@@ -9,8 +9,8 @@ const settingSchema = new schema.Entity(
 const settingsSchema = [settingSchema];
 
 // Fetch settings from the backend.
-export const getSettings = async ({ siteId, environment }) => {
-  const cdn = environment === 'prod' ? 'cdn' : 'precdn';
+export const getSettings = async ({ siteId, env }) => {
+  const cdn = env === 'prod' ? 'cdn' : 'precdn';
   try {
     const { body } = await request(
       `https://${cdn}.worona.io/api/v1/settings/site/${siteId}/app/prod/live`,
