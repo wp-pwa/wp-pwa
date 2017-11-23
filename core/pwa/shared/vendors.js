@@ -7,7 +7,6 @@ module.exports = [
   'emotion-theming',
   'worona-deps',
   'superagent',
-  'styled-components',
   'mobx',
   'mobx-state-tree',
   'mobx-react',
