@@ -25,7 +25,9 @@ addPackage({ namespace: 'build', module: buildModule });
 addPackage({ namespace: 'settings', module: settingsModule });
 
 export default ({ clientStats }) => async (req, res) => {
-  const { siteId } = req.query;
+  const { siteId, page, singleType, singleId } = req.query;
+  const listType = !req.query.listType && !req.query.singleType ? 'latest' : req.query.listType;
+  const listId = req.query.listId || listType && 'post';
   const env = req.query.env === 'prod' ? 'prod' : 'pre';
 
   let app;
@@ -73,8 +75,9 @@ export default ({ clientStats }) => async (req, res) => {
     store.dispatch(settingsModule.actions.settingsUpdated({ settings }));
 
     // Run and wait until all the server sagas have run.
+    const params = { selected: { listType, listId, page, singleType, singleId } };
     const startSagas = new Date();
-    const sagaPromises = Object.values(serverSagas).map(saga => store.runSaga(saga).done);
+    const sagaPromises = Object.values(serverSagas).map(saga => store.runSaga(saga, params).done);
     store.dispatch(buildModule.actions.serverSagasInitialized());
     await Promise.all(sagaPromises);
     store.dispatch(buildModule.actions.serverFinished({ timeToRunSagas: new Date() - startSagas }));
