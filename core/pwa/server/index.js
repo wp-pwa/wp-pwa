@@ -50,9 +50,11 @@ export default ({ clientStats }) => async (req, res) => {
 
     // Load reducers and sagas.
     let connection = null;
+    const stores = {};
     pkgModules.forEach(pkg => {
       if (pkg.namespace === 'connection') connection = pkg.module;
       if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({});
+      if (pkg.module.store) stores[pkg.namespace] = pkg.module.store;
       if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers(pkg.module.store);
       if (pkg.serverSaga) serverSagas[pkg.name] = pkg.serverSaga;
       addPackage({ namespace: pkg.namespace, module: pkg.module });
@@ -82,7 +84,9 @@ export default ({ clientStats }) => async (req, res) => {
     store.dispatch(buildModule.actions.serverFinished({ timeToRunSagas: new Date() - startSagas }));
 
     // Generate React SSR.
-    app = renderToString(<App store={store} packages={Object.values(activatedPackages)} />);
+    app = renderToString(
+      <App store={store} packages={Object.values(activatedPackages)} stores={stores} />,
+    );
 
     const { html, ids, css } = extractCritical(app);
 

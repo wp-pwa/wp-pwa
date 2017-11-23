@@ -19,11 +19,12 @@ addPackage({ namespace: 'settings', module: settingsModule });
 
 const packages = Object.values(window['wp-pwa'].initialState.build.packages);
 let store = null;
+const stores = {};
 
 const render = Component => {
   ReactDOM.hydrate(
     <AppContainer>
-      <Component store={store} packages={packages} />
+      <Component store={store} packages={packages} stores={stores}/>
     </AppContainer>,
     document.getElementById('root'),
   );
@@ -39,6 +40,7 @@ const init = async () => {
   // Load reducers and sagas.
   pkgModules.forEach(pkg => {
     if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({});
+    if (pkg.module.store) stores[pkg.namespace] = pkg.module.store;
     if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers(pkg.module.store);
     if (pkg.module.sagas) clientSagas[pkg.name] = pkg.module.sagas;
     addPackage({ namespace: pkg.namespace, module: pkg.module });
