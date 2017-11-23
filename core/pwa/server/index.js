@@ -25,7 +25,7 @@ addPackage({ namespace: 'build', module: buildModule });
 addPackage({ namespace: 'settings', module: settingsModule });
 
 export default ({ clientStats }) => async (req, res) => {
-  const { siteId, page, singleType, singleId } = req.query;
+  const { siteId, page, singleType, singleId, perPage } = req.query;
   const listType = !req.query.listType && !req.query.singleType ? 'latest' : req.query.listType;
   const listId = req.query.listId || listType && 'post';
   const env = req.query.env === 'prod' ? 'prod' : 'pre';
@@ -70,6 +70,7 @@ export default ({ clientStats }) => async (req, res) => {
         siteId,
         env,
         packages: activatedPackages,
+        perPage,
       }),
     );
     store.dispatch(settingsModule.actions.settingsUpdated({ settings }));

@@ -32,6 +32,11 @@ export const server = (state = true, action) => {
   return state;
 };
 
+export const perPage = (state = 10, action) => {
+  if (action.type === actionTypes.BUILD_UPDATED && action.perPage) return action.perPage;
+  return state;
+};
+
 export default combineReducers({
   ssr,
   server,
@@ -39,4 +44,5 @@ export default combineReducers({
   env,
   amp,
   packages,
+  perPage,
 });
