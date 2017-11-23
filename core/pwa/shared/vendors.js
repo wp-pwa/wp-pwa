@@ -10,6 +10,7 @@ module.exports = [
   'styled-components',
   'mobx',
   'mobx-state-tree',
+  'mobx-react',
   'redux',
   'redux-saga',
   'redux-saga/effects',
