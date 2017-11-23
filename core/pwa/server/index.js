@@ -49,11 +49,15 @@ export default ({ clientStats }) => async (req, res) => {
     const pkgModules = await requireModules(Object.entries(activatedPackages));
 
     // Load reducers and sagas.
+    let connection = null;
     pkgModules.forEach(pkg => {
-      if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers();
+      if (pkg.namespace === 'connection') connection = pkg.module;
+      if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({});
+      if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers(pkg.module.store);
       if (pkg.serverSaga) serverSagas[pkg.name] = pkg.serverSaga;
       addPackage({ namespace: pkg.namespace, module: pkg.module });
     });
+    if (!connection) throw new Error("At least one 'connection' package must be active.");
 
     // Init redux store.
     const store = initStore({ reducer: combineReducers(reducers) });
@@ -73,6 +77,7 @@ export default ({ clientStats }) => async (req, res) => {
     const startSagas = new Date();
     const sagaPromises = Object.values(serverSagas).map(saga => store.runSaga(saga).done);
     store.dispatch(buildModule.actions.serverSagasInitialized());
+    store.dispatch(connection.actions.routeChangeSucceed({ selected: { listType: 'latest' } }));
     await Promise.all(sagaPromises);
     store.dispatch(buildModule.actions.serverFinished({ timeToRunSagas: new Date() - startSagas }));
 
@@ -105,7 +110,9 @@ export default ({ clientStats }) => async (req, res) => {
     const styles = stylesheets
       .map(
         stylesheet =>
-          `<link rel="stylesheet" charset="utf-8" type="text/css" href="${publicPath}${stylesheet}" />`,
+          `<link rel="stylesheet" charset="utf-8" type="text/css" href="${publicPath}${
+            stylesheet
+          }" />`,
       )
       .join('\n');
 

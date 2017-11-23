@@ -38,7 +38,8 @@ const init = async () => {
   const pkgModules = await Promise.all(pkgPromises);
   // Load reducers and sagas.
   pkgModules.forEach(pkg => {
-    if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers();
+    if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({});
+    if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers(pkg.module.store);
     if (pkg.module.sagas) clientSagas[pkg.name] = pkg.module.sagas;
     addPackage({ namespace: pkg.namespace, module: pkg.module });
   });
