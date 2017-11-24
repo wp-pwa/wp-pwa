@@ -52,7 +52,8 @@ const init = async () => {
   });
   // Start all the client sagas.
   store.dispatch(buildModule.actions.clientStarted());
-  if (clientSagas) Object.values(clientSagas).forEach(saga => store.runSaga(saga));
+  const params = { stores };
+  if (clientSagas) Object.values(clientSagas).forEach(saga => store.runSaga(saga, params));
   store.dispatch(buildModule.actions.clientSagasInitialized());
   // Start App.
   render(App);

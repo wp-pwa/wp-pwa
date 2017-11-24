@@ -76,7 +76,7 @@ export default ({ clientStats }) => async (req, res) => {
     store.dispatch(settingsModule.actions.settingsUpdated({ settings }));
 
     // Run and wait until all the server sagas have run.
-    const params = { selected: { listType, listId, page, singleType, singleId } };
+    const params = { selected: { listType, listId, page, singleType, singleId }, stores };
     const startSagas = new Date();
     const sagaPromises = Object.values(serverSagas).map(saga => store.runSaga(saga, params).done);
     store.dispatch(buildModule.actions.serverSagasInitialized());
