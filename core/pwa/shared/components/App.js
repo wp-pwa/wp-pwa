@@ -12,7 +12,6 @@ const App = ({ packages, store, stores }) => (
         <Helmet>
           <title>WP PWA</title>
         </Helmet>
-        <h1>WP-PWA</h1>
         {packages.map(name => <Universal key={name} name={name} />)}
       </div>
     </MobxProvider>
