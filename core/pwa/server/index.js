@@ -24,10 +24,14 @@ const dev = process.env.NODE_ENV !== 'production';
 addPackage({ namespace: 'build', module: buildModule });
 addPackage({ namespace: 'settings', module: settingsModule });
 
+const parse = id => Number.isFinite(parseInt(id, 10)) ? parseInt(id, 10) : id;
+
 export default ({ clientStats }) => async (req, res) => {
-  const { siteId, page, singleType, singleId, perPage } = req.query;
+  const { siteId, singleType, perPage } = req.query;
   const listType = !req.query.listType && !req.query.singleType ? 'latest' : req.query.listType;
-  const listId = req.query.listId || listType && 'post';
+  const listId = parse(req.query.listId) || listType && 'post';
+  const singleId = parse(req.query.singleId);
+  const page = parse(req.query.page) || 1;
   const env = req.query.env === 'prod' ? 'prod' : 'pre';
 
   let app;
