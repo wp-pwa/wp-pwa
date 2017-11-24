@@ -35,6 +35,7 @@
     "extract-css-chunks-webpack-plugin": "^2.0.17",
     "fs-extra": "^4.0.2",
     "history": "^4.6.3",
+    "htmlescape": "^1.1.1",
     "lodash": "^4.17.4",
     "lodash-webpack-plugin": "^0.11.4",
     "minimist": "^1.2.0",

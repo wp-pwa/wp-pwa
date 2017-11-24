@@ -9,6 +9,7 @@ import flushChunks from 'webpack-flush-chunks';
 import { mapValues } from 'lodash';
 import { addPackage } from 'worona-deps';
 import { Helmet } from 'react-helmet';
+import htmlescape from 'htmlescape';
 import { buildPath } from '../../../.build/pwa/buildInfo.json'; // eslint-disable-line
 import buildModule from '../packages/build';
 import settingsModule from '../packages/settings';
@@ -149,7 +150,7 @@ export default ({ clientStats }) => async (req, res) => {
               window['wp-pwa'] = window['wp-pwa'] || {};
               window['wp-pwa'].publicPath = '${publicPath}';
               window['wp-pwa'].emotionIds = ${JSON.stringify(ids)};
-              window['wp-pwa'].initialState = ${JSON.stringify(store.getState())};
+              window['wp-pwa'].initialState = ${htmlescape(store.getState())};
               var scripts = [${chunksForArray}];
               var loadScript = function(script) {
                 if (document.getElementById(script)) return;
