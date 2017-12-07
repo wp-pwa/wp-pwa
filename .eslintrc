@@ -14,6 +14,7 @@
     "react/jsx-filename-extension": 0,
     "no-underscore-dangle": ["error", { "allow": ["_id"] }],
     "no-param-reassign": 0,
-    "array-callback-return": 0
+    "array-callback-return": 0,
+    "jsx-a11y/anchor-is-valid": 0
   }
 }
