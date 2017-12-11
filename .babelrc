@@ -1,21 +1,13 @@
 {
   "env": {
     "test": {
-      "presets": [
-        [
-          "env",
-          {
-            "targets": { "node": "current" }
-          }
-        ],
-        "react"
-      ],
+      "presets": [["env", { "targets": { "node": "current" } }], "react"],
       "plugins": [
         "emotion",
         "syntax-dynamic-import",
         "transform-object-rest-spread",
         "transform-class-properties",
-        "universal-import"
+        ["universal-import", { "disableWarnings": true }]
       ]
     },
     "devClient": {
@@ -35,7 +27,7 @@
         "syntax-dynamic-import",
         "transform-object-rest-spread",
         "transform-class-properties",
-        "universal-import",
+        ["universal-import", { "disableWarnings": true }],
         "react-hot-loader/babel"
       ]
     },
@@ -56,25 +48,17 @@
         "syntax-dynamic-import",
         "transform-object-rest-spread",
         "transform-class-properties",
-        "universal-import"
+        ["universal-import", { "disableWarnings": true }]
       ]
     },
     "server": {
-      "presets": [
-        [
-          "env",
-          {
-            "targets": { "node": "current" }
-          }
-        ],
-        "react"
-      ],
+      "presets": [["env", { "targets": { "node": "current" } }], "react"],
       "plugins": [
         "emotion",
         "syntax-dynamic-import",
         "transform-object-rest-spread",
         "transform-class-properties",
-        "universal-import"
+        ["universal-import", { "disableWarnings": true }]
       ]
     }
   }
