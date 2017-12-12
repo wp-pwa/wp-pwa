@@ -1,5 +1,6 @@
-/* eslint-disable global-require, no-console */
-const { readFile, pathExists } = require('fs-extra');
+/* eslint-disable global-require, no-console, no-restricted-syntax, no-await-in-loop,
+import/no-dynamic-require */
+const { readFile, pathExists, readdir } = require('fs-extra');
 const express = require('express');
 const noFavicon = require('express-no-favicons');
 
@@ -25,7 +26,16 @@ const createApp = async () => {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     next();
   });
+  // Add static files.
   app.use('/static', express.static('.build/pwa/client/'));
+  // Add dynamic files.
+  const packages = await readdir('packages');
+  for (const pkg of packages) {
+    if (await pathExists(`packages/${pkg}/src/pwa/server/index.js`)) {
+      const pkgServer = require(`../../../packages/${pkg}/src/pwa/server/index.js`);
+      app.use(`/dynamic/${pkg}`, pkgServer);
+    }
+  }
 
   // Create a function to start listening after webpack has finished.
   let isBuilt = false;
