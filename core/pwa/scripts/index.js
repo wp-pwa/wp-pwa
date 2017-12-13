@@ -3,6 +3,9 @@ const argv = require('minimist')(process.argv.slice(2));
 const { emptyDirSync } = require('fs-extra');
 const { spawn } = require('child_process');
 
+// Ignores invalid self-signed ssl certificates
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 process.env.NODE_ENV = argv.p || argv.prod ? 'production' : 'development';
 console.log(`> Using NODE_ENV=${process.env.NODE_ENV}`);
 
@@ -21,10 +24,10 @@ if (argv.hmr) {
 }
 
 if (argv.a || argv.analyze) {
-  emptyDirSync('.build/analyize/pwa')
+  emptyDirSync('.build/analyize/pwa');
   process.env.ANALYZE = true;
   console.log('> Using ANALYZE=true');
-  console.log('> You can load the stats in https://webpack.github.io/analyse/')
+  console.log('> You can load the stats in https://webpack.github.io/analyse/');
 }
 
 console.log();
