@@ -4,6 +4,7 @@ import { Helmet } from 'react-helmet';
 import { Provider as ReduxProvider } from 'react-redux';
 import { Provider as MobxProvider } from 'mobx-react';
 import { Universal } from './Universal';
+import GoogleTagManager from './GoogleTagManager';
 
 const App = ({ packages, store, stores }) => (
   <ReduxProvider store={store}>
@@ -12,6 +13,7 @@ const App = ({ packages, store, stores }) => (
         <Helmet>
           <title>WP PWA</title>
         </Helmet>
+        <GoogleTagManager gtmId="GTM-K3S2BMT"/>
         {packages.map(name => <Universal key={name} name={name} />)}
       </div>
     </MobxProvider>
