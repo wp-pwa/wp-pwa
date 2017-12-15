@@ -38,7 +38,7 @@ const config = {
         use: {
           loader: 'babel-loader',
           options: {
-            forceEnv: 'server',
+            forceEnv: 'devServer',
           },
         },
       },
