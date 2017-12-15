@@ -22,7 +22,7 @@
         "react"
       ],
       "plugins": [
-        ["emotion", { "autoLabel": true }],
+        "emotion",
         ["lodash", { "id": ["lodash", "recompose"] }],
         "syntax-dynamic-import",
         "transform-object-rest-spread",
