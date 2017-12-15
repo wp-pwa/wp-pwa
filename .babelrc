@@ -51,17 +51,7 @@
         ["universal-import", { "disableWarnings": true }]
       ]
     },
-    "devServer": {
-      "presets": [["env", { "targets": { "node": "current" } }], "react"],
-      "plugins": [
-        ["emotion", { "autoLabel": true }],
-        "syntax-dynamic-import",
-        "transform-object-rest-spread",
-        "transform-class-properties",
-        ["universal-import", { "disableWarnings": true }]
-      ]
-    },
-    "prodServer": {
+    "server": {
       "presets": [["env", { "targets": { "node": "current" } }], "react"],
       "plugins": [
         "emotion",
