@@ -70,7 +70,7 @@ const serve = async () => {
 
   // Start server with the clientStats.
   const clientStats = require('../../../.build/pwa/clientStats.json'); // eslint-disable-line
-  const serverRender = require('../../../.build/pwa/server/main.js').default;
+  const serverRender = require('../../../.build/pwa/server/main.js').default; // eslint-disable-line
   app.use(serverRender({ clientStats }));
   done();
 };

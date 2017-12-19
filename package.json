@@ -8,12 +8,18 @@
   "license": "MIT",
   "scripts": {
     "postinstall": "npm-recursive-install --skip-root",
-    "start:pwa": "node core/pwa/scripts/index.js",
-    "build:pwa": "node core/pwa/scripts/index.js --build",
-    "serve:pwa": "node core/pwa/scripts/index.js --serve",
     "test": "node --inspect node_modules/.bin/jest --watch",
-    "now-build": "npm run build:pwa -- --prod",
-    "now-start": "npm run serve:pwa -- --prod"
+    "start": "node core/index.js --start",
+    "build": "node core/index.js --build",
+    "serve": "node core/index.js --serve",
+    "start:pwa": "npm run start -- --pwa",
+    "build:pwa": "npm run build -- --pwa",
+    "serve:pwa": "npm run serve -- --pwa",
+    "start:amp": "npm run start -- --amp",
+    "build:amp": "npm run build -- --amp",
+    "serve:amp": "npm run serve -- --amp",
+    "now-build": "npm run build -- --prod",
+    "now-start": "npm run serve -- --prod"
   },
   "dependencies": {
     "babel-core": "^6.26.0",
