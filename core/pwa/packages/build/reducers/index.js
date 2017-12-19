@@ -2,10 +2,9 @@ import { combineReducers } from 'redux';
 import * as actionTypes from '../actionTypes';
 
 export const packages = (state = {}, action) => {
-  if (action.type === actionTypes.BUILD_UPDATED && action.packages)
-    return action.packages;
+  if (action.type === actionTypes.BUILD_UPDATED && action.packages) return action.packages;
   return state;
-}
+};
 
 export const siteId = (state = null, action) => {
   if (action.type === actionTypes.BUILD_UPDATED && action.siteId) return action.siteId;
@@ -37,6 +36,11 @@ export const perPage = (state = 10, action) => {
   return state;
 };
 
+export const device = (state = 'mobile', action) => {
+  if (action.type === actionTypes.BUILD_UPDATED && action.device) return action.device;
+  return state;
+};
+
 export default combineReducers({
   ssr,
   server,
@@ -45,4 +49,5 @@ export default combineReducers({
   amp,
   packages,
   perPage,
+  device,
 });

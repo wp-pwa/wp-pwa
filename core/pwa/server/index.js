@@ -34,6 +34,7 @@ export default ({ clientStats }) => async (req, res) => {
   const singleId = parse(req.query.singleId);
   const page = parse(req.query.page) || 1;
   const env = req.query.env === 'prod' ? 'prod' : 'pre';
+  const device = req.query.device || 'mobile';
 
   let app;
   try {
@@ -76,6 +77,7 @@ export default ({ clientStats }) => async (req, res) => {
         env,
         packages: activatedPackages,
         perPage,
+        device,
       }),
     );
     store.dispatch(settingsModule.actions.settingsUpdated({ settings }));

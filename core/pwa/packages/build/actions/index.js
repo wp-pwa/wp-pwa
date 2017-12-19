@@ -1,12 +1,13 @@
 import * as actionTypes from '../actionTypes';
 
-export const buildUpdated = ({ packages, env, ssr, amp, siteId, perPage }) => ({
+export const buildUpdated = ({ packages, env, ssr, amp, siteId, perPage, device }) => ({
   type: actionTypes.BUILD_UPDATED,
   packages,
   env,
   ssr,
   amp,
   siteId,
+  device,
   perPage: parseInt(perPage, 10),
 });
 
