@@ -37,7 +37,7 @@ export default ({ clientStats }) => async (req, res) => {
 
   let app;
   try {
-    if (!siteId) throw new Error("'?siteid=' query not found.");
+    if (!siteId) throw new Error(`'?siteid=' query not found in ${req.originalUrl}`);
 
     // Get settings.
     const settings = await getSettings({ siteId, env });
