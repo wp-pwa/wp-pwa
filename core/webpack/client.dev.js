@@ -4,7 +4,7 @@ const webpack = require('webpack');
 const WriteFilePlugin = require('write-file-webpack-plugin'); // here so you can see what chunks are built
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
-const vendors = require('../shared/vendors');
+const vendors = require('../vendors');
 
 const config = {
   name: 'client',
@@ -16,14 +16,14 @@ const config = {
         '/'}__webpack_hmr&timeout=20000&reload=false&quiet=false&noInfo=false`,
       'react-hot-loader/patch',
       ...vendors,
-      path.resolve(__dirname, '../client/public-path.js'),
-      path.resolve(__dirname, '../client'),
+      path.resolve(__dirname, `../${process.env.MODE}/client/public-path.js`),
+      path.resolve(__dirname, `../${process.env.MODE}/client`),
     ],
   },
   output: {
     filename: '[name].js',
     chunkFilename: '[name].js',
-    path: path.resolve(__dirname, '../../../.build/pwa/client'),
+    path: path.resolve(__dirname, `../../.build/${process.env.MODE}/client`),
   },
   module: {
     rules: [

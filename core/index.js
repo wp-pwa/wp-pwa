@@ -39,7 +39,7 @@ if (argv.a || argv.analyze) {
 
 console.log();
 
-const args = ['core/pwa/scripts/start.js'];
+const args = [`core/scripts/start.js`];
 
 if (argv.build) args.push('--build');
 else if (argv.serve) args.push('--serve');
