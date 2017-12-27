@@ -18,11 +18,11 @@ import serverSagas from './sagas';
 import { getSettings } from './settings';
 import pwaTemplate from './pwa-template';
 import ampTemplate from './amp-template';
+import { requireModules } from './requires';
 
 const dev = process.env.NODE_ENV !== 'production';
 
 const { buildPath } = require(`../../../.build/${process.env.MODE}/buildInfo.json`);
-const { requireModules } = require(`./${process.env.MODE}-requires`);
 
 addPackage({ namespace: 'build', module: buildModule });
 addPackage({ namespace: 'settings', module: settingsModule });

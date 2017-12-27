@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { Provider as ReduxProvider } from 'react-redux';
 import { Provider as MobxProvider } from 'mobx-react';
-import { Universal } from './Universal';
 import GoogleTagManager from './GoogleTagManager';
+import Universal from './Universal';
+
 
 const App = ({ packages, store, stores }) => (
   <ReduxProvider store={store}>
