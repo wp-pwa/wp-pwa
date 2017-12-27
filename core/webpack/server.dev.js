@@ -65,6 +65,7 @@ const config = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development'),
+        MODE: JSON.stringify(process.env.MODE),
       },
     }),
     new webpack.WatchIgnorePlugin([/\.build/, /packages$/]),

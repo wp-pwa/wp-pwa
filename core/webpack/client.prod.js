@@ -60,6 +60,7 @@ const config = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
+        MODE: JSON.stringify(process.env.MODE),
       },
     }),
     new webpack.optimize.UglifyJsPlugin({
