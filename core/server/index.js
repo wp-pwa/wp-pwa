@@ -10,7 +10,7 @@ import { mapValues } from 'lodash';
 import { addPackage } from 'worona-deps';
 import { Helmet } from 'react-helmet';
 import htmlescape from 'htmlescape';
-import { buildPath } from '../../../.build/pwa/buildInfo.json'; // eslint-disable-line
+import { buildPath } from '../../.build/pwa/buildInfo.json'; // eslint-disable-line
 import buildModule from '../packages/build';
 import settingsModule from '../packages/settings';
 import App from '../shared/components/App';

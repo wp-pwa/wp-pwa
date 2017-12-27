@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const WriteFilePlugin = require('write-file-webpack-plugin'); // here so you can see what chunks are built
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const vendors = require('../vendors');
 
 const config = {
@@ -16,8 +17,8 @@ const config = {
         '/'}__webpack_hmr&timeout=20000&reload=false&quiet=false&noInfo=false`,
       'react-hot-loader/patch',
       ...vendors,
-      path.resolve(__dirname, `../${process.env.MODE}/client/public-path.js`),
-      path.resolve(__dirname, `../${process.env.MODE}/client`),
+      path.resolve(__dirname, `../client/public-path.js`),
+      path.resolve(__dirname, `../client`),
     ],
   },
   output: {
@@ -74,6 +75,7 @@ const config = {
     new LodashModuleReplacementPlugin({
       currying: true,
     }),
+    new ProgressBarPlugin(),
   ],
 };
 

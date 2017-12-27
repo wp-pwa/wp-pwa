@@ -3,6 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const vendors = require('../vendors');
 
 const config = {
@@ -11,8 +12,8 @@ const config = {
   entry: {
     main: [
       ...vendors,
-      path.resolve(__dirname, `../${process.env.MODE}/client/public-path.js`),
-      path.resolve(__dirname, `../${process.env.MODE}/client`),
+      path.resolve(__dirname, `../client/public-path.js`),
+      path.resolve(__dirname, `../client`),
     ]
   },
   output: {
@@ -80,6 +81,7 @@ const config = {
     new LodashModuleReplacementPlugin({
       currying: true,
     }),
+    new ProgressBarPlugin(),
   ],
 };
 

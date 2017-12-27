@@ -11,7 +11,7 @@ const start = async () => {
 
   if (argv.build) {
     // Only build.
-    console.log(`> Building ${process.env.MODE} for ${dev ? 'development' : 'production'}...`);
+    console.log(`> Building ${process.env.MODE} for ${dev ? 'development' : 'production'}...\n`);
     await build();
     console.log('> Finished.\n');
   } else if (argv.serve) {
@@ -28,7 +28,7 @@ const start = async () => {
     const { app, done } = await createApp();
     const compiler = webpack([clientConfig, serverConfig]);
     const clientCompiler = compiler.compilers[0];
-    const options = { stats: { colors: true } };
+    const options = { stats: { colors: true, progress: true } };
     app.use(webpackDevMiddleware(compiler, options));
     app.use(webpackHotMiddleware(clientCompiler));
     app.use(webpackHotServerMiddleware(compiler));

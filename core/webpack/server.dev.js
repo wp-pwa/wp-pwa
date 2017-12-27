@@ -23,7 +23,7 @@ const config = {
   target: 'node',
   // devtool: 'source-map',
   devtool: 'eval',
-  entry: [path.resolve(__dirname, `../${process.env.MODE}/server`)],
+  entry: [path.resolve(__dirname, `../server`)],
   externals,
   output: {
     path: path.resolve(__dirname, `../../.build/${process.env.MODE}/server`),

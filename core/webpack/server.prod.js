@@ -20,7 +20,7 @@ externals['react-dom/server'] = 'commonjs react-dom/server';
 const config = {
   name: 'server',
   target: 'node',
-  entry: [path.resolve(__dirname, `../${process.env.MODE}/server`)],
+  entry: [path.resolve(__dirname, `../server`)],
   output: {
     path: path.resolve(__dirname, `../../.build/${process.env.MODE}/server`),
     filename: '[name].js',
