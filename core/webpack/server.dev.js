@@ -78,13 +78,13 @@ if (process.env.ANALYZE) {
   const Visualizer = require('webpack-visualizer-plugin');
   config.plugins.push(new BundleAnalyzerPlugin({
     analyzerMode: 'static',
-    reportFilename: `../../analyize/${process.env.MODE}/server-analyzer.html`,
+    reportFilename: `../../analyize/${process.env.MODE}/server-dev-analyzer.html`,
     openAnalyzer: false,
     generateStatsFile: true,
-    statsFilename: `../../analyize/${process.env.MODE}/server-stats.json`,
+    statsFilename: `../../analyize/${process.env.MODE}/server-dev-stats.json`,
   }));
   config.plugins.push(new Visualizer({
-    filename: `../../analyize/${process.env.MODE}/server-visualizer.html`,
+    filename: `../../analyize/${process.env.MODE}/server-dev-visualizer.html`,
   }));
 }
 

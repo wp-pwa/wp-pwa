@@ -91,13 +91,13 @@ if (process.env.ANALYZE) {
   const Visualizer = require('webpack-visualizer-plugin');
   config.plugins.push(new BundleAnalyzerPlugin({
     analyzerMode: 'static',
-    reportFilename: '../../analyize/pwa/client-analyzer.html',
+    reportFilename: '../../analyize/pwa/client-prod-analyzer.html',
     openAnalyzer: false,
     generateStatsFile: true,
-    statsFilename: '../../analyize/pwa/client-stats.json',
+    statsFilename: '../../analyize/pwa/client-prod-stats.json',
   }));
   config.plugins.push(new Visualizer({
-    filename: '../../analyize/pwa/client-visualizer.html',
+    filename: '../../analyize/pwa/client-prod-visualizer.html',
   }));
 }
 
