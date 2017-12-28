@@ -22,7 +22,7 @@ import { requireModules } from './requires';
 
 const dev = process.env.NODE_ENV !== 'production';
 
-const { buildPath } = require(`../../../.build/${process.env.MODE}/buildInfo.json`);
+const { buildPath } = require(`../../.build/${process.env.MODE}/buildInfo.json`);
 
 addPackage({ namespace: 'build', module: buildModule });
 addPackage({ namespace: 'settings', module: settingsModule });

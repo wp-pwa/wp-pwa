@@ -61,7 +61,7 @@ const serve = async () => {
     throw new Error(`No build found. Please, run 'npm run build:${process.env.MODE}' first.`);
 
   // Inform about the type of build which is going to be served.
-  const { nodeEnv } = require(`../../../.build/${process.env.MODE}/buildInfo.json`);
+  const { nodeEnv } = require(`../../.build/${process.env.MODE}/buildInfo.json`);
   if (nodeEnv !== process.env.NODE_ENV)
     throw new Error(
       `ATTENTION: Your build is for ${nodeEnv} but you started serve in ${
@@ -70,8 +70,8 @@ const serve = async () => {
     );
 
   // Start server with the clientStats.
-  const clientStats = require(`../../../.build/${process.env.MODE}/clientStats.json`); // eslint-disable-line
-  const serverRender = require(`../../../.build/${process.env.MODE}/server/main.js`).default; // eslint-disable-line
+  const clientStats = require(`../../.build/${process.env.MODE}/clientStats.json`); // eslint-disable-line
+  const serverRender = require(`../../.build/${process.env.MODE}/server/main.js`).default; // eslint-disable-line
   app.use(serverRender({ clientStats }));
   done();
 };
