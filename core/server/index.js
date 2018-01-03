@@ -80,6 +80,7 @@ export default ({ clientStats }) => async (req, res) => {
         packages: activatedPackages,
         perPage,
         device,
+        amp: process.env.MODE === 'amp',
       }),
     );
     store.dispatch(settingsModule.actions.settingsUpdated({ settings }));
