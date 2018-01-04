@@ -8,9 +8,10 @@ export default ({ helmet, css, html }) => `<!doctype html>
       ${helmet.title.toString()}
       ${helmet.meta.toString()}
       ${helmet.link.toString()}
+      ${helmet.script.toString()}
       <style amp-custom>${css}</style>
     </head>
     <body ${helmet.bodyAttributes.toString()}>
       ${html}
     </body>
-  </html>`; 
+  </html>`;
