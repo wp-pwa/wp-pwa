@@ -27,12 +27,12 @@ const createApp = async () => {
     next();
   });
   // Add static files.
-  app.use('/static', express.static('.build/pwa/client/'));
+  app.use('/static', express.static(`.build/${process.env.MODE}/client/`));
   // Add dynamic files.
   const packages = await readdir('packages');
   for (const pkg of packages) {
-    if (await pathExists(`packages/${pkg}/src/pwa/server/index.js`)) {
-      const pkgServer = require(`../../../packages/${pkg}/src/pwa/server/index.js`);
+    if (await pathExists(`packages/${pkg}/src/${process.env.MODE}/server/index.js`)) {
+      const pkgServer = require(`../../packages/${pkg}/src/${process.env.MODE}/server/index.js`);
       app.use(`/dynamic/${pkg}`, pkgServer);
     }
   }
@@ -45,9 +45,9 @@ const createApp = async () => {
     server.listen(3000, () => {
       isBuilt = true;
       console.log(
-        `\nSERVER STARTED -- Listening @ ${process.env.HTTPS_SERVER
-          ? 'https'
-          : 'http'}://localhost:3000`,
+        `\nSERVER STARTED (${process.env.MODE}) -- Listening @ ${
+          process.env.HTTPS_SERVER ? 'https' : 'http'
+        }://localhost:3000`,
       );
     });
   return { app, done };
@@ -57,20 +57,21 @@ const serve = async () => {
   const { app, done } = await createApp();
 
   // Check if a build has been generated.
-  if (!await pathExists('.build/pwa/buildInfo.json'))
-    throw new Error("No build found. Please, run 'npm run build:pwa' first.");
+  if (!await pathExists(`.build/${process.env.MODE}/buildInfo.json`))
+    throw new Error(`No build found. Please, run 'npm run build:${process.env.MODE}' first.`);
 
   // Inform about the type of build which is going to be served.
-  const { nodeEnv } = require('../../../.build/pwa/buildInfo.json');
+  const { nodeEnv } = require(`../../.build/${process.env.MODE}/buildInfo.json`);
   if (nodeEnv !== process.env.NODE_ENV)
     throw new Error(
-      `ATTENTION: Your build is for ${nodeEnv} but you started serve in ${process.env
-        .NODE_ENV}! Please, build or serve again.`,
+      `ATTENTION: Your build is for ${nodeEnv} but you started serve in ${
+        process.env.NODE_ENV
+      }! Please, build or serve again.`,
     );
 
   // Start server with the clientStats.
-  const clientStats = require('../../../.build/pwa/clientStats.json'); // eslint-disable-line
-  const serverRender = require('../../../.build/pwa/server/main.js').default;
+  const clientStats = require(`../../.build/${process.env.MODE}/clientStats.json`); // eslint-disable-line
+  const serverRender = require(`../../.build/${process.env.MODE}/server/main.js`).default; // eslint-disable-line
   app.use(serverRender({ clientStats }));
   done();
 };

@@ -15,12 +15,12 @@ const webpackPromise = (clientConfig, serverConfig) =>
   });
 
 const clean = async () => {
-  await emptyDir('.build/pwa');
+  await emptyDir(`.build/${process.env.MODE}`);
   const buildInfo = {
-    buildPath: path.resolve(__dirname, '../../..'),
+    buildPath: path.resolve(__dirname, '../..'),
     nodeEnv: dev ? 'development' : 'production',
   };
-  await writeFile('.build/pwa/buildInfo.json', JSON.stringify(buildInfo, null, 2));
+  await writeFile(`.build/${process.env.MODE}/buildInfo.json`, JSON.stringify(buildInfo, null, 2));
 };
 
 const build = async () => {
@@ -35,7 +35,10 @@ const build = async () => {
   // Run webpack and wait until it finishes. Then save clientStats to a file.
   const stats = await webpackPromise(clientConfig, serverConfig);
   const clientStats = stats.toJson().children[0];
-  await writeFile('.build/pwa/clientStats.json', JSON.stringify(clientStats, null, 2));
+  await writeFile(
+    `.build/${process.env.MODE}/clientStats.json`,
+    JSON.stringify(clientStats, null, 2),
+  );
 
   // Return webpack stats.
   return stats;

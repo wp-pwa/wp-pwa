@@ -5,7 +5,7 @@
 
 Run `npm run start:pwa` to start the project in development mode.
 
-Run `npm run build:pwa -- -p && npm start:pwa -- -p` to start the project in production mode.
+Run `npm run build:pwa -- -p && npm run serve:pwa -- -p` to start the project in production mode.
 
 Server starts in `http://localhost:3000` by default.
 
@@ -37,46 +37,62 @@ Use `http://localhost:3000?env=prod` to specify a `prod` (production) environmen
 
 ## Npm Scripts
 
-### Development/Production
+### Mode: pwa/amp
+
+This sets `MODE` to `pwa`:
+
+`npm run start:pwa`
+
+And this sets `MODE` to `amp`:
+
+`npm run start:amp`
+
+You can also pass `--pwa` or `--amp` to `npm run start`:
+
+`npm run start -- --pwa` or `npm run start -- --amp`
+
+You can also set `MODE=amp` or `MODE=pwa` in the environment variables.
+
+### Env: development/production
 Default `NODE_ENV` is `development`.
 
 This sets `NODE_ENV` to `production`:
 
-`npm start:pwa -- --prod` or `npm start:pwa -- -p`
+`npm run start:pwa -- --prod` or `npm run start:pwa -- -p`
 
-### Http/Https
+### Server: http/https
 Default Express server is `http://localhost:3000`.
 
 This starts Express server on `https://localhost:3000`:
 
-`npm start:pwa -- --https` or `npm start:pwa -- -s`
+`npm run start:pwa -- --https` or `npm run start:pwa -- -s`
 
-### Node Debug
+### Debug
 
 This starts node in debug mode:
 
-`npm start:pwa -- --debug` or `npm start:pwa -- -d`
+`npm run start:pwa -- --debug` or `npm run start:pwa -- -d`
 
-### HMR in WordPress
+### HMR (WordPress)
 
 This setting is for HMR only. You should use the `static` query to set the public path dynamically.
 
 This sets Webpack's HMR path (`__webpack_hmr`) to `http://localhost:3000` or `https://localhost:3000` (depending on your http/https configuration):
 
-`npm start:pwa -- --wp` or `npm start:pwa -- -w`
+`npm run start:pwa -- --wp` or `npm run start:pwa -- -w`
 
-### HMR in custom url
+### HMR (custom url)
 
 This setting is for HMR only. You should use the `static` query to set the public path dynamically.
 
 This sets Webpack's HMR path (`__webpack_hmr`) to a custom path:
 
-`npm start:pwa -- --hmr https://ngrok.io/xxx`
+`npm run start:pwa -- --hmr https://ngrok.io/xxx`
 
 ### Analyze bundles
 
 If you want to analyze the bundles, you can pass:
 
-`npm start:pwa -- --analyze` or `npm start:pwa -- -a`
+`npm run start:pwa -- --analyze` or `npm run start:pwa -- -a`
 
 The output `html` files will be located in the `.build/pwa/(client|server)/analyze` folders.

@@ -4,7 +4,8 @@ const webpack = require('webpack');
 const WriteFilePlugin = require('write-file-webpack-plugin'); // here so you can see what chunks are built
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
-const vendors = require('../shared/vendors');
+const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const vendors = require('../vendors');
 
 const config = {
   name: 'client',
@@ -16,14 +17,14 @@ const config = {
         '/'}__webpack_hmr&timeout=20000&reload=false&quiet=false&noInfo=false`,
       'react-hot-loader/patch',
       ...vendors,
-      path.resolve(__dirname, '../client/public-path.js'),
-      path.resolve(__dirname, '../client'),
+      path.resolve(__dirname, `../client/public-path.js`),
+      path.resolve(__dirname, `../client`),
     ],
   },
   output: {
     filename: '[name].js',
     chunkFilename: '[name].js',
-    path: path.resolve(__dirname, '../../../.build/pwa/client'),
+    path: path.resolve(__dirname, `../../.build/${process.env.MODE}/client`),
   },
   module: {
     rules: [
@@ -67,6 +68,7 @@ const config = {
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development'),
+        MODE: JSON.stringify(process.env.MODE),
       },
     }),
     new webpack.WatchIgnorePlugin([/\.build/,  /packages$/]),
@@ -74,6 +76,7 @@ const config = {
     new LodashModuleReplacementPlugin({
       currying: true,
     }),
+    new ProgressBarPlugin(),
   ],
 };
 
@@ -82,13 +85,13 @@ if (process.env.ANALYZE) {
   const Visualizer = require('webpack-visualizer-plugin');
   config.plugins.push(new BundleAnalyzerPlugin({
     analyzerMode: 'static',
-    reportFilename: '../../analyize/pwa/client-analyzer.html',
+    reportFilename: '../../analyize/pwa/client-dev-analyzer.html',
     openAnalyzer: false,
     generateStatsFile: true,
-    statsFilename: '../../analyize/pwa/client-stats.json',
+    statsFilename: '../../analyize/pwa/client-dev-stats.json',
   }));
   config.plugins.push(new Visualizer({
-    filename: '../../analyize/pwa/client-visualizer.html',
+    filename: '../../analyize/pwa/client-dev-visualizer.html',
   }));
 }
 

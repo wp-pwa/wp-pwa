@@ -6,6 +6,13 @@ const { spawn } = require('child_process');
 // Ignores invalid self-signed ssl certificates
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
+if (process.env.MODE !== 'pwa' && process.env.MODE !== 'amp' && !argv.pwa && !argv.amp) {
+  throw new Error('MODE not selected. Please use --pwa, --amp or an environment variable.');
+} else {
+  process.env.MODE = process.env.MODE || (argv.pwa && 'pwa') || (argv.amp && 'amp');
+  console.log(`> Using MODE=${process.env.MODE}`);
+}
+
 process.env.NODE_ENV = argv.p || argv.prod ? 'production' : 'development';
 console.log(`> Using NODE_ENV=${process.env.NODE_ENV}`);
 
@@ -32,10 +39,11 @@ if (argv.a || argv.analyze) {
 
 console.log();
 
-const args = ['core/pwa/scripts/start.js'];
+const args = [`core/scripts/start.js`];
 
 if (argv.build) args.push('--build');
 else if (argv.serve) args.push('--serve');
+else args.push('--start');
 
 if (argv.d || argv.debug) args.unshift('--inspect');
 
