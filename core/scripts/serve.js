@@ -42,12 +42,12 @@ const createApp = async () => {
   const server = await createServer(app);
   const done = () =>
     !isBuilt &&
-    server.listen(3000, () => {
+    server.listen(process.env.PORT, () => {
       isBuilt = true;
       console.log(
         `\nSERVER STARTED (${process.env.MODE}) -- Listening @ ${
           process.env.HTTPS_SERVER ? 'https' : 'http'
-        }://localhost:3000`,
+        }://localhost:${process.env.PORT}`,
       );
     });
   return { app, done };

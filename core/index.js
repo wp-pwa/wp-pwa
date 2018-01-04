@@ -21,13 +21,18 @@ if (!argv.build && !!(argv.s || argv.https)) {
   console.log(`> Using HTTPS_SERVER=${process.env.HTTPS_SERVER}`);
 }
 
+if (!argv.build) {
+  process.env.PORT = argv.port || 3000;
+  if (argv.port) console.log(`> Using PORT=${process.env.PORT}`);
+}
+
 if (argv.hmr) {
   process.env.HMR_PATH = `${argv.hmr.replace(/\/$/g, '')}/`;
   console.log(`> Using HMR_PATH=${process.env.HMR_PATH}`);
 } else if (argv.w || argv.wp) {
   const protocol = argv.s || argv.https ? 'https://' : 'http://';
-  process.env.HMR_PATH = `${protocol}localhost:3000/`;
-  console.log(`> Using HMR_PATH=${protocol}localhost:3000/`);
+  process.env.HMR_PATH = `${protocol}localhost:${process.env.PORT}/`;
+  console.log(`> Using HMR_PATH=${protocol}localhost:${process.env.PORT}/`);
 }
 
 if (argv.a || argv.analyze) {

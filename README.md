@@ -73,6 +73,14 @@ This starts node in debug mode:
 
 `npm run start:pwa -- --debug` or `npm run start:pwa -- -d`
 
+### Port
+
+Default Express port is `3000`.
+
+This starts the server in a different port:
+
+`npm run start:pwa -- --port XXXX`
+
 ### HMR (WordPress)
 
 This setting is for HMR only. You should use the `static` query to set the public path dynamically.
