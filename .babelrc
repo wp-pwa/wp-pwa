@@ -23,6 +23,7 @@
       ],
       "plugins": [
         "emotion",
+        "transform-inline-environment-variables",
         ["lodash", { "id": ["lodash", "recompose"] }],
         "syntax-dynamic-import",
         "transform-object-rest-spread",
@@ -44,6 +45,7 @@
       ],
       "plugins": [
         "emotion",
+        "transform-inline-environment-variables",
         ["lodash", { "id": ["lodash", "recompose"] }],
         "syntax-dynamic-import",
         "transform-object-rest-spread",
