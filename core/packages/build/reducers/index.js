@@ -41,6 +41,11 @@ export const device = (state = 'mobile', action) => {
   return state;
 };
 
+export const dev = (state = true, action) => {
+  if (action.type === actionTypes.BUILD_UPDATED && action.dev) return action.dev === 'true';
+  return state;
+};
+
 export default combineReducers({
   ssr,
   server,
@@ -50,4 +55,5 @@ export default combineReducers({
   packages,
   perPage,
   device,
+  dev,
 });
