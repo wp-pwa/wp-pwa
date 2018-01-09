@@ -75,8 +75,11 @@ export const succeedHandlerCreator = ({ connection }) =>
 
 export default function* gtmSagas({ stores }) {
   // Do not execute saga if analytics is disabled for this client
-  const gtm = yield select(getSetting('generalSite', 'gtm'));
-  if (gtm && gtm.analytics && gtm.analytics.disabled) return;
+  const gtm = yield select(getSetting('theme', 'gtm'));
+  if (gtm && gtm.analytics && gtm.analytics.disabled) {
+    // console.log('ANALYTICS DISABLED');
+    return;
+  }
 
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
