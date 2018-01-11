@@ -2,7 +2,7 @@
 import { readFile } from 'fs-extra';
 import React from 'react';
 import { combineReducers } from 'redux';
-import { renderToString } from 'react-dom/server';
+import ReactDOM from 'react-dom/server';
 import { extractCritical } from 'emotion-server';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
@@ -95,7 +95,9 @@ export default ({ clientStats }) => async (req, res) => {
     store.dispatch(buildModule.actions.serverFinished({ timeToRunSagas: new Date() - startSagas }));
 
     // Generate React SSR.
-    app = renderToString(
+    const render =
+      process.env.MODE === 'amp' ? ReactDOM.renderToStaticMarkup : ReactDOM.renderToString;
+    app = render(
       <App store={store} packages={Object.values(activatedPackages)} stores={stores} />,
     );
 
