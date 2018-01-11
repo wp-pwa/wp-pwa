@@ -161,7 +161,7 @@ export default ({ clientStats }) => async (req, res) => {
     res.status(500);
     if (dev) {
       const RedBox = require('redbox-react').RedBoxError;
-      app = renderToString(<RedBox error={error} />);
+      app = ReactDOM.renderToString(<RedBox error={error} />);
     } else {
       app = `<div>${error.message}</div>`;
     }
