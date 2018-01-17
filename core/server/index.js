@@ -8,6 +8,7 @@ import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 import { mapValues } from 'lodash';
 import { addPackage } from 'worona-deps';
+import { useStaticRendering } from 'mobx-react';
 import { Helmet } from 'react-helmet';
 import buildModule from '../packages/build';
 import settingsModule from '../packages/settings';
@@ -37,6 +38,9 @@ export default ({ clientStats }) => async (req, res) => {
   const page = parse(req.query.page) || 1;
   const env = req.query.env === 'prod' ? 'prod' : 'pre';
   const device = req.query.device || 'mobile';
+
+  // Avoid observables in server.
+  useStaticRendering(true)
 
   let app;
   try {
