@@ -35,6 +35,7 @@ export default ({ clientStats }) => async (req, res) => {
   const listType = !req.query.listType && !req.query.singleType ? 'latest' : req.query.listType;
   const listId = parse(req.query.listId) || (listType && 'post');
   const singleId = parse(req.query.singleId);
+  const url = 'http://demo.worona.dub';
   const page = parse(req.query.page) || 1;
   const env = req.query.env === 'prod' ? 'prod' : 'pre';
   const device = req.query.device || 'mobile';
@@ -86,6 +87,7 @@ export default ({ clientStats }) => async (req, res) => {
         device,
         amp: process.env.MODE === 'amp',
         dev: req.query.dev,
+        url,
       }),
     );
     store.dispatch(settingsModule.actions.settingsUpdated({ settings }));

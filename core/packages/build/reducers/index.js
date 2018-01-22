@@ -46,6 +46,11 @@ export const dev = (state = true, action) => {
   return state;
 };
 
+export const url = (state = null, action) => {
+  if (action.type === actionTypes.BUILD_UPDATED && action.url) return action.url;
+  return state;
+};
+
 export default combineReducers({
   ssr,
   server,
@@ -56,4 +61,5 @@ export default combineReducers({
   perPage,
   device,
   dev,
+  url,
 });
