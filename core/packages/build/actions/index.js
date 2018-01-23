@@ -1,6 +1,16 @@
 import * as actionTypes from '../actionTypes';
 
-export const buildUpdated = ({ packages, env, ssr, amp, siteId, perPage, device, dev, url }) => ({
+export const buildUpdated = ({
+  packages,
+  env,
+  ssr,
+  amp,
+  siteId,
+  perPage,
+  device,
+  dev,
+  initialUrl
+}) => ({
   type: actionTypes.BUILD_UPDATED,
   packages,
   env,
@@ -9,31 +19,31 @@ export const buildUpdated = ({ packages, env, ssr, amp, siteId, perPage, device,
   siteId,
   device,
   dev,
-  url,
-  perPage: parseInt(perPage, 10),
+  initialUrl,
+  perPage: parseInt(perPage, 10)
 });
 
 export const serverStarted = () => ({
-  type: actionTypes.SERVER_STARTED,
+  type: actionTypes.SERVER_STARTED
 });
 
 export const serverFinished = ({ timeToRunSagas }) => ({
   type: actionTypes.SERVER_FINISHED,
-  timeToRunSagas,
+  timeToRunSagas
 });
 
 export const serverSagasInitialized = () => ({
-  type: actionTypes.SERVER_SAGAS_INITIALIZED,
+  type: actionTypes.SERVER_SAGAS_INITIALIZED
 });
 
 export const clientStarted = () => ({
-  type: actionTypes.CLIENT_STARTED,
+  type: actionTypes.CLIENT_STARTED
 });
 
 export const clientSagasInitialized = () => ({
-  type: actionTypes.CLIENT_SAGAS_INITIALIZED,
+  type: actionTypes.CLIENT_SAGAS_INITIALIZED
 });
 
 export const clientRendered = () => ({
-  type: actionTypes.CLIENT_RENDERED,
+  type: actionTypes.CLIENT_RENDERED
 });

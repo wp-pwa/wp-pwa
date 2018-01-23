@@ -46,8 +46,8 @@ export const dev = (state = true, action) => {
   return state;
 };
 
-export const url = (state = null, action) => {
-  if (action.type === actionTypes.BUILD_UPDATED && action.url) return action.url;
+export const initialUrl = (state = null, action) => {
+  if (action.type === actionTypes.BUILD_UPDATED && action.initialUrl) return action.initialUrl;
   return state;
 };
 
@@ -61,5 +61,5 @@ export default combineReducers({
   perPage,
   device,
   dev,
-  url,
+  initialUrl,
 });
