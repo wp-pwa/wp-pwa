@@ -26,10 +26,10 @@ if (!argv.build) {
   if (argv.port) console.log(`> Using PORT=${process.env.PORT}`);
 }
 
-if (argv.hmr) {
+if (argv.hmr && process.env.NODE_ENV === 'development') {
   process.env.HMR_PATH = `${argv.hmr.replace(/\/$/g, '')}/`;
   console.log(`> Using HMR_PATH=${process.env.HMR_PATH}`);
-} else if (argv.w || argv.wp) {
+} else if ((argv.w || argv.wp) && process.env.NODE_ENV === 'development') {
   const protocol = argv.s || argv.https ? 'https://' : 'http://';
   process.env.HMR_PATH = `${protocol}localhost:${process.env.PORT}/`;
   console.log(`> Using HMR_PATH=${protocol}localhost:${process.env.PORT}/`);
