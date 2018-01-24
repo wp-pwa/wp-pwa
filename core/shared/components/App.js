@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { Provider as ReduxProvider } from 'react-redux';
 import { Provider as MobxProvider } from 'mobx-react';
-import GoogleTagManager from './GoogleTagManager';
+import TagManagers from './TagManagers';
 import Universal from './Universal';
 
 const App = ({ packages, store, stores }) => (
@@ -13,7 +13,7 @@ const App = ({ packages, store, stores }) => (
         <Helmet>
           <title>WP PWA</title>
         </Helmet>
-        <GoogleTagManager gtmId="GTM-K3S2BMT" />
+        <TagManagers />
         {packages.map(name => <Universal key={name} name={name} />)}
       </Fragment>
     </MobxProvider>

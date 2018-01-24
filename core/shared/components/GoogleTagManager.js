@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 
 export const gtmScript = gtmId => (
@@ -34,8 +33,4 @@ GoogleTagManager.propTypes = {
   isAmp: PropTypes.bool.isRequired
 };
 
-const mapStateToProps = state => ({
-  isAmp: state.build.amp
-});
-
-export default connect(mapStateToProps)(GoogleTagManager);
+export default GoogleTagManager;
