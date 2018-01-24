@@ -2,14 +2,17 @@
 import/no-dynamic-require */
 const { readFile, pathExists, readdir } = require('fs-extra');
 const express = require('express');
+const compression = require('compression');
 const noFavicon = require('express-no-favicons');
+
+const dev = process.env.NODE_ENV !== 'production';
 
 const createServer = async app => {
   if (process.env.HTTPS_SERVER) {
     const server = require('https').createServer;
     const options = {
       key: await readFile('core/certs/localhost.key'),
-      cert: await readFile('core/certs/localhost.crt'),
+      cert: await readFile('core/certs/localhost.crt')
     };
     return server(options, app);
   }
@@ -24,10 +27,20 @@ const createApp = async () => {
   app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
     next();
   });
+  // Gzip
+  app.use(compression());
   // Add static files.
-  app.use('/static', express.static(`.build/${process.env.MODE}/client/`));
+  app.use(
+    '/static',
+    express.static(`.build/${process.env.MODE}/client/`, {
+      setHeaders: res => {
+        if (!dev) res.setHeader('Cache-Control', 'public, max-age=31536000');
+      }
+    })
+  );
   // Add dynamic files.
   const packages = await readdir('packages');
   for (const pkg of packages) {
@@ -47,7 +60,7 @@ const createApp = async () => {
       console.log(
         `\nSERVER STARTED (${process.env.MODE}) -- Listening @ ${
           process.env.HTTPS_SERVER ? 'https' : 'http'
-        }://localhost:${process.env.PORT}`,
+        }://localhost:${process.env.PORT}`
       );
     });
   return { app, done };
@@ -66,7 +79,7 @@ const serve = async () => {
     throw new Error(
       `ATTENTION: Your build is for ${nodeEnv} but you started serve in ${
         process.env.NODE_ENV
-      }! Please, build or serve again.`,
+      }! Please, build or serve again.`
     );
 
   // Start server with the clientStats.
@@ -78,5 +91,5 @@ const serve = async () => {
 
 module.exports = {
   createApp,
-  serve,
+  serve
 };
