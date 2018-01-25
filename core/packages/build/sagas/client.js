@@ -58,7 +58,15 @@ export default function* gtmSagas({ stores }) {
   const pageType = /^(pre)?dashboard\./.test(window.location.host) ? 'preview' : 'pwa';
   const plan = 'enterprise';
 
-  const wpPwaProperties = { anonymize, siteId, userIds, theme, extensions, pageType, plan };
+  const wpPwaProperties = {
+    anonymize,
+    siteId: anonymize ? 'anonymous' : siteId,
+    userIds: anonymize ? 'anonymous' : userIds,
+    theme: anonymize ? 'anonymous' : theme,
+    extensions: anonymize ? 'anonymous' : extensions,
+    plan: anonymize ? 'anonymous' : plan,
+    pageType,
+  };
   window.dataLayer.push({ event: 'wpPwaProperties', wpPwaProperties });
 
   yield fork(function* firstVirtualPageView() {
