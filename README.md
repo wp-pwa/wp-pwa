@@ -19,11 +19,11 @@ Use `http://localhost:3000?siteId=XXX` to specify the site.
 
 ### SSR server
 
-Use `http://localhost:3000?ssr=http://domain.com` to specify the SSR server.
+Use `http://localhost:3000?ssrUrl=http://domain.com` to specify the SSR server.
 
 ### Static server
 
-Use `http://localhost:3000?static=http://domain-static.com` to specify the Static server.
+Use `http://localhost:3000?staticUrl=http://domain-static.com` to specify the Static server.
 
 ### Both SSR and Static
 
