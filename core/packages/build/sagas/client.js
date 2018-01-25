@@ -5,65 +5,29 @@ import { dep } from 'worona-deps';
 const getSetting = (namespace, setting) =>
   dep('settings', 'selectorCreators', 'getSetting')(namespace, setting);
 
-const getUrlAndTitle = ({ type, id, taxonomy, slug, avatar, alt }) => {
-  let url = '';
-  let title = '';
-  if (type === 'post') {
-    url += `?p=${id}`;
-    title += `Post - ${id}`;
-  } else if (taxonomy === 'category') {
-    url += `?cat=${id}`;
-    title += `Category - ${id}`;
-  } else if (taxonomy === 'tag') {
-    url += `?tag=${slug}`;
-    title += `Tag - ${slug}`;
-  } else if (avatar) {
-    url += `?author=${slug}`;
-    title += `Author - ${slug}`;
-  } else if (taxonomy === 'archive') {
-    url += `?m=${id}`;
-    title += `Archive - ${id}`;
-  } else if (type === 'page') {
-    url += `?page_id=${id}`;
-    title += `Page - ${id}`;
-  } else if (taxonomy === 'search') {
-    url += `?s=${id}`;
-    title += `Search - ${id}`;
-  } else if (alt) {
-    url += `?attachment_id=${id}`;
-    title += `Attachment - ${id}`;
-  } else {
-    title += 'Home';
-  }
-  return { url, title };
+const sendVirtualPage = virtualPage => {
+  // console.log(virtualPage);
+  window.dataLayer.push({ event: 'virtualPageView', virtualPage });
 };
 
 let disposer;
 
-const sendVirtualPage = ({ title, url, siteName, siteUrl }) => {
-  const virtualPage = {
-    title: `${siteName} - ${title}`,
-    url: `${siteUrl}${url}`,
-  };
-  window.dataLayer.push({ event: 'virtualPageView', virtualPage });
-};
-
 export function* virtualPageView(connection) {
-  const siteName = yield select(getSetting('generalSite', 'name'));
-  const siteUrl = yield select(getSetting('generalSite', 'url'));
-
-  const { single } = connection.context.selected;
-  if (disposer) {
+  if (typeof disposer === 'function') {
     disposer();
     disposer = null;
   }
 
+  const site = yield select(getSetting('generalSite', 'url'));
+  const { single, route, type, id, page } = connection.context.selected;
+
   if (!single) {
-    sendVirtualPage({ title: 'Home', url: '', siteName, siteUrl });
+    sendVirtualPage({ site, title: 'home', url: `${site}`, route, type, id, page });
   } else {
+    const { meta: { title }, _link: url } = single;
     disposer = when(
       () => single && single.meta.pretty && single.link.pretty,
-      () => sendVirtualPage({ ...getUrlAndTitle(single), siteName, siteUrl }),
+      () => sendVirtualPage({ site, title, url, route, type, id, page }),
     );
   }
 }
@@ -84,6 +48,8 @@ export default function* gtmSagas({ stores }) {
     event: 'gtm.js',
   });
 
+  // Anonymize pageview
+  const anonymize = (gtm && gtm.analytics && gtm.analytics.anonymize) || false;
   // Getting values for custom dimensions
   const siteId = yield select(getSetting('generalSite', '_id'));
   const userIds = yield select(getSetting('generalSite', 'userIds'));
@@ -92,8 +58,16 @@ export default function* gtmSagas({ stores }) {
   const pageType = /^(pre)?dashboard\./.test(window.location.host) ? 'preview' : 'pwa';
   const plan = 'enterprise';
 
-  const values = { siteId, userIds, theme, extensions, pageType, plan };
-  window.dataLayer.push({ event: 'pageViewDimensions', values });
+  const wpPwaProperties = {
+    anonymize,
+    siteId: anonymize ? 'anonymous' : siteId,
+    userIds: anonymize ? 'anonymous' : userIds,
+    theme: anonymize ? 'anonymous' : theme,
+    extensions: anonymize ? 'anonymous' : extensions,
+    plan: anonymize ? 'anonymous' : plan,
+    pageType,
+  };
+  window.dataLayer.push({ event: 'wpPwaProperties', wpPwaProperties });
 
   yield fork(function* firstVirtualPageView() {
     yield call(virtualPageView, stores.connection);
