@@ -23,15 +23,22 @@ const createServer = async app => {
 const createApp = async () => {
   // Create the server.
   const app = express();
+  // Gzip.
+  app.use(compression());
+  // No favicon.
   app.use(noFavicon());
+  // Robots.txt
+  app.get('/robots.txt', (req, res) => {
+    res.type('text/plain');
+    res.send('User-agent: *\nDisallow: /');
+  });
+  // Cors and cache headers.
   app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
     next();
   });
-  // Gzip
-  app.use(compression());
   // Add static files.
   app.use(
     '/static',
