@@ -24,10 +24,12 @@ export function* virtualPageView(connection) {
   if (!single) {
     sendVirtualPage({ site, title: 'home', url: `${site}`, route, type, id, page });
   } else {
-    const { meta: { title }, _link: url } = single;
     disposer = when(
       () => single && single.meta.pretty && single.link.pretty,
-      () => sendVirtualPage({ site, title, url, route, type, id, page }),
+      () => {
+        const { meta: { title }, _link: url } = single;
+        sendVirtualPage({ site, title, url, route, type, id, page })
+      },
     );
   }
 }
