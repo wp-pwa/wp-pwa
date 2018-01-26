@@ -137,7 +137,7 @@ export default ({ clientStats }) => async (req, res) => {
         )
         .join('\n');
 
-      console.log('PATH', req.path);
+      console.log('URL', req.url);
       console.log('DYNAMIC CHUNK NAMES RENDERED', chunkNames);
       console.log('SCRIPTS SERVED', scripts);
       console.log('STYLESHEETS SERVED', stylesheets);
@@ -158,7 +158,7 @@ export default ({ clientStats }) => async (req, res) => {
         }),
       );
     } else if (process.env.MODE === 'amp') {
-      console.log('PATH', req.path);
+      console.log('URL', req.url);
       res.send(ampTemplate({ helmet, css, html }));
     }
   } catch (error) {
