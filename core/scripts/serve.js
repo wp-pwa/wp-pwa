@@ -36,7 +36,10 @@ const createApp = async () => {
   app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
+    if (dev)
+      res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
+    else
+      res.header('Cache-Control', 'max-age=0, s-maxage=900s');
     next();
   });
   // Add static files.
