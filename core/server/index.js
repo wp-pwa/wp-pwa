@@ -31,6 +31,7 @@ addPackage({ namespace: 'settings', module: settingsModule });
 const parse = id => (Number.isFinite(parseInt(id, 10)) ? parseInt(id, 10) : id);
 
 export default ({ clientStats }) => async (req, res) => {
+  let status = 200;
   const { siteId, singleType, perPage, initialUrl } = req.query;
   const listType = !req.query.listType && !req.query.singleType ? 'latest' : req.query.listType;
   const listId = parse(req.query.listId) || (listType && 'post');
@@ -44,12 +45,17 @@ export default ({ clientStats }) => async (req, res) => {
 
   let app;
   try {
-    if (!siteId) throw new Error(`'?siteid=' query not found in ${req.originalUrl}`);
+    if (!siteId) {
+      status = 404;
+      throw new Error(`'?siteid=' query not found in ${req.originalUrl}`);
+    }
 
     // Get settings.
     const settings = await getSettings({ siteId, env });
-    if (!settings)
+    if (!settings) {
+      status = 404;
       throw new Error(`Settings for ${siteId} not found in the ${env.toUpperCase()} database.`);
+    }
 
     // Extract activated packages array from settings.
     const activatedPackages = settings
@@ -142,6 +148,7 @@ export default ({ clientStats }) => async (req, res) => {
       console.log('SCRIPTS SERVED', scripts);
       console.log('STYLESHEETS SERVED', stylesheets);
 
+      res.status(status);
       res.send(
         pwaTemplate({
           helmet,
@@ -159,17 +166,18 @@ export default ({ clientStats }) => async (req, res) => {
       );
     } else if (process.env.MODE === 'amp') {
       console.log('URL', req.url);
+      res.status(status === 200 ? 500 : status);
       res.send(ampTemplate({ helmet, css, html }));
     }
   } catch (error) {
     console.error(error);
-    res.status(500);
     if (dev) {
       const RedBox = require('redbox-react').RedBoxError;
       app = ReactDOM.renderToString(<RedBox error={error} />);
     } else {
       app = `<div>${error.message}</div>`;
     }
+    res.status(status);
     res.send(
       `<!doctype html>
         <html>
