@@ -28,10 +28,10 @@ const createApp = async () => {
   // No favicon.
   app.use(noFavicon());
   // Robots.txt
-  // app.get('/robots.txt', (req, res) => {
-  //   res.type('text/plain');
-  //   res.send('User-agent: *\nDisallow: /');
-  // });
+  app.get('/robots.txt', (req, res) => {
+    res.type('text/plain');
+    res.send('User-agent: *\nDisallow:');
+  });
   // Cors and cache headers.
   app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
