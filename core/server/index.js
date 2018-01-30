@@ -39,6 +39,7 @@ export default ({ clientStats }) => async (req, res) => {
   const page = parse(req.query.page) || 1;
   const env = req.query.env === 'prod' ? 'prod' : 'pre';
   const device = req.query.device || 'mobile';
+  const system = req.query.system || 'android';
 
   // Avoid observables in server.
   useStaticRendering(true)
@@ -90,6 +91,7 @@ export default ({ clientStats }) => async (req, res) => {
         packages: activatedPackages,
         perPage,
         device,
+        system,
         amp: process.env.MODE === 'amp',
         dev: req.query.dev,
         initialUrl,

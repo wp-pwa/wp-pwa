@@ -8,6 +8,7 @@ export const buildUpdated = ({
   siteId,
   perPage,
   device,
+  system,
   dev,
   initialUrl
 }) => ({
@@ -18,6 +19,7 @@ export const buildUpdated = ({
   amp,
   siteId,
   device,
+  system,
   dev,
   initialUrl,
   perPage: parseInt(perPage, 10)

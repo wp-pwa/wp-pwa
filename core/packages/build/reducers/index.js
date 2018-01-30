@@ -41,6 +41,11 @@ export const device = (state = 'mobile', action) => {
   return state;
 };
 
+export const system = (state = 'android', action) => {
+  if (action.type === actionTypes.BUILD_UPDATED && action.system) return action.system;
+  return state;
+};
+
 export const dev = (state = true, action) => {
   if (action.type === actionTypes.BUILD_UPDATED && action.dev) return action.dev === 'true';
   return state;
