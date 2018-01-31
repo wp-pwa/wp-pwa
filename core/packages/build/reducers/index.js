@@ -65,6 +65,7 @@ export default combineReducers({
   packages,
   perPage,
   device,
+  system,
   dev,
   initialUrl,
 });
