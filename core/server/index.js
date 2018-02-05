@@ -179,7 +179,7 @@ export default ({ clientStats }) => async (req, res) => {
     } else {
       app = `<div>${error.message}</div>`;
     }
-    res.status(status);
+    res.status(status === 200 ? 500 : status);
     res.send(
       `<!doctype html>
         <html>
