@@ -168,7 +168,7 @@ export default ({ clientStats }) => async (req, res) => {
       );
     } else if (process.env.MODE === 'amp') {
       console.log('URL', req.url);
-      res.status(status === 200 ? 500 : status);
+      res.status(status);
       res.send(ampTemplate({ helmet, css, html }));
     }
   } catch (error) {
