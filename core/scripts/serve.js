@@ -12,7 +12,7 @@ const createServer = async app => {
     const server = require('https').createServer;
     const options = {
       key: await readFile('core/certs/localhost.key'),
-      cert: await readFile('core/certs/localhost.crt')
+      cert: await readFile('core/certs/localhost.crt'),
     };
     return server(options, app);
   }
@@ -36,10 +36,8 @@ const createApp = async () => {
   app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
-    if (dev)
-      res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
-    else
-      res.header('Cache-Control', 'max-age=0, s-maxage=900s');
+    if (dev) res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
+    else res.header('Cache-Control', 'public, max-age=0, s-maxage=900, stale-while-revalidate=31536000');
     next();
   });
   // Add static files.
@@ -47,9 +45,9 @@ const createApp = async () => {
     '/static',
     express.static(`.build/${process.env.MODE}/client/`, {
       setHeaders: res => {
-        if (!dev) res.setHeader('Cache-Control', 'public, max-age=31536000');
-      }
-    })
+        if (!dev) res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+      },
+    }),
   );
   // Add dynamic files.
   const packages = await readdir('packages');
@@ -70,7 +68,7 @@ const createApp = async () => {
       console.log(
         `\nSERVER STARTED (${process.env.MODE}) -- Listening @ ${
           process.env.HTTPS_SERVER ? 'https' : 'http'
-        }://localhost:${process.env.PORT}`
+        }://localhost:${process.env.PORT}`,
       );
     });
   return { app, done };
@@ -89,7 +87,7 @@ const serve = async () => {
     throw new Error(
       `ATTENTION: Your build is for ${nodeEnv} but you started serve in ${
         process.env.NODE_ENV
-      }! Please, build or serve again.`
+      }! Please, build or serve again.`,
     );
 
   // Start server with the clientStats.
@@ -101,5 +99,5 @@ const serve = async () => {
 
 module.exports = {
   createApp,
-  serve
+  serve,
 };
