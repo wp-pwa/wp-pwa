@@ -37,7 +37,11 @@ const createApp = async () => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     if (dev) res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
-    else res.header('Cache-Control', 'public, max-age=0, s-maxage=900, stale-while-revalidate=31536000');
+    else
+      res.header(
+        'Cache-Control',
+        'public, max-age=0, s-maxage=900, stale-while-revalidate=31536000',
+      );
     next();
   });
   // Add static files.
