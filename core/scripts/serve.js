@@ -38,8 +38,7 @@ const createApp = async () => {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
     if (dev) res.header('Cache-Control', 'no-cache, no-store, must-revalidate');
     else {
-      res.header('Cache-Control', 'max-age=0, stale-while-revalidate=86400');
-      res.header('X-Accel-Expires', '120');
+      res.header('Cache-Control', 'max-age=120, stale-while-revalidate=86400');
     }
     next();
   });
