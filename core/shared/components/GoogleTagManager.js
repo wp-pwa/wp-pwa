@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
@@ -18,7 +18,28 @@ export const gtmNoScript = gtmId => (
 );
 
 const GoogleTagManager = ({ gtmId, isAmp }) => {
-  if (isAmp) return null;
+  if (isAmp)
+    return (
+      <Fragment>
+        <Helmet>
+          <script
+            async=""
+            custom-element="amp-analytics"
+            src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"
+          />
+        </Helmet>
+        <amp-analytics
+          config={`https://www.googletagmanager.com/amp.json?id=${gtmId}&gtm.url=SOURCE_URL`}
+          data-credentials="include">
+          <script
+            type="application/json"
+            dangerouslySetInnerHTML={{ // eslint-disable-line
+              __html: JSON.stringify({ vars: { trackingId: 'UA-101852748-1' } }),
+            }}
+          />
+        </amp-analytics>
+      </Fragment>
+    );
 
   return (
     <Helmet>
@@ -30,7 +51,7 @@ const GoogleTagManager = ({ gtmId, isAmp }) => {
 
 GoogleTagManager.propTypes = {
   gtmId: PropTypes.string.isRequired,
-  isAmp: PropTypes.bool.isRequired
+  isAmp: PropTypes.bool.isRequired,
 };
 
 export default GoogleTagManager;

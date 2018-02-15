@@ -5,7 +5,9 @@ import { dep } from 'worona-deps';
 import GoogleTagManager from './GoogleTagManager';
 
 const TagManagers = ({ isAmp, clientIds }) => {
-  if (isAmp) return null;
+  if (isAmp) return (
+    <GoogleTagManager gtmId="GTM-WHX5KF5" isAmp />
+  );
 
   return (
     <Fragment>
