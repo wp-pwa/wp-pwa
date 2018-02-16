@@ -40,7 +40,7 @@ const createApp = async () => {
     else {
       res.header(
         'Cache-Control',
-        'public, max-age=0, s-maxage=120, stale-while-revalidate=31536000, stale-if-error=31536000',
+        'public, max-age=0, s-maxage=900, stale-while-revalidate=31536000, stale-if-error=31536000',
       );
     }
     next();
