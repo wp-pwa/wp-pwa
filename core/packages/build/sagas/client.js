@@ -1,4 +1,4 @@
-import { takeEvery, select, fork, call } from 'redux-saga/effects';
+import { all, takeEvery, select, fork, call } from 'redux-saga/effects';
 import { when } from 'mobx';
 import { dep } from 'worona-deps';
 
@@ -8,6 +8,10 @@ const getSetting = (namespace, setting) =>
 const sendVirtualPage = virtualPage => {
   // console.log(virtualPage);
   window.dataLayer.push({ event: 'virtualPageView', virtualPage });
+};
+
+const sendEvent = event => {
+  window.dataLayer.push({ event: 'virtualEvent', eventData: event });
 };
 
 let disposer;
@@ -28,15 +32,24 @@ export function* virtualPageView(connection) {
       () => single && single.meta.pretty && single.link.pretty,
       () => {
         const { meta: { title }, _link: url } = single;
-        sendVirtualPage({ site, title, url, route, type, id, page })
+        sendVirtualPage({ site, title, url, route, type, id, page });
       },
     );
   }
 }
 
+export function eventHandler(event) {
+  sendEvent(event);
+}
+
 export const succeedHandlerCreator = ({ connection }) =>
   function* succeedHandler() {
     yield call(virtualPageView, connection);
+  };
+
+export const eventHandleCreator = () =>
+  function* eventFilter({ event }) {
+    if (event) yield call(eventHandler, event);
   };
 
 export default function* gtmSagas({ stores }) {
@@ -75,8 +88,11 @@ export default function* gtmSagas({ stores }) {
     yield call(virtualPageView, stores.connection);
   });
 
-  yield takeEvery(
-    dep('connection', 'actionTypes', 'ROUTE_CHANGE_SUCCEED'),
-    succeedHandlerCreator(stores),
-  );
+  yield all([
+    takeEvery(
+      dep('connection', 'actionTypes', 'ROUTE_CHANGE_SUCCEED'),
+      succeedHandlerCreator(stores),
+    ),
+    takeEvery('*', eventHandleCreator()),
+  ]);
 }
