@@ -25,7 +25,7 @@ const App = ({ packages, store, stores }) => (
 App.propTypes = {
   packages: PropTypes.arrayOf(PropTypes.string).isRequired,
   store: PropTypes.shape().isRequired,
-  stores: PropTypes.shape().isRequired
+  stores: PropTypes.shape().isRequired,
 };
 
 export default App;
