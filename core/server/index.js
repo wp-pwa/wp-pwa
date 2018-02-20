@@ -39,10 +39,9 @@ export default ({ clientStats }) => async (req, res) => {
   const page = parse(req.query.page) || 1;
   const env = req.query.env === 'prod' ? 'prod' : 'pre';
   const device = req.query.device || 'mobile';
-  const system = req.query.system || 'android';
 
   // Avoid observables in server.
-  useStaticRendering(true)
+  useStaticRendering(true);
 
   let app;
   try {
@@ -91,7 +90,6 @@ export default ({ clientStats }) => async (req, res) => {
         packages: activatedPackages,
         perPage,
         device,
-        system,
         amp: process.env.MODE === 'amp',
         dev: req.query.dev,
         initialUrl,
@@ -110,9 +108,7 @@ export default ({ clientStats }) => async (req, res) => {
     // Generate React SSR.
     const render =
       process.env.MODE === 'amp' ? ReactDOM.renderToStaticMarkup : ReactDOM.renderToString;
-    app = render(
-      <App store={store} packages={Object.values(activatedPackages)} stores={stores} />,
-    );
+    app = render(<App store={store} packages={Object.values(activatedPackages)} stores={stores} />);
 
     const { html, ids, css } = extractCritical(app);
 
