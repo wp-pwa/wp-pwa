@@ -38,7 +38,13 @@ export function* virtualPageView(connection) {
   }
 }
 
-export function eventHandler(event) {
+export function eventHandler({ event, connection }) {
+  if (!event.label) {
+
+    event.label = `Type: ${connection.selected.type}`;
+  }
+
+
   sendEvent(event);
 }
 
@@ -47,9 +53,9 @@ export const succeedHandlerCreator = ({ connection }) =>
     yield call(virtualPageView, connection);
   };
 
-export const eventHandleCreator = () =>
+export const eventHandleCreator = ({ connection }) =>
   function* eventFilter({ event }) {
-    if (event) yield call(eventHandler, event);
+    if (event) yield call(eventHandler, { event, connection });
   };
 
 export default function* gtmSagas({ stores }) {
@@ -93,6 +99,6 @@ export default function* gtmSagas({ stores }) {
       dep('connection', 'actionTypes', 'ROUTE_CHANGE_SUCCEED'),
       succeedHandlerCreator(stores),
     ),
-    takeEvery('*', eventHandleCreator()),
+    takeEvery('*', eventHandleCreator(stores)),
   ]);
 }
