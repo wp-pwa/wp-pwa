@@ -22,7 +22,8 @@ export function* virtualPageView(connection) {
   const { single, route, type, id, page } = connection.context.selected;
 
   if (!single) {
-    sendVirtualPage({ site, title: 'home', url: `${site}`, route, type, id, page });
+    const { title } = connection.siteInfo.home;
+    sendVirtualPage({ site, title, url: `${site}`, route, type, id, page });
   } else {
     disposer = when(
       () => single && single.meta.pretty && single.link.pretty,
