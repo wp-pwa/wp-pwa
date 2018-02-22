@@ -6,7 +6,6 @@ const getSetting = (namespace, setting) =>
   dep('settings', 'selectorCreators', 'getSetting')(namespace, setting);
 
 const sendVirtualPage = virtualPage => {
-  // console.log(virtualPage);
   window.dataLayer.push({ event: 'virtualPageView', virtualPage });
 };
 
@@ -40,11 +39,14 @@ export function* virtualPageView(connection) {
 }
 
 export function eventHandler({ event, connection }) {
+  const type = `type: ${connection.selected.type}`;
+  const context = `context: ${connection.context.options.bar}`;
+
   if (!event.label) {
-
-    event.label = `Type: ${connection.selected.type}`;
+    event.label = `${type} ${context}`;
+  } else {
+    event.label += ` ${type} ${context}`;
   }
-
 
   sendEvent(event);
 }
