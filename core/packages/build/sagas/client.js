@@ -49,6 +49,8 @@ export function eventHandler({ event, connection }) {
   }
 
   sendEvent(event);
+
+  delete event.label;
 }
 
 export const succeedHandlerCreator = ({ connection }) =>
