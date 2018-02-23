@@ -23,7 +23,7 @@ const Analytics = ({ isAmp, gtmContainers, comScoreIds }) => {
 
 Analytics.propTypes = {
   gtmContainers: PropTypes.arrayOf(PropTypes.string),
-  comScoreIds: PropTypes.arrayOf(PropTypes.oneOfType(PropTypes.string, PropTypes.number)),
+  comScoreIds: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
   isAmp: PropTypes.bool.isRequired,
 };
 
