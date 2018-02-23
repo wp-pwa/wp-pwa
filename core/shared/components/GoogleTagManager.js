@@ -30,7 +30,7 @@ const GoogleTagManager = ({ gtmId, isAmp }) => {
 
 GoogleTagManager.propTypes = {
   gtmId: PropTypes.string.isRequired,
-  isAmp: PropTypes.bool.isRequired
+  isAmp: PropTypes.bool.isRequired,
 };
 
 export default GoogleTagManager;

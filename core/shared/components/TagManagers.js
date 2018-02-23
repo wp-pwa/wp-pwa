@@ -4,13 +4,13 @@ import { connect } from 'react-redux';
 import { dep } from 'worona-deps';
 import GoogleTagManager from './GoogleTagManager';
 
-const TagManagers = ({ isAmp, clientIds }) => {
+const TagManagers = ({ isAmp, gtmContainers }) => {
   if (isAmp) return null;
 
   return (
     <Fragment>
       <GoogleTagManager gtmId="GTM-K3S2BMT" isAmp={isAmp} />
-      {clientIds.map(id => (
+      {gtmContainers.map(id => (
         <GoogleTagManager key={id} gtmId={id} isAmp={isAmp} />
       ))}
     </Fragment>
@@ -18,19 +18,19 @@ const TagManagers = ({ isAmp, clientIds }) => {
 };
 
 TagManagers.propTypes = {
-  clientIds: PropTypes.arrayOf(PropTypes.string),
+  gtmContainers: PropTypes.arrayOf(PropTypes.string),
   isAmp: PropTypes.bool.isRequired,
 };
 
 TagManagers.defaultProps = {
-  clientIds: [],
+  gtmContainers: [],
 };
 
 const mapStateToProps = state => {
-  const gtm = dep('settings', 'selectorCreators', 'getSetting')('theme', 'gtm')(state);
-  const clientIds = (gtm && gtm.clientIds) || [];
+  const analytics = dep('settings', 'selectorCreators', 'getSetting')('theme', 'analytics')(state);
+  const gtmContainers = (analytics && analytics.pwa && analytics.pwa.gtmContainers) || [];
   return {
-    clientIds,
+    gtmContainers,
     isAmp: state.build.amp,
   };
 };
