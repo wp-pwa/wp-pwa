@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { dep } from 'worona-deps';
 import { Helmet } from 'react-helmet';
 
 export const comScoreScript = id => (
@@ -29,34 +27,15 @@ export const comScoreNoScript = id => (
   </noscript>
 );
 
-const ComScore = ({ id, isAmp }) => {
-  if (isAmp || !id) return null;
-
-  return (
-    <Helmet>
-      {comScoreScript(id)}
-      {comScoreNoScript(id)}
-    </Helmet>
-  );
-};
+const ComScore = ({ id }) => (
+  <Helmet>
+    {comScoreScript(id)}
+    {comScoreNoScript(id)}
+  </Helmet>
+);
 
 ComScore.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  isAmp: PropTypes.bool.isRequired,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
-ComScore.defaultProps = {
-  id: null,
-};
-
-const mapStateToProps = state => {
-  const comScoreId = dep('settings', 'selectorCreators', 'getSetting')('theme', 'comScoreId')(
-    state,
-  );
-  return {
-    id: comScoreId,
-    isAmp: state.build.amp,
-  };
-};
-
-export default connect(mapStateToProps)(ComScore);
+export default ComScore;

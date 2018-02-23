@@ -17,20 +17,15 @@ export const gtmNoScript = gtmId => (
   </noscript>
 );
 
-const GoogleTagManager = ({ gtmId, isAmp }) => {
-  if (isAmp) return null;
-
-  return (
-    <Helmet>
-      {gtmScript(gtmId)}
-      {gtmNoScript(gtmId)}
-    </Helmet>
-  );
-};
+const GoogleTagManager = ({ gtmId }) => (
+  <Helmet>
+    {gtmScript(gtmId)}
+    {gtmNoScript(gtmId)}
+  </Helmet>
+);
 
 GoogleTagManager.propTypes = {
   gtmId: PropTypes.string.isRequired,
-  isAmp: PropTypes.bool.isRequired,
 };
 
 export default GoogleTagManager;
