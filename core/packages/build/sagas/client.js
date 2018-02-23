@@ -42,18 +42,20 @@ export const succeedHandlerCreator = ({ connection }) =>
 
 export default function* gtmSagas({ stores }) {
   // Do not execute saga if analytics is disabled for this client
-  const gtm = yield select(getSetting('theme', 'gtm'));
-  if (gtm && gtm.analytics && gtm.analytics.disabled) return;
+  const analytics = yield select(getSetting('theme', 'analytics'));
+  if (analytics && analytics.disabled) return;
 
+  // Inits data layer
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({
     'gtm.start': new Date().getTime(),
     event: 'gtm.js',
   });
 
-  // Anonymize pageview
-  const anonymize = (gtm && gtm.analytics && gtm.analytics.anonymize) || false;
-  // Getting values for custom dimensions
+  // Anonymizes pageview
+  const anonymize = (analytics && analytics.anonymize) || false;
+
+  // Gets values for custom dimensions
   const siteId = yield select(getSetting('generalSite', '_id'));
   const userIds = yield select(getSetting('generalSite', 'userIds'));
   const theme = (yield select(getSetting('theme', 'woronaInfo'))).name;
