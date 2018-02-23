@@ -1,26 +1,29 @@
-import React from 'react';
+/* eslint-disable react/no-danger */
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { dep } from 'worona-deps';
 import { Helmet } from 'react-helmet';
 
 export const comScoreScript = id => (
-  <script async type="application/javascript">
-    {`
-    var _comscore = _comscore || [];
+  <script
+    async
+    type="application/javascript"
+    dangerouslySetInnerHTML={{
+      __html: `
+var _comscore = _comscore || [];
 
-    var pixelComscore = function() {
-        _comscore.push({ c1: "2", c2: "${id}" });
-        (function() {
-            var s = document.createElement("script"), el = document.getElementsByTagName("script")[0]; s.async = true;
-            s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
-            el.parentNode.insertBefore(s, el);
-        })();
-    };
+var pixelComscore = function() {
+    _comscore.push({ c1: "2", c2: "${id}" });
+    (function() {
+        var s = document.createElement("script"), el = document.getElementsByTagName("script")[0]; s.async = true;
+        s.src = (document.location.protocol == "https:" ? "https://sb" : "http://b") + ".scorecardresearch.com/beacon.js";
+        el.parentNode.insertBefore(s, el);
+    })();
+};
 
-    pixelComscore();
-  `}
-  </script>
+pixelComscore();
+`,
+    }}
+  />
 );
 
 export const comScoreNoScript = id => (
@@ -29,34 +32,15 @@ export const comScoreNoScript = id => (
   </noscript>
 );
 
-const ComScore = ({ id, isAmp }) => {
-  if (isAmp || !id) return null;
-
-  return (
-    <Helmet>
-      {comScoreScript(id)}
-      {comScoreNoScript(id)}
-    </Helmet>
-  );
-};
+const ComScore = ({ id }) => (
+  <Fragment>
+    <Helmet>{comScoreNoScript(id)}</Helmet>
+    {comScoreScript(id)}
+  </Fragment>
+);
 
 ComScore.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  isAmp: PropTypes.bool.isRequired,
+  id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 };
 
-ComScore.defaultProps = {
-  id: null,
-};
-
-const mapStateToProps = state => {
-  const comScoreId = dep('settings', 'selectorCreators', 'getSetting')('theme', 'comScoreId')(
-    state,
-  );
-  return {
-    id: comScoreId,
-    isAmp: state.build.amp,
-  };
-};
-
-export default connect(mapStateToProps)(ComScore);
+export default ComScore;

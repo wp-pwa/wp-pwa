@@ -23,6 +23,7 @@ export default ({
       ${helmet.title.toString()}
       ${helmet.meta.toString()}
       ${helmet.link.toString()}
+      ${helmet.script.toString()}
       <style>${css}</style>
     </head>
     <body ${helmet.bodyAttributes.toString()}>

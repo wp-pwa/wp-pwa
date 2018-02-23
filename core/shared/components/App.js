@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 import { Provider as ReduxProvider } from 'react-redux';
 import { Provider as MobxProvider } from 'mobx-react';
-import TagManagers from './TagManagers';
-import ComScore from './ComScore';
+import Analytics from './Analytics';
 import Universal from './Universal';
 
 const App = ({ packages, store, stores }) => (
@@ -14,8 +13,7 @@ const App = ({ packages, store, stores }) => (
         <Helmet>
           <title>WP PWA</title>
         </Helmet>
-        <TagManagers />
-        <ComScore />
+        <Analytics />
         {packages.map(name => <Universal key={name} name={name} />)}
       </Fragment>
     </MobxProvider>
