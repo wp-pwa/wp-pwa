@@ -104,3 +104,18 @@ If you want to analyze the bundles, you can pass:
 `npm run start:pwa -- --analyze` or `npm run start:pwa -- -a`
 
 The output `html` files will be located in the `.build/pwa/(client|server)/analyze` folders.
+
+## Changelog
+
+#### 1.1.2
+
+- Remove system
+- Fix title in virtualPageView
+- Update analytics db schema
+- Add jest to eslint globals
+
+#### 1.1.1
+- Text deploy
+
+#### 1.1.0
+- Start versioning
