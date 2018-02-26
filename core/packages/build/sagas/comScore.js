@@ -8,6 +8,46 @@ const getSetting = (namespace, setting) =>
 
 let disposer;
 
+const waitForChangesInText = domElement => {
+  // Stores resolve and reject methods from promises.
+  let resolver;
+  let rejecter;
+
+  // Text to match.
+  let innerTextToMatch;
+
+  // Initializes the observer.
+  const observer = new window.MutationObserver(
+    () => domElement.innerText === innerTextToMatch && resolver(),
+  );
+  observer.observe(domElement, { childList: true });
+
+  // Returns a function that returns a promise that resolves when the innerText attribute
+  // of the domElement matches the one passed as argument.
+  return async innerText => {
+    // Rejects a pending Promise
+    if (rejecter) {
+      rejecter();
+      rejecter = null;
+    }
+
+    // Checks first if innerText is already the same.
+    if (innerText === domElement.innerText) return;
+
+    // Sets innerText to match.
+    innerTextToMatch = innerText;
+
+    // Resolves when the the innerText of the observed element is equals to innerTextToMatch.
+    await new Promise((resolve, reject) => {
+      resolver = resolve;
+      rejecter = reject;
+    });
+  };
+};
+
+// Subscribes to changes in title.
+const titleMatches = waitForChangesInText(window.document.getElementsByTagName('title')[0]);
+
 export function* virtualPageView(connection, comScoreIds) {
   // Executes disposer if there is a pending pageview.
   if (typeof disposer === 'function') {
@@ -15,23 +55,24 @@ export function* virtualPageView(connection, comScoreIds) {
     disposer = null;
   }
 
-  const site = yield select(getSetting('generalSite', 'url'));
-
   // Gets single from selected item.
   const { single } = connection.context.selected;
 
   if (!single) {
     // Single doesn't exist, so we are in the home page.
     const { title } = connection.siteInfo.home;
-    comScoreIds.forEach(id => window.COMSCORE.beacon({ c1: '2', c2: id, c7: site, c8: title }));
+    yield call(titleMatches, title);
+    comScoreIds.forEach(id => window.COMSCORE.beacon({ c1: '2', c2: id }));
+    // comScoreIds.forEach(id => console.log('title matches', title, id));
   } else {
     // Waits for the correct url and title and then sends beacons.
     disposer = when(
       () => single && single.meta.pretty && single.link.pretty,
-      () => {
+      async () => {
         const { title } = single.meta;
-        const page = single.link.url;
-        comScoreIds.forEach(id => window.COMSCORE.beacon({ c1: '2', c2: id, c7: page, c8: title }));
+        await titleMatches(title);
+        comScoreIds.forEach(id => window.COMSCORE.beacon({ c1: '2', c2: id }));
+        // comScoreIds.forEach(id => console.log('title matches', title, id));
       },
     );
   }
