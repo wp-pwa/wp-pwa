@@ -2,7 +2,7 @@
   "name": "wp-pwa",
   "description": "WordPress PWA",
   "private": true,
-  "version": "1.2.0",
+  "version": "1.2.1",
   "main": "server/index.js",
   "author": "luis@worona.org",
   "license": "MIT",
