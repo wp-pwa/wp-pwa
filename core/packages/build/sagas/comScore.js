@@ -63,7 +63,6 @@ export function* virtualPageView(connection, comScoreIds) {
     const { title } = connection.siteInfo.home;
     yield call(titleMatches, title);
     comScoreIds.forEach(id => window.COMSCORE.beacon({ c1: '2', c2: id }));
-    // comScoreIds.forEach(id => console.log('title matches', title, id));
   } else {
     // Waits for the correct url and title and then sends beacons.
     disposer = when(
@@ -72,7 +71,6 @@ export function* virtualPageView(connection, comScoreIds) {
         const { title } = single.meta;
         await titleMatches(title);
         comScoreIds.forEach(id => window.COMSCORE.beacon({ c1: '2', c2: id }));
-        // comScoreIds.forEach(id => console.log('title matches', title, id));
       },
     );
   }
@@ -84,7 +82,7 @@ export const routeChangeHandlerCreator = ({ connection, comScoreIds }) =>
   };
 
 export default function* comScoreSagas({ connection }) {
-  // Gets comScore ids for this client
+  // Gets comScore ids from settings.
   const analytics = yield select(getSetting('theme', 'analytics'));
   const comScoreIds = analytics && analytics.pwa && analytics.pwa.comScoreIds;
 
@@ -92,7 +90,7 @@ export default function* comScoreSagas({ connection }) {
   if (!comScoreIds || comScoreIds.length === 0) return;
 
   // Inits '_comscore' variable with each comScore id.
-  // This allows comScore library to send the first pageview.
+  // This also sends the first pageview.
   window._comscore = window._comscore || [];
   comScoreIds.forEach(id => window._comscore.push({ c1: '2', c2: id }));
 
