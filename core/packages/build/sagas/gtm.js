@@ -1,4 +1,4 @@
-import { takeEvery, select, fork, call } from 'redux-saga/effects';
+import { all, takeEvery, select, fork, call } from 'redux-saga/effects';
 import { when } from 'mobx';
 import { dep } from 'worona-deps';
 
@@ -6,8 +6,11 @@ const getSetting = (namespace, setting) =>
   dep('settings', 'selectorCreators', 'getSetting')(namespace, setting);
 
 const sendVirtualPage = virtualPage => {
-  // console.log(virtualPage);
   window.dataLayer.push({ event: 'virtualPageView', virtualPage });
+};
+
+const sendEvent = event => {
+  window.dataLayer.push({ event: 'virtualEvent', eventData: event });
 };
 
 let disposer;
@@ -35,12 +38,32 @@ export function* virtualPageView(connection) {
   }
 }
 
-export const succeedHandlerCreator = connection =>
+export function eventHandler({ event, connection }) {
+  const type = `type: ${connection.selected.type}`;
+  const context = `context: ${connection.context.options.bar}`;
+
+  if (!event.label) {
+    event.label = `${type} ${context}`;
+  } else {
+    event.label += ` ${type} ${context}`;
+  }
+
+  sendEvent(event);
+
+  delete event.label;
+}
+
+export const succeedHandlerCreator = ({ connection }) =>
   function* succeedHandler() {
     yield call(virtualPageView, connection);
   };
 
-export default function* gtmSagas({ connection }) {
+export const eventHandleCreator = ({ connection }) =>
+  function* eventFilter({ event }) {
+    if (event) yield call(eventHandler, { event, connection });
+  };
+
+export default function* gtmSagas(stores) {
   // Do not execute saga if analytics is disabled for this client
   const analytics = yield select(getSetting('theme', 'analytics'));
   if (analytics && analytics.disabled) return;
@@ -75,11 +98,14 @@ export default function* gtmSagas({ connection }) {
   window.dataLayer.push({ event: 'wpPwaProperties', wpPwaProperties });
 
   yield fork(function* firstVirtualPageView() {
-    yield call(virtualPageView, connection);
+    yield call(virtualPageView, stores.connection);
   });
 
-  yield takeEvery(
-    dep('connection', 'actionTypes', 'ROUTE_CHANGE_SUCCEED'),
-    succeedHandlerCreator(connection),
-  );
+  yield all([
+    takeEvery(
+      dep('connection', 'actionTypes', 'ROUTE_CHANGE_SUCCEED'),
+      succeedHandlerCreator(stores),
+    ),
+    takeEvery('*', eventHandleCreator(stores)),
+  ]);
 }
