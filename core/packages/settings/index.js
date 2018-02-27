@@ -5,4 +5,7 @@ import sagas from './sagas/client';
 import * as selectors from './selectors';
 import * as selectorCreators from './selectorCreators';
 
-export default { actions, actionTypes, reducers, sagas, selectors, selectorCreators };
+const Settings = () => null;
+
+export default Settings;
+export { actions, actionTypes, reducers, sagas, selectors, selectorCreators };

@@ -10,8 +10,8 @@ import { mapValues } from 'lodash';
 import { addPackage } from 'worona-deps';
 import { useStaticRendering } from 'mobx-react';
 import { Helmet } from 'react-helmet';
-import buildModule from '../packages/build';
-import settingsModule from '../packages/settings';
+import * as buildModule from '../packages/build';
+import * as settingsModule from '../packages/settings';
 import App from '../shared/components/App';
 import initStore from '../shared/store';
 import reducers from '../shared/store/reducers';
@@ -19,7 +19,7 @@ import serverSagas from './sagas';
 import { getSettings } from './settings';
 import pwaTemplate from './pwa-template';
 import ampTemplate from './amp-template';
-import { requireModules } from './requires';
+import { requireCoreModules, requireActivatedModules, getCorePackages } from './requires';
 
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -57,6 +57,12 @@ export default ({ clientStats }) => async (req, res) => {
       throw new Error(`Settings for ${siteId} not found in the ${env.toUpperCase()} database.`);
     }
 
+    // Define core packages
+    const corePackages = await getCorePackages();
+
+    // Load the modules
+    const corePkgModules = await requireCoreModules(Object.entries(corePackages));
+
     // Extract activated packages array from settings.
     const activatedPackages = settings
       ? Object.values(settings)
@@ -66,11 +72,11 @@ export default ({ clientStats }) => async (req, res) => {
       : {};
 
     // Load the modules.
-    const pkgModules = await requireModules(Object.entries(activatedPackages));
+    const activatedPkgModules = await requireActivatedModules(Object.entries(activatedPackages));
 
     // Load reducers and sagas.
     const stores = {};
-    pkgModules.forEach(pkg => {
+    activatedPkgModules.forEach(pkg => {
       if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({});
       if (pkg.module.store) stores[pkg.namespace] = pkg.module.store;
       if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers(pkg.module.store);
@@ -108,7 +114,14 @@ export default ({ clientStats }) => async (req, res) => {
     // Generate React SSR.
     const render =
       process.env.MODE === 'amp' ? ReactDOM.renderToStaticMarkup : ReactDOM.renderToString;
-    app = render(<App store={store} packages={Object.values(activatedPackages)} stores={stores} />);
+    app = render(
+      <App
+        store={store}
+        corePackages={Object.values(corePackages)}
+        activatedPackages={Object.values(activatedPackages)}
+        stores={stores}
+      />,
+    );
 
     const { html, ids, css } = extractCritical(app);
 
