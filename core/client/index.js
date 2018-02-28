@@ -13,13 +13,13 @@ import * as buildModule from '../packages/build';
 import * as settingsModule from '../packages/settings';
 
 // Define core modules.
-const corePkgModules = [
+const coreModules = [
   { name: 'build', namespace: 'build', module: buildModule },
   { name: 'settings', namespace: 'settings', module: settingsModule },
 ];
 
 // Get activated packages.
-const activatedPackages = Object.values(window['wp-pwa'].initialState.build.packages);
+const packages = Object.values(window['wp-pwa'].initialState.build.packages);
 
 let store = null;
 const stores = {};
@@ -29,11 +29,11 @@ const render = Component => {
     <AppContainer>
       <Component
         store={store}
-        corePackages={corePkgModules.map(pkg => ({
-          name: pkg.name,
-          Component: pkg.module.default,
+        core={coreModules.map(({ name, module }) => ({
+          name,
+          Component: module.default,
         }))}
-        activatedPackages={activatedPackages}
+        packages={packages}
         stores={stores}
       />
     </AppContainer>,
@@ -46,11 +46,9 @@ const init = async () => {
   hydrate(window['wp-pwa'].emotionIds);
 
   // Wait for activated packages.
-  const activatedPkgEntries = Object.entries(window['wp-pwa'].initialState.build.packages);
-  const activatedPkgPromises = activatedPkgEntries.map(([namespace, name]) =>
-    importPromises({ name, namespace }),
-  );
-  const activatedPkgModules = await Promise.all(activatedPkgPromises);
+  const pkgEntries = Object.entries(window['wp-pwa'].initialState.build.packages);
+  const pkgPromises = pkgEntries.map(([namespace, name]) => importPromises({ name, namespace }));
+  const pkgModules = await Promise.all(pkgPromises);
 
   // Load reducers and sagas.
   const reducers = {};
@@ -65,8 +63,8 @@ const init = async () => {
     addPackage({ namespace: pkg.namespace, module: pkg.module });
   };
 
-  corePkgModules.forEach(mapModules);
-  activatedPkgModules.forEach(mapModules);
+  coreModules.forEach(mapModules);
+  pkgModules.forEach(mapModules);
 
   // Init store.
   store = initStore({
@@ -83,7 +81,7 @@ const init = async () => {
   // Start App.
   render(App);
 
-  // Inform that the client has been rendered;
+  // Inform that the client has been rendered.
   store.dispatch(buildModule.actions.clientRendered());
 };
 

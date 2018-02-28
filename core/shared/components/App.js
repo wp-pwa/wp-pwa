@@ -6,7 +6,7 @@ import { Provider as MobxProvider } from 'mobx-react';
 import Analytics from './Analytics';
 import Universal from './Universal';
 
-const App = ({ corePackages, activatedPackages, store, stores }) => (
+const App = ({ core, packages, store, stores }) => (
   <ReduxProvider store={store}>
     <MobxProvider {...stores}>
       <Fragment>
@@ -14,16 +14,16 @@ const App = ({ corePackages, activatedPackages, store, stores }) => (
           <title>WP PWA</title>
         </Helmet>
         <Analytics />
-        {corePackages.map(({ name, Component }) => <Component key={name} />)}
-        {activatedPackages.map(name => <Universal key={name} name={name} />)}
+        {core.map(({ name, Component }) => <Component key={name} />)}
+        {packages.map(name => <Universal key={name} name={name} />)}
       </Fragment>
     </MobxProvider>
   </ReduxProvider>
 );
 
 App.propTypes = {
-  corePackages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
-  activatedPackages: PropTypes.arrayOf(PropTypes.string).isRequired,
+  core: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
+  packages: PropTypes.arrayOf(PropTypes.string).isRequired,
   store: PropTypes.shape().isRequired,
   stores: PropTypes.shape().isRequired,
 };

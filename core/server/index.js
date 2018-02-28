@@ -17,7 +17,7 @@ import initStore from '../shared/store';
 import { getSettings } from './settings';
 import pwaTemplate from './pwa-template';
 import ampTemplate from './amp-template';
-import { requireActivatedModules } from './requires';
+import { requireModules } from './requires';
 
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -53,13 +53,13 @@ export default ({ clientStats }) => async (req, res) => {
     }
 
     // Define core modules.
-    const corePkgModules = [
+    const coreModules = [
       { name: 'build', namespace: 'build', module: buildModule },
       { name: 'settings', namespace: 'settings', module: settingsModule },
     ];
 
     // Extract activated packages array from settings.
-    const activatedPackages = settings
+    const packages = settings
       ? Object.values(settings)
           .filter(pkg => pkg.woronaInfo.namespace !== 'generalSite')
           .filter(pkg => pkg.woronaInfo.namespace !== 'generalApp')
@@ -67,7 +67,7 @@ export default ({ clientStats }) => async (req, res) => {
       : {};
 
     // Load the activated modules.
-    const activatedPkgModules = await requireActivatedModules(Object.entries(activatedPackages));
+    const pkgModules = await requireModules(Object.entries(packages));
 
     // Load reducers and sagas.
     const stores = {};
@@ -83,8 +83,8 @@ export default ({ clientStats }) => async (req, res) => {
       addPackage({ namespace: pkg.namespace, module: pkg.module });
     };
 
-    corePkgModules.forEach(mapModules);
-    activatedPkgModules.forEach(mapModules);
+    coreModules.forEach(mapModules);
+    pkgModules.forEach(mapModules);
 
     // Init redux store.
     const store = initStore({ reducer: combineReducers(reducers) });
@@ -97,7 +97,7 @@ export default ({ clientStats }) => async (req, res) => {
       buildModule.actions.buildUpdated({
         siteId,
         env,
-        packages: activatedPackages,
+        packages,
         perPage,
         device,
         amp: process.env.MODE === 'amp',
@@ -123,11 +123,11 @@ export default ({ clientStats }) => async (req, res) => {
     app = render(
       <App
         store={store}
-        corePackages={corePkgModules.map(pkg => ({
-          name: pkg.name,
-          Component: pkg.module.default,
+        core={coreModules.map(({ name, module }) => ({
+          name,
+          Component: module.default,
         }))}
-        activatedPackages={Object.values(activatedPackages)}
+        packages={Object.values(packages)}
         stores={stores}
       />,
     );

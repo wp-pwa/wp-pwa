@@ -10,7 +10,7 @@ const pathExistsPromise = name =>
     });
   });
 
-export const requireActivatedModules = async pkgs => {
+export const requireModules = async pkgs => {
   const pathPromises = pkgs.map(([, name]) => pathExistsPromise(name));
   await Promise.all(pathPromises);
   return pkgs.map(([namespace, name]) => {
