@@ -14,19 +14,14 @@ import * as buildModule from '../packages/build';
 import * as settingsModule from '../packages/settings';
 import App from '../shared/components/App';
 import initStore from '../shared/store';
-import reducers from '../shared/store/reducers';
-import serverSagas from './sagas';
 import { getSettings } from './settings';
 import pwaTemplate from './pwa-template';
 import ampTemplate from './amp-template';
-import { requireCoreModules, requireActivatedModules, getCorePackages } from './requires';
+import { requireActivatedModules } from './requires';
 
 const dev = process.env.NODE_ENV !== 'production';
 
 const { buildPath } = require(`../../.build/${process.env.MODE}/buildInfo.json`);
-
-addPackage({ namespace: 'build', module: buildModule });
-addPackage({ namespace: 'settings', module: settingsModule });
 
 const parse = id => (Number.isFinite(parseInt(id, 10)) ? parseInt(id, 10) : id);
 
@@ -57,11 +52,11 @@ export default ({ clientStats }) => async (req, res) => {
       throw new Error(`Settings for ${siteId} not found in the ${env.toUpperCase()} database.`);
     }
 
-    // Define core packages
-    const corePackages = await getCorePackages();
-
-    // Load the modules
-    const corePkgModules = await requireCoreModules(Object.entries(corePackages));
+    // Define core modules.
+    const corePkgModules = [
+      { name: 'build', namespace: 'build', module: buildModule },
+      { name: 'settings', namespace: 'settings', module: settingsModule },
+    ];
 
     // Extract activated packages array from settings.
     const activatedPackages = settings
@@ -71,24 +66,33 @@ export default ({ clientStats }) => async (req, res) => {
           .reduce((obj, pkg) => ({ ...obj, [pkg.woronaInfo.namespace]: pkg.woronaInfo.name }), {})
       : {};
 
-    // Load the modules.
+    // Load the activated modules.
     const activatedPkgModules = await requireActivatedModules(Object.entries(activatedPackages));
 
     // Load reducers and sagas.
     const stores = {};
-    activatedPkgModules.forEach(pkg => {
+    const reducers = {};
+    const serverSagas = {};
+
+    const mapModules = pkg => {
       if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({});
       if (pkg.module.store) stores[pkg.namespace] = pkg.module.store;
       if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers(pkg.module.store);
       if (pkg.serverSaga) serverSagas[pkg.name] = pkg.serverSaga;
+
       addPackage({ namespace: pkg.namespace, module: pkg.module });
-    });
+    };
+
+    corePkgModules.forEach(mapModules);
+    activatedPkgModules.forEach(mapModules);
 
     // Init redux store.
     const store = initStore({ reducer: combineReducers(reducers) });
 
-    // Add settings to the state.
+    // Notify that server is started.
     store.dispatch(buildModule.actions.serverStarted());
+
+    // Add build to the state.
     store.dispatch(
       buildModule.actions.buildUpdated({
         siteId,
@@ -101,6 +105,8 @@ export default ({ clientStats }) => async (req, res) => {
         initialUrl,
       }),
     );
+
+    // Add settings to the state.
     store.dispatch(settingsModule.actions.settingsUpdated({ settings }));
 
     // Run and wait until all the server sagas have run.
@@ -117,7 +123,10 @@ export default ({ clientStats }) => async (req, res) => {
     app = render(
       <App
         store={store}
-        corePackages={Object.values(corePackages)}
+        corePackages={corePkgModules.map(pkg => ({
+          name: pkg.name,
+          Component: pkg.module.default,
+        }))}
         activatedPackages={Object.values(activatedPackages)}
         stores={stores}
       />,

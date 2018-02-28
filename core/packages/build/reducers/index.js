@@ -51,15 +51,16 @@ export const initialUrl = (state = null, action) => {
   return state;
 };
 
-export default combineReducers({
-  ssr,
-  server,
-  siteId,
-  env,
-  amp,
-  packages,
-  perPage,
-  device,
-  dev,
-  initialUrl,
-});
+export default () =>
+  combineReducers({
+    ssr,
+    server,
+    siteId,
+    env,
+    amp,
+    packages,
+    perPage,
+    device,
+    dev,
+    initialUrl,
+  });

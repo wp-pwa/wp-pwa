@@ -14,6 +14,7 @@ const App = ({ corePackages, activatedPackages, store, stores }) => (
           <title>WP PWA</title>
         </Helmet>
         <Analytics />
+        {corePackages.map(({ name, Component }) => <Component key={name} />)}
         {activatedPackages.map(name => <Universal key={name} name={name} />)}
       </Fragment>
     </MobxProvider>
@@ -21,7 +22,7 @@ const App = ({ corePackages, activatedPackages, store, stores }) => (
 );
 
 App.propTypes = {
-  corePackages: PropTypes.arrayOf(PropTypes.string).isRequired,
+  corePackages: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   activatedPackages: PropTypes.arrayOf(PropTypes.string).isRequired,
   store: PropTypes.shape().isRequired,
   stores: PropTypes.shape().isRequired,

@@ -1,1 +1,1 @@
-export default function* clientSagas() {}
+export default function* settingsClientSagas() {}

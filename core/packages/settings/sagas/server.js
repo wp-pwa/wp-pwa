@@ -1,1 +1,1 @@
-export default function* serverSagas() {}
+export default function* settingsServerSagas() {}
