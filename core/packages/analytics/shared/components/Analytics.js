@@ -11,12 +11,8 @@ const Analytics = ({ isAmp, gtmContainers, comScoreIds }) => {
   return (
     <Fragment>
       <GoogleTagManager gtmId="GTM-K3S2BMT" />
-      {gtmContainers.map(id => (
-        <GoogleTagManager key={id} gtmId={id} />
-      ))}
-      {comScoreIds.map(id => (
-        <ComScore key={id} id={id} />
-      ))}
+      {gtmContainers.map(id => <GoogleTagManager key={id} gtmId={id} />)}
+      {comScoreIds.map(id => <ComScore key={id} id={id} />)}
     </Fragment>
   );
 };

@@ -12,6 +12,7 @@ import { useStaticRendering } from 'mobx-react';
 import { Helmet } from 'react-helmet';
 import * as buildModule from '../packages/build';
 import * as settingsModule from '../packages/settings';
+import * as analyticsModule from '../packages/analytics';
 import App from '../shared/components/App';
 import initStore from '../shared/store';
 import { getSettings } from './settings';
@@ -56,6 +57,7 @@ export default ({ clientStats }) => async (req, res) => {
     const coreModules = [
       { name: 'build', namespace: 'build', module: buildModule },
       { name: 'settings', namespace: 'settings', module: settingsModule },
+      { name: 'analytics', namespace: 'analytics', module: analyticsModule },
     ];
 
     // Extract activated packages array from settings.

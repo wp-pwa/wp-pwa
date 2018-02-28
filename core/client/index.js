@@ -11,11 +11,13 @@ import { importPromises } from '../shared/components/Universal';
 import initStore from '../shared/store';
 import * as buildModule from '../packages/build';
 import * as settingsModule from '../packages/settings';
+import * as analyticsModule from '../packages/analytics';
 
 // Define core modules.
 const coreModules = [
   { name: 'build', namespace: 'build', module: buildModule },
   { name: 'settings', namespace: 'settings', module: settingsModule },
+  { name: 'analytics', namespace: 'analytics', module: analyticsModule },
 ];
 
 // Get activated packages.
