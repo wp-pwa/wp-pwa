@@ -32,7 +32,7 @@ export function* virtualPageView(connection) {
       () => single && single.meta.pretty && single.link.pretty,
       () => {
         const { meta: { title }, _link: url } = single;
-        sendVirtualPage({ site, title, url, route, type, id, page })
+        sendVirtualPage({ site, title, url, route, type, id, page });
       },
     );
   }
