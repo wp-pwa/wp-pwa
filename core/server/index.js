@@ -10,15 +10,16 @@ import { mapValues } from 'lodash';
 import { addPackage } from 'worona-deps';
 import { useStaticRendering } from 'mobx-react';
 import { Helmet } from 'react-helmet';
-import * as buildModule from '../packages/build';
-import * as settingsModule from '../packages/settings';
-import * as analyticsModule from '../packages/analytics';
 import App from '../components/App';
 import initStore from '../store';
 import { getSettings } from './settings';
 import pwaTemplate from './pwa-template';
 import ampTemplate from './amp-template';
 import { requireModules } from './requires';
+
+const buildModule = require(`../packages/build/${process.env.MODE}`);
+const settingsModule = require(`../packages/settings/${process.env.MODE}`);
+const analyticsModule = require(`../packages/analytics/${process.env.MODE}`);
 
 const dev = process.env.NODE_ENV !== 'production';
 

@@ -1,4 +1,4 @@
-/* eslint-disable global-require, no-underscore-dangle */
+/* eslint-disable global-require, no-underscore-dangle, import/no-dynamic-require */
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -9,9 +9,10 @@ import { addPackage } from 'worona-deps';
 import App from '../components/App';
 import { importPromises } from '../components/Universal';
 import initStore from '../store';
-import * as buildModule from '../packages/build';
-import * as settingsModule from '../packages/settings';
-import * as analyticsModule from '../packages/analytics';
+
+const buildModule = require(`../packages/build/${process.env.MODE}`);
+const settingsModule = require(`../packages/settings/${process.env.MODE}`);
+const analyticsModule = require(`../packages/analytics/${process.env.MODE}`);
 
 // Define core modules.
 const coreModules = [
