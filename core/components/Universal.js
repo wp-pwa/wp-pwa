@@ -3,7 +3,7 @@ import universal from 'react-universal-component';
 const promiseCallbacks = {};
 
 const Universal = universal(
-  props => import(`../../../packages/${props.name}/src/${process.env.MODE}/index`),
+  props => import(`../../packages/${props.name}/src/${process.env.MODE}/index`),
   {
     minDelay: 1200,
     onLoad: (module, { isServer }, { name, namespace }) => {

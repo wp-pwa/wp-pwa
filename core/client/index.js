@@ -6,9 +6,9 @@ import { combineReducers } from 'redux';
 import { AppContainer } from 'react-hot-loader';
 import { hydrate } from 'react-emotion';
 import { addPackage } from 'worona-deps';
-import App from '../shared/components/App';
-import { importPromises } from '../shared/components/Universal';
-import initStore from '../shared/store';
+import App from '../components/App';
+import { importPromises } from '../components/Universal';
+import initStore from '../store';
 import * as buildModule from '../packages/build';
 import * as settingsModule from '../packages/settings';
 import * as analyticsModule from '../packages/analytics';
@@ -88,12 +88,12 @@ const init = async () => {
 };
 
 if (process.env.NODE_ENV === 'development' && module.hot) {
-  module.hot.accept('../shared/components/App.js', () => {
-    const Component = require('../shared/components/App').default;
+  module.hot.accept('../components/App.js', () => {
+    const Component = require('../components/App').default;
     render(Component);
   });
-  module.hot.accept('../shared/components/Universal.js', () => {
-    const Component = require('../shared/components/App').default;
+  module.hot.accept('../components/Universal.js', () => {
+    const Component = require('../components/App').default;
     render(Component);
   });
 }
