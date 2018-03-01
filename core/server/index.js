@@ -71,20 +71,26 @@ export default ({ clientStats }) => async (req, res) => {
     // Load the activated modules.
     const pkgModules = await requireModules(Object.entries(packages));
 
-    // Load reducers and sagas.
     const stores = {};
     const reducers = {};
     const serverSagas = {};
+
+    const addModules = pkg => {
+      addPackage({ namespace: pkg.namespace, module: pkg.module });
+    };
 
     const mapModules = pkg => {
       if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({});
       if (pkg.module.store) stores[pkg.namespace] = pkg.module.store;
       if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers(pkg.module.store);
       if (pkg.module.serverSagas) serverSagas[pkg.name] = pkg.module.serverSagas;
-
-      addPackage({ namespace: pkg.namespace, module: pkg.module });
     };
 
+    // Add packages to worona-devs.
+    coreModules.forEach(addModules);
+    pkgModules.forEach(addModules);
+
+    // Load reducers and sagas.
     coreModules.forEach(mapModules);
     pkgModules.forEach(mapModules);
 

@@ -52,19 +52,25 @@ const init = async () => {
   const pkgPromises = pkgEntries.map(([namespace, name]) => importPromises({ name, namespace }));
   const pkgModules = await Promise.all(pkgPromises);
 
-  // Load reducers and sagas.
   const reducers = {};
   const clientSagas = {};
+
+  const addModules = pkg => {
+    addPackage({ namespace: pkg.namespace, module: pkg.module });
+  };
 
   const mapModules = pkg => {
     if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({});
     if (pkg.module.store) stores[pkg.namespace] = pkg.module.store;
     if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers(pkg.module.store);
     if (pkg.module.clientSagas) clientSagas[pkg.name] = pkg.module.clientSagas;
-
-    addPackage({ namespace: pkg.namespace, module: pkg.module });
   };
 
+  // Add packages to worona-devs.
+  coreModules.forEach(addModules);
+  pkgModules.forEach(addModules);
+
+  // Load reducers and sagas.
   coreModules.forEach(mapModules);
   pkgModules.forEach(mapModules);
 
