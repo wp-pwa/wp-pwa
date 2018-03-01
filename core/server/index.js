@@ -80,7 +80,7 @@ export default ({ clientStats }) => async (req, res) => {
       if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({});
       if (pkg.module.store) stores[pkg.namespace] = pkg.module.store;
       if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers(pkg.module.store);
-      if (pkg.serverSaga) serverSagas[pkg.name] = pkg.serverSaga;
+      if (pkg.module.serverSagas) serverSagas[pkg.name] = pkg.module.serverSagas;
 
       addPackage({ namespace: pkg.namespace, module: pkg.module });
     };

@@ -1,4 +1,5 @@
-import Analytics from './shared/components/Analytics';
+import components from './shared/components';
+import clientSagas from './shared/sagas/client';
 
-export default Analytics;
-export {};
+export default components;
+export { clientSagas };

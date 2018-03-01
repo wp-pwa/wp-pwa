@@ -45,10 +45,7 @@ const waitForChangesInText = domElement => {
   };
 };
 
-// Subscribes to changes in title.
-const titleMatches = waitForChangesInText(window.document.getElementsByTagName('title')[0]);
-
-export function* virtualPageView(connection, comScoreIds) {
+export function* virtualPageView(connection, comScoreIds, titleMatches) {
   // Executes disposer if there is a pending pageview.
   if (typeof disposer === 'function') {
     disposer();
@@ -76,15 +73,18 @@ export function* virtualPageView(connection, comScoreIds) {
   }
 }
 
-export const routeChangeHandlerCreator = ({ connection, comScoreIds }) =>
+export const routeChangeHandlerCreator = ({ connection, comScoreIds, titleMatches }) =>
   function* routeChangeHandler() {
-    yield call(virtualPageView, connection, comScoreIds);
+    yield call(virtualPageView, connection, comScoreIds, titleMatches);
   };
 
 export default function* comScoreSagas({ connection }) {
   // Gets comScore ids from settings.
   const analytics = yield select(getSetting('theme', 'analytics'));
   const comScoreIds = analytics && analytics.pwa && analytics.pwa.comScoreIds;
+
+  // Subscribe tu changes in title
+  const titleMatches = waitForChangesInText(window.document.getElementsByTagName('title')[0]);
 
   // Exits if there isn't any comScore id defined.
   if (!comScoreIds || comScoreIds.length === 0) return;
@@ -106,6 +106,6 @@ export default function* comScoreSagas({ connection }) {
   // Sends an event to each comScore id after every ROUTE_CHANGE_SUCCEED.
   yield takeEvery(
     dep('connection', 'actionTypes', 'ROUTE_CHANGE_SUCCEED'),
-    routeChangeHandlerCreator({ connection, comScoreIds }),
+    routeChangeHandlerCreator({ connection, comScoreIds, titleMatches }),
   );
 }

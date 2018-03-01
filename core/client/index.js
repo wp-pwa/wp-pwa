@@ -60,7 +60,7 @@ const init = async () => {
     if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({});
     if (pkg.module.store) stores[pkg.namespace] = pkg.module.store;
     if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers(pkg.module.store);
-    if (pkg.module.sagas) clientSagas[pkg.name] = pkg.module.sagas;
+    if (pkg.module.clientSagas) clientSagas[pkg.name] = pkg.module.clientSagas;
 
     addPackage({ namespace: pkg.namespace, module: pkg.module });
   };
