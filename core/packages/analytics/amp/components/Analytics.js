@@ -52,6 +52,7 @@ const Analytics = ({
       />
       {trackingIds.map(trackingId => (
         <GoogleAnalytics
+          key={trackingId}
           trackingId={trackingId}
           title={title}
           documentLocation={documentLocation}
