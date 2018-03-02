@@ -28,7 +28,7 @@ const Analytics = ({
   trackingIds,
   title,
   documentLocation,
-  debug,
+  dev,
   extraUrlParams,
   site,
   selected,
@@ -47,7 +47,7 @@ const Analytics = ({
       <GoogleAnalytics
         title={routeTitle}
         documentLocation={routeLocation}
-        trackingId={debug ? 'UA-91312941-5' : 'UA-91312941-6'}
+        trackingId={dev ? 'UA-91312941-5' : 'UA-91312941-6'}
         extraUrlParams={extraUrlParams}
       />
       {trackingIds.map(trackingId => (
@@ -69,7 +69,7 @@ Analytics.propTypes = {
   site: PropTypes.string.isRequired,
   anonymize: PropTypes.bool.isRequired,
   selected: PropTypes.shape({}).isRequired,
-  debug: PropTypes.bool.isRequired,
+  dev: PropTypes.bool.isRequired,
   extraUrlParams: PropTypes.shape({}).isRequired,
 };
 
@@ -78,11 +78,13 @@ const mapStateToProps = state => {
     dep('settings', 'selectorCreators', 'getSetting')(namespace, setting);
 
   const site = getSetting('generalSite', 'url')(state);
-  const debug = !(state.build.dev === false && state.build.env === 'prod');
 
   // Retrieves client analytics settings for AMP.
   const analytics = getSetting('theme', 'analytics')(state);
-  const trackingIds = (analytics && analytics.amp && analytics.amp.gaTrackingIds) || [];
+  const { dev } = state.build;
+  const trackingIds = dev
+    ? ['UA-91312941-5']
+    : (analytics && analytics.amp && analytics.amp.gaTrackingIds) || [];
   const anonymize = (analytics && analytics.anonymize) || false;
 
   // Gets the custom dimensions' values
@@ -96,7 +98,7 @@ const mapStateToProps = state => {
   return {
     trackingIds,
     anonymize,
-    debug,
+    dev,
     site,
     extraUrlParams: {
       cd1: anonymize ? 'anonymous' : userIds,
