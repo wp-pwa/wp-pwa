@@ -1,4 +1,4 @@
-import { takeEvery, select, call } from 'redux-saga/effects';
+import { takeEvery, select, call, all } from 'redux-saga/effects';
 import { when } from 'mobx';
 import { dep } from 'worona-deps';
 
@@ -37,6 +37,37 @@ function virtualPageView({ connection, trackerNames }) {
     );
   }
 }
+
+export function virtualEvent({ event, connection, trackerNames }) {
+  const type = `type: ${connection.selected.type}`;
+  const context = `context: ${connection.context.options.bar}`;
+
+  if (!event.label) {
+    event.label = `${type} ${context}`;
+  } else {
+    event.label += ` ${type} ${context}`;
+  }
+
+  if (window.ga) {
+    trackerNames.forEach(trackerName => {
+      window.ga(`${trackerName}.send`, {
+        hitType: 'event',
+        eventCategory: event.category,
+        eventAction: event.action,
+        eventLabel: event.label,
+      });
+    });
+  }
+
+  delete event.label;
+}
+
+export const eventHandlerCreator = ({ connection, trackerNames }) =>
+  function* eventFilter({ event }) {
+    if (event) {
+      yield call(virtualEvent, { event, connection, trackerNames });
+    }
+  };
 
 export const routeChangeHandlerCreator = ({ connection, trackerNames }) =>
   function* routeChangeHandler() {
@@ -80,8 +111,11 @@ export default function* googleAnalyticsSagas({ connection }) {
   virtualPageView({ connection, trackerNames });
 
   // Sends pageviews after every ROUTE_CHANGE_SUCCEED event.
-  yield takeEvery(
-    dep('connection', 'actionTypes', 'ROUTE_CHANGE_SUCCEED'),
-    routeChangeHandlerCreator({ connection, trackerNames }),
-  );
+  yield all([
+    takeEvery(
+      dep('connection', 'actionTypes', 'ROUTE_CHANGE_SUCCEED'),
+      routeChangeHandlerCreator({ connection, trackerNames }),
+    ),
+    takeEvery('*', eventHandlerCreator({ connection, trackerNames })),
+  ]);
 }

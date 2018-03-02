@@ -9,7 +9,7 @@ const sendVirtualPage = virtualPage => {
   window.dataLayer.push({ event: 'virtualPageView', virtualPage });
 };
 
-const sendEvent = event => {
+const sendVirtualEvent = event => {
   window.dataLayer.push({ event: 'virtualEvent', eventData: event });
 };
 
@@ -38,7 +38,7 @@ export function* virtualPageView(connection) {
   }
 }
 
-export function eventHandler({ event, connection }) {
+export function virtualEvent({ event, connection }) {
   const type = `type: ${connection.selected.type}`;
   const context = `context: ${connection.context.options.bar}`;
 
@@ -48,7 +48,7 @@ export function eventHandler({ event, connection }) {
     event.label += ` ${type} ${context}`;
   }
 
-  sendEvent(event);
+  sendVirtualEvent(event);
 
   delete event.label;
 }
@@ -58,9 +58,9 @@ export const succeedHandlerCreator = ({ connection }) =>
     yield call(virtualPageView, connection);
   };
 
-export const eventHandleCreator = ({ connection }) =>
+export const eventHandlerCreator = ({ connection }) =>
   function* eventFilter({ event }) {
-    if (event) yield call(eventHandler, { event, connection });
+    if (event) yield call(virtualEvent, { event, connection });
   };
 
 export default function* gtmSagas(stores) {
@@ -106,6 +106,6 @@ export default function* gtmSagas(stores) {
       dep('connection', 'actionTypes', 'ROUTE_CHANGE_SUCCEED'),
       succeedHandlerCreator(stores),
     ),
-    takeEvery('*', eventHandleCreator(stores)),
+    takeEvery('*', eventHandlerCreator(stores)),
   ]);
 }
