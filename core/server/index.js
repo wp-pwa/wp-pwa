@@ -10,23 +10,20 @@ import { mapValues } from 'lodash';
 import { addPackage } from 'worona-deps';
 import { useStaticRendering } from 'mobx-react';
 import { Helmet } from 'react-helmet';
-import buildModule from '../packages/build';
-import settingsModule from '../packages/settings';
-import App from '../shared/components/App';
-import initStore from '../shared/store';
-import reducers from '../shared/store/reducers';
-import serverSagas from './sagas';
+import App from '../components/App';
+import initStore from '../store';
 import { getSettings } from './settings';
 import pwaTemplate from './pwa-template';
 import ampTemplate from './amp-template';
 import { requireModules } from './requires';
 
+const buildModule = require(`../packages/build/${process.env.MODE}`);
+const settingsModule = require(`../packages/settings/${process.env.MODE}`);
+const analyticsModule = require(`../packages/analytics/${process.env.MODE}`);
+
 const dev = process.env.NODE_ENV !== 'production';
 
 const { buildPath } = require(`../../.build/${process.env.MODE}/buildInfo.json`);
-
-addPackage({ namespace: 'build', module: buildModule });
-addPackage({ namespace: 'settings', module: settingsModule });
 
 const parse = id => (Number.isFinite(parseInt(id, 10)) ? parseInt(id, 10) : id);
 
@@ -57,37 +54,59 @@ export default ({ clientStats }) => async (req, res) => {
       throw new Error(`Settings for ${siteId} not found in the ${env.toUpperCase()} database.`);
     }
 
+    // Define core modules.
+    const coreModules = [
+      { name: 'build', namespace: 'build', module: buildModule },
+      { name: 'settings', namespace: 'settings', module: settingsModule },
+      { name: 'analytics', namespace: 'analytics', module: analyticsModule },
+    ];
+
     // Extract activated packages array from settings.
-    const activatedPackages = settings
+    const packages = settings
       ? Object.values(settings)
           .filter(pkg => pkg.woronaInfo.namespace !== 'generalSite')
           .filter(pkg => pkg.woronaInfo.namespace !== 'generalApp')
           .reduce((obj, pkg) => ({ ...obj, [pkg.woronaInfo.namespace]: pkg.woronaInfo.name }), {})
       : {};
 
-    // Load the modules.
-    const pkgModules = await requireModules(Object.entries(activatedPackages));
+    // Load the activated modules.
+    const pkgModules = await requireModules(Object.entries(packages));
 
-    // Load reducers and sagas.
     const stores = {};
-    pkgModules.forEach(pkg => {
+    const reducers = {};
+    const serverSagas = {};
+
+    const addModules = pkg => {
+      addPackage({ namespace: pkg.namespace, module: pkg.module });
+    };
+
+    const mapModules = pkg => {
       if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({});
       if (pkg.module.store) stores[pkg.namespace] = pkg.module.store;
       if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers(pkg.module.store);
-      if (pkg.serverSaga) serverSagas[pkg.name] = pkg.serverSaga;
-      addPackage({ namespace: pkg.namespace, module: pkg.module });
-    });
+      if (pkg.module.serverSagas) serverSagas[pkg.name] = pkg.module.serverSagas;
+    };
+
+    // Add packages to worona-devs.
+    coreModules.forEach(addModules);
+    pkgModules.forEach(addModules);
+
+    // Load reducers and sagas.
+    coreModules.forEach(mapModules);
+    pkgModules.forEach(mapModules);
 
     // Init redux store.
     const store = initStore({ reducer: combineReducers(reducers) });
 
-    // Add settings to the state.
+    // Notify that server is started.
     store.dispatch(buildModule.actions.serverStarted());
+
+    // Add build to the state.
     store.dispatch(
       buildModule.actions.buildUpdated({
         siteId,
         env,
-        packages: activatedPackages,
+        packages,
         perPage,
         device,
         amp: process.env.MODE === 'amp',
@@ -95,6 +114,8 @@ export default ({ clientStats }) => async (req, res) => {
         initialUrl,
       }),
     );
+
+    // Add settings to the state.
     store.dispatch(settingsModule.actions.settingsUpdated({ settings }));
 
     // Run and wait until all the server sagas have run.
@@ -108,7 +129,17 @@ export default ({ clientStats }) => async (req, res) => {
     // Generate React SSR.
     const render =
       process.env.MODE === 'amp' ? ReactDOM.renderToStaticMarkup : ReactDOM.renderToString;
-    app = render(<App store={store} packages={Object.values(activatedPackages)} stores={stores} />);
+    app = render(
+      <App
+        store={store}
+        core={coreModules.map(({ name, module }) => ({
+          name,
+          Component: module.default,
+        }))}
+        packages={Object.values(packages)}
+        stores={stores}
+      />,
+    );
 
     const { html, ids, css } = extractCritical(app);
 

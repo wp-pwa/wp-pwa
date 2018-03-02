@@ -15,11 +15,12 @@ export const requireModules = async pkgs => {
   await Promise.all(pathPromises);
   return pkgs.map(([namespace, name]) => {
     const module = require(`../../packages/${name}/src/${process.env.MODE}/index`);
+
     try {
       // Only return serverSaga if it exists.
-      const serverSaga = require(`../../packages/${name}/src/${process.env.MODE}/sagas/server`)
+      const serverSagas = require(`../../packages/${name}/src/${process.env.MODE}/sagas/server`)
         .default;
-      return { name, namespace, module, serverSaga };
+      return { name, namespace, module: { ...module, serverSagas } };
     } catch (e) {
       return { name, namespace, module };
     }
