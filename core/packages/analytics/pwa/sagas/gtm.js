@@ -80,6 +80,8 @@ export default function* gtmSagas(stores) {
     event: 'gtm.js',
   });
 
+  const dev = yield select(state => state.build.dev);
+
   // Anonymizes pageview
   const anonymize = (analytics && analytics.anonymize) || false;
 
@@ -99,6 +101,7 @@ export default function* gtmSagas(stores) {
     extensions: anonymize ? 'anonymous' : extensions,
     plan: anonymize ? 'anonymous' : plan,
     pageType,
+    dev,
   };
   window.dataLayer.push({ event: 'wpPwaProperties', wpPwaProperties });
 
