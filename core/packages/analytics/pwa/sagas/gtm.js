@@ -1,6 +1,7 @@
 import { all, takeEvery, select, fork, call } from 'redux-saga/effects';
 import { when } from 'mobx';
 import { dep } from 'worona-deps';
+import { getHash, getRoute } from '../../shared/helpers';
 
 const getSetting = (namespace, setting) =>
   dep('settings', 'selectorCreators', 'getSetting')(namespace, setting);
@@ -15,24 +16,28 @@ const sendVirtualEvent = event => {
 
 let disposer;
 
-export function* virtualPageView(connection) {
+export function* virtualPageView({ siteInfo, selected }) {
   if (typeof disposer === 'function') {
     disposer();
     disposer = null;
   }
 
   const site = yield select(getSetting('generalSite', 'url'));
-  const { single, route, type, id, page } = connection.context.selected;
+  const hash = getHash(site, selected);
+  const format = 'pwa';
+
+  const { single, type, id, page } = selected;
+  const route = getRoute(selected);
 
   if (!single) {
-    const { title } = connection.siteInfo.home;
-    sendVirtualPage({ site, title, url: `${site}`, route, type, id, page });
+    const { title } = siteInfo.home;
+    sendVirtualPage({ title, url: `${site}`, type, id, page, format, route, hash });
   } else {
     disposer = when(
       () => single && single.meta.pretty && single.link.pretty,
       () => {
         const { meta: { title }, _link: url } = single;
-        sendVirtualPage({ site, title, url, route, type, id, page });
+        sendVirtualPage({ title, url, type, id, page, format, route, hash });
       },
     );
   }
