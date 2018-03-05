@@ -7,6 +7,7 @@ import { dep } from 'worona-deps';
 import sha256 from 'crypto-js/sha256';
 import hex from 'crypto-js/enc-hex';
 import GoogleAnalytics from './GoogleAnalytics';
+import { getGaTrackingIds } from '../../shared/helpers';
 
 const getHash = obj => hex.stringify(sha256(JSON.stringify(obj))).slice(0, 13);
 
@@ -82,9 +83,7 @@ const mapStateToProps = state => {
   // Retrieves client analytics settings for AMP.
   const analytics = getSetting('theme', 'analytics')(state);
   const { dev } = state.build;
-  const trackingIds = dev
-    ? ['UA-91312941-5']
-    : (analytics && analytics.amp && analytics.amp.gaTrackingIds) || [];
+  const trackingIds = getGaTrackingIds({ dev, analytics });
   const anonymize = (analytics && analytics.anonymize) || false;
 
   // Gets the custom dimensions' values
