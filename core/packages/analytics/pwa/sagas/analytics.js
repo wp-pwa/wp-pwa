@@ -100,7 +100,7 @@ export default function* googleAnalyticsSagas({ connection }) {
   // Retrieves trackingIds from settings.
   const analytics = yield select(getSetting('theme', 'analytics'));
   const dev = yield select(state => state.build.dev);
-  const gaTrackingIds = getGaTrackingIds({ dev, analytics });
+  const gaTrackingIds = getGaTrackingIds({ dev, analytics, format: 'pwa' });
 
   // Exits if there isn't any trackingId defined.
   if (!gaTrackingIds || gaTrackingIds.length === 0) return;

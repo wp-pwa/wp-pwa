@@ -61,7 +61,7 @@ const mapStateToProps = state => {
   // Retrieves client analytics settings for AMP.
   const analytics = getSetting('theme', 'analytics')(state);
   const { dev } = state.build;
-  const trackingIds = getGaTrackingIds({ dev, analytics });
+  const trackingIds = getGaTrackingIds({ dev, analytics, format: 'amp' });
   const anonymize = (analytics && analytics.anonymize) || false;
 
   // Gets the custom dimensions' values

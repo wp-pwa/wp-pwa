@@ -31,5 +31,8 @@ export const getUrl = ({ selected, format }) => {
   return format ? `${link}${link.endsWith('/') ? '' : '/'}${format}/` : link;
 };
 
-export const getGaTrackingIds = ({ dev, analytics = {} }) =>
-  dev ? ['UA-91312941-7'] : (analytics.amp && analytics.amp.gaTrackingIds) || [];
+export const getGaTrackingIds = ({ dev, analytics = {}, format }) => {
+  const gaTrackingIds = (analytics[format] && analytics[format].gaTrackingIds);
+  if (!(gaTrackingIds && gaTrackingIds.length)) return [];
+  return dev ? ['UA-91312941-7'] : gaTrackingIds;
+}
