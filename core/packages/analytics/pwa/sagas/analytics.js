@@ -30,7 +30,6 @@ function virtualPageView({ connection, trackerNames }) {
     disposer = when(
       () => single && single.meta.pretty && single.link.pretty,
       () => {
-        // debugger;
         const { title } = single.meta;
         const location = single._link;
         const pageView = { hitType: 'pageview', title, location };
@@ -56,7 +55,6 @@ export function virtualEvent({ event, connection, trackerNames }) {
         eventCategory: category,
         eventAction: action,
         eventLabel: label,
-        location: 'https://google.com',
       });
     });
   }
