@@ -109,6 +109,10 @@ The output `html` files will be located in the `.build/pwa/(client|server)/analy
 
 #### 1.3.1
 
+- Fix on virtualEvents
+
+#### 1.3.1
+
 - Fix on virtualPageView
 
 #### 1.3.0
