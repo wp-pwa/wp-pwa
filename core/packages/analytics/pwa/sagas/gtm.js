@@ -31,13 +31,13 @@ export function* virtualPageView({ siteInfo, selected }) {
 
   if (!single) {
     const { title } = siteInfo.home;
-    sendVirtualPage({ title, url: `${site}`, type, id, page, format, route, hash });
+    sendVirtualPage({ site, title, url: `${site}`, type, id, page, format, route, hash });
   } else {
     disposer = when(
       () => single && single.meta.pretty && single.link.pretty,
       () => {
         const { meta: { title }, _link: url } = single;
-        sendVirtualPage({ title, url, type, id, page, format, route, hash });
+        sendVirtualPage({ site, title, url, type, id, page, format, route, hash });
       },
     );
   }
