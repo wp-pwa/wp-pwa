@@ -1,6 +1,8 @@
+/* eslint-disable no-underscore-dangle */
 import { takeEvery, select, call, all } from 'redux-saga/effects';
 import { when } from 'mobx';
 import { dep } from 'worona-deps';
+import { getGaTrackingIds } from '../../shared/helpers';
 
 let disposer;
 
@@ -28,9 +30,10 @@ function virtualPageView({ connection, trackerNames }) {
     disposer = when(
       () => single && single.meta.pretty && single.link.pretty,
       () => {
+        // debugger;
         const { title } = single.meta;
-        const page = single.link.url;
-        const pageView = { hitType: 'pageview', title, page };
+        const location = single._link;
+        const pageView = { hitType: 'pageview', title, location };
         // Send the pageview to the trackers.
         trackerNames.forEach(name => window.ga(`${name}.send`, pageView));
       },
@@ -55,6 +58,7 @@ export function virtualEvent({ event, connection, trackerNames }) {
         eventCategory: event.category,
         eventAction: event.action,
         eventLabel: event.label,
+        location: 'https://google.com',
       });
     });
   }
@@ -95,7 +99,8 @@ export default function* googleAnalyticsSagas({ connection }) {
 
   // Retrieves trackingIds from settings.
   const analytics = yield select(getSetting('theme', 'analytics'));
-  const gaTrackingIds = analytics && analytics.pwa && analytics.pwa.gaTrackingIds;
+  const dev = yield select(state => state.build.dev);
+  const gaTrackingIds = getGaTrackingIds({ dev, analytics });
 
   // Exits if there isn't any trackingId defined.
   if (!gaTrackingIds || gaTrackingIds.length === 0) return;
