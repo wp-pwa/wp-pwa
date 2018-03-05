@@ -45,25 +45,21 @@ export function virtualEvent({ event, connection, trackerNames }) {
   const type = `type: ${connection.selected.type}`;
   const context = `context: ${connection.context.options.bar}`;
 
-  if (!event.label) {
-    event.label = `${type} ${context}`;
-  } else {
-    event.label += ` ${type} ${context}`;
-  }
+  const category = `PWA - ${event.category}`;
+  const action = `PWA - ${event.action}`;
+  const label = !event.label ? `${type} ${context}` : `${event.label} ${type} ${context}`;
 
   if (window.ga) {
     trackerNames.forEach(trackerName => {
       window.ga(`${trackerName}.send`, {
         hitType: 'event',
-        eventCategory: `PWA - ${event.category}`,
-        eventAction: `PWA - ${event.action}`,
-        eventLabel: event.label,
+        eventCategory: category,
+        eventAction: action,
+        eventLabel: label,
         location: 'https://google.com',
       });
     });
   }
-
-  delete event.label;
 }
 
 export const eventHandlerCreator = ({ connection, trackerNames }) =>

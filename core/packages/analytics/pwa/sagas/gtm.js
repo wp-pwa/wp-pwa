@@ -47,18 +47,15 @@ export function virtualEvent({ event, connection }) {
   const type = `type: ${connection.selected.type}`;
   const context = `context: ${connection.context.options.bar}`;
 
-  event.category = `PWA - ${event.category}`;
-  event.action = `PWA - ${event.action}`;
+  const category = `PWA - ${event.category}`;
+  const action = `PWA - ${event.action}`;
+  const label = !event.label ? `${type} ${context}` : `${event.label} ${type} ${context}`;
 
-  if (!event.label) {
-    event.label = `${type} ${context}`;
-  } else {
-    event.label += ` ${type} ${context}`;
-  }
-
-  sendVirtualEvent(event);
-
-  delete event.label;
+  sendVirtualEvent({
+    category,
+    action,
+    label,
+  });
 }
 
 export const succeedHandlerCreator = ({ connection }) =>
