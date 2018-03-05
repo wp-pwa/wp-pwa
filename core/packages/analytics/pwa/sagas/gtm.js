@@ -47,6 +47,9 @@ export function virtualEvent({ event, connection }) {
   const type = `type: ${connection.selected.type}`;
   const context = `context: ${connection.context.options.bar}`;
 
+  event.category = `PWA - ${event.category}`;
+  event.action = `PWA - ${event.action}`;
+
   if (!event.label) {
     event.label = `${type} ${context}`;
   } else {

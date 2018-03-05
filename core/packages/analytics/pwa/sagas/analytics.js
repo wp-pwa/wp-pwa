@@ -55,8 +55,8 @@ export function virtualEvent({ event, connection, trackerNames }) {
     trackerNames.forEach(trackerName => {
       window.ga(`${trackerName}.send`, {
         hitType: 'event',
-        eventCategory: event.category,
-        eventAction: event.action,
+        eventCategory: `PWA - ${event.category}`,
+        eventAction: `PWA - ${event.action}`,
         eventLabel: event.label,
         location: 'https://google.com',
       });
