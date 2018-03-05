@@ -107,6 +107,12 @@ The output `html` files will be located in the `.build/pwa/(client|server)/analy
 
 ## Changelog
 
+#### 1.3.0
+
+- Analytics package refactoring
+- Start sending analytic events
+- Use our analytics for development
+
 #### 1.2.1
 
 - Fix comScore events
