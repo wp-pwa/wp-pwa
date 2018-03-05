@@ -107,6 +107,10 @@ The output `html` files will be located in the `.build/pwa/(client|server)/analy
 
 ## Changelog
 
+#### 1.3.1
+
+- Fix on virtualPageView
+
 #### 1.3.0
 
 - Analytics package refactoring
