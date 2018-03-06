@@ -32,7 +32,7 @@ export const getUrl = ({ selected, format }) => {
 };
 
 export const getGaTrackingIds = ({ dev, analyticsSettings = {}, format }) => {
-  const gaTrackingIds = analyticsSettings[format] && analyticsSettings[format].gaTrackingIds;
-  if (!(gaTrackingIds && gaTrackingIds.length)) return [];
+  const gaTrackingIds =
+    (analyticsSettings[format] && analyticsSettings[format].gaTrackingIds) || [];
   return dev ? ['UA-91312941-7'] : gaTrackingIds;
 };
