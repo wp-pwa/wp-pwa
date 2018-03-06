@@ -12,7 +12,15 @@ import {
   getUrl,
 } from '../../shared/helpers';
 
-const Analytics = ({ trackingIds, dev, site, selected, anonymize, extraUrlParams }) => {
+const Analytics = ({
+  trackingIds,
+  dev,
+  site,
+  selected,
+  anonymize,
+  extraUrlParams,
+  customDimensions,
+}) => {
   const format = 'amp';
   const routeProps = { site, selected, format };
 
@@ -37,6 +45,7 @@ const Analytics = ({ trackingIds, dev, site, selected, anonymize, extraUrlParams
           trackingId={trackingId}
           title={title}
           documentLocation={url}
+          extraUrlParams={customDimensions}
         />
       ))}
     </Fragment>
@@ -50,6 +59,11 @@ Analytics.propTypes = {
   selected: PropTypes.shape({}).isRequired,
   anonymize: PropTypes.bool.isRequired,
   extraUrlParams: PropTypes.shape({}).isRequired,
+  customDimensions: PropTypes.shape({}),
+};
+
+Analytics.defaultProps = {
+  customDimensions: null,
 };
 
 const mapStateToProps = state => {
@@ -59,10 +73,10 @@ const mapStateToProps = state => {
   const site = getSetting('generalSite', 'url')(state);
 
   // Retrieves client analytics settings for AMP.
-  const analytics = getSetting('theme', 'analytics')(state);
+  const analyticsSettings = getSetting('theme', 'analytics')(state);
   const { dev } = state.build;
-  const trackingIds = getGaTrackingIds({ dev, analytics, format: 'amp' });
-  const anonymize = (analytics && analytics.anonymize) || false;
+  const trackingIds = getGaTrackingIds({ dev, analyticsSettings, format: 'amp' });
+  const anonymize = (analyticsSettings && analyticsSettings.anonymize) || false;
 
   // Gets the custom dimensions' values
   const siteId = getSetting('generalSite', '_id')(state);
@@ -90,7 +104,11 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps)(
-  inject(({ connection }) => ({
+  inject(({ connection, analytics }) => ({
     selected: connection.selected,
+    customDimensions: analytics.getCustomDimensions({
+      singleType: connection.selected.singleType,
+      singleId: connection.selected.singleId,
+    }),
   }))(Analytics),
 );
