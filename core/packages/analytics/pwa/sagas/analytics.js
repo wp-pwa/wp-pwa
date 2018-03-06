@@ -9,7 +9,9 @@ let disposer;
 const getSetting = (namespace, setting) =>
   dep('settings', 'selectorCreators', 'getSetting')(namespace, setting);
 
-function virtualPageView({ connection, trackerNames }) {
+function virtualPageView({ stores, trackerNames }) {
+  const { connection, analytics } = stores;
+
   // Executes disposer if there is a pending pageview.
   if (disposer) {
     disposer();
@@ -26,13 +28,19 @@ function virtualPageView({ connection, trackerNames }) {
     // Send the pageview to the trackers.
     trackerNames.forEach(name => window.ga(`${name}.send`, pageView));
   } else {
+    const { selected } = connection;
+    const { singleType, singleId } = selected;
+
     // Wait for url and title ready.
     disposer = when(
       () => single && single.meta.pretty && single.link.pretty,
       () => {
+        const customDimensions = analytics.getCustomDimensions({ singleType, singleId });
         const { title } = single.meta;
         const location = single._link;
-        const pageView = { hitType: 'pageview', title, location };
+
+        const pageView = { hitType: 'pageview', title, location, ...customDimensions };
+
         // Send the pageview to the trackers.
         trackerNames.forEach(name => window.ga(`${name}.send`, pageView));
       },
@@ -40,7 +48,8 @@ function virtualPageView({ connection, trackerNames }) {
   }
 }
 
-export function virtualEvent({ event, connection, trackerNames }) {
+export function virtualEvent({ event, stores, trackerNames }) {
+  const { connection } = stores;
   const type = `type: ${connection.selected.type}`;
   const context = `context: ${connection.context.options.bar}`;
 
@@ -60,19 +69,19 @@ export function virtualEvent({ event, connection, trackerNames }) {
   }
 }
 
-export const eventHandlerCreator = ({ connection, trackerNames }) =>
+export const eventHandlerCreator = ({ stores, trackerNames }) =>
   function* eventFilter({ event }) {
     if (event) {
-      yield call(virtualEvent, { event, connection, trackerNames });
+      yield call(virtualEvent, { event, stores, trackerNames });
     }
   };
 
-export const routeChangeHandlerCreator = ({ connection, trackerNames }) =>
+export const routeChangeHandlerCreator = ({ stores, trackerNames }) =>
   function* routeChangeHandler() {
-    yield call(virtualPageView, { connection, trackerNames });
+    yield call(virtualPageView, { stores, trackerNames });
   };
 
-export default function* googleAnalyticsSagas({ connection }) {
+export default function* googleAnalyticsSagas(stores) {
   if (!window.ga) {
     /* eslint-disable */
     (function(i, s, o, g, r, a, m) {
@@ -92,9 +101,9 @@ export default function* googleAnalyticsSagas({ connection }) {
   }
 
   // Retrieves trackingIds from settings.
-  const analytics = yield select(getSetting('theme', 'analytics'));
+  const analyticsSettings = yield select(getSetting('theme', 'analytics'));
   const dev = yield select(state => state.build.dev);
-  const gaTrackingIds = getGaTrackingIds({ dev, analytics, format: 'pwa' });
+  const gaTrackingIds = getGaTrackingIds({ dev, analyticsSettings, format: 'pwa' });
 
   // Exits if there isn't any trackingId defined.
   if (!gaTrackingIds || gaTrackingIds.length === 0) return;
@@ -107,14 +116,14 @@ export default function* googleAnalyticsSagas({ connection }) {
   });
 
   // Sends first pageView to trackers.
-  virtualPageView({ connection, trackerNames });
+  virtualPageView({ stores, trackerNames });
 
   // Sends pageviews after every ROUTE_CHANGE_SUCCEED event.
   yield all([
     takeEvery(
       dep('connection', 'actionTypes', 'ROUTE_CHANGE_SUCCEED'),
-      routeChangeHandlerCreator({ connection, trackerNames }),
+      routeChangeHandlerCreator({ stores, trackerNames }),
     ),
-    takeEvery('*', eventHandlerCreator({ connection, trackerNames })),
+    takeEvery('*', eventHandlerCreator({ stores, trackerNames })),
   ]);
 }
