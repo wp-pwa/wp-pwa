@@ -12,6 +12,7 @@ export default store => {
 
     switch (type) {
       case dep('connection', 'actionTypes', 'SINGLE_SUCCEED'):
+      case dep('connection', 'actionTypes', 'LIST_SUCCEED'):
         store[type](action);
         break;
       default:

@@ -16,7 +16,12 @@ const sendVirtualEvent = event => {
 
 let disposer;
 
-export function* virtualPageView({ siteInfo, selected }) {
+export function* virtualPageView({ connection, analytics }) {
+  const { siteInfo, selected } = connection;
+  const { singleType, singleId } = selected;
+  // Custom dimensions will be sent only on singles
+  const customDimensions = analytics.getCustomDimensions({ singleType, singleId });
+
   if (typeof disposer === 'function') {
     disposer();
     disposer = null;
@@ -37,7 +42,18 @@ export function* virtualPageView({ siteInfo, selected }) {
       () => single && single.meta.pretty && single.link.pretty,
       () => {
         const { meta: { title }, _link: url } = single;
-        sendVirtualPage({ site, title, url, type, id, page, format, route, hash });
+        sendVirtualPage({
+          site,
+          title,
+          url,
+          type,
+          id,
+          page,
+          format,
+          route,
+          hash,
+          customDimensions,
+        });
       },
     );
   }
@@ -58,9 +74,9 @@ export function virtualEvent({ event, connection }) {
   });
 }
 
-export const succeedHandlerCreator = ({ connection }) =>
+export const succeedHandlerCreator = stores =>
   function* succeedHandler() {
-    yield call(virtualPageView, connection);
+    yield call(virtualPageView, stores);
   };
 
 export const eventHandlerCreator = ({ connection }) =>
@@ -106,7 +122,7 @@ export default function* gtmSagas(stores) {
   window.dataLayer.push({ event: 'wpPwaProperties', wpPwaProperties });
 
   yield fork(function* firstVirtualPageView() {
-    yield call(virtualPageView, stores.connection);
+    yield call(virtualPageView, stores);
   });
 
   yield all([
