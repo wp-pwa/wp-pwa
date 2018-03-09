@@ -20,6 +20,7 @@ import { requireModules } from './requires';
 const buildModule = require(`../packages/build/${process.env.MODE}`);
 const settingsModule = require(`../packages/settings/${process.env.MODE}`);
 const analyticsModule = require(`../packages/analytics/${process.env.MODE}`);
+const iframesModule = require(`../packages/iframes/${process.env.MODE}`);
 
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -59,6 +60,7 @@ export default ({ clientStats }) => async (req, res) => {
       { name: 'build', namespace: 'build', module: buildModule },
       { name: 'settings', namespace: 'settings', module: settingsModule },
       { name: 'analytics', namespace: 'analytics', module: analyticsModule },
+      { name: 'iframes', namespace: 'iframes', module: iframesModule },
     ];
 
     // Extract activated packages array from settings.
