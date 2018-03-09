@@ -5,24 +5,36 @@ import { Fill } from 'react-slot-fill';
 
 const iframeSettings = [
   {
-    id: 'aaa',
+    name: 'iframe1',
     src: 'https://example.com/',
     width: '100%',
     height: 400,
   },
   {
-    id: 'bbb',
+    name: 'iframe2',
     src: 'https://example.com/',
     width: '100%',
-    height: 400,
+    height: 300,
+  },
+  {
+    name: 'iframe3',
+    src: 'https://example.com/',
+    width: '100%',
+    height: 300,
+  },
+  {
+    name: 'iframe4',
+    src: 'https://example.com/',
+    width: '100%',
+    height: 600,
   },
 ];
 
 const Iframes = ({ settings }) =>
-  settings.map(({ id, src, width, height }) => (
-    <Fill key={id} name={id}>
+  settings.map(({ name, src, width, height }) => (
+    <Fill key={name} name={name}>
       <iframe
-        title={id}
+        title={name}
         src={src}
         width={width}
         height={height}
@@ -38,7 +50,7 @@ const Iframes = ({ settings }) =>
 Iframes.propTypes = {
   settings: PropTypes.arrayOf(
     PropTypes.shape({
-      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
       src: PropTypes.string.isRequired,
       width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
       height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
