@@ -26,7 +26,9 @@ function virtualPageView({ stores, trackerNames }) {
     const { title } = connection.siteInfo.home;
     const pageView = { hitType: 'pageview', title, page: '/' };
     // Send the pageview to the trackers.
-    trackerNames.forEach(name => window.ga(`${name}.send`, pageView));
+    if (typeof window.ga === 'function') {
+      trackerNames.forEach(name => window.ga(`${name}.send`, pageView));
+    }
   } else {
     const { selected } = connection;
     const { singleType, singleId } = selected;
@@ -42,7 +44,9 @@ function virtualPageView({ stores, trackerNames }) {
         const pageView = { hitType: 'pageview', title, location, ...customDimensions };
 
         // Send the pageview to the trackers.
-        trackerNames.forEach(name => window.ga(`${name}.send`, pageView));
+        if (typeof window.ga === 'function') {
+          trackerNames.forEach(name => window.ga(`${name}.send`, pageView));
+        }
       },
     );
   }
@@ -57,7 +61,7 @@ export function virtualEvent({ event, stores, trackerNames }) {
   const action = `PWA - ${event.action}`;
   const label = !event.label ? `${type} ${context}` : `${event.label} ${type} ${context}`;
 
-  if (window.ga) {
+  if (typeof window.ga === 'function') {
     trackerNames.forEach(trackerName => {
       window.ga(`${trackerName}.send`, {
         hitType: 'event',
@@ -82,23 +86,21 @@ export const routeChangeHandlerCreator = ({ stores, trackerNames }) =>
   };
 
 export default function* googleAnalyticsSagas(stores) {
-  if (!window.ga) {
-    /* eslint-disable */
-    (function(i, s, o, g, r, a, m) {
-      i.GoogleAnalyticsObject = r;
-      (i[r] =
-        i[r] ||
-        function() {
-          (i[r].q = i[r].q || []).push(arguments);
-        }),
-        (i[r].l = 1 * new Date());
-      (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
-      a.async = 1;
-      a.src = g;
-      m.parentNode.insertBefore(a, m);
-    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
-    /* eslint-enable */
-  }
+  /* eslint-disable */
+  (function(i, s, o, g, r, a, m) {
+    i.GoogleAnalyticsObject = r;
+    (i[r] =
+      i[r] ||
+      function() {
+        (i[r].q = i[r].q || []).push(arguments);
+      }),
+      (i[r].l = 1 * new Date());
+    (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m);
+  })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+  /* eslint-enable */
 
   // Retrieves trackingIds from settings.
   const analyticsSettings = yield select(getSetting('theme', 'analytics'));
@@ -109,11 +111,14 @@ export default function* googleAnalyticsSagas(stores) {
   if (!gaTrackingIds || gaTrackingIds.length === 0) return;
 
   // Initializes trackers and return their names.
-  const trackerNames = gaTrackingIds.map((trackingId, index) => {
-    const name = `clientTracker${index}`;
-    window.ga('create', trackingId, 'auto', name);
-    return name;
-  });
+  let trackerNames = [];
+  if (typeof window.ga === 'function') {
+    trackerNames = gaTrackingIds.map((trackingId, index) => {
+      const name = `clientTracker${index}`;
+      window.ga('create', trackingId, 'auto', name);
+      return name;
+    });
+  }
 
   // Sends first pageView to trackers.
   virtualPageView({ stores, trackerNames });
