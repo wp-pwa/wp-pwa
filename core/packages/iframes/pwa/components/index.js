@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Fill } from 'react-slot-fill';
-import { getIframesSettings } from '../selectors';
+import { getIframesForMobile } from '../selectors';
 
-const Iframes = ({ settings }) =>
-  settings.map(({ name, src, width, height }) => (
+const Iframes = ({ iframes }) =>
+  iframes.map(({ name, src, width, height }) => (
     <Fill key={name} name={name}>
       <iframe
         title={name}
@@ -22,7 +22,7 @@ const Iframes = ({ settings }) =>
   ));
 
 Iframes.propTypes = {
-  settings: PropTypes.arrayOf(
+  iframes: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       src: PropTypes.string.isRequired,
@@ -33,7 +33,7 @@ Iframes.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  settings: getIframesSettings(state),
+  iframes: getIframesForMobile(state),
 });
 
 export default connect(mapStateToProps)(Iframes);
