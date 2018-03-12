@@ -2,33 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Fill } from 'react-slot-fill';
-
-const iframeSettings = [
-  {
-    name: 'iframe1',
-    src: 'https://example.com/',
-    width: '100%',
-    height: 400,
-  },
-  {
-    name: 'iframe2',
-    src: 'https://example.com/',
-    width: '100%',
-    height: 300,
-  },
-  {
-    name: 'iframe3',
-    src: 'https://example.com/',
-    width: '100%',
-    height: 300,
-  },
-  {
-    name: 'iframe4',
-    src: 'https://example.com/',
-    width: '100%',
-    height: 600,
-  },
-];
+import { getIframesSettings } from '../selectors';
 
 const Iframes = ({ settings }) =>
   settings.map(({ name, src, width, height }) => (
@@ -58,8 +32,8 @@ Iframes.propTypes = {
   ),
 };
 
-const mapStateToProps = () => ({
-  settings: iframeSettings,
+const mapStateToProps = state => ({
+  settings: getIframesSettings(state),
 });
 
 export default connect(mapStateToProps)(Iframes);
