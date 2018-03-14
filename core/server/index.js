@@ -4,6 +4,7 @@ import React from 'react';
 import { combineReducers } from 'redux';
 import ReactDOM from 'react-dom/server';
 import { extractCritical } from 'emotion-server';
+import { injectGlobal } from 'react-emotion';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 import { mapValues } from 'lodash';
@@ -21,6 +22,7 @@ const buildModule = require(`../packages/build/${process.env.MODE}`);
 const settingsModule = require(`../packages/settings/${process.env.MODE}`);
 const analyticsModule = require(`../packages/analytics/${process.env.MODE}`);
 const iframesModule = require(`../packages/iframes/${process.env.MODE}`);
+const customCssModule = require(`../packages/customCss/${process.env.MODE}`);
 
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -61,6 +63,7 @@ export default ({ clientStats }) => async (req, res) => {
       { name: 'settings', namespace: 'settings', module: settingsModule },
       { name: 'analytics', namespace: 'analytics', module: analyticsModule },
       { name: 'iframes', namespace: 'iframes', module: iframesModule },
+      { name: 'customCss', namespace: 'customCss', module: customCssModule },
     ];
 
     // Extract activated packages array from settings.
@@ -128,6 +131,11 @@ export default ({ clientStats }) => async (req, res) => {
     await Promise.all(sagaPromises);
     store.dispatch(buildModule.actions.serverFinished({ timeToRunSagas: new Date() - startSagas }));
 
+    // eslint-disable-next-line
+    injectGlobal`
+    .custom-css-test { background: red !important; }
+    `;
+
     // Generate React SSR.
     const render =
       process.env.MODE === 'amp' ? ReactDOM.renderToStaticMarkup : ReactDOM.renderToString;
@@ -144,6 +152,8 @@ export default ({ clientStats }) => async (req, res) => {
     );
 
     const { html, ids, css } = extractCritical(app);
+
+    console.log('HAS CUSTOM CSS', css.includes('.custom-css-test'));
 
     // Get static helmet strings.
     const helmet = Helmet.renderStatic();
