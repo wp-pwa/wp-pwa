@@ -32,6 +32,7 @@ const mapStateToProps = state => {
   const analytics = dep('settings', 'selectorCreators', 'getSetting')('theme', 'analytics')(state);
   const gtmContainers = (analytics && analytics.pwa && analytics.pwa.gtmContainers) || [];
   const comScoreIds = (analytics && analytics.pwa && analytics.pwa.comScoreIds) || [];
+
   return {
     gtmContainers,
     comScoreIds,
