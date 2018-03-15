@@ -6,8 +6,24 @@ import { Helmet } from 'react-helmet';
 const ComScore = ({ id }) => (
   <Fragment>
     <Helmet>
-      <amp-pixel src={`https://sb.scorecardresearch.com/p?c1=2&c2=${id}&cv=2.0&cj=1`} />
+      <script
+        async=""
+        custom-element="amp-analytics"
+        src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"
+      />
     </Helmet>
+    <amp-analytics type="comscore">
+      <script
+        type="application/json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            vars: {
+              c2: id,
+            },
+          }),
+        }}
+      />
+    </amp-analytics>
   </Fragment>
 );
 

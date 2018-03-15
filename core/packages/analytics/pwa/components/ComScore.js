@@ -1,5 +1,5 @@
 /* eslint-disable react/no-danger */
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
@@ -9,11 +9,7 @@ export const comScoreNoScript = id => (
   </noscript>
 );
 
-const ComScore = ({ id }) => (
-  <Fragment>
-    <Helmet>{comScoreNoScript(id)}</Helmet>
-  </Fragment>
-);
+const ComScore = ({ id }) => <Helmet>{comScoreNoScript(id)}</Helmet>;
 
 ComScore.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
