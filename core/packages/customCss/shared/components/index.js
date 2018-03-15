@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
 import { css } from 'react-emotion';
+import { dep } from 'worona-deps';
 
 const CustomCss = ({ customCss }) => {
   const className = css`
@@ -20,8 +21,8 @@ CustomCss.propTypes = {
   customCss: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = () => ({
-  customCss: '.custom-css-test { background: red; }',
+const mapStateToProps = state => ({
+  customCss: dep('settings', 'selectorCreators', 'getSetting')('theme', 'customCss')(state) || '',
 });
 
 export default connect(mapStateToProps)(CustomCss);
