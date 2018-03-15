@@ -1,20 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
-import { injectGlobal } from 'react-emotion';
+import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet';
+import { css } from 'react-emotion';
 
-const CustomCss = ({ css }) => {
-  // eslint-disable-next-line
-  injectGlobal`${css}`;
-  return null && <div />;
+const CustomCss = ({ customCss }) => {
+  const className = css`
+    ${customCss};
+  `;
+  return (
+    // this do the trick
+    <Helmet className={className}>
+      <body className={className} />;
+    </Helmet>
+  );
 };
 
 CustomCss.propTypes = {
-  css: PropTypes.string,
+  customCss: PropTypes.string.isRequired,
 };
 
-CustomCss.defaultProps = {
-  css: '.custom-css-test { background: red !important; }',
-};
+const mapStateToProps = () => ({
+  customCss: '.custom-css-test { background: red; }',
+});
 
-export default CustomCss;
+export default connect(mapStateToProps)(CustomCss);

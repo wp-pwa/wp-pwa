@@ -4,7 +4,6 @@ import React from 'react';
 import { combineReducers } from 'redux';
 import ReactDOM from 'react-dom/server';
 import { extractCritical } from 'emotion-server';
-import { injectGlobal } from 'react-emotion';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 import { mapValues } from 'lodash';
@@ -131,11 +130,6 @@ export default ({ clientStats }) => async (req, res) => {
     await Promise.all(sagaPromises);
     store.dispatch(buildModule.actions.serverFinished({ timeToRunSagas: new Date() - startSagas }));
 
-    // eslint-disable-next-line
-    injectGlobal`
-    .custom-css-test { background: red !important; }
-    `;
-
     // Generate React SSR.
     const render =
       process.env.MODE === 'amp' ? ReactDOM.renderToStaticMarkup : ReactDOM.renderToString;
@@ -152,8 +146,6 @@ export default ({ clientStats }) => async (req, res) => {
     );
 
     const { html, ids, css } = extractCritical(app);
-
-    console.log('HAS CUSTOM CSS', css.includes('.custom-css-test'));
 
     // Get static helmet strings.
     const helmet = Helmet.renderStatic();

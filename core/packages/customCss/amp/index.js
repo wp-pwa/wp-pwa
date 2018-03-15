@@ -1,6 +1,3 @@
-import serverSagas from '../shared/sagas/server';
-
-const CustomCss = () => null;
+import CustomCss from '../shared/components';
 
 export default CustomCss;
-export { serverSagas };
