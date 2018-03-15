@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet';
@@ -11,9 +11,12 @@ const CustomCss = ({ customCss }) => {
   `;
   return (
     // this do the trick
-    <Helmet className={className}>
-      <body className={className} />;
-    </Helmet>
+    <Fragment>
+      <span className={className} style={{ display: 'none' }} />
+      <Helmet>
+        <body className={className} />;
+      </Helmet>
+    </Fragment>
   );
 };
 
