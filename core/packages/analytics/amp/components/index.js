@@ -82,7 +82,7 @@ const mapStateToProps = state => {
   const trackingIds = getGaTrackingIds({ dev, analyticsSettings, format: 'amp' });
   const anonymize = (analyticsSettings && analyticsSettings.anonymize) || false;
   const comScoreIds =
-    (analyticsSettings && analyticsSettings.pwa && analyticsSettings.pwa.comScoreIds) || [];
+    (analyticsSettings && analyticsSettings.amp && analyticsSettings.amp.comScoreIds) || [];
 
   // Gets the custom dimensions' values
   const siteId = getSetting('generalSite', '_id')(state);
