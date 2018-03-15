@@ -5,11 +5,12 @@ import { Fill } from 'react-slot-fill';
 import { getIframesForMobile } from '../selectors';
 
 const Iframes = ({ iframes }) =>
-  iframes.map(({ name, src, width, height }) => (
+  iframes.map(({ name, src, className, width, height }) => (
     <Fill key={name} name={name}>
       <iframe
         title={name}
         src={src}
+        className={className}
         width={width}
         height={height}
         style={{
@@ -26,8 +27,9 @@ Iframes.propTypes = {
     PropTypes.shape({
       name: PropTypes.string.isRequired,
       src: PropTypes.string.isRequired,
-      width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-      height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+      className: PropTypes.string,
+      width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+      height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
     }),
   ),
 };
