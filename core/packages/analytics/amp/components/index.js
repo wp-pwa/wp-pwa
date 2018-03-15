@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { inject } from 'mobx-react';
 import { dep } from 'worona-deps';
 import GoogleAnalytics from './GoogleAnalytics';
+import ComScore from './ComScore';
 import {
   getGaTrackingIds,
   getAnonymousTitle,
@@ -20,6 +21,7 @@ const Analytics = ({
   anonymize,
   extraUrlParams,
   customDimensions,
+  comScoreIds,
 }) => {
   const format = 'amp';
   const routeProps = { site, selected, format };
@@ -48,12 +50,14 @@ const Analytics = ({
           extraUrlParams={customDimensions}
         />
       ))}
+      {comScoreIds.map(comScoreId => <ComScore id={comScoreId} />)}
     </Fragment>
   );
 };
 
 Analytics.propTypes = {
   trackingIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  comScoreIds: PropTypes.arrayOf(PropTypes.number).isRequired,
   dev: PropTypes.bool.isRequired,
   site: PropTypes.string.isRequired,
   selected: PropTypes.shape({}).isRequired,
@@ -77,6 +81,8 @@ const mapStateToProps = state => {
   const { dev } = state.build;
   const trackingIds = getGaTrackingIds({ dev, analyticsSettings, format: 'amp' });
   const anonymize = (analyticsSettings && analyticsSettings.anonymize) || false;
+  const comScoreIds =
+    (analyticsSettings && analyticsSettings.pwa && analyticsSettings.pwa.comScoreIds) || [];
 
   // Gets the custom dimensions' values
   const siteId = getSetting('generalSite', '_id')(state);
@@ -88,6 +94,7 @@ const mapStateToProps = state => {
 
   return {
     trackingIds,
+    comScoreIds,
     anonymize,
     dev,
     site,
