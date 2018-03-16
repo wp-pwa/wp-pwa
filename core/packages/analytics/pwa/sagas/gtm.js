@@ -7,11 +7,11 @@ const getSetting = (namespace, setting) =>
   dep('settings', 'selectorCreators', 'getSetting')(namespace, setting);
 
 const sendVirtualPage = virtualPage => {
-  window.dataLayer.push({ event: 'virtualPageView', virtualPage });
+  window.dataLayer.push({ event: 'virtualPageView', virtualPageView: virtualPage });
 };
 
 const sendVirtualEvent = event => {
-  window.dataLayer.push({ event: 'virtualEvent', eventData: event });
+  window.dataLayer.push({ event: 'virtualEvent', virtualEvent: event });
 };
 
 let disposer;
