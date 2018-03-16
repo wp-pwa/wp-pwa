@@ -51,11 +51,6 @@ export const initialUrl = (state = null, action) => {
   return state;
 };
 
-export const initialUri = (state = null, action) => {
-  if (action.type === actionTypes.BUILD_UPDATED && action.initialUri) return action.initialUri;
-  return state;
-};
-
 export default () =>
   combineReducers({
     ssr,
@@ -68,5 +63,4 @@ export default () =>
     device,
     dev,
     initialUrl,
-    initialUri,
   });

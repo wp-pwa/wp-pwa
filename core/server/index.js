@@ -31,7 +31,7 @@ const parse = id => (Number.isFinite(parseInt(id, 10)) ? parseInt(id, 10) : id);
 
 export default ({ clientStats }) => async (req, res) => {
   let status = 200;
-  const { siteId, singleType, perPage, initialUrl, initialUri } = req.query;
+  const { siteId, singleType, perPage, initialUrl } = req.query;
   const listType = !req.query.listType && !req.query.singleType ? 'latest' : req.query.listType;
   const listId = parse(req.query.listId) || (listType && 'post');
   const singleId = parse(req.query.singleId);
@@ -116,7 +116,6 @@ export default ({ clientStats }) => async (req, res) => {
         amp: process.env.MODE === 'amp',
         dev: req.query.dev,
         initialUrl,
-        initialUri,
       }),
     );
 

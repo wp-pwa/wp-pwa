@@ -4,7 +4,6 @@ export const getExtensions = state => state.build.extensions;
 export const getTheme = state => state.build.theme;
 export const getSsr = state => state.build.ssr;
 export const getInitialUrl = state => state.build.initialUrl;
-export const getInitialUri = state => state.build.initialUri;
 
 // export const getPackages = createSelector(getExtensions, getTheme, (extensions, theme) => [
 //   ...Object.values(extensions),
