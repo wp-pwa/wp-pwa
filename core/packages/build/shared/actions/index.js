@@ -10,6 +10,7 @@ export const buildUpdated = ({
   device,
   dev,
   initialUrl,
+  initialUri,
 }) => ({
   type: actionTypes.BUILD_UPDATED,
   packages,
@@ -20,6 +21,7 @@ export const buildUpdated = ({
   device,
   dev,
   initialUrl,
+  initialUri,
   perPage: parseInt(perPage, 10),
 });
 
