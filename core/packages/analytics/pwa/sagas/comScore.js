@@ -59,7 +59,7 @@ export function* virtualPageView(connection, comScoreIds, titleMatches) {
     // Single doesn't exist, so we are in the home page.
     const { title } = connection.siteInfo.home;
     yield call(titleMatches, title);
-    comScoreIds.forEach(id => window.COMSCORE.beacon({ c1: '2', c2: id }));
+    if (window.COMSCORE) comScoreIds.forEach(id => window.COMSCORE.beacon({ c1: '2', c2: id }));
   } else {
     // Waits for the correct url and title and then sends beacons.
     disposer = when(
@@ -67,7 +67,7 @@ export function* virtualPageView(connection, comScoreIds, titleMatches) {
       async () => {
         const { title } = single.meta;
         await titleMatches(title);
-        comScoreIds.forEach(id => window.COMSCORE.beacon({ c1: '2', c2: id }));
+        if (window.COMSCORE) comScoreIds.forEach(id => window.COMSCORE.beacon({ c1: '2', c2: id }));
       },
     );
   }

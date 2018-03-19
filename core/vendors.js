@@ -15,5 +15,6 @@ module.exports = [
   'redux-saga/effects',
   'reselect',
   'react-redux',
+  'react-slot-fill',
   'recompose',
 ];
