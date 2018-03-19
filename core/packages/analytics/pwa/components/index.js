@@ -28,10 +28,12 @@ Analytics.defaultProps = {
   comScoreIds: [],
 };
 
+const emptyArray = [];
+
 const mapStateToProps = state => {
   const analytics = dep('settings', 'selectorCreators', 'getSetting')('theme', 'analytics')(state);
-  const gtmContainers = (analytics && analytics.pwa && analytics.pwa.gtmContainers) || [];
-  const comScoreIds = (analytics && analytics.pwa && analytics.pwa.comScoreIds) || [];
+  const gtmContainers = (analytics && analytics.pwa && analytics.pwa.gtmContainers) || emptyArray;
+  const comScoreIds = (analytics && analytics.pwa && analytics.pwa.comScoreIds) || emptyArray;
   return {
     gtmContainers,
     comScoreIds,
