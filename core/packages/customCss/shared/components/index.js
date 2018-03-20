@@ -12,7 +12,7 @@ const CustomCss = ({ customCss }) => {
   return (
     // this do the trick
     <Fragment>
-      <span className={className} style={{ display: 'none' }} />
+      <span className={className} />
       <Helmet>
         <body className={className} />;
       </Helmet>
