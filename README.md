@@ -107,6 +107,10 @@ The output `html` files will be located in the `.build/pwa/(client|server)/analy
 
 ## Changelog
 
+#### 1.4.1
+
+- Fix React dead code elimination warning
+
 #### 1.4.0
 
 - Add Comscore to AMP
