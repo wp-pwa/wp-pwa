@@ -15,7 +15,7 @@
         [
           "env",
           {
-            "targets": { "browsers": ["ios_saf > 9", "and_chr >= 40"] },
+            "targets": { "browsers": ["android >= 5", "ios_saf > 9", "and_chr >= 40"] },
             "useBuiltIns": "usage"
           }
         ],
@@ -37,7 +37,7 @@
         [
           "env",
           {
-            "targets": { "browsers": ["ios_saf > 9", "and_chr >= 40"] },
+            "targets": { "browsers": ["android >= 5", "ios_saf > 9", "and_chr >= 40"] },
             "useBuiltIns": "usage"
           }
         ],
