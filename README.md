@@ -107,6 +107,14 @@ The output `html` files will be located in the `.build/pwa/(client|server)/analy
 
 ## Changelog
 
+#### 1.4.0
+
+- Add Comscore to AMP
+- Add initialUri compatibility (for wp-pwa-plugin >= 1.3.0)
+- Fixes on GTM
+- Configure Babel to support Chrome >= 40
+- Add iFrames and CustomCSS extensions
+
 #### 1.3.5
 
 - Check if ga is a function
