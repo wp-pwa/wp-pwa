@@ -3,7 +3,14 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
-const GoogleAnalytics = ({ trackingId, title, documentLocation, extraUrlParams }) => (
+const GoogleAnalytics = ({
+  trackingId,
+  title,
+  documentLocation,
+  extraUrlParams,
+  vars,
+  triggers,
+}) => (
   <Fragment>
     <Helmet>
       <script
@@ -19,6 +26,7 @@ const GoogleAnalytics = ({ trackingId, title, documentLocation, extraUrlParams }
           __html: JSON.stringify({
             vars: {
               account: trackingId,
+              ...vars,
             },
             extraUrlParams,
             triggers: {
@@ -30,6 +38,7 @@ const GoogleAnalytics = ({ trackingId, title, documentLocation, extraUrlParams }
                   documentLocation,
                 },
               },
+              ...triggers,
             },
           }),
         }}
@@ -43,10 +52,14 @@ GoogleAnalytics.propTypes = {
   title: PropTypes.string.isRequired,
   documentLocation: PropTypes.string.isRequired,
   extraUrlParams: PropTypes.shape({}),
+  vars: PropTypes.shape({}),
+  triggers: PropTypes.shape({}),
 };
 
 GoogleAnalytics.defaultProps = {
   extraUrlParams: {},
+  vars: {},
+  triggers: {},
 };
 
 export default GoogleAnalytics;

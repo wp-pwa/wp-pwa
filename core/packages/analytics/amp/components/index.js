@@ -22,6 +22,8 @@ const Analytics = ({
   extraUrlParams,
   customDimensions,
   comScoreIds,
+  themeVars,
+  themeTriggers,
 }) => {
   const format = 'amp';
   const routeProps = { site, selected, format };
@@ -40,6 +42,8 @@ const Analytics = ({
         documentLocation={anonymize ? getAnonymousUrl(routeProps) : url}
         trackingId={dev ? 'UA-91312941-5' : 'UA-91312941-6'}
         extraUrlParams={extraUrlParams}
+        vars={themeVars}
+        triggers={themeTriggers}
       />
       {trackingIds.map(trackingId => (
         <GoogleAnalytics
@@ -48,6 +52,8 @@ const Analytics = ({
           title={title}
           documentLocation={url}
           extraUrlParams={customDimensions}
+          vars={themeVars}
+          triggers={themeTriggers}
         />
       ))}
       {comScoreIds.map(comScoreId => <ComScore id={comScoreId} />)}
@@ -64,10 +70,14 @@ Analytics.propTypes = {
   anonymize: PropTypes.bool.isRequired,
   extraUrlParams: PropTypes.shape({}).isRequired,
   customDimensions: PropTypes.shape({}),
+  themeVars: PropTypes.shape({}),
+  themeTriggers: PropTypes.shape({}),
 };
 
 Analytics.defaultProps = {
   customDimensions: null,
+  themeVars: {},
+  themeTriggers: {},
 };
 
 const mapStateToProps = state => {
@@ -92,6 +102,16 @@ const mapStateToProps = state => {
   const pageType = 'amp';
   const plan = 'enterprise';
 
+  // Gets Google Analytics' triggers and vars defined in theme for AMP.
+  let themeVars = {};
+  let themeTriggers = {};
+  try {
+    themeVars = dep('theme', 'analytics', 'gaVars');
+    themeTriggers = dep('theme', 'analytics', 'gaTriggers');
+  } catch (e) {
+    // analytics not defined in this theme
+  }
+
   return {
     trackingIds,
     comScoreIds,
@@ -107,6 +127,8 @@ const mapStateToProps = state => {
       cd6: pageType,
       cd7: anonymize ? 'anonymous' : plan,
     },
+    themeVars,
+    themeTriggers,
   };
 };
 
