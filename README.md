@@ -1,6 +1,5 @@
 # WP-PWA
 
-
 ## Development
 
 Run `npm run start:pwa` to start the project in development mode.
@@ -106,6 +105,11 @@ If you want to analyze the bundles, you can pass:
 The output `html` files will be located in the `.build/pwa/(client|server)/analyze` folders.
 
 ## Changelog
+
+#### 1.4.2
+
+- Import analytics dependencies from theme
+- Go back to initialUrl
 
 #### 1.4.1
 
