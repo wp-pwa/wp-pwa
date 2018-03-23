@@ -16,6 +16,7 @@ import { getSettings } from './settings';
 import pwaTemplate from './pwa-template';
 import ampTemplate from './amp-template';
 import { requireModules } from './requires';
+import { parseQuery } from './utils';
 
 const buildModule = require(`../packages/build/${process.env.MODE}`);
 const settingsModule = require(`../packages/settings/${process.env.MODE}`);
@@ -31,13 +32,7 @@ const parse = id => (Number.isFinite(parseInt(id, 10)) ? parseInt(id, 10) : id);
 
 export default ({ clientStats }) => async (req, res) => {
   let status = 200;
-  const { siteId, singleType, perPage, initialUrl } = req.query;
-  const listType = !req.query.listType && !req.query.singleType ? 'latest' : req.query.listType;
-  const listId = parse(req.query.listId) || (listType && 'post');
-  const singleId = parse(req.query.singleId);
-  const page = parse(req.query.page) || 1;
-  const env = req.query.env === 'prod' ? 'prod' : 'pre';
-  const device = req.query.device || 'mobile';
+  const { siteId, perPage, initialUrl, env, device, type, id, page } = parseQuery(req.query);
 
   // Avoid observables in server.
   useStaticRendering(true);
@@ -123,7 +118,7 @@ export default ({ clientStats }) => async (req, res) => {
     store.dispatch(settingsModule.actions.settingsUpdated({ settings }));
 
     // Run and wait until all the server sagas have run.
-    const params = { selected: { listType, listId, page, singleType, singleId }, stores };
+    const params = { selectedItem: { listType, listId, page, singleType, singleId }, stores };
     const startSagas = new Date();
     const sagaPromises = Object.values(serverSagas).map(saga => store.runSaga(saga, params).done);
     store.dispatch(buildModule.actions.serverSagasInitialized());
