@@ -15,11 +15,15 @@ export const parseQuery = query => {
 
     if (typeof listType !== 'undefined') {
       type = listType;
+      page = parse(query.page) || 1;
     } else if (typeof singleType !== 'undefined') {
       type = singleType;
     } else {
       type = 'latest';
+      page = parse(query.page) || 1;
     }
+  } else {
+    page = parse(query.page);
   }
 
   if (typeof id === 'undefined') {
@@ -34,14 +38,6 @@ export const parseQuery = query => {
     }
   } else {
     id = parse(id);
-  }
-
-  if (typeof page === 'undefined') {
-    if (typeof query.listType !== 'undefined') {
-      page = 1;
-    }
-  } else {
-    page = parse(page);
   }
 
   return {
