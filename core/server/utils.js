@@ -1,15 +1,48 @@
 /* eslint-disable import/prefer-default-export */
 
-export const parseQuery = query => {
-  const { siteId, perPage, initialUrl, type, id, page } = query;
+const parse = value =>
+  Number.isFinite(parseInt(value, 10)) ? parseInt(value, 10) : value;
 
+export const parseQuery = query => {
+  const { siteId, perPage, initialUrl } = query;
   const env = query.env === 'prod' ? 'prod' : 'pre';
   const device = query.device || 'mobile';
 
-  const listType = !query.listType && !query.singleType ? 'latest' : query.listType;
-  const listId = parse(query.listId) || (listType && 'post');
-  const singleId = parse(query.singleId);
-  const page = parse(query.page) || 1;
+  let { type, id, page } = query;
+
+  if (typeof type === 'undefined') {
+    const { listType, singleType } = query;
+
+    if (typeof listType !== 'undefined') {
+      type = listType;
+    } else if (typeof singleType !== 'undefined') {
+      type = singleType;
+    } else {
+      type = 'latest';
+    }
+  }
+
+  if (typeof id === 'undefined') {
+    const { listId, singleId } = query;
+
+    if (typeof listId !== 'undefined') {
+      id = parse(listId);
+    } else if (typeof singleId !== 'undefined') {
+      id = parse(singleId);
+    } else {
+      id = 'post';
+    }
+  } else {
+    id = parse(id);
+  }
+
+  if (typeof page === 'undefined') {
+    if (typeof query.listType !== 'undefined') {
+      page = 1;
+    }
+  } else {
+    page = parse(page);
+  }
 
   return {
     siteId,
@@ -17,5 +50,8 @@ export const parseQuery = query => {
     initialUrl,
     env,
     device,
+    type,
+    id,
+    page,
   };
 };
