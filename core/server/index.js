@@ -16,6 +16,7 @@ import { getSettings } from './settings';
 import pwaTemplate from './pwa-template';
 import ampTemplate from './amp-template';
 import { requireModules } from './requires';
+import { parseQuery } from './utils';
 
 const buildModule = require(`../packages/build/${process.env.MODE}`);
 const settingsModule = require(`../packages/settings/${process.env.MODE}`);
@@ -25,19 +26,22 @@ const customCssModule = require(`../packages/customCss/${process.env.MODE}`);
 
 const dev = process.env.NODE_ENV !== 'production';
 
-const { buildPath } = require(`../../.build/${process.env.MODE}/buildInfo.json`);
-
-const parse = id => (Number.isFinite(parseInt(id, 10)) ? parseInt(id, 10) : id);
+const { buildPath } = require(`../../.build/${
+  process.env.MODE
+}/buildInfo.json`);
 
 export default ({ clientStats }) => async (req, res) => {
   let status = 200;
-  const { siteId, singleType, perPage, initialUrl } = req.query;
-  const listType = !req.query.listType && !req.query.singleType ? 'latest' : req.query.listType;
-  const listId = parse(req.query.listId) || (listType && 'post');
-  const singleId = parse(req.query.singleId);
-  const page = parse(req.query.page) || 1;
-  const env = req.query.env === 'prod' ? 'prod' : 'pre';
-  const device = req.query.device || 'mobile';
+  const {
+    siteId,
+    perPage,
+    initialUrl,
+    env,
+    device,
+    type,
+    id,
+    page,
+  } = parseQuery(req.query);
 
   // Avoid observables in server.
   useStaticRendering(true);
@@ -53,7 +57,9 @@ export default ({ clientStats }) => async (req, res) => {
     const settings = await getSettings({ siteId, env });
     if (!settings) {
       status = 404;
-      throw new Error(`Settings for ${siteId} not found in the ${env.toUpperCase()} database.`);
+      throw new Error(
+        `Settings for ${siteId} not found in the ${env.toUpperCase()} database.`,
+      );
     }
 
     // Define core modules.
@@ -70,7 +76,13 @@ export default ({ clientStats }) => async (req, res) => {
       ? Object.values(settings)
           .filter(pkg => pkg.woronaInfo.namespace !== 'generalSite')
           .filter(pkg => pkg.woronaInfo.namespace !== 'generalApp')
-          .reduce((obj, pkg) => ({ ...obj, [pkg.woronaInfo.namespace]: pkg.woronaInfo.name }), {})
+          .reduce(
+            (obj, pkg) => ({
+              ...obj,
+              [pkg.woronaInfo.namespace]: pkg.woronaInfo.name,
+            }),
+            {},
+          )
       : {};
 
     // Load the activated modules.
@@ -87,8 +99,10 @@ export default ({ clientStats }) => async (req, res) => {
     const mapModules = pkg => {
       if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({});
       if (pkg.module.store) stores[pkg.namespace] = pkg.module.store;
-      if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers(pkg.module.store);
-      if (pkg.module.serverSagas) serverSagas[pkg.name] = pkg.module.serverSagas;
+      if (pkg.module.reducers)
+        reducers[pkg.namespace] = pkg.module.reducers(pkg.module.store);
+      if (pkg.module.serverSagas)
+        serverSagas[pkg.name] = pkg.module.serverSagas;
     };
 
     // Add packages to worona-devs.
@@ -123,16 +137,27 @@ export default ({ clientStats }) => async (req, res) => {
     store.dispatch(settingsModule.actions.settingsUpdated({ settings }));
 
     // Run and wait until all the server sagas have run.
-    const params = { selected: { listType, listId, page, singleType, singleId }, stores };
+    const params = {
+      selectedItem: { type, id, page },
+      stores,
+    };
     const startSagas = new Date();
-    const sagaPromises = Object.values(serverSagas).map(saga => store.runSaga(saga, params).done);
+    const sagaPromises = Object.values(serverSagas).map(
+      saga => store.runSaga(saga, params).done,
+    );
     store.dispatch(buildModule.actions.serverSagasInitialized());
     await Promise.all(sagaPromises);
-    store.dispatch(buildModule.actions.serverFinished({ timeToRunSagas: new Date() - startSagas }));
+    store.dispatch(
+      buildModule.actions.serverFinished({
+        timeToRunSagas: new Date() - startSagas,
+      }),
+    );
 
     // Generate React SSR.
     const render =
-      process.env.MODE === 'amp' ? ReactDOM.renderToStaticMarkup : ReactDOM.renderToString;
+      process.env.MODE === 'amp'
+        ? ReactDOM.renderToStaticMarkup
+        : ReactDOM.renderToString;
     app = render(
       <App
         store={store}
@@ -153,21 +178,34 @@ export default ({ clientStats }) => async (req, res) => {
     if (process.env.MODE === 'pwa') {
       // Flush chunk names and extract scripts, css and css<->scripts object.
       const chunkNames = flushChunkNames();
-      const { cssHashRaw, scripts, stylesheets } = flushChunks(clientStats, { chunkNames });
+      const { cssHashRaw, scripts, stylesheets } = flushChunks(clientStats, {
+        chunkNames,
+      });
 
       const publicPath = req.query.static
         ? `${req.query.static.replace(/\/$/g, '')}/static/`
         : '/static/';
-      const cssHash = JSON.stringify(mapValues(cssHashRaw, cssPath => `${publicPath}${cssPath}`));
-      const scriptsWithoutBootstrap = scripts.filter(script => !/bootstrap/.test(script));
-      const chunksForArray = scriptsWithoutBootstrap.map(script => `'${script}'`).join(',');
-      const bootstrapFileName = scripts.filter(script => /bootstrap/.test(script));
+      const cssHash = JSON.stringify(
+        mapValues(cssHashRaw, cssPath => `${publicPath}${cssPath}`),
+      );
+      const scriptsWithoutBootstrap = scripts.filter(
+        script => !/bootstrap/.test(script),
+      );
+      const chunksForArray = scriptsWithoutBootstrap
+        .map(script => `'${script}'`)
+        .join(',');
+      const bootstrapFileName = scripts.filter(script =>
+        /bootstrap/.test(script),
+      );
       const bootstrapString = await readFile(
         `${buildPath}/.build/${process.env.MODE}/client/${bootstrapFileName}`,
         'utf8',
       );
       const preloadScripts = scriptsWithoutBootstrap
-        .map(script => `<link rel="preload" href="${publicPath}${script}" as="script">`)
+        .map(
+          script =>
+            `<link rel="preload" href="${publicPath}${script}" as="script">`,
+        )
         .join('\n');
       const styles = stylesheets
         .map(
