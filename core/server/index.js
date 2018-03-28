@@ -92,12 +92,14 @@ export default ({ clientStats }) => async (req, res) => {
     const reducers = {};
     const serverSagas = {};
 
+    const storesEnv = {};
+
     const addModules = pkg => {
       addPackage({ namespace: pkg.namespace, module: pkg.module });
     };
 
     const mapModules = pkg => {
-      if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({});
+      if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({}, storesEnv);
       if (pkg.module.store) stores[pkg.namespace] = pkg.module.store;
       if (pkg.module.reducers)
         reducers[pkg.namespace] = pkg.module.reducers(pkg.module.store);
@@ -115,6 +117,7 @@ export default ({ clientStats }) => async (req, res) => {
 
     // Init redux store.
     const store = initStore({ reducer: combineReducers(reducers) });
+    storesEnv.dispatch = store.dispatch;
 
     // Notify that server is started.
     store.dispatch(buildModule.actions.serverStarted());
