@@ -64,26 +64,30 @@ const init = async () => {
     addPackage({ namespace: pkg.namespace, module: pkg.module });
   };
 
+  // Add packages to worona-devs.
+  coreModules.forEach(addModules);
+  pkgModules.forEach(addModules);
+
+  // Init store.
+  store = initStore({
+    reducer: () => {},
+    initialState: window['wp-pwa'].initialState,
+  });
+
   const mapModules = pkg => {
-    if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({});
+    if (pkg.module.Store)
+      pkg.module.store = pkg.module.Store.create({}, { dispatch: store.dispatch });
     if (pkg.module.store) stores[pkg.namespace] = pkg.module.store;
     if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers(pkg.module.store);
     if (pkg.module.clientSagas) clientSagas[pkg.name] = pkg.module.clientSagas;
   };
 
-  // Add packages to worona-devs.
-  coreModules.forEach(addModules);
-  pkgModules.forEach(addModules);
-
   // Load reducers and sagas.
   coreModules.forEach(mapModules);
   pkgModules.forEach(mapModules);
 
-  // Init store.
-  store = initStore({
-    reducer: combineReducers(reducers),
-    initialState: window['wp-pwa'].initialState,
-  });
+  // Set reducers after creating mst stores.
+  store.replaceReducer(combineReducers(reducers));
 
   // Start all the client sagas.
   store.dispatch(buildModule.actions.clientStarted());

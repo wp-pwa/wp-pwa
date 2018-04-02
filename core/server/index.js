@@ -83,33 +83,27 @@ export default ({ clientStats }) => async (req, res) => {
       addPackage({ namespace: pkg.namespace, module: pkg.module });
     };
 
+    // Add packages to worona-devs.
+    coreModules.forEach(addModules);
+    pkgModules.forEach(addModules);
+
+    // Init redux store.
+    const store = initStore({ reducer: () => {} });
+
     const mapModules = pkg => {
-      if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({});
+      if (pkg.module.Store)
+        pkg.module.store = pkg.module.Store.create({}, { dispatch: store.dispatch });
       if (pkg.module.store) stores[pkg.namespace] = pkg.module.store;
       if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers(pkg.module.store);
       if (pkg.module.serverSagas) serverSagas[pkg.name] = pkg.module.serverSagas;
     };
 
-    // Add packages to worona-devs.
-    coreModules.forEach(addModules);
-    pkgModules.forEach(addModules);
-
     // Load reducers and sagas.
     coreModules.forEach(mapModules);
     pkgModules.forEach(mapModules);
 
-    // Init redux store.
-    const store = initStore({ reducer: combineReducers(reducers) });
-
-    const mapStores = pkg => {
-      if (pkg.module.Store)
-        pkg.module.store = pkg.module.Store.create({}, { dispatch: store.dispatch });
-      if (pkg.module.store) stores[pkg.namespace] = pkg.module.store;
-    };
-
-    // Load Stores and pass dispatch as env variable.
-    coreModules.forEach(mapStores);
-    pkgModules.forEach(mapStores);
+    // Set reducers after creating mst stores.
+    store.replaceReducer(combineReducers(reducers));
 
     // Notify that server is started.
     store.dispatch(buildModule.actions.serverStarted());
