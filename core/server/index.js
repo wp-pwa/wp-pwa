@@ -26,22 +26,11 @@ const customCssModule = require(`../packages/customCss/${process.env.MODE}`);
 
 const dev = process.env.NODE_ENV !== 'production';
 
-const { buildPath } = require(`../../.build/${
-  process.env.MODE
-}/buildInfo.json`);
+const { buildPath } = require(`../../.build/${process.env.MODE}/buildInfo.json`);
 
 export default ({ clientStats }) => async (req, res) => {
   let status = 200;
-  const {
-    siteId,
-    perPage,
-    initialUrl,
-    env,
-    device,
-    type,
-    id,
-    page,
-  } = parseQuery(req.query);
+  const { siteId, perPage, initialUrl, env, device, type, id, page } = parseQuery(req.query);
 
   // Avoid observables in server.
   useStaticRendering(true);
@@ -57,9 +46,7 @@ export default ({ clientStats }) => async (req, res) => {
     const settings = await getSettings({ siteId, env });
     if (!settings) {
       status = 404;
-      throw new Error(
-        `Settings for ${siteId} not found in the ${env.toUpperCase()} database.`,
-      );
+      throw new Error(`Settings for ${siteId} not found in the ${env.toUpperCase()} database.`);
     }
 
     // Define core modules.
@@ -92,19 +79,15 @@ export default ({ clientStats }) => async (req, res) => {
     const reducers = {};
     const serverSagas = {};
 
-    const storesEnv = {};
-
     const addModules = pkg => {
       addPackage({ namespace: pkg.namespace, module: pkg.module });
     };
 
     const mapModules = pkg => {
-      if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({}, storesEnv);
+      if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({});
       if (pkg.module.store) stores[pkg.namespace] = pkg.module.store;
-      if (pkg.module.reducers)
-        reducers[pkg.namespace] = pkg.module.reducers(pkg.module.store);
-      if (pkg.module.serverSagas)
-        serverSagas[pkg.name] = pkg.module.serverSagas;
+      if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers(pkg.module.store);
+      if (pkg.module.serverSagas) serverSagas[pkg.name] = pkg.module.serverSagas;
     };
 
     // Add packages to worona-devs.
@@ -117,7 +100,16 @@ export default ({ clientStats }) => async (req, res) => {
 
     // Init redux store.
     const store = initStore({ reducer: combineReducers(reducers) });
-    storesEnv.dispatch = store.dispatch;
+
+    const mapStores = pkg => {
+      if (pkg.module.Store)
+        pkg.module.store = pkg.module.Store.create({}, { dispatch: store.dispatch });
+      if (pkg.module.store) stores[pkg.namespace] = pkg.module.store;
+    };
+
+    // Load Stores and pass dispatch as env variable.
+    coreModules.forEach(mapStores);
+    pkgModules.forEach(mapStores);
 
     // Notify that server is started.
     store.dispatch(buildModule.actions.serverStarted());
@@ -145,9 +137,7 @@ export default ({ clientStats }) => async (req, res) => {
       stores,
     };
     const startSagas = new Date();
-    const sagaPromises = Object.values(serverSagas).map(
-      saga => store.runSaga(saga, params).done,
-    );
+    const sagaPromises = Object.values(serverSagas).map(saga => store.runSaga(saga, params).done);
     store.dispatch(buildModule.actions.serverSagasInitialized());
     await Promise.all(sagaPromises);
     store.dispatch(
@@ -158,9 +148,7 @@ export default ({ clientStats }) => async (req, res) => {
 
     // Generate React SSR.
     const render =
-      process.env.MODE === 'amp'
-        ? ReactDOM.renderToStaticMarkup
-        : ReactDOM.renderToString;
+      process.env.MODE === 'amp' ? ReactDOM.renderToStaticMarkup : ReactDOM.renderToString;
     app = render(
       <App
         store={store}
@@ -188,27 +176,16 @@ export default ({ clientStats }) => async (req, res) => {
       const publicPath = req.query.static
         ? `${req.query.static.replace(/\/$/g, '')}/static/`
         : '/static/';
-      const cssHash = JSON.stringify(
-        mapValues(cssHashRaw, cssPath => `${publicPath}${cssPath}`),
-      );
-      const scriptsWithoutBootstrap = scripts.filter(
-        script => !/bootstrap/.test(script),
-      );
-      const chunksForArray = scriptsWithoutBootstrap
-        .map(script => `'${script}'`)
-        .join(',');
-      const bootstrapFileName = scripts.filter(script =>
-        /bootstrap/.test(script),
-      );
+      const cssHash = JSON.stringify(mapValues(cssHashRaw, cssPath => `${publicPath}${cssPath}`));
+      const scriptsWithoutBootstrap = scripts.filter(script => !/bootstrap/.test(script));
+      const chunksForArray = scriptsWithoutBootstrap.map(script => `'${script}'`).join(',');
+      const bootstrapFileName = scripts.filter(script => /bootstrap/.test(script));
       const bootstrapString = await readFile(
         `${buildPath}/.build/${process.env.MODE}/client/${bootstrapFileName}`,
         'utf8',
       );
       const preloadScripts = scriptsWithoutBootstrap
-        .map(
-          script =>
-            `<link rel="preload" href="${publicPath}${script}" as="script">`,
-        )
+        .map(script => `<link rel="preload" href="${publicPath}${script}" as="script">`)
         .join('\n');
       const styles = stylesheets
         .map(
