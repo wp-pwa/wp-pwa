@@ -90,9 +90,17 @@ export default ({ clientStats }) => async (req, res) => {
     // Init redux store.
     const store = initStore({ reducer: () => {} });
 
+    // Promised dispatch.
+    const asyncDispatch = action =>
+      new Promise(resolve => {
+        setTimeout(() => {
+          store.dispatch(action);
+          resolve();
+        });
+      });
+
     const mapModules = pkg => {
-      if (pkg.module.Store)
-        pkg.module.store = pkg.module.Store.create({}, { dispatch: store.dispatch });
+      if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({}, { asyncDispatch });
       if (pkg.module.store) stores[pkg.namespace] = pkg.module.store;
       if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers(pkg.module.store);
       if (pkg.module.serverSagas) serverSagas[pkg.name] = pkg.module.serverSagas;
