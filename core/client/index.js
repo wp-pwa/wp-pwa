@@ -68,12 +68,6 @@ const init = async () => {
   coreModules.forEach(addModules);
   pkgModules.forEach(addModules);
 
-  // Init store.
-  store = initStore({
-    reducer: () => {},
-    initialState: window['wp-pwa'].initialState,
-  });
-
   // Promised dispatch.
   const asyncDispatch = action =>
     new Promise(resolve => {
@@ -94,8 +88,11 @@ const init = async () => {
   coreModules.forEach(mapModules);
   pkgModules.forEach(mapModules);
 
-  // Set reducers after creating mst stores.
-  store.replaceReducer(combineReducers(reducers));
+  // Init store.
+  store = initStore({
+    reducer: combineReducers(reducers),
+    initialState: window['wp-pwa'].initialState,
+  });
 
   // Start all the client sagas.
   store.dispatch(buildModule.actions.clientStarted());
