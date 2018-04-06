@@ -17,12 +17,20 @@ describe('parseQuery function', () => {
     expect(parseQuery(query).initialUrl).toBe('https://frontity.com/');
   });
 
-  test('Returns perPage', () => {
+  test('Returns incomplete initialUrl', () => {
     const query = {
-      perPage: '10',
+      initialUrl: '/some-post/with-stuff',
     };
 
-    expect(parseQuery(query).perPage).toBe('10');
+    expect(parseQuery(query).initialUrl).toBe('/some-post/with-stuff');
+  });
+
+  test('Returns perPage', () => {
+    const query = {
+      perPage: '11',
+    };
+
+    expect(parseQuery(query).perPage).toBe('11');
   });
 
   test('Returns the right env', () => {
