@@ -69,13 +69,7 @@ const init = async () => {
   pkgModules.forEach(addModules);
 
   // Promised dispatch.
-  const asyncDispatch = action =>
-    new Promise(resolve => {
-      setTimeout(() => {
-        store.dispatch(action);
-        resolve();
-      });
-    });
+  const asyncDispatch = action => store.dispatch(action);
 
   const mapModules = pkg => {
     if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({}, { asyncDispatch });
@@ -96,7 +90,7 @@ const init = async () => {
 
   // Start all the client sagas.
   store.dispatch(buildModule.actions.clientStarted());
-  const params = { stores };
+  const params = { stores, store };
   if (clientSagas) Object.values(clientSagas).forEach(saga => store.runSaga(saga, params));
   store.dispatch(buildModule.actions.clientSagasInitialized());
 

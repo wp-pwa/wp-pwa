@@ -91,13 +91,7 @@ export default ({ clientStats }) => async (req, res) => {
     const store = initStore({ reducer: () => {} });
 
     // Promised dispatch.
-    const asyncDispatch = action =>
-      new Promise(resolve => {
-        setTimeout(() => {
-          store.dispatch(action);
-          resolve();
-        });
-      });
+    const asyncDispatch = action => store.dispatch(action);
 
     const mapModules = pkg => {
       if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({}, { asyncDispatch });
@@ -137,6 +131,7 @@ export default ({ clientStats }) => async (req, res) => {
     const params = {
       selectedItem: { type, id, page },
       stores,
+      store,
     };
     const startSagas = new Date();
     const sagaPromises = Object.values(serverSagas).map(saga => store.runSaga(saga, params).done);
