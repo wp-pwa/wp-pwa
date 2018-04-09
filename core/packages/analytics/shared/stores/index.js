@@ -5,12 +5,12 @@ const mapCustomDimensions = (self, action) => {
   const { customDimensions } = self;
   const { entities } = action;
 
-  const singleTypes = Object.keys(entities);
+  const entityTypes = Object.keys(entities);
 
-  singleTypes.forEach(type => {
-    const singleIds = Object.keys(entities[type]);
+  entityTypes.forEach(type => {
+    const entityIds = Object.keys(entities[type]);
 
-    singleIds.forEach(id => {
+    entityIds.forEach(id => {
       if (entities[type][id].custom_analytics) {
         if (!customDimensions.get(type)) {
           customDimensions.set(type, {});
@@ -30,7 +30,7 @@ const Analytics = types
     customDimensions: types.optional(types.map(types.map(types.frozen)), {}),
   })
   .actions(self => ({
-    [dep('connection', 'actionTypes', 'SINGLE_SUCCEED')](action) {
+    [dep('connection', 'actionTypes', 'ENTITY_SUCCEED')](action) {
       mapCustomDimensions(self, action);
     },
     [dep('connection', 'actionTypes', 'LIST_SUCCEED')](action) {
@@ -38,12 +38,12 @@ const Analytics = types
     },
   }))
   .views(self => ({
-    getCustomDimensions({ singleType, singleId }) {
-      if (singleType && singleId) {
-        const type = self.customDimensions.get(singleType);
+    getCustomDimensions({ type, id }) {
+      if (type && id) {
+        const typeList = self.customDimensions.get(type);
 
-        if (type) {
-          const dimensions = type.get(singleId);
+        if (typeList) {
+          const dimensions = typeList.get(id);
 
           if (dimensions) {
             return dimensions;

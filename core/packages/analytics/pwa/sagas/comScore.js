@@ -45,7 +45,7 @@ const waitForChangesInText = domElement => {
   };
 };
 
-export function* virtualPageView(connection, comScoreIds, titleMatches) {
+export function* virtualPageView({ selectedItem }, comScoreIds, titleMatches) {
   // Executes disposer if there is a pending pageview.
   if (typeof disposer === 'function') {
     disposer();
@@ -53,24 +53,16 @@ export function* virtualPageView(connection, comScoreIds, titleMatches) {
   }
 
   // Gets single from selected item.
-  const { single } = connection.context.selected;
+  const { title } = selectedItem.entity;
+  yield titleMatches(title);
 
-  if (!single) {
-    // Single doesn't exist, so we are in the home page.
-    const { title } = connection.siteInfo.home;
-    yield call(titleMatches, title);
-    if (window.COMSCORE) comScoreIds.forEach(id => window.COMSCORE.beacon({ c1: '2', c2: id }));
-  } else {
-    // Waits for the correct url and title and then sends beacons.
-    disposer = when(
-      () => single && single.meta.pretty && single.link.pretty,
-      async () => {
-        const { title } = single.meta;
-        await titleMatches(title);
-        if (window.COMSCORE) comScoreIds.forEach(id => window.COMSCORE.beacon({ c1: '2', c2: id }));
-      },
-    );
-  }
+  // Waits for the correct url and title and then sends beacons.
+  disposer = when(
+    () => selectedItem.entity.ready,
+    async () => {
+      if (window.COMSCORE) comScoreIds.forEach(id => window.COMSCORE.beacon({ c1: '2', c2: id }));
+    },
+  );
 }
 
 export const routeChangeHandlerCreator = ({ connection, comScoreIds, titleMatches }) =>

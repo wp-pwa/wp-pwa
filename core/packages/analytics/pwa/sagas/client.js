@@ -3,7 +3,7 @@ import gtmSagas from './gtm';
 import comScoreSagas from './comScore';
 import googleAnalyticsSagas from './analytics';
 
-export default function* buildClientSagas({ stores }) {
+export default function* analyticsClientSagas({ stores }) {
   yield all([
     fork(gtmSagas, stores),
     fork(comScoreSagas, stores),
