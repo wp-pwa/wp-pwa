@@ -27,7 +27,7 @@ const waitForChangesInText = domElement => {
   return async innerText => {
     // Rejects a pending Promise
     if (rejecter) {
-      rejecter();
+      // rejecter();
       rejecter = null;
     }
 
@@ -45,7 +45,7 @@ const waitForChangesInText = domElement => {
   };
 };
 
-export function* virtualPageView({ selectedItem }, comScoreIds, titleMatches) {
+export function virtualPageView({ selectedItem }, comScoreIds, titleMatches) {
   // Executes disposer if there is a pending pageview.
   if (typeof disposer === 'function') {
     disposer();
@@ -53,13 +53,13 @@ export function* virtualPageView({ selectedItem }, comScoreIds, titleMatches) {
   }
 
   // Gets single from selected item.
-  const { title } = selectedItem.entity;
-  yield titleMatches(title);
+  const { title } = selectedItem.entity.headMeta;
 
   // Waits for the correct url and title and then sends beacons.
   disposer = when(
     () => selectedItem.entity.ready,
     async () => {
+      await titleMatches(title);
       if (window.COMSCORE) comScoreIds.forEach(id => window.COMSCORE.beacon({ c1: '2', c2: id }));
     },
   );
