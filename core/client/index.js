@@ -64,7 +64,7 @@ const init = async () => {
     addPackage({ namespace: pkg.namespace, module: pkg.module });
   };
 
-  // Add packages to worona-devs.
+  // Add packages to worona-deps.
   coreModules.forEach(addModules);
   pkgModules.forEach(addModules);
 

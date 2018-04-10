@@ -8,7 +8,8 @@
   "license": "MIT",
   "scripts": {
     "postinstall": "npm-recursive-install --skip-root",
-    "test": "node --inspect node_modules/.bin/jest --watch",
+    "test": "jest --watch",
+    "test:debug": "node --inspect node_modules/.bin/jest --watch",
     "start": "node core/index.js --start",
     "build": "node core/index.js --build",
     "serve": "node core/index.js --serve",
