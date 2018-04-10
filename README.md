@@ -106,6 +106,10 @@ The output `html` files will be located in the `.build/pwa/(client|server)/analy
 
 ## Changelog
 
+#### 1.5.0
+
+- New connection
+
 #### 1.4.3
 
 - Load scripts on DOM load
