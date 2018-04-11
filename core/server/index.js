@@ -8,6 +8,7 @@ import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 import { mapValues } from 'lodash';
 import { addPackage } from 'worona-deps';
+import { types } from 'mobx-state-tree';
 import { useStaticRendering } from 'mobx-react';
 import { Helmet } from 'react-helmet';
 import App from '../components/App';
@@ -75,7 +76,7 @@ export default ({ clientStats }) => async (req, res) => {
     // Load the activated modules.
     const pkgModules = await requireModules(Object.entries(packages));
 
-    const stores = {};
+    const storesProps = {};
     const reducers = {};
     const serverSagas = {};
 
@@ -88,24 +89,35 @@ export default ({ clientStats }) => async (req, res) => {
     pkgModules.forEach(addModules);
 
     // Init redux store.
-    const store = initStore({ reducer: () => {} });
+    let store = {};
 
     // Promised dispatch.
     const asyncDispatch = action => store.dispatch(action);
 
+    const mapStores = pkg => {
+      if (pkg.module.Store) storesProps[pkg.namespace] = types.optional(pkg.module.Store, {});
+    };
+
+    // Load stores from modules.
+    coreModules.forEach(mapStores);
+    pkgModules.forEach(mapStores);
+
+    // Create Stores.
+    const Stores = types.model('Stores').props(storesProps);
+    const stores = Stores.create({}, { asyncDispatch });
+    if (typeof window !== 'undefined') window.frontity = stores;
+
     const mapModules = pkg => {
-      if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({}, { asyncDispatch });
-      if (pkg.module.store) stores[pkg.namespace] = pkg.module.store;
-      if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers(pkg.module.store);
+      if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers(stores);
       if (pkg.module.serverSagas) serverSagas[pkg.name] = pkg.module.serverSagas;
     };
 
-    // Load reducers and sagas.
+    // Load MST and sagas.
     coreModules.forEach(mapModules);
     pkgModules.forEach(mapModules);
 
     // Set reducers after creating mst stores.
-    store.replaceReducer(combineReducers(reducers));
+    store = initStore({ reducer: combineReducers(reducers) });
 
     // Notify that server is started.
     store.dispatch(buildModule.actions.serverStarted());
