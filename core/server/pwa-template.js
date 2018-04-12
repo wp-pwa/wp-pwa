@@ -1,3 +1,4 @@
+import { getSnapshot } from 'mobx-state-tree';
 import htmlescape from 'htmlescape';
 
 export default ({
@@ -10,6 +11,7 @@ export default ({
   publicPath,
   ids,
   store,
+  stores,
   chunksForArray,
   bootstrapString,
 }) => `<!doctype html>
@@ -33,7 +35,8 @@ export default ({
         window['wp-pwa'] = window['wp-pwa'] || {};
         window['wp-pwa'].publicPath = '${publicPath}';
         window['wp-pwa'].emotionIds = ${JSON.stringify(ids)};
-        window['wp-pwa'].initialState = ${htmlescape(store.getState())};
+        window['wp-pwa'].initialStateRedux = ${htmlescape(store.getState())};
+        window['wp-pwa'].initialStateMst = ${htmlescape(getSnapshot(stores))};
         var scripts = [${chunksForArray}];
         var loadScript = function(script) {
           if (document.getElementById(script)) return;

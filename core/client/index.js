@@ -2,6 +2,7 @@
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { types } from 'mobx-state-tree';
 import { combineReducers } from 'redux';
 import { AppContainer } from 'react-hot-loader';
 import { hydrate } from 'react-emotion';
@@ -26,10 +27,10 @@ const coreModules = [
 ];
 
 // Get activated packages.
-const packages = Object.values(window['wp-pwa'].initialState.build.packages);
+const packages = Object.values(window['wp-pwa'].initialStateRedux.build.packages);
 
 let store = null;
-const stores = {};
+let stores = null;
 
 const render = Component => {
   ReactDOM.hydrate(
@@ -53,10 +54,11 @@ const init = async () => {
   hydrate(window['wp-pwa'].emotionIds);
 
   // Wait for activated packages.
-  const pkgEntries = Object.entries(window['wp-pwa'].initialState.build.packages);
+  const pkgEntries = Object.entries(window['wp-pwa'].initialStateRedux.build.packages);
   const pkgPromises = pkgEntries.map(([namespace, name]) => importPromises({ name, namespace }));
   const pkgModules = await Promise.all(pkgPromises);
 
+  const storesProps = {};
   const reducers = {};
   const clientSagas = {};
 
@@ -64,29 +66,34 @@ const init = async () => {
     addPackage({ namespace: pkg.namespace, module: pkg.module });
   };
 
-  // Add packages to worona-deps.
+  // Add packages to worona-devs.
   coreModules.forEach(addModules);
   pkgModules.forEach(addModules);
 
-  // Promised dispatch.
-  const asyncDispatch = action => store.dispatch(action);
-
   const mapModules = pkg => {
-    if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({}, { asyncDispatch });
-    if (pkg.module.store) stores[pkg.namespace] = pkg.module.store;
-    if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers(pkg.module.store);
+    if (pkg.module.Store) storesProps[pkg.namespace] = types.optional(pkg.module.Store, {});
+    if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers();
     if (pkg.module.clientSagas) clientSagas[pkg.name] = pkg.module.clientSagas;
   };
 
-  // Load reducers and sagas.
+  // Load MST reducers and server sagas.
   coreModules.forEach(mapModules);
   pkgModules.forEach(mapModules);
 
+  // Create Redux store.
+  reducers.lastAction = (_, action) => action;
   // Init store.
   store = initStore({
     reducer: combineReducers(reducers),
-    initialState: window['wp-pwa'].initialState,
+    initialState: window['wp-pwa'].initialStateRedux,
   });
+
+  // Create MST Stores and pass redux as env variable.
+  const Stores = types.model('Stores').props(storesProps);
+  stores = Stores.create(window['wp-pwa'].initialStateMst, { store });
+
+  // Add both to window
+  if (typeof window !== 'undefined') window.frontity = { stores, store };
 
   // Start all the client sagas.
   store.dispatch(buildModule.actions.clientStarted());

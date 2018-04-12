@@ -8,6 +8,7 @@ import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 import { mapValues } from 'lodash';
 import { addPackage } from 'worona-deps';
+import { types } from 'mobx-state-tree';
 import { useStaticRendering } from 'mobx-react';
 import { Helmet } from 'react-helmet';
 import App from '../components/App';
@@ -75,7 +76,7 @@ export default ({ clientStats }) => async (req, res) => {
     // Load the activated modules.
     const pkgModules = await requireModules(Object.entries(packages));
 
-    const stores = {};
+    const storesProps = {};
     const reducers = {};
     const serverSagas = {};
 
@@ -87,25 +88,24 @@ export default ({ clientStats }) => async (req, res) => {
     coreModules.forEach(addModules);
     pkgModules.forEach(addModules);
 
-    // Init redux store.
-    const store = initStore({ reducer: () => {} });
-
-    // Promised dispatch.
-    const asyncDispatch = action => store.dispatch(action);
-
     const mapModules = pkg => {
-      if (pkg.module.Store) pkg.module.store = pkg.module.Store.create({}, { asyncDispatch });
-      if (pkg.module.store) stores[pkg.namespace] = pkg.module.store;
-      if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers(pkg.module.store);
+      if (pkg.module.Store) storesProps[pkg.namespace] = types.optional(pkg.module.Store, {});
+      if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers();
       if (pkg.module.serverSagas) serverSagas[pkg.name] = pkg.module.serverSagas;
     };
 
-    // Load reducers and sagas.
+    // Load MST reducers and server sagas.
     coreModules.forEach(mapModules);
     pkgModules.forEach(mapModules);
 
-    // Set reducers after creating mst stores.
-    store.replaceReducer(combineReducers(reducers));
+    // Create Redux store.
+    reducers.lastAction = (_, action) => action;
+    const store = initStore({ reducer: combineReducers(reducers) });
+
+    // Create MST Stores and pass redux as env variable.
+    const Stores = types.model('Stores').props(storesProps);
+    const stores = Stores.create({}, { store });
+    if (typeof window !== 'undefined') window.frontity = stores;
 
     // Notify that server is started.
     store.dispatch(buildModule.actions.serverStarted());
@@ -208,6 +208,7 @@ export default ({ clientStats }) => async (req, res) => {
           publicPath,
           ids,
           store,
+          stores,
           chunksForArray,
           bootstrapString,
         }),
