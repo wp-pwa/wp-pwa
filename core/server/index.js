@@ -88,36 +88,24 @@ export default ({ clientStats }) => async (req, res) => {
     coreModules.forEach(addModules);
     pkgModules.forEach(addModules);
 
-    // Init redux store.
-    let store = {};
-
-    // Promised dispatch.
-    const asyncDispatch = action => store.dispatch(action);
-
-    const mapStores = pkg => {
-      if (pkg.module.Store) storesProps[pkg.namespace] = types.optional(pkg.module.Store, {});
-    };
-
-    // Load stores from modules.
-    coreModules.forEach(mapStores);
-    pkgModules.forEach(mapStores);
-
-    // Create Stores.
-    const Stores = types.model('Stores').props(storesProps);
-    const stores = Stores.create({}, { asyncDispatch });
-    if (typeof window !== 'undefined') window.frontity = stores;
-
     const mapModules = pkg => {
-      if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers(stores);
+      if (pkg.module.Store) storesProps[pkg.namespace] = types.optional(pkg.module.Store, {});
+      if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers();
       if (pkg.module.serverSagas) serverSagas[pkg.name] = pkg.module.serverSagas;
     };
 
-    // Load MST and sagas.
+    // Load MST reducers and server sagas.
     coreModules.forEach(mapModules);
     pkgModules.forEach(mapModules);
 
-    // Set reducers after creating mst stores.
-    store = initStore({ reducer: combineReducers(reducers) });
+    // Create Redux store.
+    reducers.lastAction = (_, action) => action;
+    const store = initStore({ reducer: combineReducers(reducers) });
+
+    // Create MST Stores and pass redux as env variable.
+    const Stores = types.model('Stores').props(storesProps);
+    const stores = Stores.create({}, { store });
+    if (typeof window !== 'undefined') window.frontity = stores;
 
     // Notify that server is started.
     store.dispatch(buildModule.actions.serverStarted());
@@ -220,6 +208,7 @@ export default ({ clientStats }) => async (req, res) => {
           publicPath,
           ids,
           store,
+          stores,
           chunksForArray,
           bootstrapString,
         }),
