@@ -104,7 +104,7 @@ export default ({ clientStats }) => async (req, res) => {
 
     // Create MST Stores and pass redux as env variable.
     const Stores = types.model('Stores').props(storesProps);
-    const stores = Stores.create({}, { store });
+    const stores = Stores.create({}, { store, isServer: true, isClient: false });
     if (typeof window !== 'undefined') window.frontity = stores;
 
     // Notify that server is started.

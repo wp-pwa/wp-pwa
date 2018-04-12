@@ -90,7 +90,11 @@ const init = async () => {
 
   // Create MST Stores and pass redux as env variable.
   const Stores = types.model('Stores').props(storesProps);
-  stores = Stores.create(window['wp-pwa'].initialStateMst, { store });
+  stores = Stores.create(window['wp-pwa'].initialStateMst, {
+    store,
+    isServer: false,
+    isClient: true,
+  });
 
   // Add both to window
   if (typeof window !== 'undefined') window.frontity = { stores, store };
