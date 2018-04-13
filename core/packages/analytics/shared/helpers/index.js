@@ -34,5 +34,5 @@ export const getUrl = ({ selectedItem, format }) => {
 export const getGaTrackingIds = ({ dev, analyticsSettings = {}, format }) => {
   const gaTrackingIds =
     (analyticsSettings[format] && analyticsSettings[format].gaTrackingIds) || [];
-  return dev ? ['UA-91312941-7'] : gaTrackingIds;
+  return dev && gaTrackingIds.length ? ['UA-91312941-7'] : gaTrackingIds;
 };

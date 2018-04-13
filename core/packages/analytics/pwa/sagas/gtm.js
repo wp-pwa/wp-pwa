@@ -16,8 +16,8 @@ const sendVirtualEvent = event => {
 
 let disposer;
 
-export function* virtualPageView({ connection: { selectedItem }, analytics }) {
-  const { type, id, page } = selectedItem;
+export function* virtualPageView({ connection, analytics }) {
+  const { type, id, page } = connection.selectedItem;
 
   if (typeof disposer === 'function') {
     disposer();
@@ -27,13 +27,15 @@ export function* virtualPageView({ connection: { selectedItem }, analytics }) {
   const site = yield select(getSetting('generalSite', 'url'));
 
   disposer = when(
-    () => selectedItem.entity.ready,
+    () => connection.selectedItem.entity.ready,
     () => {
-      const { title } = selectedItem.entity;
-      const url = page ? selectedItem.entity.pagedLink(page) : selectedItem.entity.link;
+      const { title } = connection.selectedItem.entity;
+      const url = page
+        ? connection.selectedItem.entity.pagedLink(page)
+        : connection.selectedItem.entity.link;
       const format = 'pwa';
-      const route = getRoute(selectedItem);
-      const hash = getHash(site, selectedItem);
+      const route = getRoute(connection.selectedItem);
+      const hash = getHash(site, connection.selectedItem);
       const customDimensions = analytics.getCustomDimensions({ type, id });
 
       sendVirtualPage({
