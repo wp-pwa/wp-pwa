@@ -106,6 +106,10 @@ The output `html` files will be located in the `.build/pwa/(client|server)/analy
 
 ## Changelog
 
+#### 1.5.2
+
+- More refactoring and bug fixes of new connection
+
 #### 1.5.1
 
 - Refactor MST implementation
