@@ -16,11 +16,6 @@ const Iframes = ({ iframes }) =>
         height={0}
         minWidth={width}
         minHeight={height}
-        style={{
-          margin: '0 auto',
-          display: 'block',
-          border: 'none',
-        }}
       />
     </Fill>
   ));
@@ -46,4 +41,7 @@ export default connect(mapStateToProps)(Iframes);
 const Iframe = styled.iframe`
   min-width: ${({ minWidth }) => minWidth};
   min-height: ${({ minHeight }) => minHeight};
+  margin: 0 auto;
+  display: block;
+  border: none;
 `;
