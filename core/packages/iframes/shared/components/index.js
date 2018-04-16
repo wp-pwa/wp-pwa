@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import styled from 'react-emotion';
 import { connect } from 'react-redux';
 import { Fill } from 'react-slot-fill';
 import { getIframesForMobile } from '../selectors';
@@ -7,12 +8,14 @@ import { getIframesForMobile } from '../selectors';
 const Iframes = ({ iframes }) =>
   iframes.map(({ name, src, className, width, height }) => (
     <Fill key={name} name={name}>
-      <iframe
+      <Iframe
         title={name}
         src={src}
         className={className}
-        width={width}
-        height={height}
+        width={0}
+        height={0}
+        minWidth={width}
+        minHeight={height}
         style={{
           margin: '0 auto',
           display: 'block',
@@ -39,3 +42,8 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(Iframes);
+
+const Iframe = styled.iframe`
+  min-width: ${({ minWidth }) => minWidth};
+  min-height: ${({ minHeight }) => minHeight};
+`;
