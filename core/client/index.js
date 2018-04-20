@@ -11,6 +11,8 @@ import App from '../components/App';
 import { importPromises } from '../components/Universal';
 import initStore from '../store';
 
+const dev = process.env.NODE_ENV !== 'production';
+
 const buildModule = require(`../packages/build/${process.env.MODE}`);
 const settingsModule = require(`../packages/settings/${process.env.MODE}`);
 const analyticsModule = require(`../packages/analytics/${process.env.MODE}`);
@@ -95,6 +97,10 @@ const init = async () => {
     isServer: false,
     isClient: true,
   });
+  if (dev) {
+    const makeInspectable = require('mobx-devtools-mst').default;
+    makeInspectable(stores);
+  }
 
   // Add both to window
   if (typeof window !== 'undefined') window.frontity = { stores, store };

@@ -52,6 +52,7 @@
     "lodash-webpack-plugin": "^0.11.4",
     "minimist": "^1.2.0",
     "mobx": "^4.1.0",
+    "mobx-devtools-mst": "^0.9.14",
     "mobx-react": "^5.0.0",
     "mobx-state-tree": "^2.0.2",
     "normalizr": "^3.2.4",

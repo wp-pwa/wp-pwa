@@ -199,6 +199,7 @@ export default ({ clientStats }) => async (req, res) => {
       res.status(status);
       res.send(
         pwaTemplate({
+          dev,
           helmet,
           css,
           styles,

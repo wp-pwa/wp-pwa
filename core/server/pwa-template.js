@@ -2,6 +2,7 @@ import { getSnapshot } from 'mobx-state-tree';
 import htmlescape from 'htmlescape';
 
 export default ({
+  dev,
   helmet,
   css,
   styles,
@@ -17,6 +18,7 @@ export default ({
 }) => `<!doctype html>
   <html ${helmet.htmlAttributes.toString()}>
     <head>
+      ${dev ? '<script src="http://localhost:8098"></script>' : ''}
       <meta charset="utf-8">
       <meta name="generator" content="WordPress PWA">
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
