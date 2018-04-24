@@ -35,7 +35,7 @@ const Ad = ({ type, width, height, active, isAmp, isSticky, isMedia, ...adProps 
       <IconContainer>
         <IconText>ad</IconText>
       </IconContainer>
-      {/* <StyledLazy
+      <StyledLazy
         active={active}
         height={height}
         width={width}
@@ -43,9 +43,9 @@ const Ad = ({ type, width, height, active, isAmp, isSticky, isMedia, ...adProps 
         debounce={false}
         minTime={2000}
         maxTime={3000}
-      > */}
+      >
         <SelectedAd isMedia={isMedia} width={width} height={height} isAmp={isAmp} {...adProps} />
-      {/* </StyledLazy> */}
+      </StyledLazy>
     </Container>
   );
 };
@@ -78,6 +78,8 @@ export default compose(
     const isSelected = computed(
       () => item && connection.selectedContext.getItem({ item }).isSelected || false,
     ).get();
+
+    console.log('ad inject', item, active);
 
     return {
       active: typeof active === 'boolean' ? active : isSelected,
@@ -123,12 +125,12 @@ const IconText = styled.span`
   border: 3px solid #bdbdbd;
   border-radius: 4px;
 `;
-// 
-// const StyledLazy = styled(Lazy)`
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   height: ${({ height }) => (typeof height === 'string' ? height : `${height}px`)};
-//   width: ${({ width }) => (typeof width === 'string' ? width : `${width}px`)};
-//   z-index: 1;
-// `;
+
+const StyledLazy = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: ${({ height }) => (typeof height === 'string' ? height : `${height}px`)};
+  width: ${({ width }) => (typeof width === 'string' ? width : `${width}px`)};
+  z-index: 1;
+`;
