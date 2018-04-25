@@ -6,17 +6,17 @@ import { dep } from 'worona-deps';
 import LazyLoad from '@frontity/lazyload';
 
 class LazyIframe extends Component {
-   static propTypes = {
-     name: PropTypes.string.isRequired,
-     src: PropTypes.string.isRequired,
-     className: PropTypes.string,
-     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-     height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-     Spinner: PropTypes.func.isRequired,
-     ssr: PropTypes.bool.isRequired,
-   };
+  static propTypes = {
+    name: PropTypes.string.isRequired,
+    src: PropTypes.string.isRequired,
+    className: PropTypes.string,
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    Spinner: PropTypes.func.isRequired,
+    ssr: PropTypes.bool.isRequired,
+  };
 
-   static defaultProps = {
+  static defaultProps = {
     className: '',
   };
 
@@ -35,24 +35,30 @@ class LazyIframe extends Component {
     const { name, src, className, width, height, Spinner } = this.props;
     const { ssr, loaded } = this.state;
 
-    if (ssr) return <Iframe
-      title={name}
-      src={src}
-      className={className}
-      width={0}
-      height={0}
-      minWidth={width}
-      minHeight={height}
-    />;
+    if (ssr)
+      return (
+        <Iframe
+          title={name}
+          src={src}
+          className={className}
+          width={0}
+          height={0}
+          minWidth={width}
+          minHeight={height}
+        />
+      );
 
     return (
       <Container className={className}>
         <StyledLazy
+          width={width}
+          height={height}
           offsetHorizontal={-50}
           throttle={50}
           loaded={loaded}
           debounce={false}
-          className={className}>
+          className={className}
+        >
           <Iframe
             title={name}
             src={src}
@@ -64,11 +70,7 @@ class LazyIframe extends Component {
             onLoad={this.onLoad}
           />
         </StyledLazy>
-        {!loaded && (
-          <SpinnerContainer>
-            {Spinner && <Spinner />}
-          </SpinnerContainer>
-        )}
+        {!loaded && <SpinnerContainer>{Spinner && <Spinner />}</SpinnerContainer>}
       </Container>
     );
   }
@@ -91,7 +93,7 @@ const Container = styled.div`
   position: relative;
   width: 100%;
   height: 100%;
-`
+`;
 
 const SpinnerContainer = styled.div`
   position: absolute;
@@ -103,8 +105,8 @@ const SpinnerContainer = styled.div`
 `;
 
 const Iframe = styled.iframe`
-  min-width: ${({ minWidth }) => minWidth};
-  min-height: ${({ minHeight }) => minHeight};
+  min-width: ${({ minWidth }) => typeof minWidth === 'number' ? `${minWidth}px` : minWidth};
+  min-height: ${({ minHeight }) => typeof minHeight === 'number' ? `${minHeight}px` : minHeight};
   margin: 0 auto;
   display: block;
   border: none;
