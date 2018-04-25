@@ -17,11 +17,12 @@ class SmartAd extends Component {
     height: PropTypes.number.isRequired,
     target: PropTypes.string,
     isAmp: PropTypes.bool.isRequired,
-    // item: PropTypes.shape({
-    //   type: PropTypes.string,
-    //   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    // }),
-    mstId: PropTypes.string.isRequired,
+    item: PropTypes.shape({
+      type: PropTypes.string,
+      id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+      page: PropTypes.number,
+      mstId: PropTypes.string.isRequired,
+    }).isRequired,
     slotName: PropTypes.string,
   };
 
@@ -35,7 +36,7 @@ class SmartAd extends Component {
 
   constructor(props) {
     super(props);
-    const { formatId, mstId, slotName } = this.props;
+    const { formatId, item: { mstId }, slotName } = this.props;
     this.tagId = `ad${formatId}_${mstId}${slotName ? `_${slotName}` : ''}`;
   }
 
@@ -102,13 +103,9 @@ const mapStateToProps = state => ({
 
 export default compose(
   connect(mapStateToProps),
-  inject(({ connection }, { item }) => {
-    if (!item || item.type === 'latest') return { target: '' };
-
-    return {
-      target: connection.entity(item.type, item.id).target,
-    };
-  }),
+  inject(({ connection }, { item: { type, id } }) => ({
+    target: connection.entity(type, id).target,
+  })),
 )(SmartAd);
 
 const InnerContainer = styled.div`

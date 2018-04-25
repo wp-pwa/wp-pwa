@@ -5,7 +5,7 @@ import { computed } from 'mobx';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import styled from 'react-emotion';
-// import Lazy from '../LazyUnload';
+import Lazy from '@frontity/lazyload';
 
 import AdSense from './AdSense';
 import SmartAd from './SmartAd';
@@ -79,8 +79,6 @@ export default compose(
       () => item && connection.selectedContext.getItem({ item }).isSelected || false,
     ).get();
 
-    console.log('ad inject', item, active);
-
     return {
       active: typeof active === 'boolean' ? active : isSelected,
     }
@@ -126,7 +124,7 @@ const IconText = styled.span`
   border-radius: 4px;
 `;
 
-const StyledLazy = styled.div`
+const StyledLazy = styled(Lazy)`
   position: absolute;
   top: 0;
   left: 0;

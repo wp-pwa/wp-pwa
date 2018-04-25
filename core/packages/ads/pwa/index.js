@@ -1,5 +1,5 @@
-import components from '../shared/components';
+import AdsFills, * as components from '../shared/components';
 import selectors from '../shared/selectors';
 
-export default components;
-export { selectors };
+export default AdsFills;
+export { selectors, components };

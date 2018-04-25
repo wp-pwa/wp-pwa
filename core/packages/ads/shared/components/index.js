@@ -6,14 +6,11 @@ import Ad from './Ad';
 import { getSlots } from '../selectors';
 
 const Ads = ({ ads }) =>
-  ads.map(({ name, ...adProps }) => {
-    console.log('AD IN SLOTS', name);
-    return (
-      <Fill key={name} name={name}>
-        <Ad {...adProps} slotName={name} />
-      </Fill>
-    );
-  });
+  ads.map(({ name, ...adProps }) => (
+    <Fill key={name} name={name}>
+      <Ad {...adProps} slotName={name} />
+    </Fill>
+  ));
 
 Ads.propTypes = {
   ads: PropTypes.arrayOf(
@@ -28,3 +25,4 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(Ads);
+export { Ad };
