@@ -5,7 +5,7 @@ import { inject } from 'mobx-react';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { Helmet } from 'react-helmet';
-import { ads } from '../../selectors';
+import * as selectors from '../../selectors';
 
 class SmartAd extends Component {
   static propTypes = {
@@ -21,7 +21,11 @@ class SmartAd extends Component {
       type: PropTypes.string,
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       page: PropTypes.number,
-      mstId: PropTypes.string.isRequired,
+      mstId: PropTypes.string,
+    }).isRequired,
+    column: PropTypes.shape({
+      type: PropTypes.string,
+      mstId: PropTypes.string,
     }).isRequired,
     slotName: PropTypes.string,
   };
@@ -36,8 +40,8 @@ class SmartAd extends Component {
 
   constructor(props) {
     super(props);
-    const { formatId, item: { mstId }, slotName } = this.props;
-    this.tagId = `ad${formatId}_${mstId}${slotName ? `_${slotName}` : ''}`;
+    const { formatId, item, column, slotName } = this.props;
+    this.tagId = `ad${formatId}_${item.mstId || column.mstId}${slotName ? `_${slotName}` : ''}`;
   }
 
   componentDidMount() {
@@ -98,7 +102,7 @@ class SmartAd extends Component {
 }
 
 const mapStateToProps = state => ({
-  networkId: ads.getConfig(state).settings.networkId,
+  networkId: selectors.getConfig(state).settings.networkId,
 });
 
 export default compose(

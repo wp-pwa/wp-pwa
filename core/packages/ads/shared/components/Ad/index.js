@@ -74,15 +74,12 @@ const mapStateToProps = state => ({
 
 export default compose(
   connect(mapStateToProps),
-  inject(({ connection }, { item, active }) => {
-    const isSelected = computed(
-      () => item && connection.selectedContext.getItem({ item }).isSelected || false,
-    ).get();
-
-    return {
-      active: typeof active === 'boolean' ? active : isSelected,
-    }
-  }),
+  inject(({ connection }, { item, active }) => ({
+      active: typeof active === 'boolean' ? active : computed(
+        () => item && connection.selectedContext.getItem({ item }).isSelected || false,
+      ).get(),
+    }),
+  ),
 )(Ad);
 
 const Container = styled.div`
