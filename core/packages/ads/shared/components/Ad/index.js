@@ -5,7 +5,7 @@ import { computed } from 'mobx';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import styled from 'react-emotion';
-import Lazy from '@frontity/lazyload';
+import Lazy from '../LazyUnload';
 
 import AdSense from './AdSense';
 import SmartAd from './SmartAd';
