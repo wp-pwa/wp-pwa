@@ -8,7 +8,7 @@ import { getIframesForMobile } from '../selectors';
 const Iframes = ({ iframes }) =>
   iframes.map(props => (
     <Fill key={props.name} name={props.name}>
-      <LazyIframe {...props}/>
+      <LazyIframe {...props} />
     </Fill>
   ));
 

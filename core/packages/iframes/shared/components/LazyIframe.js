@@ -77,7 +77,6 @@ class LazyIframe extends Component {
 
 const mapStateToProps = state => ({
   ssr: dep('build', 'selectors', 'getSsr')(state),
-  // Spinner: dep('theme', 'elements', 'Spinner'),
 });
 
 export default connect(mapStateToProps)(LazyIframe);
@@ -104,8 +103,8 @@ const Container = styled.div`
 // `;
 
 const Iframe = styled.iframe`
-  min-width: ${({ minWidth }) => typeof minWidth === 'number' ? `${minWidth}px` : minWidth};
-  min-height: ${({ minHeight }) => typeof minHeight === 'number' ? `${minHeight}px` : minHeight};
+  min-width: ${({ minWidth }) => (typeof minWidth === 'number' ? `${minWidth}px` : minWidth)};
+  min-height: ${({ minHeight }) => (typeof minHeight === 'number' ? `${minHeight}px` : minHeight)};
   margin: 0 auto;
   display: block;
   border: none;
