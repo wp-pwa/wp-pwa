@@ -109,6 +109,8 @@ export default ({ clientStats }) => async (req, res) => {
     const stores = Stores.create({}, { store, isServer: true, isClient: false });
     if (typeof window !== 'undefined') window.frontity = stores;
 
+    await stores.connection.server();
+
     // Notify that server is started.
     store.dispatch(buildModule.actions.serverStarted());
 
