@@ -12,7 +12,6 @@ class LazyIframe extends Component {
     className: PropTypes.string,
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
     height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-    Spinner: PropTypes.func.isRequired,
     ssr: PropTypes.bool.isRequired,
   };
 
@@ -32,7 +31,7 @@ class LazyIframe extends Component {
   }
 
   render() {
-    const { name, src, className, width, height, Spinner } = this.props;
+    const { name, src, className, width, height } = this.props;
     const { ssr, loaded } = this.state;
 
     if (ssr)
@@ -70,7 +69,7 @@ class LazyIframe extends Component {
             onLoad={this.onLoad}
           />
         </StyledLazy>
-        {!loaded && <SpinnerContainer>{Spinner && <Spinner />}</SpinnerContainer>}
+        {/* {!loaded && <SpinnerContainer>{Spinner && <Spinner />}</SpinnerContainer>} */}
       </Container>
     );
   }
@@ -95,14 +94,14 @@ const Container = styled.div`
   height: 100%;
 `;
 
-const SpinnerContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  box-sizing: border-box;
-`;
+// const SpinnerContainer = styled.div`
+//   position: absolute;
+//   top: 0;
+//   left: 0;
+//   width: 100%;
+//   height: 100%;
+//   box-sizing: border-box;
+// `;
 
 const Iframe = styled.iframe`
   min-width: ${({ minWidth }) => typeof minWidth === 'number' ? `${minWidth}px` : minWidth};
