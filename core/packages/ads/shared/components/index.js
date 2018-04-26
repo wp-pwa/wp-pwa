@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Fill } from 'react-slot-fill';
 import Ad from './Ad';
-import { getSlots } from '../selectors';
+import { getFills } from '../selectors';
 
 const Ads = ({ ads }) =>
   ads.map(({ name, ...adProps }) => (
@@ -21,7 +21,7 @@ Ads.propTypes = {
 };
 
 const mapStateToProps = state => ({
-  ads: getSlots(state),
+  ads: getFills(state),
 });
 
 export default connect(mapStateToProps)(Ads);
