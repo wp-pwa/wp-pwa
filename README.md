@@ -106,6 +106,12 @@ The output `html` files will be located in the `.build/pwa/(client|server)/analy
 
 ## Changelog
 
+#### 1.5.4
+
+- Start moving ads to its own package using slots
+- Fixes to iframes package
+- Fixes to some prop types
+
 #### 1.5.3
 
 - iOS bug fixes of new connection
