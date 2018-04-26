@@ -9,7 +9,13 @@ let disposer;
 const getSetting = (namespace, setting) =>
   dep('settings', 'selectorCreators', 'getSetting')(namespace, setting);
 
-function virtualPageView({ stores: { connection: { selectedItem }, analytics }, trackerNames }) {
+function virtualPageView({
+  stores: {
+    connection: { selectedItem },
+    analytics,
+  },
+  trackerNames,
+}) {
   const { type, id, page } = selectedItem;
 
   // Executes disposer if there is a pending pageview.
@@ -22,7 +28,7 @@ function virtualPageView({ stores: { connection: { selectedItem }, analytics }, 
   disposer = when(
     () => selectedItem.entity.ready,
     () => {
-      const { title } = selectedItem.entity;
+      const { title } = selectedItem.entity.headMeta;
       const location = page ? selectedItem.entity.pagedLink(page) : selectedItem.entity.link;
       const customDimensions = analytics.getCustomDimensions({ type, id });
 
@@ -30,7 +36,7 @@ function virtualPageView({ stores: { connection: { selectedItem }, analytics }, 
 
       // Send the pageview to the trackers.
       if (typeof window.ga === 'function') {
-        trackerNames.forEach(name => window.ga(`${name}.send`, pageView));
+        trackerNames.forEach(trackerName => window.ga(`${trackerName}.send`, pageView));
       }
     },
   );
