@@ -106,6 +106,11 @@ The output `html` files will be located in the `.build/pwa/(client|server)/analy
 
 ## Changelog
 
+#### 1.5.5
+
+- Update emotion
+- Change slots to fills
+
 #### 1.5.4
 
 - Start moving ads to its own package using slots
