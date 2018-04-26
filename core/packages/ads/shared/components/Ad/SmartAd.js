@@ -22,18 +22,19 @@ class SmartAd extends Component {
       id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
       page: PropTypes.number,
       mstId: PropTypes.string,
-    }).isRequired,
+    }),
     column: PropTypes.shape({
       type: PropTypes.string,
       mstId: PropTypes.string,
-    }).isRequired,
+    }),
     slotName: PropTypes.string,
   };
 
   static defaultProps = {
-    // item: null,
     slotName: '',
     target: null,
+    item: null,
+    column: null,
   };
 
   static firstAd = true;
