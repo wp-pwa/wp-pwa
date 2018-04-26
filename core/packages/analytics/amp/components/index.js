@@ -17,7 +17,7 @@ const Analytics = ({
   trackingIds,
   dev,
   site,
-  selected,
+  selectedItem,
   anonymize,
   extraUrlParams,
   customDimensions,
@@ -26,13 +26,13 @@ const Analytics = ({
   themeTriggers,
 }) => {
   const format = 'amp';
-  const routeProps = { site, selected, format };
+  const routeProps = { site, selectedItem, format };
 
-  // Gets the actual title from selected.
-  const { title } = selected.single.meta;
+  // Gets the actual title from selectedItem.
+  const { title } = selectedItem.entity;
 
-  // Gets the actual url from selected.
-  const url = getUrl({ selected, format });
+  // Gets the actual url from selectedItem.
+  const url = getUrl({ selectedItem, format });
 
   return (
     <Fragment>
@@ -66,7 +66,7 @@ Analytics.propTypes = {
   comScoreIds: PropTypes.arrayOf(PropTypes.number).isRequired,
   dev: PropTypes.bool.isRequired,
   site: PropTypes.string.isRequired,
-  selected: PropTypes.shape({}).isRequired,
+  selectedItem: PropTypes.shape({}).isRequired,
   anonymize: PropTypes.bool.isRequired,
   extraUrlParams: PropTypes.shape({}).isRequired,
   customDimensions: PropTypes.shape({}),
@@ -134,10 +134,10 @@ const mapStateToProps = state => {
 
 export default connect(mapStateToProps)(
   inject(({ connection, analytics }) => ({
-    selected: connection.selected,
+    selectedItem: connection.selectedItem,
     customDimensions: analytics.getCustomDimensions({
-      singleType: connection.selected.singleType,
-      singleId: connection.selected.singleId,
+      type: connection.selectedItem.type,
+      id: connection.selectedItem.id,
     }),
   }))(Analytics),
 );

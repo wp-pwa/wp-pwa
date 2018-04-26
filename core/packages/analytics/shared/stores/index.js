@@ -1,23 +1,25 @@
-import { types } from 'mobx-state-tree';
+import { types, getEnv } from 'mobx-state-tree';
 import { dep } from 'worona-deps';
 
 const mapCustomDimensions = (self, action) => {
   const { customDimensions } = self;
   const { entities } = action;
 
-  const singleTypes = Object.keys(entities);
+  const entityTypes = Object.keys(entities);
 
-  singleTypes.forEach(type => {
-    const singleIds = Object.keys(entities[type]);
+  entityTypes.forEach(type => {
+    const entityIds = Object.keys(entities[type]);
 
-    singleIds.forEach(id => {
+    entityIds.forEach(id => {
       if (entities[type][id].custom_analytics) {
-        if (!customDimensions.get(type)) {
-          customDimensions.set(type, {});
+        if (!customDimensions.get(entities[type][id].type)) {
+          customDimensions.set(entities[type][id].type, {});
         }
 
-        if (!customDimensions.get(type).get(id)) {
-          customDimensions.get(type, {}).set(id, entities[type][id].custom_analytics);
+        if (!customDimensions.get(entities[type][id].type).get(id)) {
+          customDimensions
+            .get(entities[type][id].type, {})
+            .set(id, entities[type][id].custom_analytics);
         }
       }
     });
@@ -30,7 +32,7 @@ const Analytics = types
     customDimensions: types.optional(types.map(types.map(types.frozen)), {}),
   })
   .actions(self => ({
-    [dep('connection', 'actionTypes', 'SINGLE_SUCCEED')](action) {
+    [dep('connection', 'actionTypes', 'ENTITY_SUCCEED')](action) {
       mapCustomDimensions(self, action);
     },
     [dep('connection', 'actionTypes', 'LIST_SUCCEED')](action) {
@@ -38,12 +40,12 @@ const Analytics = types
     },
   }))
   .views(self => ({
-    getCustomDimensions({ singleType, singleId }) {
-      if (singleType && singleId) {
-        const type = self.customDimensions.get(singleType);
+    getCustomDimensions({ type, id }) {
+      if (type && id) {
+        const typeList = self.customDimensions.get(type);
 
-        if (type) {
-          const dimensions = type.get(singleId);
+        if (typeList) {
+          const dimensions = typeList.get(id.toString());
 
           if (dimensions) {
             return dimensions;
@@ -52,6 +54,18 @@ const Analytics = types
       }
 
       return null;
+    },
+  }))
+  .actions(self => ({
+    afterCreate: () => {
+      const { store } = getEnv(self);
+      if (store)
+        store.subscribe(() => {
+          const action = store.getState().lastAction;
+          if (self[action.type]) {
+            self[action.type](action);
+          }
+        });
     },
   }));
 

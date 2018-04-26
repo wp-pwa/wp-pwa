@@ -14,7 +14,7 @@ const config = {
       ...vendors,
       path.resolve(__dirname, `../client/public-path.js`),
       path.resolve(__dirname, `../client`),
-    ]
+    ],
   },
   output: {
     filename: '[name].[chunkhash].js',
@@ -78,7 +78,9 @@ const config = {
       sourceMap: false,
     }),
     new webpack.WatchIgnorePlugin([/\.build/]),
-    new webpack.IgnorePlugin(/vertx|redux-logger|redux-devtools-extension|redbox-react/),
+    new webpack.IgnorePlugin(
+      /vertx|redux-logger|redux-devtools-extension|redbox-react|mobx-devtools-mst/,
+    ),
     new LodashModuleReplacementPlugin({
       currying: true,
     }),
@@ -89,16 +91,20 @@ const config = {
 if (process.env.ANALYZE) {
   const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
   const Visualizer = require('webpack-visualizer-plugin');
-  config.plugins.push(new BundleAnalyzerPlugin({
-    analyzerMode: 'static',
-    reportFilename: '../../analyize/pwa/client-prod-analyzer.html',
-    openAnalyzer: false,
-    generateStatsFile: true,
-    statsFilename: '../../analyize/pwa/client-prod-stats.json',
-  }));
-  config.plugins.push(new Visualizer({
-    filename: '../../analyize/pwa/client-prod-visualizer.html',
-  }));
+  config.plugins.push(
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      reportFilename: '../../analyize/pwa/client-prod-analyzer.html',
+      openAnalyzer: false,
+      generateStatsFile: true,
+      statsFilename: '../../analyize/pwa/client-prod-stats.json',
+    }),
+  );
+  config.plugins.push(
+    new Visualizer({
+      filename: '../../analyize/pwa/client-prod-visualizer.html',
+    }),
+  );
 }
 
 module.exports = config;

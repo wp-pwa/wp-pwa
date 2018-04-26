@@ -2,23 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Fill } from 'react-slot-fill';
+import LazyIframe from './LazyIframe';
 import { getIframesForMobile } from '../selectors';
 
 const Iframes = ({ iframes }) =>
-  iframes.map(({ name, src, className, width, height }) => (
-    <Fill key={name} name={name}>
-      <iframe
-        title={name}
-        src={src}
-        className={className}
-        width={width}
-        height={height}
-        style={{
-          margin: '0 auto',
-          display: 'block',
-          border: 'none',
-        }}
-      />
+  iframes.map(props => (
+    <Fill key={props.name} name={props.name}>
+      <LazyIframe {...props} />
     </Fill>
   ));
 

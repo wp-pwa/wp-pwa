@@ -17,10 +17,7 @@ const sendVirtualEvent = event => {
 let disposer;
 
 export function* virtualPageView({ connection, analytics }) {
-  const { siteInfo, selected } = connection;
-  const { singleType, singleId } = selected;
-  // Custom dimensions will be sent only on singles
-  const customDimensions = analytics.getCustomDimensions({ singleType, singleId });
+  const { type, id, page } = connection.selectedItem;
 
   if (typeof disposer === 'function') {
     disposer();
@@ -28,40 +25,38 @@ export function* virtualPageView({ connection, analytics }) {
   }
 
   const site = yield select(getSetting('generalSite', 'url'));
-  const hash = getHash(site, selected);
-  const format = 'pwa';
 
-  const { single, type, id, page } = selected;
-  const route = getRoute(selected);
+  disposer = when(
+    () => connection.selectedItem.entity.ready,
+    () => {
+      const { title } = connection.selectedItem.entity;
+      const url = page
+        ? connection.selectedItem.entity.pagedLink(page)
+        : connection.selectedItem.entity.link;
+      const format = 'pwa';
+      const route = getRoute(connection.selectedItem);
+      const hash = getHash(site, connection.selectedItem);
+      const customDimensions = analytics.getCustomDimensions({ type, id });
 
-  if (!single) {
-    const { title } = siteInfo.home;
-    sendVirtualPage({ site, title, url: `${site}`, type, id, page, format, route, hash });
-  } else {
-    disposer = when(
-      () => single && single.meta.pretty && single.link.pretty,
-      () => {
-        const { meta: { title }, _link: url } = single;
-        sendVirtualPage({
-          site,
-          title,
-          url,
-          type,
-          id,
-          page,
-          format,
-          route,
-          hash,
-          customDimensions,
-        });
-      },
-    );
-  }
+      sendVirtualPage({
+        site,
+        title,
+        url,
+        type,
+        id,
+        page,
+        format,
+        route,
+        hash,
+        customDimensions,
+      });
+    },
+  );
 }
 
 export function virtualEvent({ event, connection }) {
-  const type = `type: ${connection.selected.type}`;
-  const context = `context: ${connection.context.options.bar}`;
+  const type = `type: ${connection.selectedItem.type}`;
+  const context = `context: ${connection.selectedContext.options.bar}`;
 
   const category = `PWA - ${event.category}`;
   const action = `PWA - ${event.action}`;

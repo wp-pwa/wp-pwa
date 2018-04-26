@@ -9,53 +9,37 @@ let disposer;
 const getSetting = (namespace, setting) =>
   dep('settings', 'selectorCreators', 'getSetting')(namespace, setting);
 
-function virtualPageView({ stores, trackerNames }) {
-  const { connection, analytics } = stores;
+function virtualPageView({ stores: { connection: { selectedItem }, analytics }, trackerNames }) {
+  const { type, id, page } = selectedItem;
 
   // Executes disposer if there is a pending pageview.
-  if (disposer) {
+  if (typeof disposer === 'function') {
     disposer();
     disposer = null;
   }
 
-  // Gets single from selected.
-  const { single } = connection.context.selected;
+  // Wait for url and title ready.
+  disposer = when(
+    () => selectedItem.entity.ready,
+    () => {
+      const { title } = selectedItem.entity;
+      const location = page ? selectedItem.entity.pagedLink(page) : selectedItem.entity.link;
+      const customDimensions = analytics.getCustomDimensions({ type, id });
 
-  if (!single) {
-    // Single doesn't exist, so we are in the home page.
-    const { title } = connection.siteInfo.home;
-    const pageView = { hitType: 'pageview', title, page: '/' };
-    // Send the pageview to the trackers.
-    if (typeof window.ga === 'function') {
-      trackerNames.forEach(name => window.ga(`${name}.send`, pageView));
-    }
-  } else {
-    const { selected } = connection;
-    const { singleType, singleId } = selected;
+      const pageView = { hitType: 'pageview', title, location, ...customDimensions };
 
-    // Wait for url and title ready.
-    disposer = when(
-      () => single && single.meta.pretty && single.link.pretty,
-      () => {
-        const customDimensions = analytics.getCustomDimensions({ singleType, singleId });
-        const { title } = single.meta;
-        const location = single._link;
-
-        const pageView = { hitType: 'pageview', title, location, ...customDimensions };
-
-        // Send the pageview to the trackers.
-        if (typeof window.ga === 'function') {
-          trackerNames.forEach(name => window.ga(`${name}.send`, pageView));
-        }
-      },
-    );
-  }
+      // Send the pageview to the trackers.
+      if (typeof window.ga === 'function') {
+        trackerNames.forEach(name => window.ga(`${name}.send`, pageView));
+      }
+    },
+  );
 }
 
 export function virtualEvent({ event, stores, trackerNames }) {
   const { connection } = stores;
-  const type = `type: ${connection.selected.type}`;
-  const context = `context: ${connection.context.options.bar}`;
+  const type = `type: ${connection.selectedItem.type}`;
+  const context = `context: ${connection.selectedContext.options.bar}`;
 
   const category = `PWA - ${event.category}`;
   const action = `PWA - ${event.action}`;
@@ -80,9 +64,9 @@ export const eventHandlerCreator = ({ stores, trackerNames }) =>
     }
   };
 
-export const routeChangeHandlerCreator = ({ stores, trackerNames }) =>
+export const routeChangeHandlerCreator = ({ stores, trackerNames }, action) =>
   function* routeChangeHandler() {
-    yield call(virtualPageView, { stores, trackerNames });
+    yield call(virtualPageView, { stores, trackerNames }, action);
   };
 
 export default function* googleAnalyticsSagas(stores) {
