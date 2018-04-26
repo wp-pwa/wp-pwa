@@ -6,7 +6,7 @@ const emptyArray = [];
 export const getConfig = state =>
   dep('settings', 'selectorCreators', 'getSetting')('theme', 'ads')(state);
 
-export const getSlots = createSelector(
+export const getFills = createSelector(
   getConfig,
-  config => !!config && config.slots || emptyArray,
+  config => !!config && config.fills || emptyArray,
 );
