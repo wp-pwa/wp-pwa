@@ -106,6 +106,10 @@ The output `html` files will be located in the `.build/pwa/(client|server)/analy
 
 ## Changelog
 
+#### 1.5.6
+
+- Fixes customDimensions store in analytics
+
 #### 1.5.5
 
 - Update emotion
