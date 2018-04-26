@@ -12,12 +12,14 @@ const mapCustomDimensions = (self, action) => {
 
     entityIds.forEach(id => {
       if (entities[type][id].custom_analytics) {
-        if (!customDimensions.get(type)) {
-          customDimensions.set(type, {});
+        if (!customDimensions.get(entities[type][id].type)) {
+          customDimensions.set(entities[type][id].type, {});
         }
 
-        if (!customDimensions.get(type).get(id)) {
-          customDimensions.get(type, {}).set(id, entities[type][id].custom_analytics);
+        if (!customDimensions.get(entities[type][id].type).get(id)) {
+          customDimensions
+            .get(entities[type][id].type, {})
+            .set(id, entities[type][id].custom_analytics);
         }
       }
     });
@@ -43,7 +45,7 @@ const Analytics = types
         const typeList = self.customDimensions.get(type);
 
         if (typeList) {
-          const dimensions = typeList.get(id);
+          const dimensions = typeList.get(id.toString());
 
           if (dimensions) {
             return dimensions;
