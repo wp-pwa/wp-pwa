@@ -29,7 +29,7 @@ const Analytics = ({
   const routeProps = { site, selectedItem, format };
 
   // Gets the actual title from selectedItem.
-  const { title } = selectedItem.entity;
+  const { title } = selectedItem.entity.headMeta;
 
   // Gets the actual url from selectedItem.
   const url = getUrl({ selectedItem, format });
