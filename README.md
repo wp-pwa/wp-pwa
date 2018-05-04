@@ -106,6 +106,10 @@ The output `html` files will be located in the `.build/pwa/(client|server)/analy
 
 ## Changelog
 
+#### 1.5.10
+
+- Update lazyload
+
 #### 1.5.9
 
 - Fix title used in AMP Analytics
