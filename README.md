@@ -106,6 +106,10 @@ The output `html` files will be located in the `.build/pwa/(client|server)/analy
 
 ## Changelog
 
+#### 1.5.12
+
+- Updated mobx-react version
+
 #### 1.5.11
 
 - Add version to JS
