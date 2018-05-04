@@ -106,6 +106,30 @@ The output `html` files will be located in the `.build/pwa/(client|server)/analy
 
 ## Changelog
 
+#### 1.5.12
+
+- Updated mobx-react version
+
+#### 1.5.11
+
+- Add version to JS
+
+#### 1.5.10
+
+- Update lazyload
+
+#### 1.5.9
+
+- Fix title used in AMP Analytics
+
+#### 1.5.8
+
+- Fix but on previous bug fix
+
+#### 1.5.7
+
+- Fix anaylitics sending wrong title
+
 #### 1.5.6
 
 - Fixes customDimensions store in analytics

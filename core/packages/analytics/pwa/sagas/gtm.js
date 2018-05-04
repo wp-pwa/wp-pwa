@@ -29,7 +29,7 @@ export function* virtualPageView({ connection, analytics }) {
   disposer = when(
     () => connection.selectedItem.entity.ready,
     () => {
-      const { title } = connection.selectedItem.entity;
+      const { title } = connection.selectedItem.entity.headMeta;
       const url = page
         ? connection.selectedItem.entity.pagedLink(page)
         : connection.selectedItem.entity.link;
