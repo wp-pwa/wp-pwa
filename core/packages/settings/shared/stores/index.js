@@ -6,6 +6,14 @@ export default types
   .props({
     modules: types.optional(types.frozen, {}),
   })
+  .views(self => ({
+    getSettings(namespace) {
+      return self.modules[namespace];
+    },
+    getSetting(namespace, setting) {
+      return self.modules[namespace][setting];
+    },
+  }))
   .actions(self => {
     const { store, isClient } = getEnv(self);
 
