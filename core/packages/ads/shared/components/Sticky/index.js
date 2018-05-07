@@ -146,9 +146,6 @@ const mapStateToProps = (state, { type }) => {
     duration: sticky && sticky.duration,
     rememberClosedByUser: sticky && sticky.rememberClosedByUser,
     format: selectorCreators.ads.getStickyFormat(type)(state),
-    isOpen: state.theme.sticky.isOpen,
-    timeout: state.theme.sticky.timeout,
-    closedByUser: state.theme.sticky.closedByUser,
   };
 };
 
@@ -159,9 +156,12 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default compose(
-  inject(({ connection }) => ({
+  inject(({ connection, ads }) => ({
     type: connection.selectedItem.type,
     id: connection.selectedItem.id,
+    isOpen: ads.sticky.isOpen,
+    timeout: ads.sticky.timeout,
+    closedByUser: ads.sticky.closedByUser,
   })),
   connect(mapStateToProps, mapDispatchToProps),
 )(Sticky);
