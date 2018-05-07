@@ -1,0 +1,3 @@
+export const STICKY_HAS_SHOWN = 'theme/STICKY_HAS_SHOWN';
+export const STICKY_HAS_HIDDEN = 'theme/STICKY_HAS_HIDDEN';
+export const STICKY_UPDATE_TIMEOUT = 'theme/STICKY_UPDATE_TIMEOUT';
