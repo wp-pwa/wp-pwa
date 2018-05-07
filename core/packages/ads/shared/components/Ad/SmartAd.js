@@ -2,10 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'react-emotion';
 import { inject } from 'mobx-react';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
 import { Helmet } from 'react-helmet';
-import * as selectors from '../../selectors';
 
 class SmartAd extends Component {
   static propTypes = {
@@ -102,16 +99,10 @@ class SmartAd extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  networkId: selectors.getConfig(state).settings.networkId,
-});
-
-export default compose(
-  connect(mapStateToProps),
-  inject(({ connection }, { item: { type, id } }) => ({
-    target: connection.entity(type, id).target,
-  })),
-)(SmartAd);
+export default inject(({ connection, settings }, { item: { type, id } }) => ({
+  networkId: settings.getSetting('theme', 'ads').settings.networkId,
+  target: connection.entity(type, id).target,
+}))(SmartAd);
 
 const InnerContainer = styled.div`
   width: 100%;

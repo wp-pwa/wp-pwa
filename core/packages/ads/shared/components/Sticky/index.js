@@ -136,18 +136,9 @@ class Sticky extends Component {
   }
 }
 
-const mapStateToProps = (state, { type }) => {
-  const { sticky } = selectorCreators.ads.getOptions(type)(state);
-
-  return {
-    Ad: dep('ads', 'components', 'Ad'),
-    position: sticky && sticky.position,
-    delay: sticky && sticky.delay,
-    duration: sticky && sticky.duration,
-    rememberClosedByUser: sticky && sticky.rememberClosedByUser,
-    format: selectorCreators.ads.getStickyFormat(type)(state),
-  };
-};
+const mapStateToProps = (state, { type }) => ({
+  format: selectorCreators.ads.getStickyFormat(type)(state),
+});
 
 const mapDispatchToProps = dispatch => ({
   stickyHasShown: payload => dispatch(actions.sticky.hasShown(payload)),
@@ -156,13 +147,21 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default compose(
-  inject(({ connection, ads }) => ({
-    type: connection.selectedItem.type,
-    id: connection.selectedItem.id,
-    isOpen: ads.sticky.isOpen,
-    timeout: ads.sticky.timeout,
-    closedByUser: ads.sticky.closedByUser,
-  })),
+  inject(({ connection, ads, settings }) => {
+    const { sticky } = settings.getSetting('theme', 'ads');
+    return {
+      Ad: dep('ads', 'components', 'Ad'),
+      type: connection.selectedItem.type,
+      id: connection.selectedItem.id,
+      isOpen: ads.sticky.isOpen,
+      timeout: ads.sticky.timeout,
+      closedByUser: ads.sticky.closedByUser,
+      position: sticky && sticky.position,
+      delay: sticky && sticky.delay,
+      duration: sticky && sticky.duration,
+      rememberClosedByUser: sticky && sticky.rememberClosedByUser,
+    };
+  }),
   connect(mapStateToProps, mapDispatchToProps),
 )(Sticky);
 
