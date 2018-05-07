@@ -34,8 +34,9 @@ const closedByUser = (state = false, action) => {
   }
 };
 
-export default combineReducers({
-  isOpen,
-  timeout,
-  closedByUser,
-});
+export default () =>
+  combineReducers({
+    isOpen,
+    timeout,
+    closedByUser,
+  });
