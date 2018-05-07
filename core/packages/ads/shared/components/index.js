@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Fill } from 'react-slot-fill';
 import Ad from './Ad';
+import Sticky from './Sticky';
 import { getFills } from '../selectors';
 
 const Ads = ({ ads }) =>
@@ -25,4 +26,4 @@ const mapStateToProps = state => ({
 });
 
 export default connect(mapStateToProps)(Ads);
-export { Ad };
+export { Ad, Sticky };
