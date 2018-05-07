@@ -5,7 +5,7 @@ export default types
   .model('Sticky')
   .props({
     isOpen: false,
-    timeout: null,
+    timeout: types.maybe(types.number),
     closedByUser: false,
   })
   .actions(self => {
@@ -15,17 +15,17 @@ export default types
         self.isOpen = true;
         self.timeout = timeout;
       },
-      [actionTypes.STICKY_HAS_HIDDEN]: () => {
+      [actionTypes.STICKY_HAS_HIDDEN]: ({ closedByUser }) => {
         self.isOpen = false;
         self.timeout = null;
-        self.closedByUser = true;
+        self.closedByUser = closedByUser;
       },
       [actionTypes.STICKY_UPDATE_TIMEOUT]: ({ timeout }) => {
         self.timeout = timeout;
       },
       afterCreate: () => {
         if (isClient) {
-          if (store)
+          if (store) {
             store.subscribe(() => {
               const action = store.getState().lastAction;
 
@@ -33,6 +33,7 @@ export default types
                 self[action.type](action);
               }
             });
+          }
         }
       },
     };
