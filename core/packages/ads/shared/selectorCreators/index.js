@@ -1,7 +1,7 @@
 import * as selectors from '../selectors';
 
 export const getFormats = type => state => {
-  const adsConfig = selectors.ads.getConfig(state);
+  const adsConfig = selectors.getConfig(state);
 
   if (!adsConfig || !adsConfig.formats) return {};
 

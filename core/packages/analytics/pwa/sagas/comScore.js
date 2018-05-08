@@ -57,7 +57,7 @@ export function virtualPageView({ selectedItem }, comScoreIds, titleMatches) {
 
   // Waits for the correct url and title and then sends beacons.
   disposer = when(
-    () => selectedItem.entity.ready,
+    () => selectedItem.entity.isReady,
     async () => {
       await titleMatches(title);
       if (window.COMSCORE) comScoreIds.forEach(id => window.COMSCORE.beacon({ c1: '2', c2: id }));
