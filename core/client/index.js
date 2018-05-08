@@ -95,11 +95,7 @@ const init = async () => {
 
   // Create MST Stores and pass redux as env variable.
   const Stores = RootStore.props(storesProps);
-  stores = Stores.create(window['wp-pwa'].initialStateMst, {
-    store,
-    isServer: false,
-    isClient: true,
-  });
+  stores = Stores.create(window['wp-pwa'].initialStateMst, { store });
   if (dev) {
     const makeInspectable = require('mobx-devtools-mst').default;
     makeInspectable(stores);
@@ -109,6 +105,7 @@ const init = async () => {
   if (typeof window !== 'undefined') window.frontity = { stores, store };
 
   // Start all the client sagas.
+  stores.clientStarted();
   store.dispatch(buildModule.actions.clientStarted());
   const params = { stores, store };
   if (clientSagas) Object.values(clientSagas).forEach(saga => store.runSaga(saga, params));
@@ -118,6 +115,7 @@ const init = async () => {
   render(App);
 
   // Inform that the client has been rendered.
+  stores.clientRendered();
   store.dispatch(buildModule.actions.clientRendered());
 };
 

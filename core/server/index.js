@@ -107,11 +107,27 @@ export default ({ clientStats }) => async (req, res) => {
 
     // Create MST Stores and pass redux as env variable.
     const Stores = RootStore.props(storesProps);
-    const stores = Stores.create({}, { store, isServer: true, isClient: false });
+    const stores = Stores.create(
+      {
+        build: {
+          siteId,
+          channel: process.env.MODE,
+          device,
+          packages,
+          isDev: !!req.query.dev,
+          initialUrl,
+          rendering: 'ssr',
+          perPage: parseInt(perPage, 10),
+        },
+        settings,
+      },
+      { store, isServer: true, isClient: false },
+    );
     if (typeof window !== 'undefined') window.frontity = stores;
 
     // Notify that server is started.
     store.dispatch(buildModule.actions.serverStarted());
+    stores.serverStarted();
 
     // Add build to the state.
     store.dispatch(
@@ -129,7 +145,6 @@ export default ({ clientStats }) => async (req, res) => {
 
     // Add settings to the state.
     store.dispatch(settingsModule.actions.settingsUpdated({ settings }));
-    stores.updateSettings({ settings });
 
     // Run and wait until all the server sagas have run.
     const params = {
@@ -139,8 +154,10 @@ export default ({ clientStats }) => async (req, res) => {
     };
     const startSagas = new Date();
     const sagaPromises = Object.values(serverSagas).map(saga => store.runSaga(saga, params).done);
+    stores.serverFlowsInitialized();
     store.dispatch(buildModule.actions.serverSagasInitialized());
     await Promise.all(sagaPromises);
+    stores.serverFinished();
     store.dispatch(
       buildModule.actions.serverFinished({
         timeToRunSagas: new Date() - startSagas,
