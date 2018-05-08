@@ -1,5 +1,4 @@
 import { types, getEnv } from 'mobx-state-tree';
-import * as actionTypes from '../actionTypes';
 
 export default types
   .model('Settings')
@@ -15,7 +14,7 @@ export default types
     const { store, isClient } = getEnv(self);
 
     return {
-      [actionTypes.SETTINGS_UPDATED]({ settings }) {
+      update({ settings }) {
         self.modules = settings;
       },
       afterCreate: () => {

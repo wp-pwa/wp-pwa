@@ -128,6 +128,7 @@ export default ({ clientStats }) => async (req, res) => {
 
     // Add settings to the state.
     store.dispatch(settingsModule.actions.settingsUpdated({ settings }));
+    stores.settings.update({ settings });
 
     // Run and wait until all the server sagas have run.
     const params = {
