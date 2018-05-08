@@ -26,7 +26,7 @@ function virtualPageView({
 
   // Wait for url and title ready.
   disposer = when(
-    () => selectedItem.entity.ready,
+    () => selectedItem.entity.isReady,
     () => {
       const { title } = selectedItem.entity.headMeta;
       const location = page ? selectedItem.entity.pagedLink(page) : selectedItem.entity.link;

@@ -27,7 +27,7 @@ export function* virtualPageView({ connection, analytics }) {
   const site = yield select(getSetting('generalSite', 'url'));
 
   disposer = when(
-    () => connection.selectedItem.entity.ready,
+    () => connection.selectedItem.entity.isReady,
     () => {
       const { title } = connection.selectedItem.entity.headMeta;
       const url = page
