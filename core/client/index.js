@@ -10,6 +10,7 @@ import { addPackage } from 'worona-deps';
 import App from '../components/App';
 import { importPromises } from '../components/Universal';
 import initStore from '../store';
+import RootStore from '../root-store';
 
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -93,7 +94,7 @@ const init = async () => {
   });
 
   // Create MST Stores and pass redux as env variable.
-  const Stores = types.model('Stores').props(storesProps);
+  const Stores = RootStore.props(storesProps);
   stores = Stores.create(window['wp-pwa'].initialStateMst, {
     store,
     isServer: false,

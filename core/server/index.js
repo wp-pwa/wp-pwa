@@ -13,6 +13,7 @@ import { useStaticRendering } from 'mobx-react';
 import { Helmet } from 'react-helmet';
 import App from '../components/App';
 import initStore from '../store';
+import RootStore from '../root-store';
 import { getSettings } from './settings';
 import pwaTemplate from './pwa-template';
 import ampTemplate from './amp-template';
@@ -105,7 +106,7 @@ export default ({ clientStats }) => async (req, res) => {
     const store = initStore({ reducer: combineReducers(reducers) });
 
     // Create MST Stores and pass redux as env variable.
-    const Stores = types.model('Stores').props(storesProps);
+    const Stores = RootStore.props(storesProps);
     const stores = Stores.create({}, { store, isServer: true, isClient: false });
     if (typeof window !== 'undefined') window.frontity = stores;
 
@@ -128,7 +129,7 @@ export default ({ clientStats }) => async (req, res) => {
 
     // Add settings to the state.
     store.dispatch(settingsModule.actions.settingsUpdated({ settings }));
-    stores.settings.update({ settings });
+    stores.updateSettings({ settings });
 
     // Run and wait until all the server sagas have run.
     const params = {
