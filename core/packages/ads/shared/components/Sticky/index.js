@@ -148,7 +148,7 @@ const mapDispatchToProps = dispatch => ({
 
 export default compose(
   inject(({ connection, ads, settings }) => {
-    const { sticky } = settings.getSetting('theme', 'ads');
+    const { sticky } = settings.theme.ads;
     return {
       Ad: dep('ads', 'components', 'Ad'),
       type: connection.selectedItem.type,

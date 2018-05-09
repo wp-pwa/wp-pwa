@@ -100,7 +100,7 @@ class SmartAd extends Component {
 }
 
 export default inject(({ connection, settings }, { item: { type, id } }) => ({
-  networkId: settings.getSetting('theme', 'ads').settings.networkId,
+  networkId: settings.theme.ads.settings.networkId,
   target: connection.entity(type, id).target,
 }))(SmartAd);
 

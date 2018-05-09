@@ -23,7 +23,7 @@ Ads.propTypes = {
 const emptyArray = [];
 
 export default inject(({ settings }) => ({
-  fills: settings.getSetting('theme', 'ads').fills || emptyArray,
+  fills: settings.theme.ads.fills || emptyArray,
 }))(Ads);
 
 export { Ad, Sticky };
