@@ -12,7 +12,7 @@ const Build = types
     rendering: types.enumeration(['ssr', 'csr']),
     packages: types.frozen,
     isDev: types.optional(types.boolean, false),
-    initialUrl: types.string,
+    initialUrl: types.maybe(types.string),
     perPage: types.optional(types.number, 10),
   })
   .views(self => ({
@@ -52,7 +52,9 @@ const Build = types
     isRendering: rendering => self.rendering === rendering,
   }))
   .actions(self => ({
-    switchToCsr: () => { self.rendering = 'csr'; },
+    switchToCsr: () => {
+      self.rendering = 'csr';
+    },
   }));
 
 const Store = types
@@ -69,7 +71,9 @@ const Store = types
     serverFinished: () => {},
     serverFlowsInitialized: () => {},
     clientStarted: () => {},
-    clientRendered: () => { self.build.rendering = 'csr'; },
+    clientRendered: () => {
+      self.build.rendering = 'csr';
+    },
     afterCreate: () => {
       if (dev) onAction(self, action => console.log(action));
     },
