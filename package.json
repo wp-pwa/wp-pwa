@@ -23,6 +23,7 @@
     "now-start": "npm run serve -- --prod"
   },
   "dependencies": {
+    "asciify": "^1.3.5",
     "@frontity/lazyload": "^1.0.1",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
