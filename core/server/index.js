@@ -96,7 +96,7 @@ export default ({ clientStats }) => async (req, res) => {
       if (pkg.module.Store) storesProps[pkg.namespace] = types.optional(pkg.module.Store, {});
       if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers();
       if (pkg.module.serverSagas) serverSagas[pkg.name] = pkg.module.serverSagas;
-      if (pkg.module.serverFlow) serverFlows[pkg.namespace] = pkg.module.serverFlow;
+      if (pkg.module.serverFlow) serverFlows[`${pkg.namespace}-flow`] = pkg.module.serverFlow;
     };
 
     // Load MST reducers and server sagas.
@@ -108,13 +108,12 @@ export default ({ clientStats }) => async (req, res) => {
     const store = initStore({ reducer: combineReducers(reducers) });
 
     // Create MST Stores and pass redux as env variable.
-    const ServerFlows = types.model('ServerFlows', {}).actions(self => {
+    const Stores = RootStore.props(storesProps).actions(self => {
       Object.keys(serverFlows).forEach(flow => {
         serverFlows[flow] = serverFlows[flow](self);
       });
       return serverFlows;
     });
-    const Stores = RootStore.props(storesProps).props({ server: types.optional(ServerFlows, {}) });
 
     const stores = Stores.create(
       {
@@ -166,7 +165,7 @@ export default ({ clientStats }) => async (req, res) => {
     stores.serverFlowsInitialized();
     store.dispatch(buildModule.actions.serverSagasInitialized());
     await Promise.all(sagaPromises);
-    const flowPromises = Object.keys(serverFlows).map(flow => stores.server[flow]());
+    const flowPromises = Object.keys(serverFlows).map(flow => stores[flow]());
     await Promise.all(flowPromises);
     stores.serverFinished();
     store.dispatch(
