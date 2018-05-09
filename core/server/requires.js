@@ -18,9 +18,18 @@ export const requireModules = async pkgs => {
 
     try {
       // Only return serverSaga if it exists.
-      const serverSagas = require(`../../packages/${name}/src/${process.env.MODE}/sagas/server`)
-        .default;
-      return { name, namespace, module: { ...module, serverSagas } };
+      module.serverSagas = require(`../../packages/${name}/src/${
+        process.env.MODE
+      }/sagas/server`).default;
+    } catch (e) {
+      // Not adding serverSaga.
+    }
+    try {
+      // Only return serverFlow if it exists.
+      const serverFlow = require(`../../packages/${name}/src/${
+        process.env.MODE
+      }/stores/server-flow`).default;
+      return { name, namespace, module: { ...module, serverFlow } };
     } catch (e) {
       return { name, namespace, module };
     }

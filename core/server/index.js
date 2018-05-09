@@ -13,6 +13,7 @@ import { useStaticRendering } from 'mobx-react';
 import { Helmet } from 'react-helmet';
 import App from '../components/App';
 import initStore from '../store';
+import RootStore from '../root-store';
 import { getSettings } from './settings';
 import pwaTemplate from './pwa-template';
 import ampTemplate from './amp-template';
@@ -81,6 +82,7 @@ export default ({ clientStats }) => async (req, res) => {
     const storesProps = {};
     const reducers = {};
     const serverSagas = {};
+    const serverFlows = {};
 
     const addModules = pkg => {
       addPackage({ namespace: pkg.namespace, module: pkg.module });
@@ -94,6 +96,7 @@ export default ({ clientStats }) => async (req, res) => {
       if (pkg.module.Store) storesProps[pkg.namespace] = types.optional(pkg.module.Store, {});
       if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers();
       if (pkg.module.serverSagas) serverSagas[pkg.name] = pkg.module.serverSagas;
+      if (pkg.module.serverFlow) serverFlows[`${pkg.namespace}-flow`] = pkg.module.serverFlow;
     };
 
     // Load MST reducers and server sagas.
@@ -105,12 +108,34 @@ export default ({ clientStats }) => async (req, res) => {
     const store = initStore({ reducer: combineReducers(reducers) });
 
     // Create MST Stores and pass redux as env variable.
-    const Stores = types.model('Stores').props(storesProps);
-    const stores = Stores.create({}, { store, isServer: true, isClient: false });
+    const Stores = RootStore.props(storesProps).actions(self => {
+      Object.keys(serverFlows).forEach(flow => {
+        serverFlows[flow] = serverFlows[flow](self);
+      });
+      return serverFlows;
+    });
+
+    const stores = Stores.create(
+      {
+        build: {
+          siteId,
+          channel: process.env.MODE,
+          device,
+          packages,
+          isDev: !!req.query.dev,
+          initialUrl,
+          rendering: 'ssr',
+          perPage: parseInt(perPage, 10),
+        },
+        settings,
+      },
+      { store, isServer: true, isClient: false },
+    );
     if (typeof window !== 'undefined') window.frontity = stores;
 
     // Notify that server is started.
     store.dispatch(buildModule.actions.serverStarted());
+    stores.serverStarted();
 
     // Add build to the state.
     store.dispatch(
@@ -137,8 +162,12 @@ export default ({ clientStats }) => async (req, res) => {
     };
     const startSagas = new Date();
     const sagaPromises = Object.values(serverSagas).map(saga => store.runSaga(saga, params).done);
+    stores.serverFlowsInitialized();
     store.dispatch(buildModule.actions.serverSagasInitialized());
     await Promise.all(sagaPromises);
+    const flowPromises = Object.keys(serverFlows).map(flow => stores[flow]());
+    await Promise.all(flowPromises);
+    stores.serverFinished();
     store.dispatch(
       buildModule.actions.serverFinished({
         timeToRunSagas: new Date() - startSagas,
