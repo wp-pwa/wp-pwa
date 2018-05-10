@@ -1,29 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { inject } from 'mobx-react';
 import { Fill } from 'react-slot-fill';
 import Ad from './Ad';
 import Sticky from './Sticky';
-import { getFills } from '../selectors';
 
-const Ads = ({ ads }) =>
-  ads.map(({ name, ...adProps }) => (
+const Ads = ({ fills }) =>
+  fills.map(({ name, isSticky, ...adProps }) => (
     <Fill key={name} name={name}>
-      <Ad {...adProps} slotName={name} />
+      {isSticky ? (
+        <Sticky format={adProps} slotName={name} />
+      ) : (
+        <Ad {...adProps} slotName={name} />
+      )}
     </Fill>
   ));
 
 Ads.propTypes = {
-  ads: PropTypes.arrayOf(
+  fills: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,
     }),
   ),
 };
 
-const mapStateToProps = state => ({
-  ads: getFills(state),
-});
+const emptyArray = [];
 
-export default connect(mapStateToProps)(Ads);
+export default inject(({ settings }) => ({
+  fills: settings.theme.ads.fills || emptyArray,
+}))(Ads);
+
 export { Ad, Sticky };

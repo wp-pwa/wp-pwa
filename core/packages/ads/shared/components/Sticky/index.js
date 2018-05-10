@@ -1,40 +1,39 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
 import styled from 'react-emotion';
 import Transition from 'react-transition-group/Transition';
 import IconClose from 'react-icons/lib/md/close';
-import { dep } from 'worona-deps';
-import * as actions from '../../actions';
-import * as selectorCreators from '../../selectorCreators';
+import Ad from '../Ad';
 
 class Sticky extends Component {
   static propTypes = {
-    Ad: PropTypes.func.isRequired,
-    position: PropTypes.string,
-    delay: PropTypes.number,
-    duration: PropTypes.number,
-    rememberClosedByUser: PropTypes.bool,
     format: PropTypes.shape({}),
     type: PropTypes.string.isRequired,
     id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     isOpen: PropTypes.bool.isRequired,
     timeout: PropTypes.number,
     closedByUser: PropTypes.bool.isRequired,
-    stickyHasShown: PropTypes.func.isRequired,
-    stickyHasHidden: PropTypes.func.isRequired,
-    stickyUpdateTimeout: PropTypes.func.isRequired,
+    show: PropTypes.func.isRequired,
+    hide: PropTypes.func.isRequired,
+    updateTimeout: PropTypes.func.isRequired,
+    settings: PropTypes.shape({
+      position: PropTypes.string,
+      delay: PropTypes.number,
+      duration: PropTypes.number,
+      rememberClosedByUser: PropTypes.bool,
+    }),
   };
 
   static defaultProps = {
     timeout: null,
     format: null,
-    position: 'bottom',
-    delay: 0,
-    duration: 0,
-    rememberClosedByUser: false,
+    settings: {
+      position: 'bottom',
+      delay: 0,
+      duration: 0,
+      rememberClosedByUser: false,
+    },
   };
 
   constructor() {
@@ -68,13 +67,13 @@ class Sticky extends Component {
       timeout,
       closedByUser,
       format,
-      delay,
-      duration,
-      rememberClosedByUser,
-      stickyHasShown,
-      stickyHasHidden,
-      stickyUpdateTimeout,
+      show,
+      hide,
+      updateTimeout,
+      settings,
     } = this.props;
+
+    const { delay, duration, rememberClosedByUser } = settings;
 
     if (closedByUser && rememberClosedByUser) return;
 
@@ -82,38 +81,39 @@ class Sticky extends Component {
 
     if (isOpen) {
       if (!format) {
-        stickyHasHidden({ closedByUser: false });
+        hide({ closedByUser: false });
       } else if (duration) {
         const newTimeout = setTimeout(() => {
-          stickyHasHidden({ closedByUser: false });
+          hide({ closedByUser: false });
         }, duration);
-        stickyUpdateTimeout({ timeout: newTimeout });
+        updateTimeout({ timeout: newTimeout });
       }
     } else if (format) {
       setTimeout(() => {
         if (duration) {
           const newTimeout = setTimeout(() => {
-            stickyHasHidden({ closedByUser: false });
+            hide({ closedByUser: false });
           }, duration);
-          stickyHasShown({ timeout: newTimeout });
+          show({ timeout: newTimeout });
         } else {
-          stickyHasShown({ timeout: null });
+          show({ timeout: null });
         }
       }, delay);
     }
   }
 
   handleClick() {
-    const { timeout, stickyHasHidden } = this.props;
+    const { timeout, hide } = this.props;
 
     if (timeout) clearTimeout(timeout);
 
-    stickyHasHidden({ closedByUser: true });
+    hide({ closedByUser: true });
   }
 
   render() {
-    const { isOpen, position, format, Ad } = this.props;
+    const { isOpen, settings, format } = this.props;
     const { shouldMount } = this.state;
+    const { position } = settings;
 
     return (
       <Transition
@@ -136,35 +136,24 @@ class Sticky extends Component {
   }
 }
 
-const mapStateToProps = (state, { type }) => {
-  const { sticky } = selectorCreators.ads.getOptions(type)(state);
-
-  return {
-    Ad: dep('ads', 'components', 'Ad'),
-    position: sticky && sticky.position,
-    delay: sticky && sticky.delay,
-    duration: sticky && sticky.duration,
-    rememberClosedByUser: sticky && sticky.rememberClosedByUser,
-    format: selectorCreators.ads.getStickyFormat(type)(state),
-    isOpen: state.theme.sticky.isOpen,
-    timeout: state.theme.sticky.timeout,
-    closedByUser: state.theme.sticky.closedByUser,
-  };
-};
-
-const mapDispatchToProps = dispatch => ({
-  stickyHasShown: payload => dispatch(actions.sticky.hasShown(payload)),
-  stickyHasHidden: payload => dispatch(actions.sticky.hasHidden(payload)),
-  stickyUpdateTimeout: payload => dispatch(actions.sticky.updateTimeout(payload)),
-});
-
-export default compose(
-  inject(({ connection }) => ({
-    type: connection.selectedItem.type,
-    id: connection.selectedItem.id,
-  })),
-  connect(mapStateToProps, mapDispatchToProps),
-)(Sticky);
+export default inject(({ connection, ads, settings }) => ({
+  type: connection.selectedItem.type,
+  id: connection.selectedItem.id,
+  // settings
+  settings: settings.theme.ads.sticky,
+  // views
+  isOpen: ads.sticky.isOpen,
+  timeout: ads.sticky.timeout,
+  closedByUser: ads.sticky.closedByUser,
+  // actions
+  show: ads.sticky.show,
+  hide: ads.sticky.hide,
+  updateTimeout: ads.sticky.updateTimeout,
+  // position: sticky && sticky.position,
+  // delay: sticky && sticky.delay,
+  // duration: sticky && sticky.duration,
+  // rememberClosedByUser: sticky && sticky.rememberClosedByUser,
+}))(Sticky);
 
 const Container = styled.div`
   box-sizing: border-box;
