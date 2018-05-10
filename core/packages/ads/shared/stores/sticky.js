@@ -1,5 +1,4 @@
 import { types, getEnv } from 'mobx-state-tree';
-import * as actionTypes from '../actionTypes';
 
 export default types
   .model('Sticky')
@@ -11,16 +10,16 @@ export default types
   .actions(self => {
     const { store, isClient } = getEnv(self);
     return {
-      [actionTypes.STICKY_HAS_SHOWN]: ({ timeout }) => {
+      show: ({ timeout }) => {
         self.isOpen = true;
         self.timeout = timeout;
       },
-      [actionTypes.STICKY_HAS_HIDDEN]: ({ closedByUser }) => {
+      hide: ({ closedByUser }) => {
         self.isOpen = false;
         self.timeout = null;
         self.closedByUser = closedByUser;
       },
-      [actionTypes.STICKY_UPDATE_TIMEOUT]: ({ timeout }) => {
+      updateTimeout: ({ timeout }) => {
         self.timeout = timeout;
       },
       afterCreate: () => {
