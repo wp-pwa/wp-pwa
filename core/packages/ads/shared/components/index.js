@@ -8,11 +8,7 @@ import Sticky from './Sticky';
 const Ads = ({ fills }) =>
   fills.map(({ name, isSticky, ...adProps }) => (
     <Fill key={name} name={name}>
-      {isSticky ? (
-        <Sticky format={adProps} slotName={name} />
-      ) : (
-        <Ad {...adProps} slotName={name} />
-      )}
+      {isSticky ? <Sticky format={adProps} slotName={name} /> : <Ad {...adProps} slotName={name} />}
     </Fill>
   ));
 
@@ -26,8 +22,12 @@ Ads.propTypes = {
 
 const emptyArray = [];
 
-export default inject(({ settings }) => ({
-  fills: settings.theme.ads.fills || emptyArray,
-}))(Ads);
+export default inject(({ settings }) => {
+  const ads = settings.theme.ads || {};
+
+  return {
+    fills: ads.fills || emptyArray,
+  };
+})(Ads);
 
 export { Ad, Sticky };
