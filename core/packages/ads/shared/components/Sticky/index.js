@@ -136,12 +136,11 @@ class Sticky extends Component {
   }
 }
 
-export default inject(({ connection, ads, settings }, { type }) => ({
+export default inject(({ connection, ads, settings }) => ({
   type: connection.selectedItem.type,
   id: connection.selectedItem.id,
   // settings
   settings: settings.theme.ads.sticky,
-  format: ads.getStickyFormat(type),
   // views
   isOpen: ads.sticky.isOpen,
   timeout: ads.sticky.timeout,

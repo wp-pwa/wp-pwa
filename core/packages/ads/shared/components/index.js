@@ -6,9 +6,13 @@ import Ad from './Ad';
 import Sticky from './Sticky';
 
 const Ads = ({ fills }) =>
-  fills.map(({ name, ...adProps }) => (
+  fills.map(({ name, isSticky, ...adProps }) => (
     <Fill key={name} name={name}>
-      <Ad {...adProps} slotName={name} />
+      {isSticky ? (
+        <Sticky format={adProps} slotName={name} />
+      ) : (
+        <Ad {...adProps} slotName={name} />
+      )}
     </Fill>
   ));
 
