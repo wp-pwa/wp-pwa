@@ -33,7 +33,7 @@ const { buildPath } = require(`../../.build/${process.env.MODE}/buildInfo.json`)
 
 export default ({ clientStats }) => async (req, res) => {
   let status = 200;
-  const { siteId, perPage, initialUrl, env, device, type, id, page } = parseQuery(req.query);
+  const { siteId, perPage = 10, initialUrl, env, device, type, id, page } = parseQuery(req.query);
 
   // Avoid observables in server.
   useStaticRendering(true);

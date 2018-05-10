@@ -13,7 +13,7 @@ const Build = types
     packages: types.frozen,
     isDev: types.optional(types.boolean, false),
     initialUrl: types.maybe(types.string),
-    perPage: types.optional(types.number, 10),
+    perPage: types.number,
   })
   .views(self => ({
     get isAmp() {
