@@ -165,7 +165,9 @@ export default ({ clientStats }) => async (req, res) => {
     stores.serverFlowsInitialized();
     store.dispatch(buildModule.actions.serverSagasInitialized());
     await Promise.all(sagaPromises);
-    const flowPromises = Object.keys(serverFlows).map(flow => stores[flow]());
+    const flowPromises = Object.keys(serverFlows).map(flow =>
+      stores[flow]({ selectedItem: params.selectedItem }),
+    );
     await Promise.all(flowPromises);
     stores.serverFinished();
     store.dispatch(
