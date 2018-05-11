@@ -26,9 +26,8 @@ export const requireModules = async pkgs => {
     }
     try {
       // Only return serverFlow if it exists.
-      const serverFlow = require(`../../packages/${name}/src/${
-        process.env.MODE
-      }/stores/server-flow`).default;
+      const serverFlow = require(`../../packages/${name}/src/${process.env.MODE}/flows/server`)
+        .default;
       return { name, namespace, module: { ...module, serverFlow } };
     } catch (e) {
       return { name, namespace, module };
