@@ -15,8 +15,8 @@ import App from '../components/App';
 import initStore from '../store';
 import RootStore from '../root-store';
 import { getSettings } from './settings';
-import pwaTemplate from './pwa-template';
-import ampTemplate from './amp-template';
+import pwaTemplate from './templates/pwa';
+import ampTemplate from './templates/amp';
 import { requireModules } from './requires';
 import { parseQuery } from './utils';
 
