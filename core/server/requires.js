@@ -2,7 +2,7 @@
 export default pkgs =>
   pkgs.map(([namespace, name]) => {
     try {
-      const module = require(`../../packages/${name}/src/${process.env.MODE}/index`);
+      const module = require(`../../packages/${name}/src/${process.env.MODE}/server`);
       return { name, namespace, module };
     } catch (error) {
       throw new Error(`Module ${name} is not installed.`);

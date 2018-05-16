@@ -55,18 +55,6 @@ const Analytics = types
 
       return null;
     },
-  }))
-  .actions(self => ({
-    afterCreate: () => {
-      const { store } = getEnv(self);
-      if (store)
-        store.subscribe(() => {
-          const action = store.getState().lastAction;
-          if (self[action.type]) {
-            self[action.type](action);
-          }
-        });
-    },
   }));
 
 export default Analytics;

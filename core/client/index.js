@@ -12,18 +12,14 @@ import Store from '../store';
 
 const dev = process.env.NODE_ENV !== 'production';
 
-const buildModule = require(`../packages/build/${process.env.MODE}`);
-const settingsModule = require(`../packages/settings/${process.env.MODE}`);
-const analyticsModule = require(`../packages/analytics/${process.env.MODE}`);
+// const analyticsModule = require(`../packages/analytics/${process.env.MODE}`);
 const iframesModule = require(`../packages/iframes/${process.env.MODE}`);
 const adsModule = require(`../packages/ads/${process.env.MODE}`);
 const customCssModule = require(`../packages/customCss/${process.env.MODE}`);
 
 // Define core modules.
 const coreModules = [
-  { name: 'build', namespace: 'build', module: buildModule },
-  { name: 'settings', namespace: 'settings', module: settingsModule },
-  { name: 'analytics', namespace: 'analytics', module: analyticsModule },
+  // { name: 'analytics', namespace: 'analytics', module: analyticsModule },
   { name: 'iframes', namespace: 'iframes', module: iframesModule },
   { name: 'ads', namespace: 'ads', module: adsModule },
   { name: 'customCss', namespace: 'customCss', module: customCssModule },

@@ -16,12 +16,10 @@ import Store from '../store';
 import { getSettings } from './settings';
 import pwaTemplate from './templates/pwa';
 import ampTemplate from './templates/amp';
-import { requireModules } from './requires';
+import requireModules from './requires';
 import { parseQuery } from './utils';
 
-const buildModule = require(`../packages/build/${process.env.MODE}`);
-const settingsModule = require(`../packages/settings/${process.env.MODE}`);
-const analyticsModule = require(`../packages/analytics/${process.env.MODE}`);
+// const analyticsModule = require(`../packages/analytics/${process.env.MODE}`);
 const iframesModule = require(`../packages/iframes/${process.env.MODE}`);
 const adsModule = require(`../packages/ads/${process.env.MODE}`);
 const customCssModule = require(`../packages/customCss/${process.env.MODE}`);
@@ -53,9 +51,7 @@ export default ({ clientStats }) => async (req, res) => {
 
     // Define core modules.
     const coreModules = [
-      { name: 'build', namespace: 'build', module: buildModule },
-      { name: 'settings', namespace: 'settings', module: settingsModule },
-      { name: 'analytics', namespace: 'analytics', module: analyticsModule },
+      // { name: 'analytics', namespace: 'analytics', module: analyticsModule },
       { name: 'iframes', namespace: 'iframes', module: iframesModule },
       { name: 'ads', namespace: 'ads', module: adsModule },
       { name: 'customCss', namespace: 'customCss', module: customCssModule },
