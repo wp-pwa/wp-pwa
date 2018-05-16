@@ -1,7 +1,6 @@
 /* eslint-disable no-console, global-require, import/no-dynamic-require */
 import { readFile } from 'fs-extra';
 import React from 'react';
-import { combineReducers } from 'redux';
 import ReactDOM from 'react-dom/server';
 import { extractCritical } from 'emotion-server';
 import { flushChunkNames } from 'react-universal-component/server';
@@ -13,8 +12,7 @@ import { types } from 'mobx-state-tree';
 import { useStaticRendering } from 'mobx-react';
 import { Helmet } from 'react-helmet';
 import App from '../components/App';
-import initStore from '../store';
-import RootStore from '../root-store';
+import Store from '../store';
 import { getSettings } from './settings';
 import pwaTemplate from './templates/pwa';
 import ampTemplate from './templates/amp';
@@ -81,8 +79,6 @@ export default ({ clientStats }) => async (req, res) => {
     const pkgModules = await requireModules(Object.entries(packages));
 
     const storesProps = {};
-    const reducers = {};
-    const serverSagas = {};
     const serverFlows = {};
 
     const addModules = pkg => {
@@ -95,8 +91,6 @@ export default ({ clientStats }) => async (req, res) => {
 
     const mapModules = pkg => {
       if (pkg.module.Store) storesProps[pkg.namespace] = types.optional(pkg.module.Store, {});
-      if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers();
-      if (pkg.module.serverSagas) serverSagas[pkg.name] = pkg.module.serverSagas;
       if (pkg.module.serverFlow) serverFlows[`${pkg.namespace}-flow`] = pkg.module.serverFlow;
     };
 
@@ -104,12 +98,8 @@ export default ({ clientStats }) => async (req, res) => {
     coreModules.forEach(mapModules);
     pkgModules.forEach(mapModules);
 
-    // Create Redux store.
-    reducers.lastAction = (_, action) => action;
-    const store = initStore({ reducer: combineReducers(reducers) });
-
     // Create MST Stores and pass redux as env variable.
-    const Stores = RootStore.props(storesProps).actions(self => {
+    const Stores = Store.props(storesProps).actions(self => {
       Object.keys(serverFlows).forEach(flow => {
         serverFlows[flow] = serverFlows[flow](self);
       });
@@ -130,59 +120,28 @@ export default ({ clientStats }) => async (req, res) => {
         },
         settings,
       },
-      { store, request },
+      { request },
     );
     if (typeof window !== 'undefined') window.frontity = stores;
 
     // Notify that server is started.
-    store.dispatch(buildModule.actions.serverStarted());
     stores.serverStarted();
-
-    // Add build to the state.
-    store.dispatch(
-      buildModule.actions.buildUpdated({
-        siteId,
-        env,
-        packages,
-        perPage,
-        device,
-        amp: process.env.MODE === 'amp',
-        dev: req.query.dev,
-        initialUrl,
-      }),
-    );
-
-    // Add settings to the state.
-    store.dispatch(settingsModule.actions.settingsUpdated({ settings }));
 
     // Run and wait until all the server sagas have run.
     const params = {
       selectedItem: { type, id, page },
-      stores,
-      store,
     };
-    const startSagas = new Date();
-    const sagaPromises = Object.values(serverSagas).map(saga => store.runSaga(saga, params).done);
+    const startFlows = new Date();
     stores.serverFlowsInitialized();
-    store.dispatch(buildModule.actions.serverSagasInitialized());
-    await Promise.all(sagaPromises);
-    const flowPromises = Object.keys(serverFlows).map(flow =>
-      stores[flow]({ selectedItem: params.selectedItem }),
-    );
+    const flowPromises = Object.keys(serverFlows).map(flow => stores[flow](params));
     await Promise.all(flowPromises);
-    stores.serverFinished();
-    store.dispatch(
-      buildModule.actions.serverFinished({
-        timeToRunSagas: new Date() - startSagas,
-      }),
-    );
+    stores.serverFinished({ timeToRunFlows: new Date() - startFlows });
 
     // Generate React SSR.
     const render =
       process.env.MODE === 'amp' ? ReactDOM.renderToStaticMarkup : ReactDOM.renderToString;
     app = render(
       <App
-        store={store}
         core={coreModules.map(({ name, module }) => ({
           name,
           Component: module.default,
@@ -242,7 +201,6 @@ export default ({ clientStats }) => async (req, res) => {
           cssHash,
           publicPath,
           ids,
-          store,
           stores,
           chunksForArray,
           bootstrapString,

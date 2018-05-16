@@ -4,7 +4,7 @@ import { normalize, schema } from 'normalizr';
 const settingSchema = new schema.Entity(
   'settings',
   {},
-  { idAttribute: setting => setting.woronaInfo.namespace }
+  { idAttribute: setting => setting.woronaInfo.namespace },
 );
 const settingsSchema = [settingSchema];
 

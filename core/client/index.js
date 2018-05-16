@@ -3,14 +3,12 @@ import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { types } from 'mobx-state-tree';
-import { combineReducers } from 'redux';
 import { AppContainer } from 'react-hot-loader';
 import { hydrate } from 'react-emotion';
 import { addPackage } from 'worona-deps';
 import App from '../components/App';
 import { importPromises } from '../components/Universal';
-import initStore from '../store';
-import RootStore from '../root-store';
+import Store from '../store';
 
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -34,14 +32,12 @@ const coreModules = [
 // Get activated packages.
 const packages = Object.values(window['wp-pwa'].initialStateRedux.build.packages);
 
-let store = null;
 let stores = null;
 
 const render = Component => {
   ReactDOM.hydrate(
     <AppContainer>
       <Component
-        store={store}
         core={coreModules.map(({ name, module }) => ({
           name,
           Component: module.default,
@@ -64,8 +60,6 @@ const init = async () => {
   const pkgModules = await Promise.all(pkgPromises);
 
   const storesProps = {};
-  const reducers = {};
-  const clientSagas = {};
 
   const addModules = pkg => {
     addPackage({ namespace: pkg.namespace, module: pkg.module });
@@ -77,46 +71,27 @@ const init = async () => {
 
   const mapModules = pkg => {
     if (pkg.module.Store) storesProps[pkg.namespace] = types.optional(pkg.module.Store, {});
-    if (pkg.module.reducers) reducers[pkg.namespace] = pkg.module.reducers();
-    if (pkg.module.clientSagas) clientSagas[pkg.name] = pkg.module.clientSagas;
   };
 
   // Load MST reducers and server sagas.
   coreModules.forEach(mapModules);
   pkgModules.forEach(mapModules);
 
-  // Create Redux store.
-  reducers.lastAction = (_, action) => action;
-  // Init store.
-  store = initStore({
-    reducer: combineReducers(reducers),
-    initialState: window['wp-pwa'].initialStateRedux,
-  });
-
   // Create MST Stores and pass redux as env variable.
-  const Stores = RootStore.props(storesProps);
-  stores = Stores.create(window['wp-pwa'].initialStateMst, { store });
+  const Stores = Store.props(storesProps);
+  stores = Stores.create(window['wp-pwa'].initialState);
   if (dev) {
     const makeInspectable = require('mobx-devtools-mst').default;
     makeInspectable(stores);
   }
-
   // Add both to window
-  if (typeof window !== 'undefined') window.frontity = { stores, store };
-
+  if (typeof window !== 'undefined') window.frontity = { stores };
   // Start all the client sagas.
   stores.clientStarted();
-  store.dispatch(buildModule.actions.clientStarted());
-  const params = { stores, store };
-  if (clientSagas) Object.values(clientSagas).forEach(saga => store.runSaga(saga, params));
-  store.dispatch(buildModule.actions.clientSagasInitialized());
-
   // Start App.
   render(App);
-
   // Inform that the client has been rendered.
   stores.clientRendered();
-  store.dispatch(buildModule.actions.clientRendered());
 };
 
 if (process.env.NODE_ENV === 'development' && module.hot) {
