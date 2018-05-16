@@ -46,12 +46,12 @@ export default types
     },
     isDevice: device => self.device === device,
     get isServer() {
-      return getEnv(self).build.machine === 'server';
+      return getEnv(self).machine === 'server';
     },
     get isClient() {
-      return getEnv(self).build.machine === 'client';
+      return getEnv(self).machine === 'client';
     },
-    isMachine: machine => getEnv(self).build.machine === machine,
+    isMachine: machine => getEnv(self).machine === machine,
     get isSsr() {
       return self.rendering === 'ssr';
     },
