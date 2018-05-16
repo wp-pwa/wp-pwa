@@ -79,7 +79,7 @@ export default ({ clientStats }) => async (req, res) => {
     const pkgModules = await requireModules(Object.entries(packages));
 
     const storesProps = {};
-    const serverFlows = {};
+    const flows = {};
 
     const addModules = pkg => {
       addPackage({ namespace: pkg.namespace, module: pkg.module });
@@ -91,19 +91,19 @@ export default ({ clientStats }) => async (req, res) => {
 
     const mapModules = pkg => {
       if (pkg.module.Store) storesProps[pkg.namespace] = types.optional(pkg.module.Store, {});
-      if (pkg.module.serverFlow) serverFlows[`${pkg.namespace}-flow`] = pkg.module.serverFlow;
+      if (pkg.module.flow) flows[`${pkg.namespace}-flow`] = pkg.module.flow;
     };
 
     // Load MST reducers and server sagas.
     coreModules.forEach(mapModules);
     pkgModules.forEach(mapModules);
 
-    // Create MST Stores and pass redux as env variable.
+    // Create MST Stores and add flows
     const Stores = Store.props(storesProps).actions(self => {
-      Object.keys(serverFlows).forEach(flow => {
-        serverFlows[flow] = serverFlows[flow](self);
+      Object.keys(flows).forEach(flow => {
+        flows[flow] = flows[flow](self);
       });
-      return serverFlows;
+      return flows;
     });
 
     const stores = Stores.create(
@@ -132,8 +132,8 @@ export default ({ clientStats }) => async (req, res) => {
       selectedItem: { type, id, page },
     };
     const startFlows = new Date();
-    stores.serverFlowsInitialized();
-    const flowPromises = Object.keys(serverFlows).map(flow => stores[flow](params));
+    const flowPromises = Object.keys(flows).map(flow => stores[flow](params));
+    stores.flowsInitialized();
     await Promise.all(flowPromises);
     stores.serverFinished({ timeToRunFlows: new Date() - startFlows });
 

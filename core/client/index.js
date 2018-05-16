@@ -60,6 +60,7 @@ const init = async () => {
   const pkgModules = await Promise.all(pkgPromises);
 
   const storesProps = {};
+  const flows = {};
 
   const addModules = pkg => {
     addPackage({ namespace: pkg.namespace, module: pkg.module });
@@ -71,14 +72,21 @@ const init = async () => {
 
   const mapModules = pkg => {
     if (pkg.module.Store) storesProps[pkg.namespace] = types.optional(pkg.module.Store, {});
+    if (pkg.module.flow) flows[`${pkg.namespace}-flow`] = pkg.module.flow;
   };
 
   // Load MST reducers and server sagas.
   coreModules.forEach(mapModules);
   pkgModules.forEach(mapModules);
 
-  // Create MST Stores and pass redux as env variable.
-  const Stores = Store.props(storesProps);
+  // Create MST Stores and add flows
+  const Stores = Store.props(storesProps).actions(self => {
+    Object.keys(flows).forEach(flow => {
+      flows[flow] = flows[flow](self);
+    });
+    return flows;
+  });
+
   stores = Stores.create(window['wp-pwa'].initialState);
   if (dev) {
     const makeInspectable = require('mobx-devtools-mst').default;
@@ -92,6 +100,10 @@ const init = async () => {
   render(App);
   // Inform that the client has been rendered.
   stores.clientRendered();
+
+  Object.keys(flows).map(flow => stores[flow]());
+  stores.flowsInitialized();
+
 };
 
 if (process.env.NODE_ENV === 'development' && module.hot) {
