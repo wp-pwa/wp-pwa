@@ -89,7 +89,7 @@ export default ({ clientStats }) => async (req, res) => {
     const mapModules = pkg => {
       if (pkg.module.Store) storesProps[pkg.namespace] = types.optional(pkg.module.Store, {});
       if (pkg.module.flow) flows[`${pkg.namespace}-flow`] = pkg.module.flow;
-      if (pkg.module.env) flows[pkg.namespace] = pkg.module.env;
+      if (pkg.module.env) envs[pkg.namespace] = pkg.module.env;
     };
 
     // Load MST reducers and server sagas.

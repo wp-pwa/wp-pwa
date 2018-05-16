@@ -16,7 +16,7 @@ const Store = types
     },
     serverStarted: () => {},
     serverFinished: () => {},
-    serverFlowsInitialized: () => {},
+    flowsInitialized: () => {},
     clientStarted: () => {},
     clientRendered: () => {
       self.build.rendering = 'csr';
