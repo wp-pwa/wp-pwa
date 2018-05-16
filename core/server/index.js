@@ -7,6 +7,7 @@ import { extractCritical } from 'emotion-server';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 import { mapValues } from 'lodash';
+import request from 'superagent';
 import { addPackage } from 'worona-deps';
 import { types } from 'mobx-state-tree';
 import { useStaticRendering } from 'mobx-react';
@@ -129,7 +130,7 @@ export default ({ clientStats }) => async (req, res) => {
         },
         settings,
       },
-      { store, isServer: true, isClient: false },
+      { store, request },
     );
     if (typeof window !== 'undefined') window.frontity = stores;
 
