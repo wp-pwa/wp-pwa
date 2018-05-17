@@ -11,7 +11,6 @@ export default ({
   cssHash,
   publicPath,
   ids,
-  store,
   stores,
   chunksForArray,
   bootstrapString,
@@ -37,8 +36,7 @@ export default ({
         window['wp-pwa'] = window['wp-pwa'] || {};
         window['wp-pwa'].publicPath = '${publicPath}';
         window['wp-pwa'].emotionIds = ${JSON.stringify(ids)};
-        window['wp-pwa'].initialStateRedux = ${htmlescape(store.getState())};
-        window['wp-pwa'].initialStateMst = ${htmlescape(getSnapshot(stores))};
+        window['wp-pwa'].initialState = ${htmlescape(getSnapshot(stores))};
         var scripts = [${chunksForArray}];
         var loadScript = function(script) {
           if (document.getElementById(script)) return;

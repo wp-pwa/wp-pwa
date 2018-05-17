@@ -1,42 +1,29 @@
-/* eslint-disable global-require */
-import { createStore, applyMiddleware, compose } from 'redux';
-import createSagaMiddleware from 'redux-saga';
-import worona from 'worona-deps';
+/* eslint-disable no-console */
+import { types, onAction } from 'mobx-state-tree';
+import Build from './build';
 
 const dev = process.env.NODE_ENV !== 'production';
 
-// Init compose, saga and create middlewares.
-let composeEnhancers = compose;
-const sagaMiddleware = createSagaMiddleware();
-const clientMiddleware = [sagaMiddleware];
-const serverMiddleware = [sagaMiddleware];
+const Store = types
+  .model('Store')
+  .props({
+    settings: types.frozen,
+    build: Build,
+  })
+  .actions(self => ({
+    updateSettings: ({ settings }) => {
+      self.settings = settings;
+    },
+    serverStarted: () => {},
+    serverFinished: () => {},
+    flowsInitialized: () => {},
+    clientStarted: () => {},
+    clientRendered: () => {
+      self.build.rendering = 'csr';
+    },
+    afterCreate: () => {
+      if (dev) onAction(self, action => console.log(action));
+    },
+  }));
 
-if (dev) {
-  const { composeWithDevTools } = require('redux-devtools-extension');
-  const { createLogger } = require('redux-logger');
-  // Add Redux Dev Tools.
-  composeEnhancers = composeWithDevTools({ serialize: false });
-  // Add logger in dev mode.
-  clientMiddleware.push(createLogger({ diff: true, collapsed: true }));
-  serverMiddleware.push(createLogger({ diff: true, collapsed: true }));
-}
-
-export default ({ reducer, initialState = {} }) => {
-  // Create store for the server.
-  if (typeof window === 'undefined') {
-    const store = {
-      ...createStore(reducer, initialState, compose(applyMiddleware(...serverMiddleware))),
-      runSaga: sagaMiddleware.run,
-    };
-    // Add it to worona.
-    worona.store = store;
-    return store;
-  }
-  // Create store for the client.
-  const store = {
-    ...createStore(reducer, initialState, composeEnhancers(applyMiddleware(...clientMiddleware))),
-    runSaga: sagaMiddleware.run,
-  };
-  window.worona.store = store;
-  return store;
-};
+export default Store;

@@ -1,9 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { inject } from 'mobx-react';
 import { Fill } from 'react-slot-fill';
 import LazyIframe from './LazyIframe';
-import { getIframesForMobile } from '../selectors';
 
 const Iframes = ({ iframes }) =>
   iframes.map(props => (
@@ -24,8 +23,6 @@ Iframes.propTypes = {
   ),
 };
 
-const mapStateToProps = state => ({
-  iframes: getIframesForMobile(state),
-});
-
-export default connect(mapStateToProps)(Iframes);
+export default inject(({ settings: { theme: { iframes } }, build: { device } }) => ({
+  iframes: iframes && iframes.filter(({ device: iframeDevice }) => iframeDevice === device) || [],
+}))(Iframes);

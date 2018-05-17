@@ -48,13 +48,13 @@ describe('Core › Build', () => {
     expect(build.isDevice('desktop')).toBe(true);
   });
   test('machine server', () => {
-    const { build } = Stores.create({ build: defaultProps }, { build: { machine: 'server' } });
+    const { build } = Stores.create({ build: defaultProps }, { machine: 'server' });
     expect(build.isClient).toBe(false);
     expect(build.isServer).toBe(true);
     expect(build.isMachine('server')).toBe(true);
   });
   test('machine client', () => {
-    const { build } = Stores.create({ build: defaultProps }, { build: { machine: 'client' } });
+    const { build } = Stores.create({ build: defaultProps }, { machine: 'client' });
     expect(build.isClient).toBe(true);
     expect(build.isServer).toBe(false);
     expect(build.isMachine('client')).toBe(true);
