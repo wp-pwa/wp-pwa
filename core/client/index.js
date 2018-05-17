@@ -26,7 +26,7 @@ const coreModules = [
 ];
 
 // Get activated packages.
-const packages = Object.values(window['wp-pwa'].initialStateRedux.build.packages);
+const packages = Object.values(window['wp-pwa'].initialState.build.packages);
 
 let stores = null;
 
@@ -51,7 +51,7 @@ const init = async () => {
   hydrate(window['wp-pwa'].emotionIds);
 
   // Wait for activated packages.
-  const pkgEntries = Object.entries(window['wp-pwa'].initialStateRedux.build.packages);
+  const pkgEntries = Object.entries(window['wp-pwa'].initialState.build.packages);
   const pkgPromises = pkgEntries.map(([namespace, name]) => importPromises({ name, namespace }));
   const pkgModules = await Promise.all(pkgPromises);
 
