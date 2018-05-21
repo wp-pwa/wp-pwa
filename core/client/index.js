@@ -6,6 +6,7 @@ import { types } from 'mobx-state-tree';
 import { AppContainer } from 'react-hot-loader';
 import { hydrate } from 'react-emotion';
 import { addPackage } from 'worona-deps';
+import request from 'superagent';
 import App from '../components/App';
 import { importPromises } from '../components/Universal';
 import Store from '../store';
@@ -57,6 +58,7 @@ const init = async () => {
 
   const storesProps = {};
   const flows = {};
+  const envs = {};
 
   const addModules = pkg => {
     addPackage({ namespace: pkg.namespace, module: pkg.module });
@@ -69,6 +71,7 @@ const init = async () => {
   const mapModules = pkg => {
     if (pkg.module.Store) storesProps[pkg.namespace] = types.optional(pkg.module.Store, {});
     if (pkg.module.flow) flows[`${pkg.namespace}-flow`] = pkg.module.flow;
+    if (pkg.module.env) envs[pkg.namespace] = pkg.module.env;
   };
 
   // Load MST reducers and server sagas.
@@ -83,7 +86,7 @@ const init = async () => {
     return flows;
   });
 
-  stores = Stores.create(window['wp-pwa'].initialState);
+  stores = Stores.create(window['wp-pwa'].initialState, { request, machine: 'server', ...envs });
   if (dev) {
     const makeInspectable = require('mobx-devtools-mst').default;
     makeInspectable(stores);
