@@ -57,8 +57,8 @@ const createApp = async () => {
   // Add dynamic files.
   const packages = await readdir('packages');
   for (const pkg of packages) {
-    if (await pathExists(`packages/${pkg}/src/${process.env.MODE}/server/index.js`)) {
-      const pkgServer = require(`../../packages/${pkg}/src/${process.env.MODE}/server/index.js`);
+    if (await pathExists(`packages/${pkg}/src/server/index.js`)) {
+      const pkgServer = require(`../../packages/${pkg}/src/server/index.js`);
       app.use(`/dynamic/${pkg}`, pkgServer);
     }
   }
