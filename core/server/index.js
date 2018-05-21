@@ -31,6 +31,8 @@ const { buildPath } = require(`../../.build/${process.env.MODE}/buildInfo.json`)
 export default ({ clientStats }) => async (req, res) => {
   let status = 200;
   const { siteId, perPage = 10, initialUrl, env, device, type, id, page } = parseQuery(req.query);
+  const dynamicUrl = `${req.protocol}://${req.get('host')}`;
+  const staticUrl = (req.query.static || dynamicUrl).replace(/\/$/g, '');
 
   // Avoid observables in server.
   useStaticRendering(true);
@@ -115,6 +117,8 @@ export default ({ clientStats }) => async (req, res) => {
           initialUrl,
           rendering: 'ssr',
           perPage: parseInt(perPage, 10),
+          dynamicUrl,
+          staticUrl,
         },
         settings,
       },
@@ -161,9 +165,7 @@ export default ({ clientStats }) => async (req, res) => {
         chunkNames,
       });
 
-      const publicPath = req.query.static
-        ? `${req.query.static.replace(/\/$/g, '')}/static/`
-        : '/static/';
+      const publicPath = `${staticUrl}/static/`;
       const cssHash = JSON.stringify(mapValues(cssHashRaw, cssPath => `${publicPath}${cssPath}`));
       const scriptsWithoutBootstrap = scripts.filter(script => !/bootstrap/.test(script));
       const chunksForArray = scriptsWithoutBootstrap.map(script => `'${script}'`).join(',');
