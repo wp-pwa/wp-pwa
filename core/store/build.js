@@ -12,6 +12,8 @@ export default types
     isDev: types.optional(types.boolean, false),
     urlFromQuery: types.maybe(types.string),
     perPage: types.number,
+    dynamicUrl: types.string,
+    staticUrl: types.string,
   })
   .views(self => ({
     get root() {

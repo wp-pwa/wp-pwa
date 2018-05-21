@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Core › Build general snapshot 1`] = `
+Object {
+  "channel": "pwa",
+  "device": "mobile",
+  "dynamicUrl": "https://www.example.com",
+  "isDev": false,
+  "packages": Object {},
+  "perPage": 10,
+  "rendering": "ssr",
+  "siteId": "xxx",
+  "staticUrl": "https://www.example.com",
+  "urlFromQuery": null,
+}
+`;

@@ -8,10 +8,16 @@ const defaultProps = {
   rendering: 'ssr',
   packages: {},
   perPage: 10,
+  dynamicUrl: 'https://www.example.com',
+  staticUrl: 'https://www.example.com',
 };
 const Stores = types.model().props({ build: Build });
 
 describe('Core › Build', () => {
+  test('general snapshot', () => {
+    const { build } = Stores.create({ build: { ...defaultProps } });
+    expect(build).toMatchSnapshot();
+  })
   test('channel pwa', () => {
     const { build } = Stores.create({ build: { ...defaultProps, channel: 'pwa' } });
     expect(build.isPwa).toBe(true);
