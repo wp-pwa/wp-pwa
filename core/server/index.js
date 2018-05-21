@@ -32,7 +32,7 @@ export default ({ clientStats }) => async (req, res) => {
   let status = 200;
   const { siteId, perPage = 10, initialUrl, env, device, type, id, page } = parseQuery(req.query);
   const dynamicUrl = `${req.protocol}://${req.get('host')}`;
-  const staticUrl = (req.query.static || dynamicUrl).replace(/\/$/g, '');
+  const staticUrl = (req.query.staticUrl || req.query.static || dynamicUrl).replace(/\/$/g, '');
 
   // Avoid observables in server.
   useStaticRendering(true);
