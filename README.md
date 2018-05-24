@@ -106,6 +106,10 @@ The output `html` files will be located in the `.build/pwa/(client|server)/analy
 
 ## Changelog
 
+#### 1.6.1
+
+- Take dynamicUrl from query
+
 #### 1.6.0
 
 - Remove redux
