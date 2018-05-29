@@ -34,8 +34,6 @@ export default types
           resolve(supported);
         });
       });
-
-      console.log('ONE SIGNAL LOADED');
     }),
     init: flow(function* initOneSignal({ defaultNotificationUrl, ...customSettings }) {
       window.OneSignal.setDefaultNotificationUrl(defaultNotificationUrl);
@@ -49,8 +47,6 @@ export default types
 
       self.areRegistered = !!(yield window.OneSignal.getUserId());
       self.areEnabled = yield window.OneSignal.isPushNotificationsEnabled();
-
-      console.log('ONE SIGNAL INITIALIZED');
     }),
     toggleEnabled: flow(function* toggleNotifications() {
       // Changes enabled status
@@ -66,6 +62,7 @@ export default types
 
         if (!self.areRegistered) {
           window.OneSignal.registerForPushNotifications();
+          self.areRegistered = true;
         } else {
           window.OneSignal.setSubscription(true);
         }
