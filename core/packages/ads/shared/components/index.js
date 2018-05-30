@@ -4,12 +4,12 @@ import { connect } from 'react-redux';
 import { Fill } from 'react-slot-fill';
 import Ad from './Ad';
 import Sticky from './Sticky';
-import { getFills } from '../selectors';
+import * as selectors from '../selectors';
 
-const Ads = ({ ads }) =>
+const Ads = ({ ads, adsAreLazy }) =>
   ads.map(({ name, ...adProps }) => (
     <Fill key={name} name={name}>
-      <Ad {...adProps} slotName={name} />
+      <Ad {...adProps} isLazy={adsAreLazy} slotName={name} />
     </Fill>
   ));
 
@@ -19,10 +19,12 @@ Ads.propTypes = {
       name: PropTypes.string.isRequired,
     }),
   ),
+  adsAreLazy: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
-  ads: getFills(state),
+  ads: selectors.getFills(state),
+  adsAreLazy: selectors.areLazy(state),
 });
 
 export default connect(mapStateToProps)(Ads);

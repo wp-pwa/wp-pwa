@@ -17,7 +17,7 @@ const mapAds = {
   doubleclick: DoubleClick,
 };
 
-const Ad = ({ type, width, height, active, isAmp, isSticky, isMedia, ...adProps }) => {
+const Ad = ({ type, width, height, active, isAmp, isSticky, isLazy, isMedia, ...adProps }) => {
   const SelectedAd = mapAds[type];
 
   if (!SelectedAd) return null;
@@ -43,6 +43,7 @@ const Ad = ({ type, width, height, active, isAmp, isSticky, isMedia, ...adProps 
         debounce={false}
         minTime={2000}
         maxTime={3000}
+        isLazy={isLazy}
       >
         <SelectedAd isMedia={isMedia} width={width} height={height} isAmp={isAmp} {...adProps} />
       </StyledLazy>
@@ -58,6 +59,7 @@ Ad.propTypes = {
   isAmp: PropTypes.bool.isRequired,
   isSticky: PropTypes.bool,
   isMedia: PropTypes.bool,
+  isLazy: PropTypes.bool,
 };
 
 Ad.defaultProps = {
@@ -66,6 +68,7 @@ Ad.defaultProps = {
   height: 80,
   isSticky: false,
   isMedia: false,
+  isLazy: true,
 };
 
 const mapStateToProps = state => ({
@@ -75,11 +78,13 @@ const mapStateToProps = state => ({
 export default compose(
   connect(mapStateToProps),
   inject(({ connection }, { item, active }) => ({
-      active: typeof active === 'boolean' ? active : computed(
-        () => item && connection.selectedContext.getItem({ item }).isSelected || false,
-      ).get(),
-    }),
-  ),
+    active:
+      typeof active === 'boolean'
+        ? active
+        : computed(
+            () => (item && connection.selectedContext.getItem({ item }).isSelected) || false,
+          ).get(),
+  })),
 )(Ad);
 
 const Container = styled.div`
