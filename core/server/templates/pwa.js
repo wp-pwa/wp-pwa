@@ -32,6 +32,7 @@ export default ({
     <body ${helmet.bodyAttributes.toString()}>
       <div id="root">${html}</div>
       <script>
+        if (window.document && window.document.body) window.document.body.scrollTop = 0;
         window.__CSS_CHUNKS__ = ${cssHash};
         window['wp-pwa'] = window['wp-pwa'] || {};
         window['wp-pwa'].publicPath = '${publicPath}';
