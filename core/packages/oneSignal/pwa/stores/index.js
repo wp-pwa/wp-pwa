@@ -41,9 +41,11 @@ export default types
       window.OneSignal.SERVICE_WORKER_PATH = 'OneSignalSDKWorker.js.php';
       window.OneSignal.SERVICE_WORKER_PARAM = { scope: '/' };
 
-      yield window.OneSignal.init(Object.assign(defaultSettings, customSettings)).catch(e => {
-        console.warn('Something was wrong while initializing OneSignal:\n', e);
-      });
+      try {
+        yield window.OneSignal.init(Object.assign(defaultSettings, customSettings));
+      } catch (error) {
+        console.warn('Something was wrong while initializing OneSignal:\n', error);
+      }
 
       self.areRegistered = !!(yield window.OneSignal.getUserId());
       self.areEnabled = yield window.OneSignal.isPushNotificationsEnabled();
