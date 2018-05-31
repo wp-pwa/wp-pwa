@@ -34,7 +34,7 @@ export default inject(({ settings }) => {
 
   return {
     fills: ads.fills || [],
-    adsAreLazy: ads.settings.areLazy,
+    adsAreLazy: ads.areLazy,
   };
 })(Ads);
 
