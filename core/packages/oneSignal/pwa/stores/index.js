@@ -48,11 +48,9 @@ export default types
       self.areEnabled = yield window.OneSignal.isPushNotificationsEnabled();
 
       window.OneSignal.on('notificationPermissionChange', permissionChange => {
-        console.log('notificationPermissionChange');
         if (permissionChange.to === 'denied') self.disable();
       });
       window.OneSignal.on('customPromptClick', ({ result }) => {
-        console.log('customPromptClick');
         if (result === 'denied') self.disable();
       });
     }),
