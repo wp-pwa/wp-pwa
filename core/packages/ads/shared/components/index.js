@@ -6,10 +6,10 @@ import Ad from './Ad';
 import Sticky from './Sticky';
 import * as selectors from '../selectors';
 
-const Ads = ({ ads, adsAreLazy }) =>
+const Ads = ({ ads }) =>
   ads.map(({ name, ...adProps }) => (
     <Fill key={name} name={name}>
-      <Ad {...adProps} isLazy={adsAreLazy} slotName={name} />
+      <Ad {...adProps} slotName={name} />
     </Fill>
   ));
 
@@ -19,12 +19,10 @@ Ads.propTypes = {
       name: PropTypes.string.isRequired,
     }),
   ),
-  adsAreLazy: PropTypes.bool.isRequired,
 };
 
 const mapStateToProps = state => ({
   ads: selectors.getFills(state),
-  adsAreLazy: selectors.areLazy(state),
 });
 
 export default connect(mapStateToProps)(Ads);
