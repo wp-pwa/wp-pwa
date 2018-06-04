@@ -15,9 +15,7 @@ export default types
   .props({
     areSupported: false,
     areEnabled: false,
-    areRegistered: false,
   })
-  // .views(self => ({}))
   .actions(self => ({
     load: flow(function* loadOneSignal() {
       // Load OneSignal SDK
@@ -47,30 +45,34 @@ export default types
         console.warn('Something was wrong while initializing OneSignal:\n', error);
       }
 
-      self.areRegistered = !!(yield window.OneSignal.getUserId());
       self.areEnabled = yield window.OneSignal.isPushNotificationsEnabled();
+
+      window.OneSignal.on('notificationPermissionChange', permissionChange => {
+        console.log('notificationPermissionChange');
+        if (permissionChange.to === 'denied') self.disable();
+      });
+      window.OneSignal.on('customPromptClick', ({ result }) => {
+        console.log('customPromptClick');
+        if (result === 'denied') self.disable();
+      });
     }),
     toggleEnabled: flow(function* toggleNotifications() {
-      // Changes enabled status
       self.areEnabled = !self.areEnabled;
+
       if (self.areEnabled) {
-        // It was enabled, so...
         const permission = yield window.OneSignal.getNotificationPermission();
         if (permission === 'denied') {
           console.warn('Notifications denied in browser!');
           self.areEnabled = false;
           return;
         }
-
-        if (!self.areRegistered) {
-          window.OneSignal.registerForPushNotifications();
-          self.areRegistered = true;
-        } else {
-          window.OneSignal.setSubscription(true);
-        }
+        window.OneSignal.registerForPushNotifications();
+        yield window.OneSignal.setSubscription(true);
       } else {
-        // It was disabled, so...
         yield window.OneSignal.setSubscription(false);
       }
     }),
+    disable() {
+      self.areEnabled = false;
+    },
   }));
