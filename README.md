@@ -106,6 +106,11 @@ The output `html` files will be located in the `.build/pwa/(client|server)/analy
 
 ## Changelog
 
+#### 1.5.14
+
+- Lazy load is an option on ads
+- Add scrollTop to template
+
 #### 1.5.13
 
 - Fixes react-icon and ad reducers in AMP
