@@ -1,4 +1,4 @@
-/* eslint-disable global-require, no-underscore-dangle, import/no-dynamic-require */
+/* eslint-disable global-require, no-underscore-dangle, import/no-dynamic-require, no-console */
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -47,6 +47,7 @@ const render = Component => {
     </AppContainer>,
     document.getElementById('root'),
   );
+  if (!dev) console.log(`>> Frontity loaded. SiteID: ${stores.build.siteId} <<`);
 };
 
 const init = async () => {
