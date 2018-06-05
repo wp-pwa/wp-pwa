@@ -2,15 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
 import { computed } from 'mobx';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
 import styled from 'react-emotion';
 import Lazy from '../LazyUnload';
 
 import AdSense from './AdSense';
 import SmartAd from './SmartAd';
 import DoubleClick from './DoubleClick';
-import * as selectors from '../../selectors';
 
 const mapAds = {
   adsense: AdSense,
@@ -60,7 +57,7 @@ Ad.propTypes = {
   isAmp: PropTypes.bool.isRequired,
   isSticky: PropTypes.bool,
   isMedia: PropTypes.bool,
-  isLazy: PropTypes.bool.isRequired,
+  isLazy: PropTypes.bool,
 };
 
 Ad.defaultProps = {
@@ -69,24 +66,19 @@ Ad.defaultProps = {
   height: 80,
   isSticky: false,
   isMedia: false,
+  isLazy: true,
 };
 
-const mapStateToProps = state => ({
-  isAmp: state.build.amp,
-  isLazy: selectors.areLazy(state),
-});
-
-export default compose(
-  connect(mapStateToProps),
-  inject(({ connection }, { item, active }) => ({
-    active:
-      typeof active === 'boolean'
-        ? active
-        : computed(
-            () => (item && connection.selectedContext.getItem({ item }).isSelected) || false,
-          ).get(),
-  })),
-)(Ad);
+export default inject(({ settings, connection, build }, { item, active }) => ({
+  isAmp: build.isAmp,
+  isLazy: settings.ads && settings.ads.settings && settings.ads.settings.areLazy,
+  active:
+    typeof active === 'boolean'
+      ? active
+      : computed(
+          () => (item && connection.selectedContext.getItem({ item }).isSelected) || false,
+        ).get(),
+}))(Ad);
 
 const Container = styled.div`
   margin: ${({ isSticky }) => (isSticky ? '' : '10px auto')};

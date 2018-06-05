@@ -5,14 +5,10 @@ import { Fill } from 'react-slot-fill';
 import Ad from './Ad';
 import Sticky from './Sticky';
 
-const Ads = ({ fills, adsAreLazy }) =>
+const Ads = ({ fills }) =>
   fills.map(({ name, isSticky, ...adProps }) => (
     <Fill key={name} name={name}>
-      {isSticky ? (
-        <Sticky format={adProps} slotName={name} />
-      ) : (
-        <Ad {...adProps} isLazy={adsAreLazy} slotName={name} />
-      )}
+      {isSticky ? <Sticky format={adProps} slotName={name} /> : <Ad {...adProps} slotName={name} />}
     </Fill>
   ));
 
@@ -22,11 +18,6 @@ Ads.propTypes = {
       name: PropTypes.string.isRequired,
     }),
   ),
-  adsAreLazy: PropTypes.bool,
-};
-
-Ads.defaultProps = {
-  adsAreLazy: true,
 };
 
 export default inject(({ settings }) => {
