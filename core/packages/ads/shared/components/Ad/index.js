@@ -10,6 +10,7 @@ import Lazy from '../LazyUnload';
 import AdSense from './AdSense';
 import SmartAd from './SmartAd';
 import DoubleClick from './DoubleClick';
+import * as selectors from '../../selectors';
 
 const mapAds = {
   adsense: AdSense,
@@ -59,7 +60,7 @@ Ad.propTypes = {
   isAmp: PropTypes.bool.isRequired,
   isSticky: PropTypes.bool,
   isMedia: PropTypes.bool,
-  isLazy: PropTypes.bool,
+  isLazy: PropTypes.bool.isRequired,
 };
 
 Ad.defaultProps = {
@@ -68,11 +69,11 @@ Ad.defaultProps = {
   height: 80,
   isSticky: false,
   isMedia: false,
-  isLazy: true,
 };
 
 const mapStateToProps = state => ({
   isAmp: state.build.amp,
+  isLazy: selectors.areLazy(state),
 });
 
 export default compose(
