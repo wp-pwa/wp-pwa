@@ -17,7 +17,7 @@ const dev = process.env.NODE_ENV !== 'production';
 const iframesModule = require(`../packages/iframes/${process.env.MODE}`);
 const adsModule = require(`../packages/ads/${process.env.MODE}`);
 const customCssModule = require(`../packages/customCss/${process.env.MODE}`);
-const oneSignalModule = require(`../packages/oneSignal/${process.env.MODE}`);
+const oneSignalModule = require(`../packages/oneSignal/${process.env.MODE}/client`);
 
 // Define core modules.
 const coreModules = [
