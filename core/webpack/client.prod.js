@@ -85,6 +85,7 @@ const config = {
       currying: true,
     }),
     new ProgressBarPlugin(),
+    new webpack.ExtendedAPIPlugin(),
   ],
 };
 

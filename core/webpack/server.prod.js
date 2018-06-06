@@ -67,6 +67,7 @@ const config = {
     }),
     new webpack.WatchIgnorePlugin([/\.build/]),
     new webpack.IgnorePlugin(/vertx/),
+    new webpack.ExtendedAPIPlugin(),
   ],
 };
 

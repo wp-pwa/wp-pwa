@@ -70,6 +70,7 @@ const config = {
     }),
     new webpack.WatchIgnorePlugin([/\.build/, /packages$/]),
     new webpack.IgnorePlugin(/vertx/),
+    new webpack.ExtendedAPIPlugin(),
   ],
 };
 

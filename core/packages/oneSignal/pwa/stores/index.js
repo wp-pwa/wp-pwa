@@ -15,7 +15,7 @@ export default types
   .props({
     areSupported: false,
     areEnabled: false,
-    oneSignalSwVersion: '2',
+    oneSignalSwVersion: __webpack_hash__, // eslint-disable-line
   })
   .views(self => ({
     get settings() {
