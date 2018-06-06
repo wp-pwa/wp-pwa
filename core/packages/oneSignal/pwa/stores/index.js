@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { types, flow } from 'mobx-state-tree';
+import { types, flow, getParent } from 'mobx-state-tree';
 
 const defaultSettings = {
   path: '/wp-content/plugins/onesignal-free-web-push-notifications/sdk_files/',
@@ -15,7 +15,13 @@ export default types
   .props({
     areSupported: false,
     areEnabled: false,
+    oneSignalSwVersion: '2',
   })
+  .views(self => ({
+    get settings() {
+      return getParent(self).settings.theme.oneSignal;
+    },
+  }))
   .actions(self => ({
     load: flow(function* loadOneSignal() {
       // Load OneSignal SDK
@@ -33,14 +39,14 @@ export default types
         });
       });
     }),
-    init: flow(function* initOneSignal({ defaultNotificationUrl, ...customSettings }) {
-      window.OneSignal.setDefaultNotificationUrl(defaultNotificationUrl);
+    init: flow(function* initOneSignal() {
+      window.OneSignal.setDefaultNotificationUrl(self.settings.defaultNotificationUrl);
       window.OneSignal.SERVICE_WORKER_UPDATER_PATH = 'OneSignalSDKUpdaterWorker.js.php';
       window.OneSignal.SERVICE_WORKER_PATH = 'OneSignalSDKWorker.js.php';
       window.OneSignal.SERVICE_WORKER_PARAM = { scope: '/' };
 
       try {
-        yield window.OneSignal.init(Object.assign(defaultSettings, customSettings));
+        yield window.OneSignal.init(Object.assign(defaultSettings, self.settings));
       } catch (error) {
         console.warn('Something was wrong while initializing OneSignal:\n', error);
       }
@@ -53,6 +59,21 @@ export default types
       window.OneSignal.on('customPromptClick', ({ result }) => {
         if (result === 'denied') self.disable();
       });
+    }),
+    install: flow(function* install() {
+      yield window.navigator.serviceWorker.register(
+        `${defaultSettings.path}${window.OneSignal.SERVICE_WORKER_UPDATER_PATH}?appId=${
+          self.settings.appId
+        }`,
+        { scope: '/' },
+      );
+      yield new Promise(resolve => setTimeout(resolve, 1000));
+      yield window.navigator.serviceWorker.register(
+        `${defaultSettings.path}${window.OneSignal.SERVICE_WORKER_PATH}?appId=${
+          self.settings.appId
+        }`,
+        { scope: '/' },
+      );
     }),
     toggleEnabled: flow(function* toggleNotifications() {
       self.areEnabled = !self.areEnabled;
