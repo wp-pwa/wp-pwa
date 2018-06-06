@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 const vendors = require('../vendors');
 
 const config = {
@@ -86,6 +87,9 @@ const config = {
     }),
     new ProgressBarPlugin(),
     new webpack.ExtendedAPIPlugin(),
+    new ServiceWorkerWebpackPlugin({
+      entry: path.join(__dirname, '../sw/index.js'),
+    }),
   ],
 };
 

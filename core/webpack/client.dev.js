@@ -5,6 +5,7 @@ const WriteFilePlugin = require('write-file-webpack-plugin'); // here so you can
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const ServiceWorkerWebpackPlugin = require('serviceworker-webpack-plugin');
 const vendors = require('../vendors');
 
 const config = {
@@ -77,6 +78,9 @@ const config = {
       currying: true,
     }),
     new ProgressBarPlugin(),
+    new ServiceWorkerWebpackPlugin({
+      entry: path.join(__dirname, '../sw/index.js'),
+    }),
   ],
 };
 
