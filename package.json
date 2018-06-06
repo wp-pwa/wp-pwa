@@ -39,7 +39,7 @@
     "compression": "^1.7.1",
     "core-js": "^2.5.3",
     "crypto-js": "^3.1.9-1",
-    "css-loader": "^0.28.9",
+    "css-loader": "^0.28.11",
     "emotion": "^8.0.12",
     "emotion-server": "^8.0.12",
     "emotion-theming": "^8.0.12",
