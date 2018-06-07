@@ -10,7 +10,9 @@ const entry = `${dynamicUrl}?siteId=${siteId}&type=${type}&id=${id}&dev=false&st
 )}&env=prod&perPage=${perPage}&device=mobile&initialUrl=${encodeURIComponent(initialUrl)}`;
 
 workbox.precaching.precacheAndRoute([
-  ...serviceWorkerOptionAssets.map(asset => `${staticUrl}/static${asset}`),
+  ...serviceWorkerOptionAssets
+    .filter(asset => !/^\/bootstrap\.js$/.test(asset))
+    .map(asset => `${staticUrl}static${asset}`),
   { url: initialUrl, revision: __webpack_hash__ },
   { url: entry, revision: __webpack_hash__ },
 ]);
