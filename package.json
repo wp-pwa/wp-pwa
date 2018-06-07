@@ -75,6 +75,7 @@
     "redux-saga": "^0.16.0",
     "reselect": "^3.0.1",
     "superagent": "^3.8.2",
+    "url": "^0.11.0",
     "webpack": "^3.10.0",
     "webpack-flush-chunks": "^1.2.3",
     "worona-deps": "^2.0.3",
