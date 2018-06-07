@@ -169,9 +169,9 @@ export default ({ clientStats }) => async (req, res) => {
 
       const publicPath = `${staticUrl}/static/`;
       const cssHash = JSON.stringify(mapValues(cssHashRaw, cssPath => `${publicPath}${cssPath}`));
-      const scriptsWithoutBootstrap = scripts.filter(script => !/bootstrap/.test(script));
+      const scriptsWithoutBootstrap = scripts.filter(script => !/bootstrap\.js$/.test(script));
       const chunksForArray = scriptsWithoutBootstrap.map(script => `'${script}'`).join(',');
-      const bootstrapFileName = scripts.filter(script => /bootstrap/.test(script));
+      const bootstrapFileName = scripts.filter(script => /bootstrap\.js$/.test(script));
       const bootstrapString = await readFile(
         `${buildPath}/.build/${process.env.MODE}/client/${bootstrapFileName}`,
         'utf8',
