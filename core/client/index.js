@@ -47,7 +47,6 @@ const render = Component => {
     </AppContainer>,
     document.getElementById('root'),
   );
-  if (!dev) console.log(`>> Frontity loaded. SiteID: ${stores.build.siteId} <<`);
 };
 
 const init = async () => {
