@@ -106,6 +106,10 @@ The output `html` files will be located in the `.build/pwa/(client|server)/analy
 
 ## Changelog
 
+#### 1.6.5
+
+- Fix ExtendedAPIPlugin problem with chunkhash
+
 #### 1.6.4
 
 - Include first SW implementation
