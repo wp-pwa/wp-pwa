@@ -2,14 +2,11 @@ import { flow } from 'mobx-state-tree';
 
 export default self =>
   flow(function* OneSignalClient() {
-    // Gets OneSignal settings configured in database
-    if (!self.settings.theme.oneSignal) return;
+    // Exits if there's no settings or serviceWorker is not supported.
+    if (!self.settings.theme.oneSignal || !('serviceWorker' in window.navigator)) return;
 
-    // Exits if OneSignal is not supported for current browser.
     yield self.notifications.load();
-    if (!self.notifications.areSupported) return;
-
-    yield self.notifications.init();
+    if (self.notifications.areSupported) yield self.notifications.init();
 
     // Update SW if there's a new version
     if (
