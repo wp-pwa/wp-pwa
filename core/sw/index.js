@@ -3,6 +3,8 @@ importScripts('https://storage.googleapis.com/workbox-cdn/releases/3.2.0/workbox
 
 const serviceWorkerOptionAssets = serviceWorkerOption.assets || [];
 
+const additionalFiles = preCacheFiles || [];
+
 const entry = `${dynamicUrl}?siteId=${siteId}&type=${type}&id=${id}&dev=false&staticUrl=${encodeURIComponent(
   staticUrl,
 )}&dynamicUrl=${encodeURIComponent(
@@ -13,6 +15,7 @@ workbox.precaching.precacheAndRoute([
   ...serviceWorkerOptionAssets
     .filter(asset => !/^\/bootstrap\.js$/.test(asset))
     .map(asset => `${staticUrl}static${asset}`),
+  ...additionalFiles,
   { url: initialUrl, revision: __webpack_hash__ },
   { url: entry, revision: __webpack_hash__ },
 ]);
