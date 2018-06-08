@@ -106,6 +106,10 @@ The output `html` files will be located in the `.build/pwa/(client|server)/analy
 
 ## Changelog
 
+#### 1.6.11
+
+- Always cache HTML files again
+
 #### 1.6.10
 
 - New SW logic
