@@ -30,6 +30,7 @@ const dev = process.env.NODE_ENV !== 'production';
 const { buildPath } = require(`../../.build/${process.env.MODE}/buildInfo.json`);
 
 export default ({ clientStats }) => async (req, res) => {
+  if (req.url === '/hash') return res.type('text/plain').send(clientStats.hash);
   let status = 200;
   const { siteId, perPage = 10, initialUrl, env, device, type, id, page } = parseQuery(req.query);
   const dynamicUrl = req.query.dynamicUrl || `${req.protocol}://${req.get('host')}`;
@@ -191,8 +192,7 @@ export default ({ clientStats }) => async (req, res) => {
       console.log('SCRIPTS SERVED', scripts);
       console.log('STYLESHEETS SERVED', stylesheets);
 
-      res.status(status);
-      res.send(
+      return res.status(status).send(
         pwaTemplate({
           dev,
           helmet,
@@ -210,8 +210,7 @@ export default ({ clientStats }) => async (req, res) => {
       );
     } else if (process.env.MODE === 'amp') {
       console.log('URL', req.url);
-      res.status(status);
-      res.send(ampTemplate({ helmet, css, html }));
+      return res.status(status).send(ampTemplate({ helmet, css, html }));
     }
   } catch (error) {
     console.error(error);
@@ -221,8 +220,7 @@ export default ({ clientStats }) => async (req, res) => {
     } else {
       app = `<div>${error.message}</div>`;
     }
-    res.status(status === 200 ? 500 : status);
-    res.send(
+    return res.status(status === 200 ? 500 : status).send(
       `<!doctype html>
         <html>
           <head>
@@ -234,4 +232,5 @@ export default ({ clientStats }) => async (req, res) => {
         </html>`,
     );
   }
+  return res.status(404).send('Something went wrong');
 };
