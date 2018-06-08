@@ -23,8 +23,8 @@ const config = {
     ],
   },
   output: {
-    filename: '[name].js',
-    chunkFilename: '[name].js',
+    filename: '[name].[chunkhash].js',
+    chunkFilename: '[name].[chunkhash].js',
     path: path.resolve(__dirname, `../../.build/${process.env.MODE}/client`),
   },
   module: {
