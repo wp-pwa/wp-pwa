@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { types, flow, getParent } from 'mobx-state-tree';
+import { types, flow, getParent, getEnv } from 'mobx-state-tree';
 
 const defaultSettings = {
   path: '/wp-content/plugins/onesignal-free-web-push-notifications/sdk_files/',
@@ -60,20 +60,29 @@ export default types
         if (result === 'denied') self.disable();
       });
     }),
-    install: flow(function* install() {
+    register: flow(function* register(workerPath) {
       yield window.navigator.serviceWorker.register(
-        `${defaultSettings.path}${window.OneSignal.SERVICE_WORKER_UPDATER_PATH}?appId=${
-          self.settings.appId
-        }`,
+        `${defaultSettings.path}${workerPath}?appId=${self.settings.appId}`,
         { scope: '/' },
       );
-      yield new Promise(resolve => setTimeout(resolve, 1000));
-      yield window.navigator.serviceWorker.register(
-        `${defaultSettings.path}${window.OneSignal.SERVICE_WORKER_PATH}?appId=${
-          self.settings.appId
-        }`,
-        { scope: '/' },
-      );
+    }),
+    install: flow(function* install({ force = false } = {}) {
+      // Get the current hash:
+      const { request } = getEnv(self);
+      const { text: hash } = yield request(`${getParent(self).build.dynamicUrl}hash`);
+      const oldHash = window.localStorage.getItem('frontity.oneSignalSwHash');
+      // No Service Worker found. Let's install it for the first time!
+      if (!window.navigator.serviceWorker.controller) {
+        yield self.register(window.OneSignal.SERVICE_WORKER_PATH);
+        window.localStorage.setItem('frontity.oneSignalSwHash', hash);
+
+        // We have a SW installed but it needs an update.
+      } else if (hash !== oldHash || force) {
+        yield self.register(window.OneSignal.SERVICE_WORKER_UPDATER_PATH);
+        yield new Promise(resolve => setTimeout(resolve, 1));
+        yield self.register(window.OneSignal.SERVICE_WORKER_PATH);
+        window.localStorage.setItem('frontity.oneSignalSwHash', hash);
+      }
     }),
     toggleEnabled: flow(function* toggleNotifications() {
       self.areEnabled = !self.areEnabled;
