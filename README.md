@@ -106,6 +106,10 @@ The output `html` files will be located in the `.build/pwa/(client|server)/analy
 
 ## Changelog
 
+#### 1.6.10
+
+- New SW logic
+
 #### 1.6.8
 
 - Add aditional files to SW from WP
