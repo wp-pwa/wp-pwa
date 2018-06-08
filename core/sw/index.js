@@ -16,8 +16,8 @@ workbox.precaching.precacheAndRoute([
     .filter(asset => !/^\/bootstrap\.js$/.test(asset))
     .map(asset => `${staticUrl}static${asset}`),
   ...additionalFiles,
-  { url: initialUrl, revision: __webpack_hash__ },
-  { url: entry, revision: __webpack_hash__ },
+  { url: initialUrl, revision: new Date().getTime() },
+  { url: entry, revision: new Date().getTime() },
 ]);
 
 workbox.routing.registerRoute(
