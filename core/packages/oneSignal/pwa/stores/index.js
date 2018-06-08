@@ -60,26 +60,28 @@ export default types
         if (result === 'denied') self.disable();
       });
     }),
-    register: flow(function* register(workerPath) {
-      yield window.navigator.serviceWorker.register(
+    register: workerPath =>
+      window.navigator.serviceWorker.register(
         `${defaultSettings.path}${workerPath}?appId=${self.settings.appId}`,
         { scope: '/' },
-      );
-    }),
+      ),
+    onControllerChange: () =>
+      new Promise(resolve => {
+        window.navigator.serviceWorker.oncontrollerchange = resolve;
+      }),
     install: flow(function* install({ force = false } = {}) {
       // Get the current hash:
       const { request } = getEnv(self);
       const { text: hash } = yield request(`${getParent(self).build.dynamicUrl}hash`);
       const oldHash = window.localStorage.getItem('frontity.oneSignalSwHash');
-      // No Service Worker found. Let's install it for the first time!
       if (!window.navigator.serviceWorker.controller) {
+        // No Service Worker found. Let's install it for the first time!
         yield self.register(window.OneSignal.SERVICE_WORKER_PATH);
         window.localStorage.setItem('frontity.oneSignalSwHash', hash);
-
-        // We have a SW installed but it needs an update.
       } else if (hash !== oldHash || force) {
+        // We have a SW installed but it needs an update.
         yield self.register(window.OneSignal.SERVICE_WORKER_UPDATER_PATH);
-        yield new Promise(resolve => setTimeout(resolve, 1));
+        yield self.onControllerChange();
         yield self.register(window.OneSignal.SERVICE_WORKER_PATH);
         window.localStorage.setItem('frontity.oneSignalSwHash', hash);
       }
