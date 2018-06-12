@@ -25,6 +25,7 @@ export default types
   .actions(self => ({
     load: flow(function* loadOneSignal() {
       // Load OneSignal SDK
+      window.OneSignal = window.OneSignal || [];
       const oneSignalSDK = window.document.createElement('script');
       oneSignalSDK.src = 'https://cdn.onesignal.com/sdks/OneSignalSDK.js';
       oneSignalSDK.async = 'async';
@@ -32,33 +33,29 @@ export default types
 
       // Returns if push notifications are supported.
       self.areSupported = yield new Promise(resolve => {
-        window.OneSignal = window.OneSignal || [];
         window.OneSignal.push(() => {
           const supported = window.OneSignal.isPushNotificationsSupported();
           resolve(supported);
         });
       });
-    }),
-    init: flow(function* initOneSignal() {
-      window.OneSignal.setDefaultNotificationUrl(self.settings.defaultNotificationUrl);
-      window.OneSignal.SERVICE_WORKER_UPDATER_PATH = 'OneSignalSDKUpdaterWorker.js.php';
-      window.OneSignal.SERVICE_WORKER_PATH = 'OneSignalSDKWorker.js.php';
-      window.OneSignal.SERVICE_WORKER_PARAM = { scope: '/' };
-
-      try {
-        yield window.OneSignal.init(Object.assign(defaultSettings, self.settings));
-      } catch (error) {
-        console.warn('Something was wrong while initializing OneSignal:\n', error);
+      if (self.areSupported) {
+        window.OneSignal.setDefaultNotificationUrl(self.settings.defaultNotificationUrl);
+        window.OneSignal.SERVICE_WORKER_UPDATER_PATH = 'OneSignalSDKUpdaterWorker.js.php';
+        window.OneSignal.SERVICE_WORKER_PATH = 'OneSignalSDKWorker.js.php';
+        window.OneSignal.SERVICE_WORKER_PARAM = { scope: '/' };
+        try {
+          yield window.OneSignal.init(Object.assign(defaultSettings, self.settings));
+          self.areEnabled = yield window.OneSignal.isPushNotificationsEnabled();
+          window.OneSignal.on('notificationPermissionChange', permissionChange => {
+            if (permissionChange.to === 'denied') self.disable();
+          });
+          window.OneSignal.on('customPromptClick', ({ result }) => {
+            if (result === 'denied') self.disable();
+          });
+        } catch (error) {
+          console.warn('Something was wrong while initializing OneSignal:\n', error);
+        }
       }
-
-      self.areEnabled = yield window.OneSignal.isPushNotificationsEnabled();
-
-      window.OneSignal.on('notificationPermissionChange', permissionChange => {
-        if (permissionChange.to === 'denied') self.disable();
-      });
-      window.OneSignal.on('customPromptClick', ({ result }) => {
-        if (result === 'denied') self.disable();
-      });
     }),
     register: workerPath =>
       window.navigator.serviceWorker.register(
@@ -76,13 +73,13 @@ export default types
       const oldHash = window.localStorage.getItem('frontity.oneSignalSwHash');
       if (!window.navigator.serviceWorker.controller) {
         // No Service Worker found. Let's install it for the first time!
-        yield self.register(window.OneSignal.SERVICE_WORKER_PATH);
+        yield self.register('OneSignalSDKWorker.js.php');
         window.localStorage.setItem('frontity.oneSignalSwHash', hash);
       } else if (hash !== oldHash || force) {
         // We have a SW installed but it needs an update.
-        yield self.register(window.OneSignal.SERVICE_WORKER_UPDATER_PATH);
+        yield self.register('OneSignalSDKUpdaterWorker.js.php');
         yield self.onControllerChange();
-        yield self.register(window.OneSignal.SERVICE_WORKER_PATH);
+        yield self.register('OneSignalSDKWorker.js.php');
         window.localStorage.setItem('frontity.oneSignalSwHash', hash);
       }
     }),

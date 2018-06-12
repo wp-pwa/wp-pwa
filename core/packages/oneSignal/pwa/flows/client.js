@@ -7,7 +7,6 @@ export default self =>
 
     try {
       yield self.notifications.load();
-      if (self.notifications.areSupported) yield self.notifications.init();
       yield self.notifications.install();
     } catch (error) {
       console.warn('SW install failed!', error); // eslint-disable-line
