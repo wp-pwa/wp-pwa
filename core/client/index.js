@@ -32,6 +32,7 @@ const coreModules = [
 const packages = Object.values(window['wp-pwa'].initialState.build.packages);
 
 let stores = null;
+const components = {};
 
 const render = Component => {
   ReactDOM.hydrate(
@@ -43,6 +44,7 @@ const render = Component => {
         }))}
         packages={packages}
         stores={stores}
+        components={components}
       />
     </AppContainer>,
     document.getElementById('root'),
@@ -75,6 +77,7 @@ const init = async () => {
     if (pkg.module.Store) storesProps[pkg.namespace] = types.optional(pkg.module.Store, {});
     if (pkg.module.flow) flows[`${pkg.namespace}-flow`] = pkg.module.flow;
     if (pkg.module.env) envs[pkg.namespace] = pkg.module.env;
+    if (pkg.module.components) components[pkg.namespace] = pkg.module.components;
   };
 
   // Load MST reducers and server sagas.
@@ -95,7 +98,7 @@ const init = async () => {
     makeInspectable(stores);
   }
   // Add both to window
-  if (typeof window !== 'undefined') window.frontity = { stores };
+  if (typeof window !== 'undefined') window.frontity = { stores, components };
   // Start all the client sagas.
   stores.clientStarted();
   // Start App.
@@ -105,7 +108,6 @@ const init = async () => {
 
   Object.keys(flows).map(flow => stores[flow]());
   stores.flowsInitialized();
-
 };
 
 if (process.env.NODE_ENV === 'development' && module.hot) {

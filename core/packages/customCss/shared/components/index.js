@@ -25,6 +25,6 @@ CustomCss.propTypes = {
   customCss: PropTypes.string.isRequired,
 };
 
-export default inject(({ settings }) => ({
+export default inject(({ stores: { settings } }) => ({
   customCss: settings.theme.customCss || '',
 }))(CustomCss);

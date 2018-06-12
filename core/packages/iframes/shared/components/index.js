@@ -23,6 +23,9 @@ Iframes.propTypes = {
   ),
 };
 
-export default inject(({ settings: { theme: { iframes } }, build: { device } }) => ({
-  iframes: iframes && iframes.filter(({ device: iframeDevice }) => iframeDevice === device) || [],
+export default inject(({ stores: { settings, build } }) => ({
+  iframes:
+    (settings.theme.iframes &&
+      settings.theme.iframes.filter(({ device: iframeDevice }) => iframeDevice === build.device)) ||
+    [],
 }))(Iframes);

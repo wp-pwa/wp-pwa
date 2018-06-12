@@ -69,7 +69,7 @@ Ad.defaultProps = {
   isLazy: true,
 };
 
-export default inject(({ settings, connection, build }, { item, active }) => ({
+export default inject(({ stores: { settings, connection, build } }, { item, active }) => ({
   isAmp: build.isAmp,
   isLazy: settings.ads && settings.ads.settings && settings.ads.settings.areLazy,
   active:

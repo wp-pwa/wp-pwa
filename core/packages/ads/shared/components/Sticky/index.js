@@ -136,7 +136,7 @@ class Sticky extends Component {
   }
 }
 
-export default inject(({ connection, ads, settings }) => ({
+export default inject(({ stores: { connection, ads, settings } }) => ({
   type: connection.selectedItem.type,
   id: connection.selectedItem.id,
   // settings
