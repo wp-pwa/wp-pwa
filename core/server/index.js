@@ -81,6 +81,7 @@ export default ({ clientStats }) => async (req, res) => {
     const storesProps = {};
     const flows = {};
     const envs = {};
+    const components = {};
 
     const addModules = pkg => {
       addPackage({ namespace: pkg.namespace, module: pkg.module });
@@ -94,6 +95,7 @@ export default ({ clientStats }) => async (req, res) => {
       if (pkg.module.Store) storesProps[pkg.namespace] = types.optional(pkg.module.Store, {});
       if (pkg.module.flow) flows[`${pkg.namespace}-flow`] = pkg.module.flow;
       if (pkg.module.env) envs[pkg.namespace] = pkg.module.env;
+      if (pkg.module.components) components[pkg.namespace] = pkg.module.components;
     };
 
     // Load MST reducers and server sagas.
@@ -152,6 +154,7 @@ export default ({ clientStats }) => async (req, res) => {
         }))}
         packages={Object.values(packages)}
         stores={stores}
+        components={components}
       />,
     );
 

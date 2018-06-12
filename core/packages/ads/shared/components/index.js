@@ -20,7 +20,7 @@ Ads.propTypes = {
   ),
 };
 
-export default inject(({ settings }) => {
+export default inject(({ stores: { settings } }) => {
   const ads = settings.theme.ads || {};
 
   return {

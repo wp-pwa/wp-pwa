@@ -74,7 +74,7 @@ class LazyIframe extends Component {
   }
 }
 
-export default inject(({ build }) => ({
+export default inject(({ stores: { build } }) => ({
   isSsr: build.isSsr,
 }))(LazyIframe);
 

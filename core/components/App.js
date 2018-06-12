@@ -5,8 +5,8 @@ import { Provider as MobxProvider } from 'mobx-react';
 import { Provider as SlotFillProvider } from 'react-slot-fill';
 import Universal from './Universal';
 
-const App = ({ core, packages, stores }) => (
-  <MobxProvider {...stores}>
+const App = ({ core, packages, stores, components }) => (
+  <MobxProvider stores={stores} components={components}>
     <SlotFillProvider>
       <Fragment>
         <Helmet>
@@ -23,6 +23,7 @@ App.propTypes = {
   core: PropTypes.arrayOf(PropTypes.shape({})).isRequired,
   packages: PropTypes.arrayOf(PropTypes.string).isRequired,
   stores: PropTypes.shape().isRequired,
+  components: PropTypes.shape({}).isRequired,
 };
 
 export default App;
