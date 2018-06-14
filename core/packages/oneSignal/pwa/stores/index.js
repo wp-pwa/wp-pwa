@@ -57,11 +57,12 @@ export default types
         }
       }
     }),
-    register: workerPath =>
+    register: workerPath => {
       window.navigator.serviceWorker.register(
-        `${defaultSettings.path}${workerPath}?appId=${self.settings.appId}`,
+        `${self.settings.path}${workerPath}?appId=${self.settings.appId}`,
         { scope: '/' },
-      ),
+      );
+    },
     onControllerChange: () =>
       new Promise(resolve => {
         window.navigator.serviceWorker.oncontrollerchange = resolve;
