@@ -18,6 +18,7 @@ const iframesModule = require(`../packages/iframes/${process.env.MODE}`);
 const adsModule = require(`../packages/ads/${process.env.MODE}`);
 const customCssModule = require(`../packages/customCss/${process.env.MODE}`);
 const oneSignalModule = require(`../packages/oneSignal/${process.env.MODE}/client`);
+const commentsModule = require(`../packages/comments/${process.env.MODE}`);
 
 // Define core modules.
 const coreModules = [
@@ -26,6 +27,7 @@ const coreModules = [
   { name: 'ads', namespace: 'ads', module: adsModule },
   { name: 'customCss', namespace: 'customCss', module: customCssModule },
   { name: 'oneSignal', namespace: 'notifications', module: oneSignalModule },
+  { name: 'comments', namespace: 'comments', module: commentsModule },
 ];
 
 // Get activated packages.
