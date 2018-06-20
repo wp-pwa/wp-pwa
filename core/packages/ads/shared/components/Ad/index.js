@@ -10,12 +10,14 @@ import Lazy from '../LazyUnload';
 import AdSense from './AdSense';
 import SmartAd from './SmartAd';
 import DoubleClick from './DoubleClick';
+import SunMedia from './SunMedia';
 import * as selectors from '../../selectors';
 
 const mapAds = {
   adsense: AdSense,
   smartads: SmartAd,
   doubleclick: DoubleClick,
+  sunmedia: SunMedia,
 };
 
 const Ad = ({ type, width, height, active, isAmp, isSticky, isLazy, isMedia, ...adProps }) => {
@@ -54,6 +56,7 @@ const Ad = ({ type, width, height, active, isAmp, isSticky, isLazy, isMedia, ...
 
 Ad.propTypes = {
   type: PropTypes.string,
+  src: PropTypes.string,
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   active: PropTypes.bool.isRequired,
@@ -65,6 +68,7 @@ Ad.propTypes = {
 
 Ad.defaultProps = {
   type: 'smartads',
+  src: null,
   width: 320,
   height: 80,
   isSticky: false,
