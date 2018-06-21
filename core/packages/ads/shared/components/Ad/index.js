@@ -48,7 +48,14 @@ const Ad = ({ type, width, height, active, isAmp, isSticky, isLazy, isMedia, ...
         maxTime={3000}
         isLazy={isLazy}
       >
-        <SelectedAd isMedia={isMedia} width={width} height={height} isAmp={isAmp} {...adProps} />
+        <SelectedAd
+          isMedia={isMedia}
+          width={width}
+          height={height}
+          isAmp={isAmp}
+          {...adProps}
+          active={active}
+        />
       </StyledLazy>
     </Container>
   );
