@@ -15,6 +15,7 @@ class SmartAd extends Component {
     formatId: PropTypes.number.isRequired,
     width: PropTypes.number.isRequired,
     height: PropTypes.number.isRequired,
+    callType: PropTypes.oneOf(['std', 'iframe']),
     target: PropTypes.string,
     isAmp: PropTypes.bool.isRequired,
     item: PropTypes.shape({
@@ -31,6 +32,7 @@ class SmartAd extends Component {
   };
 
   static defaultProps = {
+    callType: 'iframe',
     slotName: '',
     target: null,
     item: null,
@@ -46,7 +48,7 @@ class SmartAd extends Component {
   }
 
   componentDidMount() {
-    const { networkId, siteId, pageId, formatId, target, width, height } = this.props;
+    const { networkId, siteId, pageId, formatId, target, width, height, callType } = this.props;
     const { tagId } = this;
     const callParams = { siteId, pageId, formatId, target, width, height, tagId, async: true };
 
@@ -62,7 +64,7 @@ class SmartAd extends Component {
 
     sas.cmd.push(() => {
       const containerExists = window.document.getElementById(tagId) !== null;
-      if (containerExists) sas.call('iframe', callParams);
+      if (containerExists) sas.call(callType, callParams);
     });
   }
 
@@ -120,5 +122,6 @@ const InnerContainer = styled.div`
 
   iframe {
     max-width: 100%;
+    display: block;
   }
 `;
