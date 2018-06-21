@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
 import styled from 'react-emotion';
-// import Spinner from '../Spinner';
+import Spinner from './Spinner';
 
 class Disqus extends Component {
   static propTypes = {
@@ -49,11 +49,11 @@ class Disqus extends Component {
 
     return (
       <Container height={this.state.height}>
-        {/* {!this.state.loaded && (
+        {!this.state.loaded && (
           <Wrapper>
             <Spinner />
           </Wrapper>
-        )} */}
+        )}
         <Iframe
           id="disqus"
           height={this.state.height}
@@ -65,7 +65,7 @@ class Disqus extends Component {
   }
 }
 
-export default inject(({ connection }, { type, id }) => ({
+export default inject(({ stores: { connection } }, { type, id }) => ({
   url: connection.entity(type, id).link,
   title: connection.entity(type, id).title,
 }))(Disqus);

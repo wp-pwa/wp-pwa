@@ -24,6 +24,7 @@ const iframesModule = require(`../packages/iframes/${process.env.MODE}`);
 const adsModule = require(`../packages/ads/${process.env.MODE}`);
 const customCssModule = require(`../packages/customCss/${process.env.MODE}`);
 const oneSignalModule = require(`../packages/oneSignal/${process.env.MODE}/server`);
+const commentsModule = require(`../packages/comments/${process.env.MODE}`);
 
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -59,6 +60,7 @@ export default ({ clientStats }) => async (req, res) => {
       { name: 'ads', namespace: 'ads', module: adsModule },
       { name: 'customCss', namespace: 'customCss', module: customCssModule },
       { name: 'oneSignal', namespace: 'notifications', module: oneSignalModule },
+      { name: 'comments', namespace: 'comments', module: commentsModule },
     ];
 
     // Extract activated packages array from settings.
