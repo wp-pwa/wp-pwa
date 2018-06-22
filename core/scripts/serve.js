@@ -54,11 +54,19 @@ const createApp = async () => {
       },
     }),
   );
-  // Add dynamic files.
+  // Add dynamic files from packages.
   const packages = await readdir('packages');
   for (const pkg of packages) {
     if (await pathExists(`packages/${pkg}/src/server/index.js`)) {
       const pkgServer = require(`../../packages/${pkg}/src/server/index.js`);
+      app.use(`/dynamic/${pkg}`, pkgServer);
+    }
+  }
+  // Add dynamic files from core packages.
+  const corePackages = await readdir('core/packages');
+  for (const pkg of corePackages) {
+    if (await pathExists(`core/packages/${pkg}/server/index.js`)) {
+      const pkgServer = require(`../packages/${pkg}/server/index.js`);
       app.use(`/dynamic/${pkg}`, pkgServer);
     }
   }
@@ -83,7 +91,7 @@ const serve = async () => {
   const { app, done } = await createApp();
 
   // Check if a build has been generated.
-  if (!await pathExists(`.build/${process.env.MODE}/buildInfo.json`))
+  if (!(await pathExists(`.build/${process.env.MODE}/buildInfo.json`)))
     throw new Error(`No build found. Please, run 'npm run build:${process.env.MODE}' first.`);
 
   // Inform about the type of build which is going to be served.

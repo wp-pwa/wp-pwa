@@ -3,14 +3,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
 import styled from 'react-emotion';
-import Spinner from '../Spinner';
+import Spinner from './Spinner';
 
 class Disqus extends Component {
   static propTypes = {
     id: PropTypes.number.isRequired,
-    shortname: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    shortname: PropTypes.string,
+  };
+
+  static defaultProps = {
+    shortname: null,
   };
 
   constructor() {
@@ -45,7 +49,7 @@ class Disqus extends Component {
 
   render() {
     const { id, url, title, shortname } = this.props;
-    const iframePath = `${window['wp-pwa'].ssr || '/'}dynamic/saturn-app-theme-worona/disqus.html`;
+    const iframePath = `${window['wp-pwa'].ssr || '/'}dynamic/disqus-comments/disqus.html`;
 
     return (
       <Container height={this.state.height}>
@@ -65,9 +69,10 @@ class Disqus extends Component {
   }
 }
 
-export default inject(({ connection }, { type, id }) => ({
+export default inject(({ stores: { connection, settings } }, { type, id }) => ({
   url: connection.entity(type, id).link,
   title: connection.entity(type, id).title,
+  shortname: settings.theme.disqus,
 }))(Disqus);
 
 const Container = styled.div`

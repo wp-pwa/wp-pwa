@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Disqus Comments</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont,
+      "Segoe UI", "Roboto", "Oxygen",
+      "Ubuntu", "Cantarell", "Fira Sans",
+      "Droid Sans", "Helvetica Neue", sans-serif;
+    }
+  </style>
+  <script language=javascript type="text/javascript">
+    function getValue(name) {
+      name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+
+      const url = location.href;
+      const regexS = `[\\?&]${name}=([^&#]*)`;
+      const regex = new RegExp(regexS);
+      const results = regex.exec(url);
+
+      return results ? decodeURIComponent(results[1]) : null;
+    }
+
+    document.styleSheets[0].addRule('a', `color: ${getValue('link_color')} !important`);
+
+    function disqus_config() {
+      this.page.url = getValue('url');
+      this.page.identifier = getValue('identifier');
+      this.page.title = getValue('title');
+
+      this.callbacks.onReady = [
+        function () {
+          const disqus_thread = document.querySelector('#disqus_thread');
+          let height, currentHeight;
+          document.getElementById('disqus_thread').setAttribute('style', 'opacity: 1');
+
+          const interval = setInterval(() => {
+            currentHeight = disqus_thread.scrollHeight;
+
+            if (currentHeight === height) {
+              clearInterval(interval);
+              return;
+            }
+
+            height = currentHeight;
+            parent.postMessage({ scope: 'disqus', height }, '*');
+          }, 1000);
+        },
+      ];
+    }
+  </script>
+</head>
+
+<body style="margin: 0; padding: 0;">
+  <div id="disqus_thread" style="opacity: 0"></div>
+  <script type="text/javascript">
+    (function () {
+      const dsq = document.createElement('script');
+      dsq.id = 'dsq';
+      dsq.type = 'text/javascript';
+      dsq.async = true;
+      dsq.src = `https://${getValue('shortname')}.disqus.com/embed.js`;
+
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]
+      ).appendChild(dsq);
+    })();
+  </script>
+</body>
+
+</html>
