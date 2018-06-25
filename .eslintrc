@@ -3,6 +3,9 @@
   "extends": ["airbnb", "plugin:jest/recommended", "prettier", "prettier/react"],
   "plugins": ["jest"],
   "globals": { "window": true },
-  "rules": { "import/no-extraneous-dependencies": 0 },
+  "rules": {
+    "import/no-extraneous-dependencies": 0,
+    "react/jsx-filename-extension": 0
+  },
   "env": { "jest/globals": true }
 }
