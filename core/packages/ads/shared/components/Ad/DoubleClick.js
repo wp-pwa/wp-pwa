@@ -113,7 +113,7 @@ class DoubleClick extends PureComponent {
 export default DoubleClick;
 
 const AdContainer = styled.div`
-  display: inline-block;
+  display: block;
   width: ${({ width }) => (typeof width === 'number' ? `${width}px` : width)};
   height: ${({ height }) => (typeof height === 'number' ? `${height}px` : height)};
 `;

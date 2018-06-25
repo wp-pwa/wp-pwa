@@ -1,14 +1,30 @@
 {
-  "name": "wp-pwa",
-  "description": "WordPress PWA",
+  "name": "frontity",
+  "description": "Frontity - Create PWAs for WordPress",
   "private": true,
-  "version": "1.6.9",
-  "main": "server/index.js",
-  "author": "luis@worona.org",
+  "version": "0.5.17",
+  "author": "luis@frontity.com, edu@frontity.com, david@frontity.com",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/frontity/frontity.git"
+  },
+  "bugs": {
+    "url": "https://github.com/frontity/share/issues"
+  },
+  "homepage": "https://github.com/frontity/share#readme",
+  "keywords": [
+    "frontity",
+    "wordpress",
+    "pwa",
+    "react",
+    "mobx",
+    "mobx-state-tree"
+  ],
   "scripts": {
     "postinstall": "npm-recursive-install --skip-root",
     "test": "jest --watch --silent",
+    "test:ci": "jest --silent",
     "test:debug": "node --inspect node_modules/.bin/jest --watch",
     "start": "node core/index.js --start",
     "build": "node core/index.js --build",

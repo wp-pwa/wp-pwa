@@ -127,6 +127,15 @@ The output `html` files will be located in the `.build/pwa/(client|server)/analy
 - Remove redux
 - Switch to two different entry points for client and server
 
+#### 1.5.17
+
+- Call type for SmartAds
+- Dynamic height for SmartAds
+
+#### 1.5.16
+
+- Add SunMedia ads
+
 #### 1.5.15
 
 - Fix Lazy load in ads

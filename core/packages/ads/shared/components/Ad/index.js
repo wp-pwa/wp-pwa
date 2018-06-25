@@ -8,11 +8,13 @@ import Lazy from '../LazyUnload';
 import AdSense from './AdSense';
 import SmartAd from './SmartAd';
 import DoubleClick from './DoubleClick';
+import SunMedia from './SunMedia';
 
 const mapAds = {
   adsense: AdSense,
   smartads: SmartAd,
   doubleclick: DoubleClick,
+  sunmedia: SunMedia,
 };
 
 const Ad = ({ type, width, height, active, isAmp, isSticky, isLazy, isMedia, ...adProps }) => {
@@ -35,15 +37,20 @@ const Ad = ({ type, width, height, active, isAmp, isSticky, isLazy, isMedia, ...
       </IconContainer>
       <StyledLazy
         active={active}
-        height={height}
-        width={width}
         offset={1000}
         debounce={false}
         minTime={2000}
         maxTime={3000}
         isLazy={isLazy}
       >
-        <SelectedAd isMedia={isMedia} width={width} height={height} isAmp={isAmp} {...adProps} />
+        <SelectedAd
+          isMedia={isMedia}
+          width={width}
+          height={height}
+          isAmp={isAmp}
+          {...adProps}
+          active={active}
+        />
       </StyledLazy>
     </Container>
   );
@@ -51,6 +58,7 @@ const Ad = ({ type, width, height, active, isAmp, isSticky, isLazy, isMedia, ...
 
 Ad.propTypes = {
   type: PropTypes.string,
+  src: PropTypes.string,
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   active: PropTypes.bool.isRequired,
@@ -62,6 +70,7 @@ Ad.propTypes = {
 
 Ad.defaultProps = {
   type: 'smartads',
+  src: null,
   width: 320,
   height: 80,
   isSticky: false,
@@ -87,7 +96,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   max-width: calc(100% - 30px);
-  height: ${({ styles }) =>
+  min-height: ${({ styles }) =>
     typeof styles.height === 'string' ? `calc(${styles.height} + 1px)` : `${styles.height + 1}px`};
   width: ${({ styles }) => (typeof styles.width === 'string' ? styles.width : `${styles.width}px`)};
   overflow: hidden;
@@ -120,10 +129,10 @@ const IconText = styled.span`
 `;
 
 const StyledLazy = styled(Lazy)`
-  position: absolute;
+  position: static;
   top: 0;
   left: 0;
-  height: ${({ height }) => (typeof height === 'string' ? height : `${height}px`)};
+  min-height: ${({ height }) => (typeof height === 'string' ? height : `${height}px`)};
   width: ${({ width }) => (typeof width === 'string' ? width : `${width}px`)};
   z-index: 1;
 `;
