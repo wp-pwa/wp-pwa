@@ -106,6 +106,27 @@ The output `html` files will be located in the `.build/pwa/(client|server)/analy
 
 ## Changelog
 
+#### 1.6.9
+
+- Remove service workers
+
+#### 1.6.3
+
+- Fixes scroll
+
+#### 1.6.2
+
+- Add push notifications package
+
+#### 1.6.1
+
+- Take dynamicUrl from query
+
+#### 1.6.0
+
+- Remove redux
+- Switch to two different entry points for client and server
+
 #### 1.5.17
 
 - Call type for SmartAds

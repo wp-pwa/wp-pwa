@@ -1,11 +1,12 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { inject } from 'mobx-react';
 import { Helmet } from 'react-helmet';
 import { css } from 'react-emotion';
-import { dep } from 'worona-deps';
 
 const CustomCss = ({ customCss }) => {
+  if (!customCss) return null;
+
   const className = css`
     ${customCss};
   `;
@@ -24,8 +25,6 @@ CustomCss.propTypes = {
   customCss: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = state => ({
-  customCss: dep('settings', 'selectorCreators', 'getSetting')('theme', 'customCss')(state) || '',
-});
-
-export default connect(mapStateToProps)(CustomCss);
+export default inject(({ stores: { settings } }) => ({
+  customCss: settings.theme.customCss || '',
+}))(CustomCss);
