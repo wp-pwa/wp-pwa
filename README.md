@@ -1,6 +1,48 @@
-# WP-PWA
+# ⏩ Frontity
+
+**Frontity** is a framework to build WordPress themes using **React**.
+
+It is based in a "fully-decoupled" approach. This means it uses Node (and not PHP) to create the final server-side-rendered html.
+
+It uses the **REST API** to fetch content from WordPress and a small PHP plugin (our **Frontity WP Plugin**) to inject **Frontity** in WordPress.
+
+Apart from **React**, state is managed with **[MobxStateTree](https://github.com/mobxjs/mobx-state-tree)** and CSS with **[Styled-Components](https://github.com/styled-components/styled-components)**.
+
+**Frontity** is extensible. Right now we have extensions like *Disqus comments, OneSignal notifications, Adsense, Doubleclick, SmartAds, Google Analytics, Google Tag Manager, Custom CSS or Custom HTML*. This means, your Frontity Theme won't have to reinvent the wheel each time.
+
+The Frontity's render engine also supports **AMP** html. This means you can reuse your React and CSS code to create your AMP pages.
+
+## Setting up a local environment
+
+First, clone this repo:
+
+```
+git clone https://github.com/frontity/frontity
+```
+
+Then clone the extensions you want to use in the `packages` folder:
+
+```
+cd frontity/packages
+git clone https://github.com/frontity/wp-org-connection
+git clone https://github.com/frontity/saturn-theme
+```
+
+Install the packages:
+
+```
+cd ..
+npm install
+```
+
+And run the project!
+
+```
+npm run start:pwa
+```
 
 ## Development
+
 
 Run `npm run start:pwa` to start the project in development mode.
 
