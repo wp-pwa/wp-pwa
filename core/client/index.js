@@ -13,7 +13,7 @@ import Store from '../store';
 
 const dev = process.env.NODE_ENV !== 'production';
 
-// const analyticsModule = require(`../packages/analytics/${process.env.MODE}`);
+const analyticsModule = require(`../packages/analytics/${process.env.MODE}`);
 const iframesModule = require(`../packages/iframes/${process.env.MODE}`);
 const adsModule = require(`../packages/ads/${process.env.MODE}`);
 const customCssModule = require(`../packages/customCss/${process.env.MODE}`);
@@ -26,7 +26,7 @@ const disqusCommentsModule = require(`../packages/disqus-comments/${
 
 // Define core modules.
 const coreModules = [
-  // { name: 'analytics', namespace: 'analytics', module: analyticsModule },
+  { name: 'analytics', namespace: 'analytics', module: analyticsModule },
   { name: 'iframes', namespace: 'iframes', module: iframesModule },
   { name: 'ads', namespace: 'ads', module: adsModule },
   { name: 'customCss', namespace: 'customCss', module: customCssModule },
