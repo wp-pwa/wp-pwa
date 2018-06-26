@@ -27,6 +27,8 @@
     "test:ci": "jest --silent",
     "test:debug": "node --inspect node_modules/.bin/jest --watch",
     "cz": "git-cz",
+    "travis-deploy-once": "travis-deploy-once",
+    "semantic-release": "semantic-release",
     "start": "node core/index.js --start",
     "build": "node core/index.js --build",
     "serve": "node core/index.js --serve",
