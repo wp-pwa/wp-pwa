@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { dep } from 'worona-deps';
+import { inject } from 'mobx-react';
 import GoogleTagManager from './GoogleTagManager';
 import ComScore from './ComScore';
 
@@ -19,7 +18,9 @@ const Analytics = ({ isAmp, gtmContainers, comScoreIds }) => {
 
 Analytics.propTypes = {
   gtmContainers: PropTypes.arrayOf(PropTypes.string),
-  comScoreIds: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
+  comScoreIds: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  ),
   isAmp: PropTypes.bool.isRequired,
 };
 
@@ -28,17 +29,12 @@ Analytics.defaultProps = {
   comScoreIds: [],
 };
 
-const emptyArray = [];
-
-const mapStateToProps = state => {
-  const analytics = dep('settings', 'selectorCreators', 'getSetting')('theme', 'analytics')(state);
-  const gtmContainers = (analytics && analytics.pwa && analytics.pwa.gtmContainers) || emptyArray;
-  const comScoreIds = (analytics && analytics.pwa && analytics.pwa.comScoreIds) || emptyArray;
+export default inject(({ stores: { settings, build } }) => {
+  const { analytics } = settings.theme;
+  const { gtmContainers, comScoreIds } = analytics ? analytics.pwa : {};
   return {
     gtmContainers,
     comScoreIds,
-    isAmp: state.build.amp,
+    isAmp: build.isAmp,
   };
-};
-
-export default connect(mapStateToProps)(Analytics);
+})(Analytics);
