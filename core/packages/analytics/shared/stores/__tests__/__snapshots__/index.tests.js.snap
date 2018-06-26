@@ -1,0 +1,35 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Analytics action - addCustomDimensions 1`] = `
+Object {
+  "customDimensionMap": Object {
+    "post_33": Object {
+      "dimension1": "dim1",
+      "dimension2": "dim2",
+    },
+    "post_36": Object {
+      "dimension1": "dim1",
+      "dimension2": "dim2",
+    },
+    "post_42": Object {
+      "dimension1": "dim1",
+      "dimension2": "dim2",
+    },
+    "post_54": Object {
+      "dimension1": "dim1",
+      "dimension2": "dim2",
+    },
+    "post_57": Object {
+      "dimension1": "dim1",
+      "dimension2": "dim2",
+    },
+  },
+}
+`;
+
+exports[`Analytics view - customDimensions 1`] = `
+Object {
+  "dimension1": "dim1",
+  "dimension2": "dim2",
+}
+`;
