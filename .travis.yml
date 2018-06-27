@@ -1,0 +1,14 @@
+language: node_js
+cache:
+  directories:
+    - ~/.npm
+    - "node_modules"
+node_js:
+  - '8'
+after_success:
+  - npm run travis-deploy-once "npm run semantic-release"
+script:
+  - npm run test:ci
+branches:
+  except:
+    - /^v\d+\.\d+\.\d+$/
