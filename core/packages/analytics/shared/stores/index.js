@@ -8,17 +8,11 @@ const Analytics = types
     customDimensionMap: types.optional(types.map(types.frozen), {}),
   })
   .actions(self => ({
-    addCustomDimensions(rawEntities) {
-      Object.keys(rawEntities).forEach(type => {
-        Object.keys(rawEntities[type]).forEach(id => {
-          const key = getKey({ type, id });
-          const { custom_analytics: customDimensions } = rawEntities[type][id];
-
-          if (!self.customDimensionMap.has(key)) {
-            self.customDimensionMap.set(key, customDimensions);
-          }
-        });
-      });
+    addCustomDimensions({ type, id, custom_analytics: customDimensions }) {
+      const key = getKey({ type, id });
+      if (!self.customDimensionMap.has(key)) {
+        self.customDimensionMap.set(key, customDimensions);
+      }
     },
   }))
   .views(self => ({
