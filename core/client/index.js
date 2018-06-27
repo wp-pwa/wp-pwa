@@ -13,7 +13,9 @@ import Store from '../store';
 
 const dev = process.env.NODE_ENV !== 'production';
 
-const analyticsModule = require(`../packages/analytics/${process.env.MODE}`);
+const analyticsModule = require(`../packages/analytics/${
+  process.env.MODE
+}/client`);
 const iframesModule = require(`../packages/iframes/${process.env.MODE}`);
 const adsModule = require(`../packages/ads/${process.env.MODE}`);
 const customCssModule = require(`../packages/customCss/${process.env.MODE}`);

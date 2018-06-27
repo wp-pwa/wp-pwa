@@ -19,7 +19,9 @@ import ampTemplate from './templates/amp';
 import requireModules from './requires';
 import { parseQuery } from './utils';
 
-const analyticsModule = require(`../packages/analytics/${process.env.MODE}`);
+const analyticsModule = require(`../packages/analytics/${
+  process.env.MODE
+}/server`);
 const iframesModule = require(`../packages/iframes/${process.env.MODE}`);
 const adsModule = require(`../packages/ads/${process.env.MODE}`);
 const customCssModule = require(`../packages/customCss/${process.env.MODE}`);
