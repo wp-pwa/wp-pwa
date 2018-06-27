@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Analytics > GoogleAnalytics init 1`] = `
+Object {
+  "trackerNames": Array [
+    "clientTracker0",
+    "clientTracker1",
+  ],
+}
+`;
+
+exports[`Analytics > GoogleAnalytics init 2`] = `
+Array [
+  Array [
+    "create",
+    "UA-123456",
+    "auto",
+    "clientTracker0",
+  ],
+  Array [
+    "create",
+    "UA-778899",
+    "auto",
+    "clientTracker1",
+  ],
+]
+`;
+
+exports[`Analytics > GoogleAnalytics sendEvent 1`] = `
+Array [
+  Array [
+    "test1.send",
+    Object {
+      "eventAction": "PWA - test/action",
+      "eventCategory": "PWA - test/category",
+      "eventLabel": "test/label type: post context: single",
+      "hitType": "event",
+    },
+  ],
+  Array [
+    "test2.send",
+    Object {
+      "eventAction": "PWA - test/action",
+      "eventCategory": "PWA - test/category",
+      "eventLabel": "test/label type: post context: single",
+      "hitType": "event",
+    },
+  ],
+]
+`;
+
+exports[`Analytics > GoogleAnalytics sendPageView 1`] = `
+Array [
+  Array [
+    "test1.send",
+    Object {
+      "hitType": "pageview",
+      "location": "https://demo.frontity.test/the-beauties-of-gullfoss/",
+      "title": "The Beauties of Gullfoss",
+    },
+  ],
+  Array [
+    "test2.send",
+    Object {
+      "hitType": "pageview",
+      "location": "https://demo.frontity.test/the-beauties-of-gullfoss/",
+      "title": "The Beauties of Gullfoss",
+    },
+  ],
+  Array [
+    "test1.send",
+    Object {
+      "hitType": "pageview",
+      "location": "https://demo.frontity.test/wp-cat/photography/page/2",
+      "title": "Photography",
+    },
+  ],
+  Array [
+    "test2.send",
+    Object {
+      "hitType": "pageview",
+      "location": "https://demo.frontity.test/wp-cat/photography/page/2",
+      "title": "Photography",
+    },
+  ],
+]
+`;

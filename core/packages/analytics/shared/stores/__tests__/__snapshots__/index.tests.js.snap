@@ -24,6 +24,9 @@ Object {
       "dimension2": "dim2",
     },
   },
+  "googleAnalytics": Object {
+    "trackerNames": Array [],
+  },
 }
 `;
 
