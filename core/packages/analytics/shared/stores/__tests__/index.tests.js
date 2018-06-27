@@ -4,7 +4,7 @@ import rawEntities from './raw-entities.json';
 describe('Analytics', () => {
   test('action - addCustomDimensions', () => {
     const analytics = Store.create();
-    analytics.addCustomDimensions(rawEntities);
+    rawEntities.forEach(entity => analytics.addCustomDimensions(entity));
     expect(analytics).toMatchSnapshot();
   });
 
