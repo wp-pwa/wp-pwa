@@ -20,21 +20,43 @@ import requireModules from './requires';
 import { parseQuery } from './utils';
 
 // const analyticsModule = require(`../packages/analytics/${process.env.MODE}`);
-const iframesModule = require(`../packages/iframes/${process.env.MODE}`);
-const adsModule = require(`../packages/ads/${process.env.MODE}`);
-const customCssModule = require(`../packages/customCss/${process.env.MODE}`);
-const oneSignalModule = require(`../packages/oneSignal/${process.env.MODE}/server`);
-const disqusCommentsModule = require(`../packages/disqus-comments/${process.env.MODE}`);
+const iframesModule = require(`../packages/iframes/${process.env.MODE}/server`);
+const adsModule = require(`../packages/ads/${process.env.MODE}/server`);
+const customCssModule = require(`../packages/custom-css/${
+  process.env.MODE
+}/server`);
+const oneSignalModule = require(`../packages/one-signal/${
+  process.env.MODE
+}/server`);
+const disqusCommentsModule = require(`../packages/disqus-comments/${
+  process.env.MODE
+}/server`);
 
 const dev = process.env.NODE_ENV !== 'production';
 
-const { buildPath } = require(`../../.build/${process.env.MODE}/buildInfo.json`);
+const { buildPath } = require(`../../.build/${
+  process.env.MODE
+}/buildInfo.json`);
 
 export default ({ clientStats }) => async (req, res) => {
   let status = 200;
-  const { siteId, perPage = 10, initialUrl, env, device, type, id, page } = parseQuery(req.query);
-  const dynamicUrl = req.query.dynamicUrl || `${req.protocol}://${req.get('host')}`;
-  const staticUrl = (req.query.staticUrl || req.query.static || dynamicUrl).replace(/\/$/g, '');
+  const {
+    siteId,
+    perPage = 10,
+    initialUrl,
+    env,
+    device,
+    type,
+    id,
+    page,
+  } = parseQuery(req.query);
+  const dynamicUrl =
+    req.query.dynamicUrl || `${req.protocol}://${req.get('host')}`;
+  const staticUrl = (
+    req.query.staticUrl ||
+    req.query.static ||
+    dynamicUrl
+  ).replace(/\/$/g, '');
 
   // Avoid observables in server.
   useStaticRendering(true);
@@ -50,17 +72,39 @@ export default ({ clientStats }) => async (req, res) => {
     const settings = await getSettings({ siteId, env });
     if (!settings) {
       status = 404;
-      throw new Error(`Settings for ${siteId} not found in the ${env.toUpperCase()} database.`);
+      throw new Error(
+        `Settings for ${siteId} not found in the ${env.toUpperCase()} database.`,
+      );
     }
 
     // Define core modules.
     const coreModules = [
       // { name: 'analytics', namespace: 'analytics', module: analyticsModule },
-      { name: 'iframes', namespace: 'iframes', module: iframesModule },
-      { name: 'ads', namespace: 'ads', module: adsModule },
-      { name: 'customCss', namespace: 'customCss', module: customCssModule },
-      { name: 'oneSignal', namespace: 'notifications', module: oneSignalModule },
-      { name: 'disqus-comments', namespace: 'comments', module: disqusCommentsModule },
+      {
+        name: 'iframes',
+        namespace: 'iframes',
+        module: iframesModule,
+      },
+      {
+        name: 'ads',
+        namespace: 'ads',
+        module: adsModule,
+      },
+      {
+        name: 'custom-css',
+        namespace: 'customCss',
+        module: customCssModule,
+      },
+      {
+        name: 'one-signal',
+        namespace: 'notifications',
+        module: oneSignalModule,
+      },
+      {
+        name: 'disqus-comments',
+        namespace: 'comments',
+        module: disqusCommentsModule,
+      },
     ];
 
     // Extract activated packages array from settings.
@@ -94,10 +138,12 @@ export default ({ clientStats }) => async (req, res) => {
     pkgModules.forEach(addModules);
 
     const mapModules = pkg => {
-      if (pkg.module.Store) storesProps[pkg.namespace] = types.optional(pkg.module.Store, {});
+      if (pkg.module.Store)
+        storesProps[pkg.namespace] = types.optional(pkg.module.Store, {});
       if (pkg.module.flow) flows[`${pkg.namespace}-flow`] = pkg.module.flow;
       if (pkg.module.env) envs[pkg.namespace] = pkg.module.env;
-      if (pkg.module.components) components[pkg.namespace] = pkg.module.components;
+      if (pkg.module.components)
+        components[pkg.namespace] = pkg.module.components;
     };
 
     // Load MST reducers and server sagas.
@@ -147,7 +193,9 @@ export default ({ clientStats }) => async (req, res) => {
 
     // Generate React SSR.
     const render =
-      process.env.MODE === 'amp' ? ReactDOM.renderToStaticMarkup : ReactDOM.renderToString;
+      process.env.MODE === 'amp'
+        ? ReactDOM.renderToStaticMarkup
+        : ReactDOM.renderToString;
     app = render(
       <App
         core={coreModules.map(({ name, module }) => ({
@@ -173,16 +221,27 @@ export default ({ clientStats }) => async (req, res) => {
       });
 
       const publicPath = `${staticUrl}/static/`;
-      const cssHash = JSON.stringify(mapValues(cssHashRaw, cssPath => `${publicPath}${cssPath}`));
-      const scriptsWithoutBootstrap = scripts.filter(script => !/bootstrap/.test(script));
-      const chunksForArray = scriptsWithoutBootstrap.map(script => `'${script}'`).join(',');
-      const bootstrapFileName = scripts.filter(script => /bootstrap/.test(script));
+      const cssHash = JSON.stringify(
+        mapValues(cssHashRaw, cssPath => `${publicPath}${cssPath}`),
+      );
+      const scriptsWithoutBootstrap = scripts.filter(
+        script => !/bootstrap/.test(script),
+      );
+      const chunksForArray = scriptsWithoutBootstrap
+        .map(script => `'${script}'`)
+        .join(',');
+      const bootstrapFileName = scripts.filter(script =>
+        /bootstrap/.test(script),
+      );
       const bootstrapString = await readFile(
         `${buildPath}/.build/${process.env.MODE}/client/${bootstrapFileName}`,
         'utf8',
       );
       const preloadScripts = scriptsWithoutBootstrap
-        .map(script => `<link rel="preload" href="${publicPath}${script}" as="script">`)
+        .map(
+          script =>
+            `<link rel="preload" href="${publicPath}${script}" as="script">`,
+        )
         .join('\n');
       const styles = stylesheets
         .map(
