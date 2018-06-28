@@ -1,4 +1,5 @@
 import { types, flow, getRoot } from 'mobx-state-tree';
+import { generateEvent } from './utils';
 
 const GoogleAnalytics = types
   .model('GoogleAnalytics')
@@ -72,16 +73,7 @@ const GoogleAnalytics = types
       }
     },
     sendEvent(event) {
-      const { connection } = getRoot(self);
-      const type = `type: ${connection.selectedItem.type}`;
-      const context = `context: ${connection.selectedContext.options.bar}`;
-
-      const category = `PWA - ${event.category}`;
-      const action = `PWA - ${event.action}`;
-      const label = !event.label
-        ? `${type} ${context}`
-        : `${event.label} ${type} ${context}`;
-
+      const { category, action, label } = generateEvent(self)(event);
       if (typeof window.ga === 'function') {
         self.trackerNames.forEach(trackerName => {
           window.ga(`${trackerName}.send`, {
