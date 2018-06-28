@@ -27,6 +27,7 @@ Object {
   "googleAnalytics": Object {
     "trackerNames": Array [],
   },
+  "googleTagManager": Object {},
 }
 `;
 
