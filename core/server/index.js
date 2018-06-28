@@ -185,6 +185,7 @@ export default ({ clientStats }) => async (req, res) => {
     const params = {
       selectedItem: { type, id, page },
     };
+
     const startFlows = new Date();
     const flowPromises = Object.keys(flows).map(flow => stores[flow](params));
     stores.flowsInitialized();

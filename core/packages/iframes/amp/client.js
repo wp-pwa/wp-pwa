@@ -1,1 +1,3 @@
-export default () => null;
+import components from '../shared/components';
+
+export default components;
