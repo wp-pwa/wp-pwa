@@ -3,6 +3,8 @@ const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
 
+const babelrc = JSON.parse(fs.readFileSync('.babelrc', 'utf8')).env.server;
+
 // if you're specifying externals to leave unbundled, you need to tell Webpack
 // to still bundle `react-universal-component`, `webpack-flush-chunks` and
 // `require-universal-module` so that they know they are running
@@ -35,7 +37,8 @@ const config = {
         use: {
           loader: 'babel-loader',
           options: {
-            forceEnv: 'server',
+            babelrc: false,
+            ...babelrc,
           },
         },
       },
@@ -73,16 +76,26 @@ const config = {
 if (process.env.ANALYZE) {
   const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
   const Visualizer = require('webpack-visualizer-plugin');
-  config.plugins.push(new BundleAnalyzerPlugin({
-    analyzerMode: 'static',
-    reportFilename: `../../analyize/${process.env.MODE}/server-prod-analyzer.html`,
-    openAnalyzer: false,
-    generateStatsFile: true,
-    statsFilename: `../../analyize/${process.env.MODE}/server-prod-stats.json`,
-  }));
-  config.plugins.push(new Visualizer({
-    filename: `../../analyize/${process.env.MODE}/server-prod-visualizer.html`,
-  }));
+  config.plugins.push(
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      reportFilename: `../../analyize/${
+        process.env.MODE
+      }/server-prod-analyzer.html`,
+      openAnalyzer: false,
+      generateStatsFile: true,
+      statsFilename: `../../analyize/${
+        process.env.MODE
+      }/server-prod-stats.json`,
+    }),
+  );
+  config.plugins.push(
+    new Visualizer({
+      filename: `../../analyize/${
+        process.env.MODE
+      }/server-prod-visualizer.html`,
+    }),
+  );
 }
 
 module.exports = config;

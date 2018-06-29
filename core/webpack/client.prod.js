@@ -1,10 +1,13 @@
 /* eslint-disable global-require */
 const path = require('path');
+const fs = require('fs');
 const webpack = require('webpack');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const vendors = require('../vendors');
+
+const babelrc = JSON.parse(fs.readFileSync('.babelrc', 'utf8')).env.prodClient;
 
 const config = {
   name: 'client',
@@ -29,7 +32,8 @@ const config = {
         use: {
           loader: 'babel-loader',
           options: {
-            forceEnv: 'prodClient',
+            babelrc: false,
+            ...babelrc,
           },
         },
       },
