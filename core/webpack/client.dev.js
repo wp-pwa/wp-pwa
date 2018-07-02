@@ -1,14 +1,12 @@
 /* eslint-disable global-require */
 const path = require('path');
-const fs = require('fs');
 const webpack = require('webpack');
 const WriteFilePlugin = require('write-file-webpack-plugin'); // here so you can see what chunks are built
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const { nodeModules, babelrc } = require('./utils');
 const vendors = require('../vendors');
-
-const babelrc = JSON.parse(fs.readFileSync('.babelrc', 'utf8')).env.devClient;
 
 const config = {
   name: 'client',
@@ -29,6 +27,9 @@ const config = {
     chunkFilename: '[name].js',
     path: path.resolve(__dirname, `../../.build/${process.env.MODE}/client`),
   },
+  resolve: {
+    modules: nodeModules,
+  },
   module: {
     rules: [
       {
@@ -38,7 +39,7 @@ const config = {
           loader: 'babel-loader',
           options: {
             babelrc: false,
-            ...babelrc,
+            ...babelrc.devClient,
           },
         },
       },

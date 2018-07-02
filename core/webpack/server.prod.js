@@ -1,34 +1,21 @@
 /* eslint-disable global-require */
-const fs = require('fs');
 const path = require('path');
 const webpack = require('webpack');
-
-const babelrc = JSON.parse(fs.readFileSync('.babelrc', 'utf8')).env.server;
-
-// if you're specifying externals to leave unbundled, you need to tell Webpack
-// to still bundle `react-universal-component`, `webpack-flush-chunks` and
-// `require-universal-module` so that they know they are running
-// within Webpack and can properly make connections to client modules:
-const externals = fs
-  .readdirSync(path.resolve(__dirname, '../../node_modules'))
-  .filter(x => !/\.bin|react-universal-component|webpack-flush-chunks/.test(x))
-  .reduce((external, mod) => {
-    external[mod] = `commonjs ${mod}`;
-    return external;
-  }, {});
-
-externals['react-dom/server'] = 'commonjs react-dom/server';
+const { nodeModules, babelrc, externals } = require('./utils');
 
 const config = {
   name: 'server',
   target: 'node',
   entry: [path.resolve(__dirname, `../server`)],
+  externals,
   output: {
     path: path.resolve(__dirname, `../../.build/${process.env.MODE}/server`),
     filename: '[name].js',
     libraryTarget: 'commonjs2',
   },
-  externals,
+  resolve: {
+    modules: nodeModules,
+  },
   module: {
     rules: [
       {
@@ -38,7 +25,7 @@ const config = {
           loader: 'babel-loader',
           options: {
             babelrc: false,
-            ...babelrc,
+            ...babelrc.server,
           },
         },
       },
