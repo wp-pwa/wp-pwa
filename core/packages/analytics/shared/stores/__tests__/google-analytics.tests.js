@@ -44,7 +44,7 @@ beforeEach(() => {
 describe('Analytics > GoogleAnalytics', () => {
   test('init', async () => {
     // The Google Analytics snippet inserts its script before the first one,
-    // so must be an script in the DOM mock.
+    // so there must be an script in the DOM mock.
     const firstScript = window.document.createElement('script');
     window.document.body.appendChild(firstScript);
 
@@ -52,7 +52,7 @@ describe('Analytics > GoogleAnalytics', () => {
     const gaTrackingIds = ['UA-123456', 'UA-778899'];
     await stores.analytics.googleAnalytics.init(gaTrackingIds);
     expect(stores.analytics.googleAnalytics).toMatchSnapshot();
-    expect(window.ga).toHaveBeenCalledTimes(2);
+    expect(window.ga).toHaveBeenCalledTimes(4);
     expect(window.ga.mock.calls).toMatchSnapshot();
   });
 

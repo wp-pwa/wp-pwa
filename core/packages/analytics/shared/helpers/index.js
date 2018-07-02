@@ -1,7 +1,8 @@
 import sha256 from 'crypto-js/sha256';
 import base64 from 'crypto-js/enc-base64';
 
-export const getRoute = ({ page }) => (typeof page === 'number' ? 'list' : 'single');
+export const getRoute = ({ page }) =>
+  typeof page === 'number' ? 'list' : 'single';
 
 export const getHash = (site, selectedItem) => {
   const { type, id, page } = selectedItem;
@@ -33,6 +34,7 @@ export const getUrl = ({ selectedItem, format }) => {
 
 export const getGaTrackingIds = ({ dev, analyticsSettings = {}, format }) => {
   const gaTrackingIds =
-    (analyticsSettings[format] && analyticsSettings[format].gaTrackingIds) || [];
+    (analyticsSettings[format] && analyticsSettings[format].gaTrackingIds) ||
+    [];
   return dev && gaTrackingIds.length ? ['UA-91312941-7'] : gaTrackingIds;
 };

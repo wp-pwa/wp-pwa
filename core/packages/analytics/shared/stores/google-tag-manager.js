@@ -37,6 +37,9 @@ const GoogleTagManager = types.model('GoogleTagManager').actions(self => ({
       dev,
     };
     window.dataLayer.push({ event: 'wpPwaProperties', wpPwaProperties });
+
+    // Sends the first pageView
+    self.sendPageView();
   },
   sendPageView() {
     const { connection, analytics, settings } = getRoot(self);

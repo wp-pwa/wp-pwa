@@ -23,6 +23,22 @@ Array [
     "auto",
     "clientTracker1",
   ],
+  Array [
+    "clientTracker0.send",
+    Object {
+      "hitType": "pageview",
+      "location": "https://demo.frontity.test/the-beauties-of-gullfoss/",
+      "title": "The Beauties of Gullfoss",
+    },
+  ],
+  Array [
+    "clientTracker1.send",
+    Object {
+      "hitType": "pageview",
+      "location": "https://demo.frontity.test/the-beauties-of-gullfoss/",
+      "title": "The Beauties of Gullfoss",
+    },
+  ],
 ]
 `;
 

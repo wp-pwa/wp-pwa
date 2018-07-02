@@ -22,6 +22,21 @@ Array [
       ],
     },
   },
+  Object {
+    "event": "virtualPageview",
+    "virtualPageview": Object {
+      "customDimensions": null,
+      "format": "pwa",
+      "hash": "ZO0H2I9kJ0arOdstZdG",
+      "id": 60,
+      "page": undefined,
+      "route": "single",
+      "site": "https://demo.frontity.test",
+      "title": "The Beauties of Gullfoss",
+      "type": "post",
+      "url": "https://demo.frontity.test/the-beauties-of-gullfoss/",
+    },
+  },
 ]
 `;
 

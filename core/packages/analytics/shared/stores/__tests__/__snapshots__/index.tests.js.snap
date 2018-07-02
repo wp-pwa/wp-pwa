@@ -2,6 +2,9 @@
 
 exports[`Analytics action - addCustomDimensions 1`] = `
 Object {
+  "comScore": Object {
+    "comScoreIds": Array [],
+  },
   "customDimensionMap": Object {
     "post_33": Object {
       "dimension1": "dim1",

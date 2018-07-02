@@ -1,6 +1,7 @@
 import { types } from 'mobx-state-tree';
 import GoogleAnalytics from './google-analytics';
 import GoogleTagManager from './google-tag-manager';
+import ComScore from './comscore';
 
 const getKey = ({ type, id }) => `${type}_${id}`;
 
@@ -9,7 +10,7 @@ const Analytics = types
   .props({
     googleAnalytics: types.optional(GoogleAnalytics, {}),
     googleTagManager: types.optional(GoogleTagManager, {}),
-    // comScore,
+    comScore: types.optional(ComScore, {}),
     customDimensionMap: types.optional(types.map(types.frozen), {}),
   })
   .views(self => ({
@@ -18,8 +19,15 @@ const Analytics = types
     },
   }))
   .actions(self => ({
-    sendPageView() {},
-    sendEvent() {},
+    sendPageView() {
+      self.googleAnalytics.sendPageView();
+      self.googleTagManager.sendPageView();
+      self.comScore.sendPageView();
+    },
+    sendEvent(event) {
+      self.googleAnalytics.sendEvent(event);
+      self.googleTagManager.sendEvent(event);
+    },
     addCustomDimensions({ type, id, custom_analytics: customDimensions }) {
       const key = getKey({ type, id });
       if (!self.customDimensionMap.has(key)) {

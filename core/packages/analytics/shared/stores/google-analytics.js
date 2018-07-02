@@ -43,6 +43,9 @@ const GoogleAnalytics = types
         window.ga('create', trackingId, 'auto', name);
         return name;
       });
+
+      // Sends the first pageView
+      self.sendPageView();
     }),
     sendPageView() {
       // Get analytics and connection from the stores
