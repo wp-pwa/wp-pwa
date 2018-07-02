@@ -14,23 +14,41 @@ import Store from '../store';
 const dev = process.env.NODE_ENV !== 'production';
 
 // const analyticsModule = require(`../packages/analytics/${process.env.MODE}`);
-const iframesModule = require(`../packages/iframes/${process.env.MODE}`);
-const adsModule = require(`../packages/ads/${process.env.MODE}`);
-const customCssModule = require(`../packages/customCss/${process.env.MODE}`);
-const oneSignalModule = require(`../packages/oneSignal/${
+const iframesModule = require(`../packages/iframes/${process.env.MODE}/client`);
+const adsModule = require(`../packages/ads/${process.env.MODE}/client`);
+const customCssModule = require(`../packages/custom-css/${
+  process.env.MODE
+}/client`);
+const oneSignalModule = require(`../packages/one-signal/${
   process.env.MODE
 }/client`);
 const disqusCommentsModule = require(`../packages/disqus-comments/${
   process.env.MODE
-}`);
+}/client`);
 
 // Define core modules.
 const coreModules = [
   // { name: 'analytics', namespace: 'analytics', module: analyticsModule },
-  { name: 'iframes', namespace: 'iframes', module: iframesModule },
-  { name: 'ads', namespace: 'ads', module: adsModule },
-  { name: 'customCss', namespace: 'customCss', module: customCssModule },
-  { name: 'oneSignal', namespace: 'notifications', module: oneSignalModule },
+  {
+    name: 'iframes',
+    namespace: 'iframes',
+    module: iframesModule,
+  },
+  {
+    name: 'ads',
+    namespace: 'ads',
+    module: adsModule,
+  },
+  {
+    name: 'custom-css',
+    namespace: 'customCss',
+    module: customCssModule,
+  },
+  {
+    name: 'one-signal',
+    namespace: 'notifications',
+    module: oneSignalModule,
+  },
   {
     name: 'disqus-comments',
     namespace: 'comments',
