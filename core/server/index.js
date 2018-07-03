@@ -22,15 +22,17 @@ import { parseQuery } from './utils';
 const analyticsModule = require(`../packages/analytics/${
   process.env.MODE
 }/server`);
-const iframesModule = require(`../packages/iframes/${process.env.MODE}`);
-const adsModule = require(`../packages/ads/${process.env.MODE}`);
-const customCssModule = require(`../packages/customCss/${process.env.MODE}`);
-const oneSignalModule = require(`../packages/oneSignal/${
+const iframesModule = require(`../packages/iframes/${process.env.MODE}/server`);
+const adsModule = require(`../packages/ads/${process.env.MODE}/server`);
+const customCssModule = require(`../packages/custom-css/${
+  process.env.MODE
+}/server`);
+const oneSignalModule = require(`../packages/one-signal/${
   process.env.MODE
 }/server`);
 const disqusCommentsModule = require(`../packages/disqus-comments/${
   process.env.MODE
-}`);
+}/server`);
 
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -79,12 +81,28 @@ export default ({ clientStats }) => async (req, res) => {
 
     // Define core modules.
     const coreModules = [
-      { name: 'analytics', namespace: 'analytics', module: analyticsModule },
-      { name: 'iframes', namespace: 'iframes', module: iframesModule },
-      { name: 'ads', namespace: 'ads', module: adsModule },
-      { name: 'customCss', namespace: 'customCss', module: customCssModule },
       {
-        name: 'oneSignal',
+        name: 'analytics',
+        namespace: 'analytics',
+        module: analyticsModule,
+      },
+      {
+        name: 'iframes',
+        namespace: 'iframes',
+        module: iframesModule,
+      },
+      {
+        name: 'ads',
+        namespace: 'ads',
+        module: adsModule,
+      },
+      {
+        name: 'custom-css',
+        namespace: 'customCss',
+        module: customCssModule,
+      },
+      {
+        name: 'one-signal',
         namespace: 'notifications',
         module: oneSignalModule,
       },
@@ -173,6 +191,7 @@ export default ({ clientStats }) => async (req, res) => {
     const params = {
       selectedItem: { type, id, page },
     };
+
     const startFlows = new Date();
     const flowPromises = Object.keys(flows).map(flow => stores[flow](params));
     stores.flowsInitialized();

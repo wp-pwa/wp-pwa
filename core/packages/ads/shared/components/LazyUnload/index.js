@@ -4,8 +4,8 @@ import Lazy from '@frontity/lazyload';
 
 class LazyUnload extends Component {
   static propTypes = {
-    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-    height: PropTypes.number.isRequired,
+    width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+    height: PropTypes.number,
     minTime: PropTypes.number.isRequired,
     maxTime: PropTypes.number.isRequired,
     offset: PropTypes.number.isRequired,
@@ -20,6 +20,8 @@ class LazyUnload extends Component {
     className: '',
     debounce: false,
     isLazy: true,
+    width: null,
+    height: null,
   };
 
   static randomBetween(min, max) {
@@ -51,11 +53,24 @@ class LazyUnload extends Component {
   }
 
   render() {
-    const { width, height, active, offset, debounce, children, className, isLazy } = this.props;
+    const {
+      width,
+      height,
+      active,
+      offset,
+      debounce,
+      children,
+      className,
+      isLazy,
+    } = this.props;
     const { dying } = this.state;
 
     const LazyComponent = isLazy ? Lazy : 'div';
-    const lazyProps = { offsetVertical: offset, offsetHorizontal: 40, debounce };
+    const lazyProps = {
+      offsetVertical: offset,
+      offsetHorizontal: 40,
+      debounce,
+    };
 
     return (
       (active || dying) && (

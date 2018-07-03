@@ -17,7 +17,17 @@ const mapAds = {
   sunmedia: SunMedia,
 };
 
-const Ad = ({ type, width, height, active, isAmp, isSticky, isLazy, isMedia, ...adProps }) => {
+const Ad = ({
+  type,
+  width,
+  height,
+  active,
+  isAmp,
+  isSticky,
+  isLazy,
+  isMedia,
+  ...adProps
+}) => {
   const SelectedAd = mapAds[type];
 
   if (!SelectedAd) return null;
@@ -78,16 +88,22 @@ Ad.defaultProps = {
   isLazy: true,
 };
 
-export default inject(({ stores: { settings, connection, build } }, { item, active }) => ({
-  isAmp: build.isAmp,
-  isLazy: settings.ads && settings.ads.settings && settings.ads.settings.areLazy,
-  active:
-    typeof active === 'boolean'
-      ? active
-      : computed(
-          () => (item && connection.selectedContext.getItem({ item }).isSelected) || false,
-        ).get(),
-}))(Ad);
+export default inject(
+  ({ stores: { settings, connection, build } }, { item, active }) => ({
+    isAmp: build.isAmp,
+    isLazy:
+      settings.ads && settings.ads.settings && settings.ads.settings.areLazy,
+    active:
+      typeof active === 'boolean'
+        ? active
+        : computed(
+            () =>
+              (item &&
+                connection.selectedContext.getItem({ item }).isSelected) ||
+              false,
+          ).get(),
+  }),
+)(Ad);
 
 const Container = styled.div`
   margin: ${({ isSticky }) => (isSticky ? '' : '10px auto')};
@@ -97,8 +113,11 @@ const Container = styled.div`
   align-items: center;
   max-width: calc(100% - 30px);
   min-height: ${({ styles }) =>
-    typeof styles.height === 'string' ? `calc(${styles.height} + 1px)` : `${styles.height + 1}px`};
-  width: ${({ styles }) => (typeof styles.width === 'string' ? styles.width : `${styles.width}px`)};
+    typeof styles.height === 'string'
+      ? `calc(${styles.height} + 1px)`
+      : `${styles.height + 1}px`};
+  width: ${({ styles }) =>
+    typeof styles.width === 'string' ? styles.width : `${styles.width}px`};
   overflow: hidden;
 
   * {
@@ -132,7 +151,8 @@ const StyledLazy = styled(Lazy)`
   position: static;
   top: 0;
   left: 0;
-  min-height: ${({ height }) => (typeof height === 'string' ? height : `${height}px`)};
+  min-height: ${({ height }) =>
+    typeof height === 'string' ? height : `${height}px`};
   width: ${({ width }) => (typeof width === 'string' ? width : `${width}px`)};
   z-index: 1;
 `;

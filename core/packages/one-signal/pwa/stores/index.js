@@ -33,16 +33,25 @@ export default types
         });
       });
     }),
-    init: flow(function* initOneSignal({ defaultNotificationUrl, ...customSettings }) {
+    init: flow(function* initOneSignal({
+      defaultNotificationUrl,
+      ...customSettings
+    }) {
       window.OneSignal.setDefaultNotificationUrl(defaultNotificationUrl);
-      window.OneSignal.SERVICE_WORKER_UPDATER_PATH = 'OneSignalSDKUpdaterWorker.js.php';
+      window.OneSignal.SERVICE_WORKER_UPDATER_PATH =
+        'OneSignalSDKUpdaterWorker.js.php';
       window.OneSignal.SERVICE_WORKER_PATH = 'OneSignalSDKWorker.js.php';
       window.OneSignal.SERVICE_WORKER_PARAM = { scope: '/' };
 
       try {
-        yield window.OneSignal.init(Object.assign(defaultSettings, customSettings));
+        yield window.OneSignal.init(
+          Object.assign(defaultSettings, customSettings),
+        );
       } catch (error) {
-        console.warn('Something was wrong while initializing OneSignal:\n', error);
+        console.warn(
+          'Something was wrong while initializing OneSignal:\n',
+          error,
+        );
       }
 
       self.areEnabled = yield window.OneSignal.isPushNotificationsEnabled();

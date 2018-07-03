@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
+import styled from 'react-emotion';
 import { Helmet } from 'react-helmet';
 
 class SunMedia extends Component {
@@ -8,6 +9,8 @@ class SunMedia extends Component {
     active: PropTypes.bool.isRequired,
     isAmp: PropTypes.bool.isRequired,
     cid: PropTypes.string,
+    width: PropTypes.number.isRequired,
+    height: PropTypes.number.isRequired,
   };
 
   static defaultProps = {
@@ -17,15 +20,15 @@ class SunMedia extends Component {
   componentDidMount() {
     if (this.props.isAmp) return;
 
-    const script = document.createElement('script');
+    const script = window.document.createElement('script');
     script.async = true;
     script.type = 'application/javascript';
     script.src = this.props.src;
-    this.ref.appendChild(script);
+    this.node.appendChild(script);
   }
 
   render() {
-    const { active, isAmp, cid } = this.props;
+    const { active, isAmp, cid, width, height } = this.props;
 
     // This won't work for now, as we are filtering out sunmedia ads on AMP,
     // but we can try again later if we have some way to get the `data-cid`.
@@ -39,15 +42,22 @@ class SunMedia extends Component {
               src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"
             />
           </Helmet>
-          <amp-ad type="sunmedia" layout="fill" data-cid={cid} data-cskp={1} data-crst={1} />
+          <amp-ad
+            type="sunmedia"
+            layout="fill"
+            data-cid={cid}
+            data-cskp={1}
+            data-crst={1}
+          />
         </Fragment>
       );
     }
 
     return active ? (
-      <div
-        ref={node => {
-          this.ref = node;
+      <Container
+        styles={{ width, height }}
+        innerRef={node => {
+          this.node = node;
         }}
       />
     ) : null;
@@ -55,3 +65,8 @@ class SunMedia extends Component {
 }
 
 export default SunMedia;
+
+const Container = styled.div`
+  width: ${({ styles }) => `${styles.width}px`};
+  height: ${({ styles }) => `${styles.height}px`};
+`;
