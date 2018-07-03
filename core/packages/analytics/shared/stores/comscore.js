@@ -16,7 +16,7 @@ const GoogleTagManager = types
       init: flow(function* initComScore(comScoreIds) {
         self.comScoreIds = comScoreIds;
 
-        // Subscribe to changes in titleinnerTextTracker
+        // Subscribe to changes in title.
         titleMatches = getEnv(self).analytics.innerTextTracker(
           window.document.querySelector('title'),
         );
