@@ -59,9 +59,7 @@ describe('Analytics > ComScore', () => {
     await stores.analytics.comScore.init(['test1', 'test2']);
 
     window.COMSCORE = { beacon: jest.fn() };
-    stores.analytics.comScore.sendPageView();
-    await new Promise(resolve => setTimeout(resolve, 1000));
-
+    await stores.analytics.comScore.sendPageView();
     expect(innerTextTracker).toHaveBeenCalled();
     expect(window.COMSCORE.beacon.mock.calls).toMatchSnapshot();
   });
