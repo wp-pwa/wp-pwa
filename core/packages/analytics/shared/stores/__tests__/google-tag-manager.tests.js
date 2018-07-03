@@ -1,56 +1,5 @@
-import { types, unprotect } from 'mobx-state-tree';
-import Analytics from '..';
-
-const itemSingle = {
-  type: 'post',
-  id: 60,
-  entity: {
-    headMeta: { title: 'The Beauties of Gullfoss' },
-    link: 'https://demo.frontity.test/the-beauties-of-gullfoss/',
-  },
-};
-
-const itemList = {
-  type: 'category',
-  id: 7,
-  page: 2,
-  entity: {
-    headMeta: { title: 'Photography' },
-    link: 'https://demo.frontity.test/wp-cat/photography/',
-    pagedLink: page =>
-      `https://demo.frontity.test/wp-cat/photography/page/${page}`,
-  },
-};
-
-const Stores = types.model('Stores').props({
-  connection: types.optional(
-    types.model('Connection', {
-      selectedItem: types.optional(types.frozen, itemSingle),
-      selectedContext: types.optional(types.frozen, {
-        options: {
-          bar: 'single',
-        },
-      }),
-    }),
-    {},
-  ),
-  settings: types.optional(types.frozen, {
-    generalSite: {
-      _id: 'site1122334455',
-      userIds: ['user00', 'user01'],
-      url: 'https://demo.frontity.test',
-    },
-    theme: {
-      woronaInfo: { name: 'saturn-theme' },
-      analytics: { anonymize: false },
-    },
-  }),
-  build: types.optional(types.frozen, {
-    dev: true,
-    packages: ['saturn-theme', 'wp-org-connection'],
-  }),
-  analytics: types.optional(Analytics, {}),
-});
+import { unprotect } from 'mobx-state-tree';
+import { Stores, itemCat7 } from '../mocks';
 
 let stores;
 beforeEach(() => {
@@ -68,7 +17,7 @@ describe('Analytics > GoogleTagManager', () => {
   test('sendPageView', () => {
     window.dataLayer = [];
     stores.analytics.googleTagManager.sendPageView();
-    stores.connection.selectedItem = itemList;
+    stores.connection.selectedItem = itemCat7;
     stores.analytics.googleTagManager.sendPageView();
     expect(window.dataLayer).toMatchSnapshot();
   });

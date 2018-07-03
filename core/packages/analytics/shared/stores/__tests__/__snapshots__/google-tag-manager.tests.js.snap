@@ -25,7 +25,10 @@ Array [
   Object {
     "event": "virtualPageview",
     "virtualPageview": Object {
-      "customDimensions": null,
+      "customDimensions": Object {
+        "dimension1": "dim1_post60",
+        "dimension2": "dim2_post60",
+      },
       "format": "pwa",
       "hash": "ZO0H2I9kJ0arOdstZdG",
       "id": 60,
@@ -58,7 +61,10 @@ Array [
   Object {
     "event": "virtualPageview",
     "virtualPageview": Object {
-      "customDimensions": null,
+      "customDimensions": Object {
+        "dimension1": "dim1_post60",
+        "dimension2": "dim2_post60",
+      },
       "format": "pwa",
       "hash": "ZO0H2I9kJ0arOdstZdG",
       "id": 60,
@@ -73,7 +79,10 @@ Array [
   Object {
     "event": "virtualPageview",
     "virtualPageview": Object {
-      "customDimensions": null,
+      "customDimensions": Object {
+        "dimension1": "dim1_cat7",
+        "dimension2": "dim2_cat7",
+      },
       "format": "pwa",
       "hash": "F1IyuIcMmLJVe2Je0OX",
       "id": 7,

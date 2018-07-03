@@ -1,26 +1,6 @@
 /* eslint no-underscore-dangle: ["error", { "allow": ["_comscore"] }] */
-import { types, unprotect } from 'mobx-state-tree';
-import Analytics from '..';
-
-const itemSingle = {
-  type: 'post',
-  id: 60,
-  entity: {
-    isReady: true,
-    headMeta: { title: 'The Beauties of Gullfoss' },
-    link: 'https://demo.frontity.test/the-beauties-of-gullfoss/',
-  },
-};
-
-const Stores = types.model('Stores').props({
-  connection: types.optional(
-    types.model('Connection', {
-      selectedItem: types.optional(types.frozen, itemSingle),
-    }),
-    {},
-  ),
-  analytics: types.optional(Analytics, {}),
-});
+import { unprotect } from 'mobx-state-tree';
+import { Stores } from '../mocks';
 
 let stores;
 let innerTextTracker;

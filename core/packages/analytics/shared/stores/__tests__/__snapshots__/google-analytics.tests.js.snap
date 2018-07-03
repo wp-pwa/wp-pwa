@@ -26,6 +26,8 @@ Array [
   Array [
     "clientTracker0.send",
     Object {
+      "dimension1": "dim1_post60",
+      "dimension2": "dim2_post60",
       "hitType": "pageview",
       "location": "https://demo.frontity.test/the-beauties-of-gullfoss/",
       "title": "The Beauties of Gullfoss",
@@ -34,6 +36,8 @@ Array [
   Array [
     "clientTracker1.send",
     Object {
+      "dimension1": "dim1_post60",
+      "dimension2": "dim2_post60",
       "hitType": "pageview",
       "location": "https://demo.frontity.test/the-beauties-of-gullfoss/",
       "title": "The Beauties of Gullfoss",
@@ -70,6 +74,8 @@ Array [
   Array [
     "test1.send",
     Object {
+      "dimension1": "dim1_post60",
+      "dimension2": "dim2_post60",
       "hitType": "pageview",
       "location": "https://demo.frontity.test/the-beauties-of-gullfoss/",
       "title": "The Beauties of Gullfoss",
@@ -78,6 +84,8 @@ Array [
   Array [
     "test2.send",
     Object {
+      "dimension1": "dim1_post60",
+      "dimension2": "dim2_post60",
       "hitType": "pageview",
       "location": "https://demo.frontity.test/the-beauties-of-gullfoss/",
       "title": "The Beauties of Gullfoss",
@@ -86,6 +94,8 @@ Array [
   Array [
     "test1.send",
     Object {
+      "dimension1": "dim1_cat7",
+      "dimension2": "dim2_cat7",
       "hitType": "pageview",
       "location": "https://demo.frontity.test/wp-cat/photography/page/2",
       "title": "Photography",
@@ -94,6 +104,8 @@ Array [
   Array [
     "test2.send",
     Object {
+      "dimension1": "dim1_cat7",
+      "dimension2": "dim2_cat7",
       "hitType": "pageview",
       "location": "https://demo.frontity.test/wp-cat/photography/page/2",
       "title": "Photography",

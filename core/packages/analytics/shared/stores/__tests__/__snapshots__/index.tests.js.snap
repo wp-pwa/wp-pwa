@@ -1,42 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Analytics action - addCustomDimensions 1`] = `
-Object {
-  "comScore": Object {
-    "comScoreIds": Array [],
-  },
-  "customDimensionMap": Object {
-    "post_33": Object {
-      "dimension1": "dim1",
-      "dimension2": "dim2",
-    },
-    "post_36": Object {
-      "dimension1": "dim1",
-      "dimension2": "dim2",
-    },
-    "post_42": Object {
-      "dimension1": "dim1",
-      "dimension2": "dim2",
-    },
-    "post_54": Object {
-      "dimension1": "dim1",
-      "dimension2": "dim2",
-    },
-    "post_57": Object {
-      "dimension1": "dim1",
-      "dimension2": "dim2",
-    },
-  },
-  "googleAnalytics": Object {
-    "trackerNames": Array [],
-  },
-  "googleTagManager": Object {},
-}
-`;
-
 exports[`Analytics view - customDimensions 1`] = `
-Object {
-  "dimension1": "dim1",
-  "dimension2": "dim2",
-}
+Array [
+  Object {
+    "dimension1": "dim1_post57",
+    "dimension2": "dim2_post57",
+  },
+  Object {
+    "dimension1": "dim1_post54",
+    "dimension2": "dim2_post54",
+  },
+  null,
+]
 `;

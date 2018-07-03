@@ -1,39 +1,5 @@
-import { types, unprotect } from 'mobx-state-tree';
-// import GoogleAnalytics from '../google-analytics';
-import Analytics from '..';
-
-const itemSingle = {
-  type: 'post',
-  id: 60,
-  entity: {
-    headMeta: { title: 'The Beauties of Gullfoss' },
-    link: 'https://demo.frontity.test/the-beauties-of-gullfoss/',
-  },
-};
-
-const itemList = {
-  type: 'category',
-  id: 7,
-  page: 2,
-  entity: {
-    headMeta: { title: 'Photography' },
-    link: 'https://demo.frontity.test/wp-cat/photography/',
-    pagedLink: page =>
-      `https://demo.frontity.test/wp-cat/photography/page/${page}`,
-  },
-};
-
-const Stores = types.model('Stores').props({
-  connection: types.optional(types.frozen, {
-    selectedItem: itemSingle,
-    selectedContext: {
-      options: {
-        bar: 'single',
-      },
-    },
-  }),
-  analytics: types.optional(Analytics, {}),
-});
+import { unprotect } from 'mobx-state-tree';
+import { Stores, itemPost60, itemCat7 } from '../mocks';
 
 let stores;
 beforeEach(() => {
@@ -59,10 +25,12 @@ describe('Analytics > GoogleAnalytics', () => {
   test('sendPageView', () => {
     window.ga = jest.fn();
     stores.analytics.googleAnalytics.trackerNames = ['test1', 'test2'];
+
+    stores.connection.selectedItem = itemPost60;
     stores.analytics.googleAnalytics.sendPageView();
     expect(window.ga).toHaveBeenCalledTimes(2);
 
-    stores.connection = { selectedItem: itemList };
+    stores.connection.selectedItem = itemCat7;
     stores.analytics.googleAnalytics.sendPageView();
     expect(window.ga).toHaveBeenCalledTimes(4);
 
