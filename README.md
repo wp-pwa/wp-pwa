@@ -153,7 +153,7 @@ Every release is documented on the [Github Releases](https://github.com/frontity
 
 ## License
 
-MIT
+This project is licensed under the terms of the [Apache 2.0](https://github.com/frontity/frontity/blob/master/LICENSE) license.
 
 ## Contribute
 
