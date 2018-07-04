@@ -125,7 +125,6 @@ export default ({ clientStats }) => async (req, res) => {
     const pkgModules = await requireModules(Object.entries(packages));
 
     const storesProps = {};
-    const flows = {};
     const envs = {};
     const components = {};
 
@@ -140,7 +139,6 @@ export default ({ clientStats }) => async (req, res) => {
     const mapModules = pkg => {
       if (pkg.module.Store)
         storesProps[pkg.namespace] = types.optional(pkg.module.Store, {});
-      if (pkg.module.flow) flows[`${pkg.namespace}-flow`] = pkg.module.flow;
       if (pkg.module.env) envs[pkg.namespace] = pkg.module.env;
       if (pkg.module.components)
         components[pkg.namespace] = pkg.module.components;
@@ -150,13 +148,8 @@ export default ({ clientStats }) => async (req, res) => {
     coreModules.forEach(mapModules);
     pkgModules.forEach(mapModules);
 
-    // Create MST Stores and add flows
-    const Stores = Store.props(storesProps).actions(self => {
-      Object.keys(flows).forEach(flow => {
-        flows[flow] = flows[flow](self);
-      });
-      return flows;
-    });
+    // Create MST Stores.
+    const Stores = Store.props(storesProps);
 
     const stores = Stores.create(
       {
@@ -186,21 +179,14 @@ export default ({ clientStats }) => async (req, res) => {
     // Notify that server is started.
     stores.serverStarted();
 
-    // Run and wait until all the server sagas have run.
-    const params = {
-      selectedItem: { type, id, page },
-    };
-
-    const beforeSSRs = Object.values(stores).reduce((total, current) => {
-      if (current.beforeSSR) total.push(current.beforeSSR());
+    const beforeSsrPromises = Object.values(stores).reduce((total, current) => {
+      if (current.beforeSsr) total.push(current.beforeSsr());
       return total;
     }, []);
-    await Promise.all(beforeSSRs);
-    const startFlows = new Date();
-    const flowPromises = Object.keys(flows).map(flow => stores[flow](params));
-    stores.flowsInitialized();
-    await Promise.all(flowPromises);
-    stores.serverFinished({ timeToRunFlows: new Date() - startFlows });
+    await Promise.all(beforeSsrPromises);
+
+    // Notify that server has finished.
+    stores.serverFinished();
 
     // Generate React SSR.
     const render =
