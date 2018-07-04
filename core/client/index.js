@@ -147,6 +147,11 @@ const init = async () => {
 
   Object.keys(flows).map(flow => stores[flow]());
   stores.flowsInitialized();
+
+  // Initializes the afterCSRs.
+  Object.values(stores).forEach(({ afterCSR }) => {
+    if (afterCSR) afterCSR();
+  });
 };
 
 if (process.env.NODE_ENV === 'development' && module.hot) {

@@ -174,7 +174,12 @@ export default ({ clientStats }) => async (req, res) => {
         },
         settings,
       },
-      { request, machine: 'server', ...envs },
+      {
+        request,
+        machine: 'server',
+        initialSelectedItem: { type, id, page },
+        ...envs,
+      },
     );
     if (typeof window !== 'undefined') window.frontity = stores;
 
@@ -186,6 +191,11 @@ export default ({ clientStats }) => async (req, res) => {
       selectedItem: { type, id, page },
     };
 
+    const beforeSSRs = Object.values(stores).reduce((total, current) => {
+      if (current.beforeSSR) total.push(current.beforeSSR());
+      return total;
+    }, []);
+    await Promise.all(beforeSSRs);
     const startFlows = new Date();
     const flowPromises = Object.keys(flows).map(flow => stores[flow](params));
     stores.flowsInitialized();
