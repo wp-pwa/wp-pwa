@@ -7,8 +7,8 @@ const syncActionEnds = (name, callback) => (call, next) => {
 
 export default self =>
   flow(function* AnalyticsClientFlow() {
-    const { analytics, connection } = self;
-    const { pwa: pwaSettings } = self.settings.theme.analytics || {};
+    const { analytics, connection, settings } = self;
+    const { pwa: pwaSettings } = settings.theme.analytics || {};
     if (!pwaSettings) return;
 
     const { gaTrackingIds, gtmContainers, comScoreIds } = pwaSettings;

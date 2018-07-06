@@ -1,3 +1,4 @@
+/* eslint no-console: ["error", { allow: ["warn"] }] */
 import { types, flow, getRoot } from 'mobx-state-tree';
 import { generateEvent } from './utils';
 
@@ -5,7 +6,50 @@ const GoogleAnalytics = types
   .model('GoogleAnalytics')
   .props({
     trackerNames: types.optional(types.array(types.string), []),
+    ampVars: types.optional(types.frozen, {}),
+    ampTriggers: types.optional(types.frozen, {}),
   })
+  .views(self => ({
+    get trackingIds() {
+      const { settings, build } = self;
+      try {
+        return settings.theme.analytics[build.channel].gaTrackingIds.map;
+      } catch (error) {
+        return [];
+      }
+    },
+    trackingOptions(trackingId) {
+      const { settings, build } = self;
+      const analyticsSettings = settings.theme.analytics[build.channel];
+
+      try {
+        return Object.assign(
+          { sendPageViews: true, sendEvents: true },
+          analyticsSettings.gaTrackingOptions[trackingId],
+        );
+      } catch (error) {
+        console.warn(
+          `Error retrieving options for tracking id ${trackingId}`,
+          error,
+        );
+        return null;
+      }
+    },
+    get pageView() {
+      // Get analytics and connection from the stores
+      const { analytics, connection } = getRoot(self);
+
+      // Get needed properties from selectedItem
+      const { type, id, page, entity } = connection.selectedItem || {};
+
+      // Parameters to be sent in the pageView
+      const { title } = entity.headMeta;
+      const location = page ? entity.pagedLink(page) : entity.link;
+      const customDimensions = analytics.customDimensions({ type, id });
+
+      return { title, location, ...customDimensions };
+    },
+  }))
   .actions(self => ({
     init: flow(function* googleAnalyticsInit(gaTrackingIds) {
       /* eslint-disable */
@@ -48,30 +92,13 @@ const GoogleAnalytics = types
       self.sendPageView();
     }),
     sendPageView() {
-      // Get analytics and connection from the stores
-      const { analytics, connection } = getRoot(self);
-
-      // Get needed properties from selectedItem
-      const {
-        selectedItem: { type, id, page, entity },
-      } = connection;
-
-      // Parameters to be sent in the pageView
-      const { title } = entity.headMeta;
-      const location = page ? entity.pagedLink(page) : entity.link;
-      const customDimensions = analytics.customDimensions({ type, id });
-
-      const pageView = {
-        hitType: 'pageview',
-        title,
-        location,
-        ...customDimensions,
-      };
-
       // Send the pageview to the trackers.
       if (typeof window.ga === 'function') {
         self.trackerNames.forEach(trackerName =>
-          window.ga(`${trackerName}.send`, pageView),
+          window.ga(`${trackerName}.send`, {
+            hitType: 'pageview',
+            ...self.pageView,
+          }),
         );
       }
     },

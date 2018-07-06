@@ -3,61 +3,59 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
-const GoogleAnalytics = ({
-  trackingId,
-  title,
-  documentLocation,
-  extraUrlParams,
-  vars,
-  triggers,
-}) => (
-  <Fragment>
-    <Helmet>
-      <script
-        async=""
-        custom-element="amp-analytics"
-        src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"
-      />
-    </Helmet>
-    <amp-analytics type="googleanalytics">
-      <script
-        type="application/json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            vars: {
-              account: trackingId,
-              ...vars,
-            },
-            extraUrlParams,
-            triggers: {
-              trackPageviewWithCanonicalUrl: {
-                on: 'visible',
-                request: 'pageview',
-                vars: {
-                  title,
-                  documentLocation,
-                },
-              },
-              ...triggers,
-            },
-          }),
-        }}
-      />
-    </amp-analytics>
-  </Fragment>
-);
+const GoogleAnalytics = ({ trackingId, pageView, vars, triggers }) => {
+  const json = {
+    vars: { account: trackingId, ...vars },
+    triggers,
+  };
+
+  if (pageView) {
+    const { title, documentLocation, extraUrlParams } = pageView;
+    json.extraUrlParams = extraUrlParams;
+    json.triggers.trackPageview = {
+      on: 'visible',
+      request: 'pageview',
+      vars: {
+        title,
+        documentLocation,
+      },
+    };
+  }
+
+  return (
+    <Fragment>
+      <Helmet>
+        <script
+          async=""
+          custom-element="amp-analytics"
+          src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"
+        />
+      </Helmet>
+      <amp-analytics type="googleanalytics">
+        <script
+          type="application/json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(json),
+          }}
+        />
+      </amp-analytics>
+    </Fragment>
+  );
+};
 
 GoogleAnalytics.propTypes = {
   trackingId: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  documentLocation: PropTypes.string.isRequired,
-  extraUrlParams: PropTypes.shape({}),
   vars: PropTypes.shape({}),
   triggers: PropTypes.shape({}),
+  pageView: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    documentLocation: PropTypes.string.isRequired,
+    extraUrlParams: PropTypes.shape({}),
+  }),
 };
 
 GoogleAnalytics.defaultProps = {
-  extraUrlParams: {},
+  pageView: null,
   vars: {},
   triggers: {},
 };

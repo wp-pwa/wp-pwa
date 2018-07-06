@@ -8,19 +8,7 @@ Array [
   },
   Object {
     "event": "wpPwaProperties",
-    "wpPwaProperties": Object {
-      "anonymize": false,
-      "dev": true,
-      "extensions": "saturn-theme,wp-org-connection",
-      "pageType": "pwa",
-      "plan": "enterprise",
-      "siteId": "site1122334455",
-      "theme": "saturn-theme",
-      "userIds": Array [
-        "user00",
-        "user01",
-      ],
-    },
+    "wpPwaProperties": undefined,
   },
   Object {
     "event": "virtualPageview",
@@ -95,4 +83,49 @@ Array [
     },
   },
 ]
+`;
+
+exports[`Analytics > GoogleTagManager view - ampVars 1`] = `
+Object {
+  "anonymize": false,
+  "customDimensions": Object {
+    "dimension1": "dim1_post60",
+    "dimension2": "dim2_post60",
+  },
+  "dev": true,
+  "extensions": "saturn-theme,wp-org-connection",
+  "format": "pwa",
+  "hash": "ZO0H2I9kJ0arOdstZdG",
+  "id": 60,
+  "page": undefined,
+  "pageType": "pwa",
+  "plan": "enterprise",
+  "route": "single",
+  "site": "https://demo.frontity.test",
+  "siteId": "site1122334455",
+  "theme": "saturn-theme",
+  "title": "The Beauties of Gullfoss",
+  "type": "post",
+  "url": "https://demo.frontity.test/the-beauties-of-gullfoss/",
+  "userIds": Array [
+    "user00",
+    "user01",
+  ],
+}
+`;
+
+exports[`Analytics > GoogleTagManager view - clientProperties 1`] = `
+Object {
+  "anonymize": false,
+  "dev": true,
+  "extensions": "saturn-theme,wp-org-connection",
+  "pageType": "pwa",
+  "plan": "enterprise",
+  "siteId": "site1122334455",
+  "theme": "saturn-theme",
+  "userIds": Array [
+    "user00",
+    "user01",
+  ],
+}
 `;

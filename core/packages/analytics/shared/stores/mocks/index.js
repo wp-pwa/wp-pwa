@@ -86,11 +86,27 @@ export const Stores = types.model('Stores').props({
     },
     theme: {
       woronaInfo: { name: 'saturn-theme' },
-      analytics: { anonymize: false },
+      analytics: {
+        anonymize: false,
+        amp: {
+          gaTrackingIds: ['UA-12345678-1', 'UA-12345678-2'],
+          gaTrackingOptions: {
+            'UA-12345678-2': {
+              sendPageViews: false,
+              sendEvents: true,
+            },
+          },
+          containerIds: ['GTM-123456'],
+        },
+        pwa: {
+          comScoreIds: ['test1', 'test2'],
+        },
+      },
     },
   }),
   build: types.optional(types.frozen, {
     dev: true,
+    channel: 'pwa',
     packages: ['saturn-theme', 'wp-org-connection'],
   }),
   analytics: types.optional(Analytics, {}),

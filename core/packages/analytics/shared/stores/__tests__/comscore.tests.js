@@ -16,13 +16,16 @@ beforeEach(() => {
 });
 
 describe('Analytics > ComScore', () => {
+  test('comScoreIds', () => {
+    expect(stores.analytics.comScore.ids).toMatchSnapshot();
+  });
+
   test('init', async () => {
     // The ComScore snippet inserts its script before the first one,
     // so there must be an script in the DOM mock.
     const firstScript = window.document.createElement('script');
     window.document.body.appendChild(firstScript);
 
-    window.ga = jest.fn();
     window._comscore = [];
     const spyPush = jest.spyOn(window._comscore, 'push');
 

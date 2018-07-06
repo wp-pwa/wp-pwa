@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Analytics > ComScore init 1`] = `
-Object {
-  "comScoreIds": Array [
-    "test1",
-    "test2",
-  ],
-}
+exports[`Analytics > ComScore comScoreIds 1`] = `
+Array [
+  "test1",
+  "test2",
+]
 `;
+
+exports[`Analytics > ComScore init 1`] = `Object {}`;
 
 exports[`Analytics > ComScore init 2`] = `
 Array [

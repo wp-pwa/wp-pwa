@@ -33,4 +33,14 @@ describe('Analytics > GoogleTagManager', () => {
     stores.analytics.googleTagManager.sendEvent(event);
     expect(window.dataLayer).toMatchSnapshot();
   });
+
+  test('view - clientProperties', () => {
+    expect(
+      stores.analytics.googleTagManager.clientProperties,
+    ).toMatchSnapshot();
+  });
+
+  test('view - ampVars', () => {
+    expect(stores.analytics.googleTagManager.ampVars).toMatchSnapshot();
+  });
 });
