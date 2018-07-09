@@ -118,6 +118,12 @@ const GoogleAnalytics = types
         });
       }
     },
+    setAmpVars(ampVars) {
+      self.ampVars = ampVars;
+    },
+    setAmpTriggers(ampTriggers) {
+      self.ampTriggers = ampTriggers;
+    },
   }));
 
 export default GoogleAnalytics;
