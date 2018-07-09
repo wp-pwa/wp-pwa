@@ -64,5 +64,5 @@ export default inject(({ stores: { analytics } }) => ({
   gaTriggers: analytics.googleAnalytics.ampTriggers,
   gtmContainerIds: analytics.googleTagManager.containerIds,
   gtmVars: analytics.googleTagManager.ampVars,
-  comScoreIds: analytics.comScore.comScoreIds,
+  comScoreIds: analytics.comScore.ids,
 }))(Analytics);

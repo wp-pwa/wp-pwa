@@ -12,12 +12,15 @@ const GoogleAnalytics = ({ trackingId, pageView, vars, triggers }) => {
   if (pageView) {
     const { title, documentLocation, extraUrlParams } = pageView;
     json.extraUrlParams = extraUrlParams;
-    json.triggers.trackPageview = {
-      on: 'visible',
-      request: 'pageview',
-      vars: {
-        title,
-        documentLocation,
+    json.triggers = {
+      ...triggers,
+      trackPageview: {
+        on: 'visible',
+        request: 'pageview',
+        vars: {
+          title,
+          documentLocation,
+        },
       },
     };
   }
