@@ -1,36 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Analytics > GoogleTagManager init 1`] = `
-Array [
-  Object {
-    "event": "gtm.js",
-    "gtm.start": 1530202469377,
-  },
-  Object {
-    "event": "wpPwaProperties",
-    "wpPwaProperties": undefined,
-  },
-  Object {
-    "event": "virtualPageview",
-    "virtualPageview": Object {
-      "customDimensions": Object {
-        "dimension1": "dim1_post60",
-        "dimension2": "dim2_post60",
-      },
-      "format": "pwa",
-      "hash": "ZO0H2I9kJ0arOdstZdG",
-      "id": 60,
-      "page": undefined,
-      "route": "single",
-      "site": "https://demo.frontity.test",
-      "title": "The Beauties of Gullfoss",
-      "type": "post",
-      "url": "https://demo.frontity.test/the-beauties-of-gullfoss/",
-    },
-  },
-]
-`;
-
 exports[`Analytics > GoogleTagManager sendEvent 1`] = `
 Array [
   Object {

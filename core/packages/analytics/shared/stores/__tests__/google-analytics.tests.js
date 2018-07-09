@@ -8,20 +8,6 @@ beforeEach(() => {
 });
 
 describe('Analytics > GoogleAnalytics', () => {
-  test('init', async () => {
-    // The Google Analytics snippet inserts its script before the first one,
-    // so there must be an script in the DOM mock.
-    const firstScript = window.document.createElement('script');
-    window.document.body.appendChild(firstScript);
-
-    window.ga = jest.fn();
-    const gaTrackingIds = ['UA-123456', 'UA-778899'];
-    await stores.analytics.googleAnalytics.init(gaTrackingIds);
-    expect(stores.analytics.googleAnalytics).toMatchSnapshot();
-    expect(window.ga).toHaveBeenCalledTimes(4);
-    expect(window.ga.mock.calls).toMatchSnapshot();
-  });
-
   test('sendPageView', () => {
     window.ga = jest.fn();
     stores.analytics.googleAnalytics.trackerNames = ['test1', 'test2'];

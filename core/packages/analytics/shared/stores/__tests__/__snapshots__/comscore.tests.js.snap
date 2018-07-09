@@ -7,25 +7,6 @@ Array [
 ]
 `;
 
-exports[`Analytics > ComScore init 1`] = `Object {}`;
-
-exports[`Analytics > ComScore init 2`] = `
-Array [
-  Array [
-    Object {
-      "c1": "2",
-      "c2": "test1",
-    },
-  ],
-  Array [
-    Object {
-      "c1": "2",
-      "c2": "test2",
-    },
-  ],
-]
-`;
-
 exports[`Analytics > ComScore sendPageView 1`] = `
 Array [
   Array [

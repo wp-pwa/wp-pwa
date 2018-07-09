@@ -1,6 +1,8 @@
 /* eslint no-console: ["error", { allow: ["warn"] }] */
-import { types, flow, getRoot } from 'mobx-state-tree';
+import { types, getRoot } from 'mobx-state-tree';
 import { generateEvent } from './utils';
+
+const trackerName = id => `tracker_${id.replace(/-/g, '_')}`;
 
 const GoogleAnalytics = types
   .model('GoogleAnalytics')
@@ -8,9 +10,6 @@ const GoogleAnalytics = types
     ampVars: types.optional(types.frozen, {}),
     ampTriggers: types.optional(types.frozen, {}),
   })
-  .volatile(() => ({
-    trackerNames: [],
-  }))
   .views(self => ({
     get trackingIds() {
       const { settings, build } = getRoot(self);
@@ -54,51 +53,11 @@ const GoogleAnalytics = types
     },
   }))
   .actions(self => ({
-    init: flow(function* googleAnalyticsInit(gaTrackingIds) {
-      /* eslint-disable */
-      (function(i, s, o, g, r, a, m) {
-        i['GoogleAnalyticsObject'] = r;
-        (i[r] =
-          i[r] ||
-          function() {
-            (i[r].q = i[r].q || []).push(arguments);
-          }),
-          (i[r].l = 1 * new Date());
-        (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
-        a.async = 1;
-        a.src = g;
-        m.parentNode.insertBefore(a, m);
-      })(
-        window,
-        document,
-        'script',
-        'https://www.google-analytics.com/analytics.js',
-        'ga',
-      );
-      /* eslint-enable */
-      yield new Promise(resolve =>
-        window.document
-          .querySelector(
-            'script[src="https://www.google-analytics.com/analytics.js"]',
-          )
-          .addEventListener('load', resolve),
-      );
-
-      // Initializes trackers
-      self.trackerNames = gaTrackingIds.map((trackingId, index) => {
-        const name = `clientTracker${index}`;
-        window.ga('create', trackingId, 'auto', name);
-        return name;
-      });
-
-      // Sends the first pageView
-      self.sendPageView();
-    }),
     sendPageView() {
       // Send the pageview to the trackers.
       if (typeof window.ga === 'function') {
-        self.trackerNames.forEach(trackerName =>
-          window.ga(`${trackerName}.send`, {
+        self.trackingIds.map(id => trackerName(id)).forEach(name =>
+          window.ga(`${name}.send`, {
             hitType: 'pageview',
             ...self.pageView,
           }),
@@ -108,8 +67,8 @@ const GoogleAnalytics = types
     sendEvent(event) {
       const { category, action, label } = generateEvent(self)(event);
       if (typeof window.ga === 'function') {
-        self.trackerNames.forEach(trackerName => {
-          window.ga(`${trackerName}.send`, {
+        self.trackingIds.map(id => trackerName(id)).forEach(name => {
+          window.ga(`${name}.send`, {
             hitType: 'event',
             eventCategory: category,
             eventAction: action,

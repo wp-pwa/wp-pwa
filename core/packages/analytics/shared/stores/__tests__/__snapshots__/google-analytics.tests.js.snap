@@ -1,53 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Analytics > GoogleAnalytics init 1`] = `
-Object {
-  "ampTriggers": Object {},
-  "ampVars": Object {},
-}
-`;
-
-exports[`Analytics > GoogleAnalytics init 2`] = `
-Array [
-  Array [
-    "create",
-    "UA-123456",
-    "auto",
-    "clientTracker0",
-  ],
-  Array [
-    "create",
-    "UA-778899",
-    "auto",
-    "clientTracker1",
-  ],
-  Array [
-    "clientTracker0.send",
-    Object {
-      "dimension1": "dim1_post60",
-      "dimension2": "dim2_post60",
-      "hitType": "pageview",
-      "location": "https://demo.frontity.test/the-beauties-of-gullfoss/",
-      "title": "The Beauties of Gullfoss",
-    },
-  ],
-  Array [
-    "clientTracker1.send",
-    Object {
-      "dimension1": "dim1_post60",
-      "dimension2": "dim2_post60",
-      "hitType": "pageview",
-      "location": "https://demo.frontity.test/the-beauties-of-gullfoss/",
-      "title": "The Beauties of Gullfoss",
-    },
-  ],
-]
-`;
-
 exports[`Analytics > GoogleAnalytics sendEvent 1`] = `
 Array [
   Array [
-    "test1.send",
+    "tracker_UA_12345678_1.send",
     Object {
       "eventAction": "PWA - test/action",
       "eventCategory": "PWA - test/category",
@@ -56,7 +12,7 @@ Array [
     },
   ],
   Array [
-    "test2.send",
+    "tracker_UA_12345678_2.send",
     Object {
       "eventAction": "PWA - test/action",
       "eventCategory": "PWA - test/category",
@@ -70,7 +26,7 @@ Array [
 exports[`Analytics > GoogleAnalytics sendPageView 1`] = `
 Array [
   Array [
-    "test1.send",
+    "tracker_UA_12345678_1.send",
     Object {
       "dimension1": "dim1_post60",
       "dimension2": "dim2_post60",
@@ -80,7 +36,7 @@ Array [
     },
   ],
   Array [
-    "test2.send",
+    "tracker_UA_12345678_2.send",
     Object {
       "dimension1": "dim1_post60",
       "dimension2": "dim2_post60",
@@ -90,7 +46,7 @@ Array [
     },
   ],
   Array [
-    "test1.send",
+    "tracker_UA_12345678_1.send",
     Object {
       "dimension1": "dim1_cat7",
       "dimension2": "dim2_cat7",
@@ -100,7 +56,7 @@ Array [
     },
   ],
   Array [
-    "test2.send",
+    "tracker_UA_12345678_2.send",
     Object {
       "dimension1": "dim1_cat7",
       "dimension2": "dim2_cat7",

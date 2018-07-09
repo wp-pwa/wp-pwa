@@ -89,6 +89,7 @@ const GoogleTagManager = types
       self.sendPageView();
     },
     sendPageView() {
+      window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
         event: 'virtualPageview',
         virtualPageview: self.pageViewProperties,

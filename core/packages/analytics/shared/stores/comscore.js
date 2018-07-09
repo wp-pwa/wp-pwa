@@ -14,44 +14,26 @@ const GoogleTagManager = types
     },
   }))
   .actions(self => {
+    // Subscribe to changes in title.
     let titleMatches;
 
+    const createTitleMatches = () =>
+      typeof window !== 'undefined' &&
+      getEnv(self).analytics.innerTextTracker(
+        window.document.querySelector('title'),
+      );
+
     return {
-      init: flow(function* initComScore() {
-        // Exits if there isn't any comScore id defined.
-        if (!self.ids.length) return;
-
-        // Subscribe to changes in title.
-        titleMatches = getEnv(self).analytics.innerTextTracker(
-          window.document.querySelector('title'),
-        );
-
-        // Inits '_comscore' variable with each comScore id.
-        // This also sends the first pageview.
-        window._comscore = window._comscore || [];
-        self.ids.forEach(id => window._comscore.push({ c1: '2', c2: id }));
-
-        // Inserts the comScore library.
-        const s = window.document.createElement('script');
-        s.async = true;
-        s.src = `${
-          window.document.location.protocol === 'https:'
-            ? 'https://sb'
-            : 'http://b'
-        }.scorecardresearch.com/beacon.js`;
-
-        const firstScript = window.document.getElementsByTagName('script')[0];
-        firstScript.parentNode.insertBefore(s, firstScript);
-
-        yield new Promise(resolve => s.addEventListener('load', resolve));
-      }),
       sendPageView: flow(function* comScoreSendPageView() {
         if (!self.ids.length) return;
-
+        if (!titleMatches) titleMatches = createTitleMatches();
         const { connection } = getRoot(self);
         yield titleMatches(connection.selectedItem.entity.headMeta.title);
         if (window.COMSCORE) {
           self.ids.forEach(id => window.COMSCORE.beacon({ c1: '2', c2: id }));
+        } else {
+          window._comscore = window._comscore || [];
+          self.ids.forEach(id => window._comscore.push({ c1: '2', c2: id }));
         }
       }),
     };

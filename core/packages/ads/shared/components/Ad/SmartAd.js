@@ -41,13 +41,33 @@ class SmartAd extends Component {
   constructor(props) {
     super(props);
     const { formatId, item, column, slotName } = this.props;
-    this.tagId = `ad${formatId}_${item.mstId || column.mstId}${slotName ? `_${slotName}` : ''}`;
+    this.tagId = `ad${formatId}_${item.mstId || column.mstId}${
+      slotName ? `_${slotName}` : ''
+    }`;
   }
 
   componentDidMount() {
-    const { networkId, siteId, pageId, formatId, target, width, height, callType } = this.props;
+    const {
+      networkId,
+      siteId,
+      pageId,
+      formatId,
+      target,
+      width,
+      height,
+      callType,
+    } = this.props;
     const { tagId } = this;
-    const callParams = { siteId, pageId, formatId, target, width, height, tagId, async: true };
+    const callParams = {
+      siteId,
+      pageId,
+      formatId,
+      target,
+      width,
+      height,
+      tagId,
+      async: true,
+    };
 
     const sas = window && window.sas ? window.sas : (window.sas = {});
     sas.cmd = sas.cmd || [];
@@ -55,18 +75,45 @@ class SmartAd extends Component {
     if (SmartAd.firstAd) {
       SmartAd.firstAd = false;
       sas.cmd.push(() => {
-        sas.setup({ networkid: networkId, domain: '//www8.smartadserver.com', async: true });
+        sas.setup({
+          networkid: networkId,
+          domain: '//www8.smartadserver.com',
+          async: true,
+        });
       });
     }
 
     sas.cmd.push(() => {
       const containerExists = window.document.getElementById(tagId) !== null;
-      if (containerExists) sas.call(callType, callParams);
+      if (containerExists)
+        sas.call(callType, callParams, {
+          onLoad: (...args) => {
+            console.log('onLoad', callParams, args);
+          },
+          onError: (...args) => {
+            console.log('onError', callParams, args);
+          },
+          onClean: (...args) => {
+            console.log('onClean', callParams, args);
+          },
+          beforeRender: (...args) => {
+            console.log('onError', callParams, args);
+          },
+        });
     });
   }
 
   render() {
-    const { networkId, formatId, width, height, isAmp, siteId, pageId, target } = this.props;
+    const {
+      networkId,
+      formatId,
+      width,
+      height,
+      isAmp,
+      siteId,
+      pageId,
+      target,
+    } = this.props;
     const { tagId } = this;
 
     if (isAmp) {
@@ -93,7 +140,11 @@ class SmartAd extends Component {
     return (
       <Fragment>
         <Helmet>
-          <script src={`//ced.sascdn.com/tag/${networkId}/smart.js`} type="text/javascript" async />
+          <script
+            src={`//ced.sascdn.com/tag/${networkId}/smart.js`}
+            type="text/javascript"
+            async
+          />
         </Helmet>
         <InnerContainer id={tagId} width={width} height={height} />
       </Fragment>
@@ -101,10 +152,12 @@ class SmartAd extends Component {
   }
 }
 
-export default inject(({ stores: { connection, settings } }, { item: { type, id } }) => ({
-  networkId: settings.theme.ads.settings.networkId,
-  target: connection.entity(type, id).target,
-}))(SmartAd);
+export default inject(
+  ({ stores: { connection, settings } }, { item: { type, id } }) => ({
+    networkId: settings.theme.ads.settings.networkId,
+    target: connection.entity(type, id).target,
+  }),
+)(SmartAd);
 
 const InnerContainer = styled.div`
   width: 100%;

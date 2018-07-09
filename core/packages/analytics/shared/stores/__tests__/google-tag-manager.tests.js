@@ -8,12 +8,6 @@ beforeEach(() => {
 });
 
 describe('Analytics > GoogleTagManager', () => {
-  test('init', async () => {
-    Date.now = jest.fn(() => 1530202469377);
-    await stores.analytics.googleTagManager.init();
-    expect(window.dataLayer).toMatchSnapshot();
-  });
-
   test('sendPageView', () => {
     window.dataLayer = [];
     stores.analytics.googleTagManager.sendPageView();
