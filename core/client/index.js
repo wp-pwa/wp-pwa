@@ -101,7 +101,6 @@ const init = async () => {
   const pkgModules = await Promise.all(pkgPromises);
 
   const storesProps = {};
-  const flows = {};
   const envs = {};
 
   const addModules = pkg => {
@@ -115,7 +114,6 @@ const init = async () => {
   const mapModules = pkg => {
     if (pkg.module.Store)
       storesProps[pkg.namespace] = types.optional(pkg.module.Store, {});
-    if (pkg.module.flow) flows[`${pkg.namespace}-flow`] = pkg.module.flow;
     if (pkg.module.env) envs[pkg.namespace] = pkg.module.env;
     if (pkg.module.components)
       components[pkg.namespace] = pkg.module.components;
@@ -125,13 +123,8 @@ const init = async () => {
   coreModules.forEach(mapModules);
   pkgModules.forEach(mapModules);
 
-  // Create MST Stores and add flows
-  const Stores = Store.props(storesProps).actions(self => {
-    Object.keys(flows).forEach(flow => {
-      flows[flow] = flows[flow](self);
-    });
-    return flows;
-  });
+  // Create MST Stores
+  const Stores = Store.props(storesProps);
 
   stores = Stores.create(window['wp-pwa'].initialState, {
     request,
@@ -151,8 +144,10 @@ const init = async () => {
   // Inform that the client has been rendered.
   stores.clientRendered();
 
-  Object.keys(flows).map(flow => stores[flow]());
-  stores.flowsInitialized();
+  // Initializes the afterCSRs.
+  Object.values(stores).forEach(({ afterCsr }) => {
+    if (afterCsr) afterCsr();
+  });
 };
 
 if (process.env.NODE_ENV === 'development' && module.hot) {
