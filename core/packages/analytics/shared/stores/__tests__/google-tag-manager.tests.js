@@ -43,4 +43,11 @@ describe('Analytics > GoogleTagManager', () => {
   test('view - ampVars', () => {
     expect(stores.analytics.googleTagManager.ampVars).toMatchSnapshot();
   });
+
+  test('view - containerIds', () => {
+    stores.build = { dev: true, channel: 'pwa' };
+    expect(stores.analytics.googleTagManager.containerIds).toMatchSnapshot();
+    stores.build = { dev: true, channel: 'amp' };
+    expect(stores.analytics.googleTagManager.containerIds).toMatchSnapshot();
+  });
 });

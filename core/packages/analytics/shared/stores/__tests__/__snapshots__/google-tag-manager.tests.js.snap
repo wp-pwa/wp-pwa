@@ -129,3 +129,15 @@ Object {
   ],
 }
 `;
+
+exports[`Analytics > GoogleTagManager view - containerIds 1`] = `
+Array [
+  "GTM-123456",
+]
+`;
+
+exports[`Analytics > GoogleTagManager view - containerIds 2`] = `
+Array [
+  "GTM-123456",
+]
+`;

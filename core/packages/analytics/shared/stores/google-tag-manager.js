@@ -5,9 +5,17 @@ import { getHash, getRoute } from '../helpers';
 const GoogleTagManager = types
   .model('GoogleTagManager')
   .views(self => ({
+    get containerIds() {
+      const { settings, build } = getRoot(self);
+      try {
+        return settings.theme.analytics[build.channel].containerIds || [];
+      } catch (error) {
+        return [];
+      }
+    },
     get clientProperties() {
       const { build, settings } = getRoot(self);
-      const { dev, packages } = build;
+      const { dev, packages, channel } = build;
 
       // Anonymizes pageview
       const { anonymize = false } = settings.theme.analytics;
@@ -16,9 +24,11 @@ const GoogleTagManager = types
       const { _id: siteId, userIds } = settings.generalSite;
       const theme = settings.theme.woronaInfo.name;
       const extensions = packages.toString();
-      const pageType = /^(pre)?dashboard\./.test(window.location.host)
-        ? 'preview'
-        : 'pwa';
+      const pageType =
+        typeof window !== 'undefined' &&
+        /^(pre)?dashboard\./.test(window.location.host)
+          ? 'preview'
+          : channel;
       const plan = 'enterprise';
 
       return {

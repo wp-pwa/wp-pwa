@@ -11,20 +11,21 @@ const GoogleAnalytics = types
   })
   .views(self => ({
     get trackingIds() {
-      const { settings, build } = self;
+      const { settings, build } = getRoot(self);
       try {
-        return settings.theme.analytics[build.channel].gaTrackingIds.map;
+        return settings.theme.analytics[build.channel].gaTrackingIds || [];
       } catch (error) {
         return [];
       }
     },
     trackingOptions(trackingId) {
-      const { settings, build } = self;
+      const { settings, build } = getRoot(self);
       const analyticsSettings = settings.theme.analytics[build.channel];
+      const defaultOptions = { sendPageViews: true, sendEvents: true };
 
       try {
         return Object.assign(
-          { sendPageViews: true, sendEvents: true },
+          defaultOptions,
           analyticsSettings.gaTrackingOptions[trackingId],
         );
       } catch (error) {
@@ -32,7 +33,7 @@ const GoogleAnalytics = types
           `Error retrieving options for tracking id ${trackingId}`,
           error,
         );
-        return null;
+        return defaultOptions;
       }
     },
     get pageView() {

@@ -50,4 +50,24 @@ describe('Analytics > GoogleAnalytics', () => {
     expect(window.ga).toHaveBeenCalledTimes(2);
     expect(window.ga.mock.calls).toMatchSnapshot();
   });
+
+  test('trackingIds', () => {
+    stores.build = { dev: true, channel: 'pwa' };
+    expect(stores.analytics.googleAnalytics.trackingIds).toMatchSnapshot();
+    stores.build = { dev: true, channel: 'amp' };
+    expect(stores.analytics.googleAnalytics.trackingIds).toMatchSnapshot();
+  });
+
+  test('trackingOptions', () => {
+    const { trackingOptions } = stores.analytics.googleAnalytics;
+    let trackingIds;
+
+    stores.build = { dev: true, channel: 'pwa' };
+    ({ trackingIds } = stores.analytics.googleAnalytics);
+    expect(trackingIds.map(id => trackingOptions(id))).toMatchSnapshot();
+
+    stores.build = { dev: true, channel: 'amp' };
+    ({ trackingIds } = stores.analytics.googleAnalytics);
+    expect(trackingIds.map(id => trackingOptions(id))).toMatchSnapshot();
+  });
 });

@@ -115,3 +115,43 @@ Array [
   ],
 ]
 `;
+
+exports[`Analytics > GoogleAnalytics trackingIds 1`] = `
+Array [
+  "UA-12345678-1",
+  "UA-12345678-2",
+]
+`;
+
+exports[`Analytics > GoogleAnalytics trackingIds 2`] = `
+Array [
+  "UA-12345678-1",
+  "UA-12345678-2",
+]
+`;
+
+exports[`Analytics > GoogleAnalytics trackingOptions 1`] = `
+Array [
+  Object {
+    "sendEvents": true,
+    "sendPageViews": true,
+  },
+  Object {
+    "sendEvents": true,
+    "sendPageViews": true,
+  },
+]
+`;
+
+exports[`Analytics > GoogleAnalytics trackingOptions 2`] = `
+Array [
+  Object {
+    "sendEvents": true,
+    "sendPageViews": true,
+  },
+  Object {
+    "sendEvents": true,
+    "sendPageViews": false,
+  },
+]
+`;

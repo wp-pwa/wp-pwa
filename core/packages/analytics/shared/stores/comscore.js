@@ -7,7 +7,7 @@ const GoogleTagManager = types
     get ids() {
       const { settings, build } = getRoot(self);
       try {
-        return settings.theme.analytics[build.channel].comScoreIds;
+        return settings.theme.analytics[build.channel].comScoreIds || [];
       } catch (error) {
         return [];
       }
