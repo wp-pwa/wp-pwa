@@ -8,7 +8,7 @@ const GoogleTagManager = types
     get containerIds() {
       const { settings, build } = getRoot(self);
       try {
-        return settings.theme.analytics[build.channel].containerIds || [];
+        return settings.theme.analytics[build.channel].gtmContainers || [];
       } catch (error) {
         return [];
       }
