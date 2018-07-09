@@ -4,10 +4,6 @@ exports[`Analytics > GoogleAnalytics init 1`] = `
 Object {
   "ampTriggers": Object {},
   "ampVars": Object {},
-  "trackerNames": Array [
-    "clientTracker0",
-    "clientTracker1",
-  ],
 }
 `;
 

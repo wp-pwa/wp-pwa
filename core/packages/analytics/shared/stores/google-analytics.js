@@ -5,10 +5,12 @@ import { generateEvent } from './utils';
 const GoogleAnalytics = types
   .model('GoogleAnalytics')
   .props({
-    trackerNames: types.optional(types.array(types.string), []),
     ampVars: types.optional(types.frozen, {}),
     ampTriggers: types.optional(types.frozen, {}),
   })
+  .volatile(() => ({
+    trackerNames: [],
+  }))
   .views(self => ({
     get trackingIds() {
       const { settings, build } = getRoot(self);
