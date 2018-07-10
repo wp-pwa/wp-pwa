@@ -3,9 +3,9 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
-const GoogleAnalytics = ({ trackingId, pageView, vars, triggers }) => {
+const GoogleAnalytics = ({ id, pageView, vars, triggers }) => {
   const json = {
-    vars: { account: trackingId, ...vars },
+    vars: { account: id, ...vars },
     triggers,
   };
 
@@ -47,18 +47,21 @@ const GoogleAnalytics = ({ trackingId, pageView, vars, triggers }) => {
 };
 
 GoogleAnalytics.propTypes = {
-  trackingId: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   vars: PropTypes.shape({}),
   triggers: PropTypes.shape({}),
-  pageView: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    documentLocation: PropTypes.string.isRequired,
-    extraUrlParams: PropTypes.shape({}),
-  }),
+  pageView: PropTypes.oneOfType([
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      documentLocation: PropTypes.string.isRequired,
+      extraUrlParams: PropTypes.shape({}),
+    }),
+    PropTypes.bool,
+  ]),
 };
 
 GoogleAnalytics.defaultProps = {
-  pageView: null,
+  pageView: false,
   vars: {},
   triggers: {},
 };

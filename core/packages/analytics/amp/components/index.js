@@ -21,7 +21,7 @@ const Analytics = ({
       return (
         <GoogleAnalytics
           key={gaId}
-          trackingId={gaId}
+          id={gaId}
           pageView={sendPageViews && gaPageView}
           vars={gaVars}
           triggers={sendEvents && gaTriggers}
@@ -29,9 +29,11 @@ const Analytics = ({
       );
     })}
     {gtmIds.map(gtmId => (
-      <GoogleTagManager key={gtmId} containerId={gtmId} vars={gtmVars} />
+      <GoogleTagManager key={gtmId} id={gtmId} vars={gtmVars} />
     ))}
-    {comScoreIds.map(comScoreId => <ComScore id={comScoreId} />)}
+    {comScoreIds.map(comScoreId => (
+      <ComScore key={comScoreId} id={comScoreId} />
+    ))}
   </Fragment>
 );
 
@@ -43,7 +45,9 @@ Analytics.propTypes = {
   gaTriggers: PropTypes.shape({}),
   gtmIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   gtmVars: PropTypes.shape({}),
-  comScoreIds: PropTypes.arrayOf(PropTypes.number).isRequired,
+  comScoreIds: PropTypes.arrayOf(
+    PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
+  ).isRequired,
 };
 
 Analytics.defaultProps = {

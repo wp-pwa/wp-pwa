@@ -28,7 +28,7 @@ const ComScore = ({ id }) => (
 );
 
 ComScore.propTypes = {
-  id: PropTypes.number.isRequired,
+  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
 };
 
 export default ComScore;

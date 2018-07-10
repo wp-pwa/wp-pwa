@@ -42,6 +42,9 @@ export const Stores = types.model('Stores').props({
   connection: types.optional(
     types
       .model('Connection', {
+        head: types.optional(types.frozen, {
+          title: 'The Beauties of Gullfoss &#8211; Demo Frontity',
+        }),
         selectedItem: types.optional(types.frozen, itemPost60),
         selectedContext: types.optional(types.frozen, {
           options: {
