@@ -1,8 +1,6 @@
 /* eslint no-console: ["error", { allow: ["warn"] }] */
 import { types, getRoot } from 'mobx-state-tree';
-import { generateEvent } from './utils';
-
-const trackerName = id => `tracker_${id.replace(/-/g, '_')}`;
+import { generateEvent, getTrackerName } from '../utils';
 
 const GoogleAnalytics = types
   .model('GoogleAnalytics')
@@ -11,7 +9,7 @@ const GoogleAnalytics = types
     ampTriggers: types.optional(types.frozen, {}),
   })
   .views(self => ({
-    get trackingIds() {
+    get ids() {
       const { settings, build } = getRoot(self);
       try {
         return settings.theme.analytics[build.channel].gaTrackingIds || [];
@@ -19,7 +17,7 @@ const GoogleAnalytics = types
         return [];
       }
     },
-    trackingOptions(trackingId) {
+    trackingOptions(id) {
       const { settings, build } = getRoot(self);
       const analyticsSettings = settings.theme.analytics[build.channel];
       const defaultOptions = { sendPageViews: true, sendEvents: true };
@@ -27,13 +25,10 @@ const GoogleAnalytics = types
       try {
         return Object.assign(
           defaultOptions,
-          analyticsSettings.gaTrackingOptions[trackingId],
+          analyticsSettings.gaTrackingOptions[id],
         );
       } catch (error) {
-        console.warn(
-          `Error retrieving options for tracking id ${trackingId}`,
-          error,
-        );
+        console.warn(`Error retrieving options for tracking id ${id}`, error);
         return defaultOptions;
       }
     },
@@ -56,7 +51,7 @@ const GoogleAnalytics = types
     sendPageView() {
       // Send the pageview to the trackers.
       if (typeof window.ga === 'function') {
-        self.trackingIds.map(id => trackerName(id)).forEach(name =>
+        self.ids.map(id => getTrackerName(id)).forEach(name =>
           window.ga(`${name}.send`, {
             hitType: 'pageview',
             ...self.pageView,
@@ -67,7 +62,7 @@ const GoogleAnalytics = types
     sendEvent(event) {
       const { category, action, label } = generateEvent(self)(event);
       if (typeof window.ga === 'function') {
-        self.trackingIds.map(id => trackerName(id)).forEach(name => {
+        self.ids.map(id => getTrackerName(id)).forEach(name => {
           window.ga(`${name}.send`, {
             hitType: 'event',
             eventCategory: category,

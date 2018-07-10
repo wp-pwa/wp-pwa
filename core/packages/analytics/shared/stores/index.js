@@ -2,7 +2,7 @@ import { types, getRoot, addMiddleware } from 'mobx-state-tree';
 import GoogleAnalytics from './google-analytics';
 import GoogleTagManager from './google-tag-manager';
 import ComScore from './comscore';
-import { afterAction } from './utils';
+import { afterAction } from '../utils';
 
 const Analytics = types
   .model('Analytics')

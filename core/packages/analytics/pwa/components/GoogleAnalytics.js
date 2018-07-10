@@ -1,8 +1,7 @@
 /* eslint-disable react/no-danger */
 import React from 'react';
 import PropTypes from 'prop-types';
-
-const trackerName = id => `tracker_${id.replace(/-/g, '_')}`;
+import { getTrackerName } from '../../shared/utils';
 
 const GoogleAnalytics = ({ id }) => (
   <script
@@ -13,8 +12,8 @@ const GoogleAnalytics = ({ id }) => (
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-ga('create', '${id}', 'auto', '${trackerName(id)}');
-ga('${trackerName(id)}.send', 'pageview');`,
+ga('create', '${id}', 'auto', '${getTrackerName(id)}');
+ga('${getTrackerName(id)}.send', 'pageview');`,
     }}
   />
 );

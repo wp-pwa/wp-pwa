@@ -1,5 +1,5 @@
 import { types, getRoot } from 'mobx-state-tree';
-import { generateEvent, getHash, getRoute } from './utils';
+import { generateEvent, getHash, getRoute } from '../utils';
 
 const GoogleTagManager = types
   .model('GoogleTagManager')

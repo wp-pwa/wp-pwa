@@ -2,6 +2,8 @@ import { getRoot } from 'mobx-state-tree';
 import sha256 from 'crypto-js/sha256';
 import base64 from 'crypto-js/enc-base64';
 
+export const getTrackerName = id => `tracker_${id.replace(/-/g, '_')}`;
+
 export const afterAction = (name, callback) => (call, next) => {
   next(call);
   if (call.type === 'action' && call.name === name) callback(call);
