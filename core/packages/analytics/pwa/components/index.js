@@ -1,7 +1,9 @@
 /* eslint-disable react/no-danger */
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { inject } from 'mobx-react';
+// import { inject } from 'mobx-react';
+import { compose, getContext, mapProps } from 'recompose';
+import { decode } from 'he';
 import GoogleTagManager from './GoogleTagManager';
 import GoogleAnalytics from './GoogleAnalytics';
 import ComScore from './ComScore';
@@ -11,12 +13,16 @@ const Analytics = ({
   gtmClientProperties,
   gtmPageViewProperties,
   gaIds,
+  gaCustomDimensions,
   comScoreIds,
-}) => (
-  <Fragment>
-    <script
-      dangerouslySetInnerHTML={{
-        __html: `
+  title,
+}) => {
+  const { title: _, ...gtmPageView } = gtmPageViewProperties;
+  return (
+    <Fragment>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   'gtm.start': Date.now(),
@@ -28,25 +34,34 @@ window.dataLayer.push({
 });
 window.dataLayer.push({
   event: 'virtualPageview',
-  virtualPageview: ${JSON.stringify(gtmPageViewProperties)},
+  virtualPageview: ${JSON.stringify({ title, ...gtmPageView })},
 });`,
-      }}
-    />
-    {/* <GoogleTagManager key="GTM-K3S2BMT" id="GTM-K3S2BMT" /> */}
-    {gtmIds.map(id => <GoogleTagManager key={id} id={id} />)}
-    {gaIds.map(id => <GoogleAnalytics key={id} id={id} />)}
-    {comScoreIds.map(id => <ComScore key={id} id={id} />)}
-  </Fragment>
-);
+        }}
+      />
+      {/* <GoogleTagManager key="GTM-K3S2BMT" id="GTM-K3S2BMT" /> */}
+      {gtmIds.map(id => <GoogleTagManager key={id} id={id} />)}
+      {gaIds.map(id => (
+        <GoogleAnalytics
+          key={id}
+          id={id}
+          customDimensions={gaCustomDimensions}
+        />
+      ))}
+      {comScoreIds.map(id => <ComScore key={id} id={id} />)}
+    </Fragment>
+  );
+};
 
 Analytics.propTypes = {
   gtmIds: PropTypes.arrayOf(PropTypes.string),
   gtmClientProperties: PropTypes.shape({}),
   gtmPageViewProperties: PropTypes.shape({}),
   gaIds: PropTypes.arrayOf(PropTypes.string),
+  gaCustomDimensions: PropTypes.shape({}),
   comScoreIds: PropTypes.arrayOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   ),
+  title: PropTypes.string.isRequired,
 };
 
 Analytics.defaultProps = {
@@ -54,13 +69,22 @@ Analytics.defaultProps = {
   gtmClientProperties: {},
   gtmPageViewProperties: {},
   gaIds: [],
+  gaCustomDimensions: {},
   comScoreIds: [],
 };
 
-export default inject(({ stores: { analytics } }) => ({
+const injectNotObserver = fn =>
+  compose(
+    getContext({ mobxStores: PropTypes.shape({}) }),
+    mapProps(({ mobxStores }) => fn(mobxStores)),
+  );
+
+export default injectNotObserver(({ stores: { analytics, connection } }) => ({
   gtmIds: analytics.googleTagManager.ids,
   gtmClientProperties: analytics.googleTagManager.clientProperties,
   gtmPageViewProperties: analytics.googleTagManager.pageViewProperties,
   gaIds: analytics.googleAnalytics.ids,
+  gaCustomDimensions: analytics.customDimensions(connection.selectedItem),
   comScoreIds: analytics.comScore.ids,
+  title: decode(connection.head.title).replace(/<\/?[^>]+(>|$)/g, ''),
 }))(Analytics);

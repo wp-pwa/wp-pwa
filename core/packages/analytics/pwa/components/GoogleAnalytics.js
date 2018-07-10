@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { getTrackerName } from '../../shared/utils';
 
-const GoogleAnalytics = ({ id }) => (
+const GoogleAnalytics = ({ id, customDimensions }) => (
   <script
     dangerouslySetInnerHTML={{
       __html: `
@@ -13,13 +13,20 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
 ga('create', '${id}', 'auto', '${getTrackerName(id)}');
-ga('${getTrackerName(id)}.send', 'pageview');`,
+ga('${getTrackerName(id)}.send', 'pageview', ${JSON.stringify(
+        customDimensions,
+      )});`,
     }}
   />
 );
 
 GoogleAnalytics.propTypes = {
   id: PropTypes.string.isRequired,
+  customDimensions: PropTypes.shape({}),
+};
+
+GoogleAnalytics.defaultProps = {
+  customDimensions: {},
 };
 
 export default GoogleAnalytics;
