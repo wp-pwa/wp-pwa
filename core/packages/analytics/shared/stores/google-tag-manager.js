@@ -1,6 +1,5 @@
 import { types, getRoot } from 'mobx-state-tree';
-import { generateEvent } from './utils';
-import { getHash, getRoute } from '../helpers';
+import { generateEvent, getHash, getRoute } from './utils';
 
 const GoogleTagManager = types
   .model('GoogleTagManager')
@@ -71,23 +70,6 @@ const GoogleTagManager = types
     },
   }))
   .actions(self => ({
-    init() {
-      const { analytics } = getRoot(self);
-
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        'gtm.start': Date.now(),
-        event: 'gtm.js',
-      });
-
-      window.dataLayer.push({
-        event: 'wpPwaProperties',
-        wpPwaProperties: analytics.clientProperties,
-      });
-
-      // Sends the first pageView
-      self.sendPageView();
-    },
     sendPageView() {
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
@@ -97,6 +79,7 @@ const GoogleTagManager = types
     },
     sendEvent(event) {
       const virtualEvent = generateEvent(self)(event);
+      window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({ event: 'virtualEvent', virtualEvent });
     },
   }));
