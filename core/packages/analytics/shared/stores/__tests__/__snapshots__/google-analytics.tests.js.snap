@@ -14,6 +14,24 @@ Array [
 ]
 `;
 
+exports[`Analytics > GoogleAnalytics pageView 1`] = `
+Object {
+  "dimension1": "dim1_post60",
+  "dimension2": "dim2_post60",
+  "location": "https://demo.frontity.test/the-beauties-of-gullfoss/",
+  "title": "The Beauties of Gullfoss",
+}
+`;
+
+exports[`Analytics > GoogleAnalytics pageView 2`] = `
+Object {
+  "cd1": "dim1_post60",
+  "cd2": "dim2_post60",
+  "location": "https://demo.frontity.test/the-beauties-of-gullfoss/",
+  "title": "The Beauties of Gullfoss",
+}
+`;
+
 exports[`Analytics > GoogleAnalytics sendEvent 1`] = `
 Array [
   Array [

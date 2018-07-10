@@ -54,4 +54,12 @@ describe('Analytics > GoogleAnalytics', () => {
     ({ ids } = stores.analytics.googleAnalytics);
     expect(ids.map(id => trackingOptions(id))).toMatchSnapshot();
   });
+
+  test('pageView', () => {
+    stores.build = { channel: 'pwa' };
+    expect(stores.analytics.googleAnalytics.pageView).toMatchSnapshot();
+
+    stores.build = { channel: 'amp', isAmp: true };
+    expect(stores.analytics.googleAnalytics.pageView).toMatchSnapshot();
+  });
 });

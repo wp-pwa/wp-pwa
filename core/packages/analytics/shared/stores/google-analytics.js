@@ -34,7 +34,7 @@ const GoogleAnalytics = types
     },
     get pageView() {
       // Get analytics and connection from the stores
-      const { analytics, connection } = getRoot(self);
+      const { analytics, connection, build } = getRoot(self);
 
       // Get needed properties from selectedItem
       const { type, id, page, entity } = connection.selectedItem || {};
@@ -42,9 +42,26 @@ const GoogleAnalytics = types
       // Parameters to be sent in the pageView
       const { title } = entity.headMeta;
       const location = page ? entity.pagedLink(page) : entity.link;
-      const customDimensions = analytics.customDimensions({ type, id });
 
-      return { title, location, ...customDimensions };
+      const customDims = analytics.customDimensions({ type, id });
+      const ampCustomDims = {};
+
+      if (build.isAmp) {
+        Object.entries(analytics.customDimensions({ type, id })).reduce(
+          (cds, [key, value]) => {
+            const [, number] = /^dimension(\d+)$/.exec(key);
+            cds[`cd${number}`] = value;
+            return cds;
+          },
+          ampCustomDims,
+        );
+      }
+
+      return {
+        title,
+        location,
+        ...(build.isAmp ? ampCustomDims : customDims),
+      };
     },
   }))
   .actions(self => ({

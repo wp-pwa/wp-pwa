@@ -15,7 +15,7 @@ const Analytics = types
     customDimensions({ type, id }) {
       const { connection } = getRoot(self);
       const entity = connection.entity(type, id);
-      return (entity && entity.raw && entity.raw.custom_analytics) || null;
+      return (entity && entity.raw && entity.raw.custom_analytics) || {};
     },
   }))
   .actions(self => ({
