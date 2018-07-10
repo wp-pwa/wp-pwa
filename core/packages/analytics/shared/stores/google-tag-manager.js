@@ -4,7 +4,7 @@ import { generateEvent, getHash, getRoute } from './utils';
 const GoogleTagManager = types
   .model('GoogleTagManager')
   .views(self => ({
-    get containerIds() {
+    get ids() {
       const { settings, build } = getRoot(self);
       try {
         return settings.theme.analytics[build.channel].gtmContainers || [];

@@ -11,7 +11,7 @@ const Analytics = ({
   gaPageView,
   gaVars,
   gaTriggers,
-  gtmContainerIds,
+  gtmIds,
   gtmVars,
   comScoreIds,
 }) => (
@@ -28,7 +28,7 @@ const Analytics = ({
         />
       );
     })}
-    {gtmContainerIds.map(containerId => (
+    {gtmIds.map(containerId => (
       <GoogleTagManager
         key={containerId}
         containerId={containerId}
@@ -45,7 +45,7 @@ Analytics.propTypes = {
   gaPageView: PropTypes.shape({}).isRequired,
   gaVars: PropTypes.shape({}),
   gaTriggers: PropTypes.shape({}),
-  gtmContainerIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  gtmIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   gtmVars: PropTypes.shape({}),
   comScoreIds: PropTypes.arrayOf(PropTypes.number).isRequired,
 };
@@ -62,7 +62,7 @@ export default inject(({ stores: { analytics } }) => ({
   gaPageView: analytics.googleAnalytics.pageView,
   gaVars: analytics.googleAnalytics.ampVars,
   gaTriggers: analytics.googleAnalytics.ampTriggers,
-  gtmContainerIds: analytics.googleTagManager.containerIds,
+  gtmIds: analytics.googleTagManager.ids,
   gtmVars: analytics.googleTagManager.ampVars,
   comScoreIds: analytics.comScore.ids,
 }))(Analytics);

@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
-const GoogleTagManager = ({ containerId, vars }) => (
+const GoogleTagManager = ({ id, vars }) => (
   <Fragment>
     <Helmet>
       <script
@@ -13,7 +13,7 @@ const GoogleTagManager = ({ containerId, vars }) => (
       />
     </Helmet>
     <amp-analytics
-      config={`https://www.googletagmanager.com/amp.json?id=${containerId}&gtm.url=SOURCE_URL`}
+      config={`https://www.googletagmanager.com/amp.json?id=${id}&gtm.url=SOURCE_URL`}
       data-credentials="include"
     >
       <script
@@ -27,7 +27,7 @@ const GoogleTagManager = ({ containerId, vars }) => (
 );
 
 GoogleTagManager.propTypes = {
-  containerId: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
   vars: PropTypes.shape({}),
 };
 

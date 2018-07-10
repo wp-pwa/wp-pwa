@@ -100,7 +100,7 @@ export const Stores = types.model('Stores').props({
         },
         pwa: {
           gaTrackingIds: ['UA-12345678-1', 'UA-12345678-2'],
-          gtmContainers: ['GTM-123456'],
+          gtmContainers: ['GTM-112233'],
           comScoreIds: ['test1', 'test2'],
         },
       },

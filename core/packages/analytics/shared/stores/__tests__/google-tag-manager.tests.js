@@ -38,10 +38,10 @@ describe('Analytics > GoogleTagManager', () => {
     expect(stores.analytics.googleTagManager.ampVars).toMatchSnapshot();
   });
 
-  test('view - containerIds', () => {
+  test('view - ids', () => {
     stores.build = { dev: true, channel: 'pwa' };
-    expect(stores.analytics.googleTagManager.containerIds).toMatchSnapshot();
+    expect(stores.analytics.googleTagManager.ids).toMatchSnapshot();
     stores.build = { dev: true, channel: 'amp' };
-    expect(stores.analytics.googleTagManager.containerIds).toMatchSnapshot();
+    expect(stores.analytics.googleTagManager.ids).toMatchSnapshot();
   });
 });

@@ -7,7 +7,7 @@ import GoogleAnalytics from './GoogleAnalytics';
 import ComScore from './ComScore';
 
 const Analytics = ({
-  gtmContainers,
+  gtmIds,
   gtmClientProperties,
   gtmPageViewProperties,
   gaTrackingIds,
@@ -37,7 +37,7 @@ window.dataLayer.push({
         }}
       />
       {/* <GoogleTagManager key="GTM-K3S2BMT" id="GTM-K3S2BMT" /> */}
-      {gtmContainers.map(id => <GoogleTagManager key={id} id={id} />)}
+      {gtmIds.map(id => <GoogleTagManager key={id} id={id} />)}
       {gaTrackingIds.map(id => <GoogleAnalytics key={id} id={id} />)}
       {comScoreIds.map(id => <ComScore key={id} id={id} />)}
     </Fragment>
@@ -45,7 +45,7 @@ window.dataLayer.push({
 };
 
 Analytics.propTypes = {
-  gtmContainers: PropTypes.arrayOf(PropTypes.string),
+  gtmIds: PropTypes.arrayOf(PropTypes.string),
   gtmClientProperties: PropTypes.shape({}),
   gtmPageViewProperties: PropTypes.shape({}),
   gaTrackingIds: PropTypes.arrayOf(PropTypes.string),
@@ -56,7 +56,7 @@ Analytics.propTypes = {
 };
 
 Analytics.defaultProps = {
-  gtmContainers: [],
+  gtmIds: [],
   gtmClientProperties: {},
   gtmPageViewProperties: {},
   gaTrackingIds: [],
@@ -64,7 +64,7 @@ Analytics.defaultProps = {
 };
 
 export default inject(({ stores: { analytics, build } }) => ({
-  gtmContainers: analytics.googleTagManager.containerIds,
+  gtmIds: analytics.googleTagManager.gtmIds,
   gtmClientProperties: analytics.googleTagManager.clientProperties,
   gtmPageViewProperties: analytics.googleTagManager.pageViewProperties,
   gaTrackingIds: analytics.googleAnalytics.trackingIds,

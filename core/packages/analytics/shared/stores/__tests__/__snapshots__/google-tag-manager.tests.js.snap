@@ -99,13 +99,13 @@ Object {
 }
 `;
 
-exports[`Analytics > GoogleTagManager view - containerIds 1`] = `
+exports[`Analytics > GoogleTagManager view - ids 1`] = `
 Array [
-  "GTM-123456",
+  "GTM-112233",
 ]
 `;
 
-exports[`Analytics > GoogleTagManager view - containerIds 2`] = `
+exports[`Analytics > GoogleTagManager view - ids 2`] = `
 Array [
   "GTM-123456",
 ]
