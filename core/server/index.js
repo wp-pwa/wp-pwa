@@ -165,7 +165,7 @@ export default ({ clientStats }) => async (req, res) => {
           device,
           packages,
           isDev: !!req.query.dev,
-          initialUrl,
+          urlFromQuery: initialUrl,
           rendering: 'ssr',
           perPage: parseInt(perPage, 10),
           dynamicUrl,
@@ -180,6 +180,7 @@ export default ({ clientStats }) => async (req, res) => {
         ...envs,
       },
     );
+
     if (typeof window !== 'undefined') window.frontity = stores;
 
     // Notify that server is started.
