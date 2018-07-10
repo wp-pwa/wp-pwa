@@ -10,17 +10,13 @@ const Analytics = ({
   gtmIds,
   gtmClientProperties,
   gtmPageViewProperties,
-  gaTrackingIds,
+  gaIds,
   comScoreIds,
-  isAmp,
-}) => {
-  if (isAmp) return null;
-
-  return (
-    <Fragment>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
+}) => (
+  <Fragment>
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   'gtm.start': Date.now(),
@@ -34,40 +30,37 @@ window.dataLayer.push({
   event: 'virtualPageview',
   virtualPageview: ${JSON.stringify(gtmPageViewProperties)},
 });`,
-        }}
-      />
-      {/* <GoogleTagManager key="GTM-K3S2BMT" id="GTM-K3S2BMT" /> */}
-      {gtmIds.map(id => <GoogleTagManager key={id} id={id} />)}
-      {gaTrackingIds.map(id => <GoogleAnalytics key={id} id={id} />)}
-      {comScoreIds.map(id => <ComScore key={id} id={id} />)}
-    </Fragment>
-  );
-};
+      }}
+    />
+    {/* <GoogleTagManager key="GTM-K3S2BMT" id="GTM-K3S2BMT" /> */}
+    {gtmIds.map(id => <GoogleTagManager key={id} id={id} />)}
+    {gaIds.map(id => <GoogleAnalytics key={id} id={id} />)}
+    {comScoreIds.map(id => <ComScore key={id} id={id} />)}
+  </Fragment>
+);
 
 Analytics.propTypes = {
   gtmIds: PropTypes.arrayOf(PropTypes.string),
   gtmClientProperties: PropTypes.shape({}),
   gtmPageViewProperties: PropTypes.shape({}),
-  gaTrackingIds: PropTypes.arrayOf(PropTypes.string),
+  gaIds: PropTypes.arrayOf(PropTypes.string),
   comScoreIds: PropTypes.arrayOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   ),
-  isAmp: PropTypes.bool.isRequired,
 };
 
 Analytics.defaultProps = {
   gtmIds: [],
   gtmClientProperties: {},
   gtmPageViewProperties: {},
-  gaTrackingIds: [],
+  gaIds: [],
   comScoreIds: [],
 };
 
-export default inject(({ stores: { analytics, build } }) => ({
-  gtmIds: analytics.googleTagManager.gtmIds,
+export default inject(({ stores: { analytics } }) => ({
+  gtmIds: analytics.googleTagManager.ids,
   gtmClientProperties: analytics.googleTagManager.clientProperties,
   gtmPageViewProperties: analytics.googleTagManager.pageViewProperties,
-  gaTrackingIds: analytics.googleAnalytics.trackingIds,
+  gaIds: analytics.googleAnalytics.ids,
   comScoreIds: analytics.comScore.ids,
-  isAmp: build.isAmp,
 }))(Analytics);

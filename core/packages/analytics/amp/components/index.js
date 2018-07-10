@@ -6,7 +6,7 @@ import GoogleTagManager from './GoogleTagManager';
 import ComScore from './ComScore';
 
 const Analytics = ({
-  gaTrackingIds,
+  gaIds,
   gaTrackingOptions,
   gaPageView,
   gaVars,
@@ -16,31 +16,27 @@ const Analytics = ({
   comScoreIds,
 }) => (
   <Fragment>
-    {gaTrackingIds.map(trackingId => {
-      const { sendPageViews, sendEvents } = gaTrackingOptions(trackingId);
+    {gaIds.map(gaId => {
+      const { sendPageViews, sendEvents } = gaTrackingOptions(gaId);
       return (
         <GoogleAnalytics
-          key={trackingId}
-          trackingId={trackingId}
+          key={gaId}
+          trackingId={gaId}
           pageView={sendPageViews && gaPageView}
           vars={gaVars}
           triggers={sendEvents && gaTriggers}
         />
       );
     })}
-    {gtmIds.map(containerId => (
-      <GoogleTagManager
-        key={containerId}
-        containerId={containerId}
-        vars={gtmVars}
-      />
+    {gtmIds.map(gtmId => (
+      <GoogleTagManager key={gtmId} containerId={gtmId} vars={gtmVars} />
     ))}
     {comScoreIds.map(comScoreId => <ComScore id={comScoreId} />)}
   </Fragment>
 );
 
 Analytics.propTypes = {
-  gaTrackingIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  gaIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   gaTrackingOptions: PropTypes.func.isRequired,
   gaPageView: PropTypes.shape({}).isRequired,
   gaVars: PropTypes.shape({}),
@@ -57,7 +53,7 @@ Analytics.defaultProps = {
 };
 
 export default inject(({ stores: { analytics } }) => ({
-  gaTrackingIds: analytics.googleAnalytics.trackingIds,
+  gaIds: analytics.googleAnalytics.ids,
   gaTrackingOptions: analytics.googleAnalytics.trackingOptions,
   gaPageView: analytics.googleAnalytics.pageView,
   gaVars: analytics.googleAnalytics.ampVars,

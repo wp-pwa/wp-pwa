@@ -1,5 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Analytics > GoogleAnalytics ids 1`] = `
+Array [
+  "UA-12345678-1",
+  "UA-12345678-2",
+]
+`;
+
+exports[`Analytics > GoogleAnalytics ids 2`] = `
+Array [
+  "UA-12345678-1",
+  "UA-12345678-2",
+]
+`;
+
 exports[`Analytics > GoogleAnalytics sendEvent 1`] = `
 Array [
   Array [
@@ -65,20 +79,6 @@ Array [
       "title": "Photography",
     },
   ],
-]
-`;
-
-exports[`Analytics > GoogleAnalytics trackingIds 1`] = `
-Array [
-  "UA-12345678-1",
-  "UA-12345678-2",
-]
-`;
-
-exports[`Analytics > GoogleAnalytics trackingIds 2`] = `
-Array [
-  "UA-12345678-1",
-  "UA-12345678-2",
 ]
 `;
 
