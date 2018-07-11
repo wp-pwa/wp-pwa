@@ -65,13 +65,11 @@ const Stores = types.model('Stores').props({
 describe('Analytics > Components', () => {
   it('renders correctly', () => {
     const stores = Stores.create();
-    const tree = renderer
-      .create(
-        <Provider stores={stores}>
-          <Analytics />
-        </Provider>,
-      )
-      .toJSON();
+    const tree = renderer.create(
+      <Provider stores={stores}>
+        <Analytics />
+      </Provider>,
+    );
     expect(tree).toMatchSnapshot();
   });
 });

@@ -58,13 +58,11 @@ describe('Analytics > Components', () => {
         packages: 'saturn-theme,wp-org-connection',
       },
     });
-    const tree = renderer
-      .create(
-        <Provider stores={stores}>
-          <Analytics />
-        </Provider>,
-      )
-      .toJSON();
+    const tree = renderer.create(
+      <Provider stores={stores}>
+        <Analytics />
+      </Provider>,
+    );
     expect(tree).toMatchSnapshot();
   });
 });
