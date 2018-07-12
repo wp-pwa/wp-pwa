@@ -19,7 +19,7 @@ const GoogleTagManager = ({ id, vars }) => (
       <script
         type="application/json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({ vars }),
+          __html: JSON.stringify({ vars }, null, 2),
         }}
       />
     </amp-analytics>
