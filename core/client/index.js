@@ -125,11 +125,17 @@ const init = async () => {
 
   // Create MST Stores
   const Stores = Store.props(storesProps);
+  const { type, id, page } = window['wp-pwa'];
 
   stores = Stores.create(window['wp-pwa'].initialState, {
     request,
     machine: 'server',
     ...envs,
+    initialSelectedItem: {
+      type,
+      id: parseInt(id, 10),
+      page: parseInt(page, 10),
+    },
   });
   if (dev) {
     const makeInspectable = require('mobx-devtools-mst').default;
