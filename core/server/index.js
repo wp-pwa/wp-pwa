@@ -19,7 +19,9 @@ import ampTemplate from './templates/amp';
 import requireModules from './requires';
 import { parseQuery } from './utils';
 
-// const analyticsModule = require(`../packages/analytics/${process.env.MODE}`);
+const analyticsModule = require(`../packages/analytics/${
+  process.env.MODE
+}/server`);
 const iframesModule = require(`../packages/iframes/${process.env.MODE}/server`);
 const adsModule = require(`../packages/ads/${process.env.MODE}/server`);
 const customCssModule = require(`../packages/custom-css/${
@@ -79,7 +81,11 @@ export default ({ clientStats }) => async (req, res) => {
 
     // Define core modules.
     const coreModules = [
-      // { name: 'analytics', namespace: 'analytics', module: analyticsModule },
+      {
+        name: 'analytics',
+        namespace: 'analytics',
+        module: analyticsModule,
+      },
       {
         name: 'iframes',
         namespace: 'iframes',
