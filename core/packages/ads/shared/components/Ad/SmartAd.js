@@ -85,21 +85,7 @@ class SmartAd extends Component {
 
     sas.cmd.push(() => {
       const containerExists = window.document.getElementById(tagId) !== null;
-      if (containerExists)
-        sas.call(callType, callParams, {
-          onLoad: (...args) => {
-            console.log('onLoad', callParams, args);
-          },
-          onError: (...args) => {
-            console.log('onError', callParams, args);
-          },
-          onClean: (...args) => {
-            console.log('onClean', callParams, args);
-          },
-          beforeRender: (...args) => {
-            console.log('onError', callParams, args);
-          },
-        });
+      if (containerExists) sas.call(callType, callParams);
     });
   }
 
