@@ -126,6 +126,7 @@ const init = async () => {
   // Create MST Stores
   const Stores = Store.props(storesProps);
   const { type, id, page } = window['wp-pwa'];
+  const parsedId = parseInt(id, 10);
 
   stores = Stores.create(window['wp-pwa'].initialState, {
     request,
@@ -133,7 +134,7 @@ const init = async () => {
     ...envs,
     initialSelectedItem: {
       type,
-      id: parseInt(id, 10),
+      id: Number.isNaN(parsedId) ? id : parsedId,
       page: parseInt(page, 10),
     },
   });
