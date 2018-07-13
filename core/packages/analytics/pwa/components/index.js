@@ -1,7 +1,6 @@
 /* eslint-disable react/no-danger */
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-// import { inject } from 'mobx-react';
 import { compose, getContext, mapProps } from 'recompose';
 import { decode } from 'he';
 import GoogleTagManager from './GoogleTagManager';
@@ -79,12 +78,20 @@ const injectNotObserver = fn =>
     mapProps(({ mobxStores }) => fn(mobxStores)),
   );
 
-export default injectNotObserver(({ stores: { analytics, connection } }) => ({
-  gtmIds: analytics.googleTagManager.ids,
-  gtmClientProperties: analytics.googleTagManager.clientProperties,
-  gtmPageViewProperties: analytics.googleTagManager.pageViewProperties,
-  gaIds: analytics.googleAnalytics.ids,
-  gaCustomDimensions: analytics.customDimensions(connection.selectedItem),
-  comScoreIds: analytics.comScore.ids,
-  title: decode(connection.head.title).replace(/<\/?[^>]+(>|$)/g, ''),
-}))(Analytics);
+export default injectNotObserver(({ stores: { analytics, connection } }) => {
+  const gtmIds = analytics.googleTagManager.ids;
+
+  return {
+    gtmIds,
+    gtmClientProperties: gtmIds.length
+      ? analytics.googleTagManager.clientProperties
+      : {},
+    gtmPageViewProperties: gtmIds.length
+      ? analytics.googleTagManager.pageViewProperties
+      : {},
+    gaIds: analytics.googleAnalytics.ids,
+    gaCustomDimensions: analytics.customDimensions(connection.selectedItem),
+    comScoreIds: analytics.comScore.ids,
+    title: decode(connection.head.title).replace(/<\/?[^>]+(>|$)/g, ''),
+  };
+})(Analytics);
