@@ -56,13 +56,20 @@ Analytics.defaultProps = {
   gtmVars: {},
 };
 
-export default inject(({ stores: { analytics } }) => ({
-  gaIds: analytics.googleAnalytics.ids,
-  gaTrackingOptions: analytics.googleAnalytics.trackingOptions,
-  gaPageView: analytics.googleAnalytics.pageView,
-  gaVars: analytics.googleAnalytics.ampVars,
-  gaTriggers: analytics.googleAnalytics.ampTriggers,
-  gtmIds: analytics.googleTagManager.ids,
-  gtmVars: analytics.googleTagManager.ampVars,
-  comScoreIds: analytics.comScore.ids,
-}))(Analytics);
+export default inject(({ stores: { analytics } }) => {
+  const gaIds = analytics.googleAnalytics.ids;
+  const gtmIds = analytics.googleTagManager.ids;
+
+  return {
+    gaIds,
+    gaTrackingOptions: gaIds.length
+      ? analytics.googleAnalytics.trackingOptions
+      : {},
+    gaPageView: gaIds.length ? analytics.googleAnalytics.pageView : {},
+    gaVars: gaIds.length ? analytics.googleAnalytics.ampVars : {},
+    gaTriggers: gaIds.length ? analytics.googleAnalytics.ampTriggers : {},
+    gtmIds,
+    gtmVars: gtmIds.length ? analytics.googleTagManager.ampVars : {},
+    comScoreIds: analytics.comScore.ids,
+  };
+})(Analytics);
