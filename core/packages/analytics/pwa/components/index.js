@@ -68,11 +68,19 @@ const injectNotObserver = fn =>
     mapProps(({ mobxStores }) => fn(mobxStores)),
   );
 
-export default injectNotObserver(({ stores: { analytics, connection } }) => ({
-  gtmIds: analytics.googleTagManager.ids,
-  gtmClientProperties: analytics.googleTagManager.clientProperties,
-  gtmPageViewProperties: analytics.googleTagManager.pageViewProperties,
-  gaIds: analytics.googleAnalytics.ids,
-  gaCustomDimensions: analytics.customDimensions(connection.selectedItem),
-  comScoreIds: analytics.comScore.ids,
-}))(Analytics);
+export default injectNotObserver(({ stores: { analytics, connection } }) => {
+  const gtmIds = analytics.googleTagManager.ids;
+
+  return {
+    gtmIds,
+    gtmClientProperties: gtmIds.length
+      ? analytics.googleTagManager.clientProperties
+      : {},
+    gtmPageViewProperties: gtmIds.length
+      ? analytics.googleTagManager.pageViewProperties
+      : {},
+    gaIds: analytics.googleAnalytics.ids,
+    gaCustomDimensions: analytics.customDimensions(connection.selectedItem),
+    comScoreIds: analytics.comScore.ids,
+  };
+})(Analytics);
