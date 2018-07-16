@@ -2,7 +2,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { compose, getContext, mapProps } from 'recompose';
-import { decode } from 'he';
 import GoogleTagManager from './GoogleTagManager';
 import GoogleAnalytics from './GoogleAnalytics';
 import ComScore from './ComScore';
@@ -14,14 +13,11 @@ const Analytics = ({
   gaIds,
   gaCustomDimensions,
   comScoreIds,
-  title,
-}) => {
-  const { title: _, ...gtmPageView } = gtmPageViewProperties;
-  return (
-    <Fragment>
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
+}) => (
+  <Fragment>
+    <script
+      dangerouslySetInnerHTML={{
+        __html: `
 window.dataLayer = window.dataLayer || [];
 window.dataLayer.push({
   'gtm.start': Date.now(),
@@ -29,27 +25,22 @@ window.dataLayer.push({
 });
 window.dataLayer.push({
   event: 'wpPwaProperties',
-  wpPwaProperties: ${JSON.stringify(gtmClientProperties)},
+  wpPwaProperties: ${JSON.stringify(gtmClientProperties, null, 2)},
 });
 window.dataLayer.push({
   event: 'virtualPageview',
-  virtualPageview: ${JSON.stringify({ title, ...gtmPageView })},
+  virtualPageview: ${JSON.stringify(gtmPageViewProperties, null, 2)},
 });`,
-        }}
-      />
-      {/* <GoogleTagManager key="GTM-K3S2BMT" id="GTM-K3S2BMT" /> */}
-      {gtmIds.map(id => <GoogleTagManager key={id} id={id} />)}
-      {gaIds.map(id => (
-        <GoogleAnalytics
-          key={id}
-          id={id}
-          customDimensions={gaCustomDimensions}
-        />
-      ))}
-      {comScoreIds.map(id => <ComScore key={id} id={id} />)}
-    </Fragment>
-  );
-};
+      }}
+    />
+    {/* <GoogleTagManager key="GTM-K3S2BMT" id="GTM-K3S2BMT" /> */}
+    {gtmIds.map(id => <GoogleTagManager key={id} id={id} />)}
+    {gaIds.map(id => (
+      <GoogleAnalytics key={id} id={id} customDimensions={gaCustomDimensions} />
+    ))}
+    {comScoreIds.map(id => <ComScore key={id} id={id} />)}
+  </Fragment>
+);
 
 Analytics.propTypes = {
   gtmIds: PropTypes.arrayOf(PropTypes.string),
@@ -60,7 +51,6 @@ Analytics.propTypes = {
   comScoreIds: PropTypes.arrayOf(
     PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   ),
-  title: PropTypes.string.isRequired,
 };
 
 Analytics.defaultProps = {
@@ -92,6 +82,5 @@ export default injectNotObserver(({ stores: { analytics, connection } }) => {
     gaIds: analytics.googleAnalytics.ids,
     gaCustomDimensions: analytics.customDimensions(connection.selectedItem),
     comScoreIds: analytics.comScore.ids,
-    title: decode(connection.head.title).replace(/<\/?[^>]+(>|$)/g, ''),
   };
 })(Analytics);

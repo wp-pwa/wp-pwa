@@ -38,7 +38,7 @@ const GoogleAnalytics = ({ id, pageView, vars, triggers }) => {
         <script
           type="application/json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(json),
+            __html: JSON.stringify(json, null, 2),
           }}
         />
       </amp-analytics>

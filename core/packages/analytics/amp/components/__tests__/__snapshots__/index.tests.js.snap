@@ -8,7 +8,22 @@ Array [
     <script
       dangerouslySetInnerHTML={
         Object {
-          "__html": "{\\"vars\\":{\\"account\\":\\"UA-12345678-1\\"},\\"triggers\\":{\\"openMenu\\":{\\"on\\":\\"click\\",\\"selector\\":\\".menu\\",\\"request\\":\\"event\\",\\"vars\\":{\\"eventCategory\\":\\"AMP - Post bar\\",\\"eventAction\\":\\"AMP - open menu\\"}}}}",
+          "__html": "{
+  \\"vars\\": {
+    \\"account\\": \\"UA-12345678-1\\"
+  },
+  \\"triggers\\": {
+    \\"openMenu\\": {
+      \\"on\\": \\"click\\",
+      \\"selector\\": \\".menu\\",
+      \\"request\\": \\"event\\",
+      \\"vars\\": {
+        \\"eventCategory\\": \\"AMP - Post bar\\",
+        \\"eventAction\\": \\"AMP - open menu\\"
+      }
+    }
+  }
+}",
         }
       }
       type="application/json"
@@ -20,7 +35,22 @@ Array [
     <script
       dangerouslySetInnerHTML={
         Object {
-          "__html": "{\\"vars\\":{\\"account\\":\\"UA-12345678-2\\"},\\"triggers\\":{\\"openMenu\\":{\\"on\\":\\"click\\",\\"selector\\":\\".menu\\",\\"request\\":\\"event\\",\\"vars\\":{\\"eventCategory\\":\\"AMP - Post bar\\",\\"eventAction\\":\\"AMP - open menu\\"}}}}",
+          "__html": "{
+  \\"vars\\": {
+    \\"account\\": \\"UA-12345678-2\\"
+  },
+  \\"triggers\\": {
+    \\"openMenu\\": {
+      \\"on\\": \\"click\\",
+      \\"selector\\": \\".menu\\",
+      \\"request\\": \\"event\\",
+      \\"vars\\": {
+        \\"eventCategory\\": \\"AMP - Post bar\\",
+        \\"eventAction\\": \\"AMP - open menu\\"
+      }
+    }
+  }
+}",
         }
       }
       type="application/json"
@@ -33,7 +63,33 @@ Array [
     <script
       dangerouslySetInnerHTML={
         Object {
-          "__html": "{\\"vars\\":{\\"anonymize\\":false,\\"siteId\\":\\"site1122334455\\",\\"userIds\\":[\\"user00\\",\\"user01\\"],\\"theme\\":\\"saturn-theme\\",\\"extensions\\":\\"saturn-theme,wp-org-connection\\",\\"plan\\":\\"enterprise\\",\\"pageType\\":\\"pwa\\",\\"dev\\":true,\\"site\\":\\"https://demo.frontity.test\\",\\"title\\":\\"The Beauties of Gullfoss\\",\\"url\\":\\"https://demo.frontity.test/the-beauties-of-gullfoss/\\",\\"type\\":\\"post\\",\\"id\\":60,\\"format\\":\\"pwa\\",\\"route\\":\\"single\\",\\"hash\\":\\"ZO0H2I9kJ0arOdstZdG\\",\\"customDimensions\\":{\\"dimension1\\":\\"dim1_post60\\",\\"dimension2\\":\\"dim2_post60\\"}}}",
+          "__html": "{
+  \\"vars\\": {
+    \\"anonymize\\": false,
+    \\"siteId\\": \\"site1122334455\\",
+    \\"userIds\\": [
+      \\"user00\\",
+      \\"user01\\"
+    ],
+    \\"theme\\": \\"saturn-theme\\",
+    \\"extensions\\": \\"saturn-theme,wp-org-connection\\",
+    \\"plan\\": \\"enterprise\\",
+    \\"pageType\\": \\"pwa\\",
+    \\"dev\\": true,
+    \\"site\\": \\"https://demo.frontity.test\\",
+    \\"title\\": \\"The Beauties of Gullfoss\\",
+    \\"url\\": \\"https://demo.frontity.test/the-beauties-of-gullfoss/\\",
+    \\"type\\": \\"post\\",
+    \\"id\\": 60,
+    \\"format\\": \\"pwa\\",
+    \\"route\\": \\"single\\",
+    \\"hash\\": \\"ZO0H2I9kJ0arOdstZdG\\",
+    \\"customDimensions\\": {
+      \\"dimension1\\": \\"dim1_post60\\",
+      \\"dimension2\\": \\"dim2_post60\\"
+    }
+  }
+}",
         }
       }
       type="application/json"
