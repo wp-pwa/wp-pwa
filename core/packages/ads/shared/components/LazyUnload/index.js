@@ -53,11 +53,24 @@ class LazyUnload extends Component {
   }
 
   render() {
-    const { width, height, active, offset, debounce, children, className, isLazy } = this.props;
+    const {
+      width,
+      height,
+      active,
+      offset,
+      debounce,
+      children,
+      className,
+      isLazy,
+    } = this.props;
     const { dying } = this.state;
 
     const LazyComponent = isLazy ? Lazy : 'div';
-    const lazyProps = { offsetVertical: offset, offsetHorizontal: 40, debounce };
+    const lazyProps = {
+      offsetVertical: offset,
+      offsetHorizontal: 40,
+      debounce,
+    };
 
     return (
       (active || dying) && (

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'react-emotion';
-import { connect } from 'react-redux';
-import { dep } from 'worona-deps';
+import { inject } from 'mobx-react';
 import LazyLoad from '@frontity/lazyload';
 
 class LazyIframe extends Component {
@@ -11,8 +10,9 @@ class LazyIframe extends Component {
     src: PropTypes.string.isRequired,
     className: PropTypes.string,
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-    height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-    ssr: PropTypes.bool.isRequired,
+    height: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+      .isRequired,
+    isSsr: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
@@ -21,8 +21,8 @@ class LazyIframe extends Component {
 
   constructor(props) {
     super(props);
-    const { ssr } = props;
-    this.state = { ssr, loaded: ssr };
+    const { isSsr } = props;
+    this.state = { isSsr, loaded: isSsr };
     this.onLoad = this.onLoad.bind(this);
   }
 
@@ -32,19 +32,21 @@ class LazyIframe extends Component {
 
   render() {
     const { name, src, className, width, height } = this.props;
-    const { ssr, loaded } = this.state;
+    const { isSsr, loaded } = this.state;
 
-    if (ssr)
+    if (isSsr)
       return (
-        <Iframe
-          title={name}
-          src={src}
-          className={className}
-          width={0}
-          height={0}
-          minWidth={width}
-          minHeight={height}
-        />
+        <Container className={className}>
+          <Iframe
+            title={name}
+            src={src}
+            className={className}
+            width={0}
+            height={0}
+            minWidth={width}
+            minHeight={height}
+          />
+        </Container>
       );
 
     return (
@@ -75,11 +77,9 @@ class LazyIframe extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  ssr: dep('build', 'selectors', 'getSsr')(state),
-});
-
-export default connect(mapStateToProps)(LazyIframe);
+export default inject(({ stores: { build } }) => ({
+  isSsr: build.isSsr,
+}))(LazyIframe);
 
 const StyledLazy = styled(LazyLoad)`
   filter: ${({ loaded }) => (loaded ? 'opacity(100%)' : 'opacity(0)')};
@@ -89,22 +89,16 @@ const StyledLazy = styled(LazyLoad)`
 const Container = styled.div`
   display: block;
   position: relative;
-  width: 100%;
+  width: calc(100% - 30px);
   height: 100%;
+  padding: 15px;
 `;
 
-// const SpinnerContainer = styled.div`
-//   position: absolute;
-//   top: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 100%;
-//   box-sizing: border-box;
-// `;
-
 const Iframe = styled.iframe`
-  min-width: ${({ minWidth }) => (typeof minWidth === 'number' ? `${minWidth}px` : minWidth)};
-  min-height: ${({ minHeight }) => (typeof minHeight === 'number' ? `${minHeight}px` : minHeight)};
+  min-width: ${({ minWidth }) =>
+    typeof minWidth === 'number' ? `${minWidth}px` : minWidth};
+  min-height: ${({ minHeight }) =>
+    typeof minHeight === 'number' ? `${minHeight}px` : minHeight};
   margin: 0 auto;
   display: block;
   border: none;

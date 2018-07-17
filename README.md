@@ -1,40 +1,58 @@
-# WP-PWA
+# » Frontity
 
-## Development
+[![Build Status](https://travis-ci.org/frontity/frontity.svg?branch=master)](https://travis-ci.org/frontity/frontity)
+
+> We are in the process of preparing our framework to be used by other developers than us, but we haven't finished yet. If you want to start working with it, please send us an email to hello@frontity.com and we'll help you set up a local environment.
+
+**» Frontity** is a framework to build WordPress themes using **React**.
+
+It is based in a **fully-decoupled** approach. This means it uses Node (and not PHP) to create the final server-side-rendered html.
+
+It uses the **REST API** to fetch content from WordPress and a small PHP plugin (our **Frontity WP Plugin**) to inject **Frontity** in WordPress.
+
+Apart from **React**, state is managed with **[MobxStateTree](https://github.com/mobxjs/mobx-state-tree)** and CSS with **[Styled-Components](https://github.com/styled-components/styled-components)**.
+
+**Frontity** is also extensible. Right now we have extensions like *Disqus comments, OneSignal notifications, Adsense, Doubleclick, SmartAds, Google Analytics, Google Tag Manager, Custom CSS or Custom HTML*. This means, your Frontity Theme won't have to reinvent the wheel each time including stuff than can be outsourced to extensions.
+
+The Frontity's render engine also supports **AMP** html. This means you can reuse your React and CSS code to create your AMP pages.
+
+## Setting up a local environment
+
+First, clone this repo:
+
+```
+git clone https://github.com/frontity/frontity
+```
+
+Then clone the extensions you want to use in the `packages` folder:
+
+```
+cd frontity/packages
+git clone https://github.com/frontity/wp-org-connection
+git clone https://github.com/frontity/saturn-theme
+```
+
+Install the packages:
+
+```
+cd ..
+npm install
+```
+
+And run the project!
+
+```
+npm run start:pwa
+```
+
+## Running the project
+
 
 Run `npm run start:pwa` to start the project in development mode.
 
 Run `npm run build:pwa -- -p && npm run serve:pwa -- -p` to start the project in production mode.
 
 Server starts in `http://localhost:3000` by default.
-
-## Queries
-
-You should pass some queries to configure the server.
-
-### Site ID
-
-Use `http://localhost:3000?siteId=XXX` to specify the site.
-
-### SSR server
-
-Use `http://localhost:3000?ssrUrl=http://domain.com` to specify the SSR server.
-
-### Static server
-
-Use `http://localhost:3000?staticUrl=http://domain-static.com` to specify the Static server.
-
-### Both SSR and Static
-
-Use `http://localhost:3000?server=http://domain.com` to specify both the SSR and the Static servers.
-
-If you don't pass any server, a dynamic path (`'/'`) will be used.
-
-### Production/Preproduction
-
-Use `http://localhost:3000?env=prod` to specify a `prod` (production) environment. If you don't pass it, then `pre` is used.
-
-## Npm Scripts
 
 ### Mode: pwa/amp
 
@@ -104,150 +122,41 @@ If you want to analyze the bundles, you can pass:
 
 The output `html` files will be located in the `.build/pwa/(client|server)/analyze` folders.
 
+## Queries
+
+You should pass some queries to configure the server.
+
+### Site ID
+
+Use `http://localhost:3000?siteId=XXX` to specify the site.
+
+### SSR server
+
+Use `http://localhost:3000?ssrUrl=http://domain.com` to specify the SSR server.
+
+### Static server
+
+Use `http://localhost:3000?staticUrl=http://domain-static.com` to specify the Static server.
+
+### Both SSR and Static
+
+Use `http://localhost:3000?server=http://domain.com` to specify both the SSR and the Static servers.
+
+If you don't pass any server, a dynamic path (`'/'`) will be used.
+
+### Production/Preproduction
+
+Use `http://localhost:3000?env=prod` to specify a `prod` (production) environment. If you don't pass it, then `pre` is used.
+
 ## Changelog
 
-#### 1.5.17
+This project adheres to [Semantic Versioning](https://semver.org/) and [Angular Conventional Changelog](https://github.com/angular/angular.js/blob/master/DEVELOPERS.md#-git-commit-guidelines).
+Every release is documented on the [Github Releases](https://github.com/frontity/frontity/releases) page.
 
-- Call type for SmartAds
-- Dynamic height for SmartAds
+## License
 
-#### 1.5.16
+This project is licensed under the terms of the [Apache 2.0](https://github.com/frontity/frontity/blob/master/LICENSE) license.
 
-- Add SunMedia ads
+## Contribute
 
-#### 1.5.15
-
-- Fix Lazy load in ads
-
-#### 1.5.14
-
-- Lazy load is an option on ads
-- Add scrollTop to template
-
-#### 1.5.13
-
-- Fixes react-icon and ad reducers in AMP
-- Add sticky code to ads
-
-#### 1.5.12
-
-- Updated mobx-react version
-
-#### 1.5.11
-
-- Add version to JS
-
-#### 1.5.10
-
-- Update lazyload
-
-#### 1.5.9
-
-- Fix title used in AMP Analytics
-
-#### 1.5.8
-
-- Fix but on previous bug fix
-
-#### 1.5.7
-
-- Fix anaylitics sending wrong title
-
-#### 1.5.6
-
-- Fixes customDimensions store in analytics
-
-#### 1.5.5
-
-- Update emotion
-- Change slots to fills
-
-#### 1.5.4
-
-- Start moving ads to its own package using slots
-- Fixes to iframes package
-- Fixes to some prop types
-
-#### 1.5.3
-
-- iOS bug fixes of new connection
-
-#### 1.5.2
-
-- More refactoring and bug fixes of new connection
-
-#### 1.5.1
-
-- Refactor MST implementation
-
-#### 1.5.0
-
-- New connection
-
-#### 1.4.3
-
-- Load scripts on DOM load
-
-#### 1.4.2
-
-- Import analytics dependencies from theme
-- Go back to initialUrl
-
-#### 1.4.1
-
-- Fix React dead code elimination warning
-
-#### 1.4.0
-
-- Add Comscore to AMP
-- Add initialUri compatibility (for wp-pwa-plugin >= 1.3.0)
-- Fixes on GTM
-- Configure Babel to support Chrome >= 40
-- Add iFrames and CustomCSS extensions
-
-#### 1.3.5
-
-- Check if ga is a function
-
-#### 1.3.4
-
-- Add custom_dimensions in analytics
-
-#### 1.3.2
-
-- Remove line
-
-#### 1.3.1
-
-- Fix on virtualEvents
-
-#### 1.3.1
-
-- Fix on virtualPageView
-
-#### 1.3.0
-
-- Analytics package refactoring
-- Start sending analytic events
-- Use our analytics for development
-
-#### 1.2.1
-
-- Fix comScore events
-
-#### 1.2.0
-
-- Add analytic events
-
-#### 1.1.2
-
-- Remove system
-- Fix title in virtualPageView
-- Update analytics db schema
-- Add jest to eslint globals
-
-#### 1.1.1
-- Text deploy
-
-#### 1.1.0
-- Start versioning
+Please take a look at our [Contribution Guide](https://github.com/frontity/contribute).

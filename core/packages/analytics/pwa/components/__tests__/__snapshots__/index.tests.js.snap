@@ -1,0 +1,107 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Analytics > Components renders correctly 1`] = `
+Array [
+  <script
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "
+window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({
+  'gtm.start': Date.now(),
+  event: 'gtm.js',
+});
+window.dataLayer.push({
+  event: 'wpPwaProperties',
+  wpPwaProperties: {
+  \\"anonymize\\": false,
+  \\"siteId\\": \\"site1122334455\\",
+  \\"userIds\\": [
+    \\"user00\\",
+    \\"user01\\"
+  ],
+  \\"theme\\": \\"saturn-theme\\",
+  \\"extensions\\": \\"saturn-theme,wp-org-connection\\",
+  \\"plan\\": \\"enterprise\\",
+  \\"pageType\\": \\"pwa\\",
+  \\"dev\\": true
+},
+});
+window.dataLayer.push({
+  event: 'virtualPageview',
+  virtualPageview: {
+  \\"site\\": \\"https://demo.frontity.test\\",
+  \\"title\\": \\"The Beauties of Gullfoss – Demo Frontity\\",
+  \\"url\\": \\"https://demo.frontity.test/the-beauties-of-gullfoss/\\",
+  \\"type\\": \\"post\\",
+  \\"id\\": 60,
+  \\"format\\": \\"pwa\\",
+  \\"route\\": \\"single\\",
+  \\"hash\\": \\"ZO0H2I9kJ0arOdstZdG\\",
+  \\"customDimensions\\": {
+    \\"dimension1\\": \\"dim1_post60\\",
+    \\"dimension2\\": \\"dim2_post60\\"
+  }
+},
+});",
+      }
+    }
+  />,
+  <script
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-12345678-1', 'auto', 'tracker_UA_12345678_1');
+ga('tracker_UA_12345678_1.send', 'pageview', {\\"dimension1\\":\\"dim1_post60\\",\\"dimension2\\":\\"dim2_post60\\"});",
+      }
+    }
+  />,
+  <script
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-12345678-2', 'auto', 'tracker_UA_12345678_2');
+ga('tracker_UA_12345678_2.send', 'pageview', {\\"dimension1\\":\\"dim1_post60\\",\\"dimension2\\":\\"dim2_post60\\"});",
+      }
+    }
+  />,
+  <script
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "
+var _comscore = _comscore || [];
+_comscore.push({ c1: \\"2\\", c2: \\"test1\\" });
+(function() {
+  var s = document.createElement(\\"script\\"), el = document.getElementsByTagName(\\"script\\")[0]; s.async = true;
+  s.src = (document.location.protocol == \\"https:\\" ? \\"https://sb\\" : \\"http://b\\") + \\".scorecardresearch.com/beacon.js\\";
+  el.parentNode.insertBefore(s, el);
+})();",
+      }
+    }
+  />,
+  <script
+    dangerouslySetInnerHTML={
+      Object {
+        "__html": "
+var _comscore = _comscore || [];
+_comscore.push({ c1: \\"2\\", c2: \\"test2\\" });
+(function() {
+  var s = document.createElement(\\"script\\"), el = document.getElementsByTagName(\\"script\\")[0]; s.async = true;
+  s.src = (document.location.protocol == \\"https:\\" ? \\"https://sb\\" : \\"http://b\\") + \\".scorecardresearch.com/beacon.js\\";
+  el.parentNode.insertBefore(s, el);
+})();",
+      }
+    }
+  />,
+]
+`;

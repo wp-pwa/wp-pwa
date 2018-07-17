@@ -1,0 +1,127 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Analytics > GoogleAnalytics ids 1`] = `
+Array [
+  "UA-12345678-1",
+  "UA-12345678-2",
+]
+`;
+
+exports[`Analytics > GoogleAnalytics ids 2`] = `
+Array [
+  "UA-12345678-1",
+  "UA-12345678-2",
+]
+`;
+
+exports[`Analytics > GoogleAnalytics pageView 1`] = `
+Object {
+  "dimension1": "dim1_post60",
+  "dimension2": "dim2_post60",
+  "location": "https://demo.frontity.test/the-beauties-of-gullfoss/",
+  "title": "The Beauties of Gullfoss",
+}
+`;
+
+exports[`Analytics > GoogleAnalytics pageView 2`] = `
+Object {
+  "cd1": "dim1_post60",
+  "cd2": "dim2_post60",
+  "location": "https://demo.frontity.test/the-beauties-of-gullfoss/",
+  "title": "The Beauties of Gullfoss",
+}
+`;
+
+exports[`Analytics > GoogleAnalytics sendEvent 1`] = `
+Array [
+  Array [
+    "tracker_UA_12345678_1.send",
+    Object {
+      "eventAction": "PWA - test/action",
+      "eventCategory": "PWA - test/category",
+      "eventLabel": "test/label type: post context: single",
+      "hitType": "event",
+    },
+  ],
+  Array [
+    "tracker_UA_12345678_2.send",
+    Object {
+      "eventAction": "PWA - test/action",
+      "eventCategory": "PWA - test/category",
+      "eventLabel": "test/label type: post context: single",
+      "hitType": "event",
+    },
+  ],
+]
+`;
+
+exports[`Analytics > GoogleAnalytics sendPageView 1`] = `
+Array [
+  Array [
+    "tracker_UA_12345678_1.send",
+    Object {
+      "dimension1": "dim1_post60",
+      "dimension2": "dim2_post60",
+      "hitType": "pageview",
+      "location": "https://demo.frontity.test/the-beauties-of-gullfoss/",
+      "title": "The Beauties of Gullfoss",
+    },
+  ],
+  Array [
+    "tracker_UA_12345678_2.send",
+    Object {
+      "dimension1": "dim1_post60",
+      "dimension2": "dim2_post60",
+      "hitType": "pageview",
+      "location": "https://demo.frontity.test/the-beauties-of-gullfoss/",
+      "title": "The Beauties of Gullfoss",
+    },
+  ],
+  Array [
+    "tracker_UA_12345678_1.send",
+    Object {
+      "dimension1": "dim1_cat7",
+      "dimension2": "dim2_cat7",
+      "hitType": "pageview",
+      "location": "https://demo.frontity.test/wp-cat/photography/page/2",
+      "title": "Photography",
+    },
+  ],
+  Array [
+    "tracker_UA_12345678_2.send",
+    Object {
+      "dimension1": "dim1_cat7",
+      "dimension2": "dim2_cat7",
+      "hitType": "pageview",
+      "location": "https://demo.frontity.test/wp-cat/photography/page/2",
+      "title": "Photography",
+    },
+  ],
+]
+`;
+
+exports[`Analytics > GoogleAnalytics trackingOptions 1`] = `
+Array [
+  Object {
+    "sendEvents": true,
+    "sendPageViews": true,
+  },
+  Object {
+    "sendEvents": true,
+    "sendPageViews": true,
+  },
+]
+`;
+
+exports[`Analytics > GoogleAnalytics trackingOptions 2`] = `
+Array [
+  Object {
+    "sendEvents": true,
+    "sendPageViews": true,
+  },
+  Object {
+    "sendEvents": true,
+    "sendPageViews": false,
+  },
+]
+`;

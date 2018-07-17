@@ -2,10 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'react-emotion';
 import { inject } from 'mobx-react';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
 import { Helmet } from 'react-helmet';
-import * as selectors from '../../selectors';
 
 class SmartAd extends Component {
   static propTypes = {
@@ -44,13 +41,33 @@ class SmartAd extends Component {
   constructor(props) {
     super(props);
     const { formatId, item, column, slotName } = this.props;
-    this.tagId = `ad${formatId}_${item.mstId || column.mstId}${slotName ? `_${slotName}` : ''}`;
+    this.tagId = `ad${formatId}_${item.mstId || column.mstId}${
+      slotName ? `_${slotName}` : ''
+    }`;
   }
 
   componentDidMount() {
-    const { networkId, siteId, pageId, formatId, target, width, height, callType } = this.props;
+    const {
+      networkId,
+      siteId,
+      pageId,
+      formatId,
+      target,
+      width,
+      height,
+      callType,
+    } = this.props;
     const { tagId } = this;
-    const callParams = { siteId, pageId, formatId, target, width, height, tagId, async: true };
+    const callParams = {
+      siteId,
+      pageId,
+      formatId,
+      target,
+      width,
+      height,
+      tagId,
+      async: true,
+    };
 
     const sas = window && window.sas ? window.sas : (window.sas = {});
     sas.cmd = sas.cmd || [];
@@ -58,7 +75,11 @@ class SmartAd extends Component {
     if (SmartAd.firstAd) {
       SmartAd.firstAd = false;
       sas.cmd.push(() => {
-        sas.setup({ networkid: networkId, domain: '//www8.smartadserver.com', async: true });
+        sas.setup({
+          networkid: networkId,
+          domain: '//www8.smartadserver.com',
+          async: true,
+        });
       });
     }
 
@@ -69,7 +90,16 @@ class SmartAd extends Component {
   }
 
   render() {
-    const { networkId, formatId, width, height, isAmp, siteId, pageId, target } = this.props;
+    const {
+      networkId,
+      formatId,
+      width,
+      height,
+      isAmp,
+      siteId,
+      pageId,
+      target,
+    } = this.props;
     const { tagId } = this;
 
     if (isAmp) {
@@ -96,7 +126,11 @@ class SmartAd extends Component {
     return (
       <Fragment>
         <Helmet>
-          <script src={`//ced.sascdn.com/tag/${networkId}/smart.js`} type="text/javascript" async />
+          <script
+            src={`//ced.sascdn.com/tag/${networkId}/smart.js`}
+            type="text/javascript"
+            async
+          />
         </Helmet>
         <InnerContainer id={tagId} width={width} height={height} />
       </Fragment>
@@ -104,15 +138,11 @@ class SmartAd extends Component {
   }
 }
 
-const mapStateToProps = state => ({
-  networkId: selectors.getConfig(state).settings.networkId,
-});
-
-export default compose(
-  connect(mapStateToProps),
-  inject(({ connection }, { item: { type, id } }) => ({
+export default inject(
+  ({ stores: { connection, settings } }, { item: { type, id } }) => ({
+    networkId: settings.theme.ads.settings.networkId,
     target: connection.entity(type, id).target,
-  })),
+  }),
 )(SmartAd);
 
 const InnerContainer = styled.div`

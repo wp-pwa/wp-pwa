@@ -1,0 +1,17 @@
+{
+  "verifyConditions": [
+    "@semantic-release/changelog",
+    "@semantic-release/github",
+    "@semantic-release/git"
+  ],
+  "prepare": [
+    "@semantic-release/changelog",
+    "@semantic-release/npm",
+    "@semantic-release/git"
+  ],
+  "publish": ["@semantic-release/github"],
+  "success": ["@semantic-release/github"],
+  "fail": ["@semantic-release/github"],
+  "branch": "master",
+  "npmPublish": false
+}

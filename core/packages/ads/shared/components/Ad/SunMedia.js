@@ -42,7 +42,13 @@ class SunMedia extends Component {
               src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"
             />
           </Helmet>
-          <amp-ad type="sunmedia" layout="fill" data-cid={cid} data-cskp={1} data-crst={1} />
+          <amp-ad
+            type="sunmedia"
+            layout="fill"
+            data-cid={cid}
+            data-cskp={1}
+            data-crst={1}
+          />
         </Fragment>
       );
     }

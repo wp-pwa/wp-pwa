@@ -1,71 +1,41 @@
-import { types, getEnv } from 'mobx-state-tree';
-import { dep } from 'worona-deps';
-
-const mapCustomDimensions = (self, action) => {
-  const { customDimensions } = self;
-  const { entities } = action;
-
-  const entityTypes = Object.keys(entities);
-
-  entityTypes.forEach(type => {
-    const entityIds = Object.keys(entities[type]);
-
-    entityIds.forEach(id => {
-      if (entities[type][id].custom_analytics) {
-        if (!customDimensions.get(entities[type][id].type)) {
-          customDimensions.set(entities[type][id].type, {});
-        }
-
-        if (!customDimensions.get(entities[type][id].type).get(id)) {
-          customDimensions
-            .get(entities[type][id].type, {})
-            .set(id, entities[type][id].custom_analytics);
-        }
-      }
-    });
-  });
-};
+import { types, getRoot, addMiddleware } from 'mobx-state-tree';
+import GoogleAnalytics from './google-analytics';
+import GoogleTagManager from './google-tag-manager';
+import ComScore from './comscore';
+import { afterAction } from '../utils';
 
 const Analytics = types
   .model('Analytics')
   .props({
-    customDimensions: types.optional(types.map(types.map(types.frozen)), {}),
+    googleAnalytics: types.optional(GoogleAnalytics, {}),
+    googleTagManager: types.optional(GoogleTagManager, {}),
+    comScore: types.optional(ComScore, {}),
   })
-  .actions(self => ({
-    [dep('connection', 'actionTypes', 'ENTITY_SUCCEED')](action) {
-      mapCustomDimensions(self, action);
-    },
-    [dep('connection', 'actionTypes', 'LIST_SUCCEED')](action) {
-      mapCustomDimensions(self, action);
-    },
-  }))
   .views(self => ({
-    getCustomDimensions({ type, id }) {
-      if (type && id) {
-        const typeList = self.customDimensions.get(type);
-
-        if (typeList) {
-          const dimensions = typeList.get(id.toString());
-
-          if (dimensions) {
-            return dimensions;
-          }
-        }
-      }
-
-      return null;
+    customDimensions({ type, id }) {
+      const { connection } = getRoot(self);
+      const entity = connection.entity(type, id);
+      return (entity && entity.raw && entity.raw.custom_analytics) || {};
     },
   }))
   .actions(self => ({
-    afterCreate: () => {
-      const { store } = getEnv(self);
-      if (store)
-        store.subscribe(() => {
-          const action = store.getState().lastAction;
-          if (self[action.type]) {
-            self[action.type](action);
-          }
-        });
+    sendPageView() {
+      self.googleAnalytics.sendPageView();
+      self.googleTagManager.sendPageView();
+      self.comScore.sendPageView();
+    },
+    sendEvent(event) {
+      self.googleAnalytics.sendEvent(event);
+      self.googleTagManager.sendEvent(event);
+    },
+    afterCsr() {
+      const { connection } = getRoot(self);
+      // Send pageviews when route has changed
+      const pageViewMiddleware = afterAction(
+        'routeChangeSucceed',
+        self.sendPageView,
+      );
+      addMiddleware(connection, pageViewMiddleware);
     },
   }));
 

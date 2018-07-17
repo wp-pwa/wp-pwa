@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
 import { computed } from 'mobx';
-import { connect } from 'react-redux';
-import { compose } from 'recompose';
 import styled from 'react-emotion';
 import Lazy from '../LazyUnload';
 
@@ -11,7 +9,6 @@ import AdSense from './AdSense';
 import SmartAd from './SmartAd';
 import DoubleClick from './DoubleClick';
 import SunMedia from './SunMedia';
-import * as selectors from '../../selectors';
 
 const mapAds = {
   adsense: AdSense,
@@ -20,7 +17,17 @@ const mapAds = {
   sunmedia: SunMedia,
 };
 
-const Ad = ({ type, width, height, active, isAmp, isSticky, isLazy, isMedia, ...adProps }) => {
+const Ad = ({
+  type,
+  width,
+  height,
+  active,
+  isAmp,
+  isSticky,
+  isLazy,
+  isMedia,
+  ...adProps
+}) => {
   const SelectedAd = mapAds[type];
 
   if (!SelectedAd) return null;
@@ -68,7 +75,7 @@ Ad.propTypes = {
   isAmp: PropTypes.bool.isRequired,
   isSticky: PropTypes.bool,
   isMedia: PropTypes.bool,
-  isLazy: PropTypes.bool.isRequired,
+  isLazy: PropTypes.bool,
 };
 
 Ad.defaultProps = {
@@ -78,23 +85,24 @@ Ad.defaultProps = {
   height: 80,
   isSticky: false,
   isMedia: false,
+  isLazy: true,
 };
 
-const mapStateToProps = state => ({
-  isAmp: state.build.amp,
-  isLazy: selectors.areLazy(state),
-});
-
-export default compose(
-  connect(mapStateToProps),
-  inject(({ connection }, { item, active }) => ({
+export default inject(
+  ({ stores: { settings, connection, build } }, { item, active }) => ({
+    isAmp: build.isAmp,
+    isLazy:
+      settings.ads && settings.ads.settings && settings.ads.settings.areLazy,
     active:
       typeof active === 'boolean'
         ? active
         : computed(
-            () => (item && connection.selectedContext.getItem({ item }).isSelected) || false,
+            () =>
+              (item &&
+                connection.selectedContext.getItem({ item }).isSelected) ||
+              false,
           ).get(),
-  })),
+  }),
 )(Ad);
 
 const Container = styled.div`
@@ -105,8 +113,11 @@ const Container = styled.div`
   align-items: center;
   max-width: calc(100% - 30px);
   min-height: ${({ styles }) =>
-    typeof styles.height === 'string' ? `calc(${styles.height} + 1px)` : `${styles.height + 1}px`};
-  width: ${({ styles }) => (typeof styles.width === 'string' ? styles.width : `${styles.width}px`)};
+    typeof styles.height === 'string'
+      ? `calc(${styles.height} + 1px)`
+      : `${styles.height + 1}px`};
+  width: ${({ styles }) =>
+    typeof styles.width === 'string' ? styles.width : `${styles.width}px`};
   overflow: hidden;
 
   * {
@@ -140,7 +151,8 @@ const StyledLazy = styled(Lazy)`
   position: static;
   top: 0;
   left: 0;
-  min-height: ${({ height }) => (typeof height === 'string' ? height : `${height}px`)};
+  min-height: ${({ height }) =>
+    typeof height === 'string' ? height : `${height}px`};
   width: ${({ width }) => (typeof width === 'string' ? width : `${width}px`)};
   z-index: 1;
 `;

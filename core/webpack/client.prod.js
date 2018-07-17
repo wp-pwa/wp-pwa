@@ -4,6 +4,7 @@ const webpack = require('webpack');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const { nodeModules, babelrc } = require('./utils');
 const vendors = require('../vendors');
 
 const config = {
@@ -21,6 +22,9 @@ const config = {
     chunkFilename: '[name].[chunkhash].js',
     path: path.resolve(__dirname, `../../.build/${process.env.MODE}/client`),
   },
+  resolve: {
+    modules: nodeModules,
+  },
   module: {
     rules: [
       {
@@ -29,7 +33,8 @@ const config = {
         use: {
           loader: 'babel-loader',
           options: {
-            forceEnv: 'prodClient',
+            babelrc: false,
+            ...babelrc.prodClient,
           },
         },
       },

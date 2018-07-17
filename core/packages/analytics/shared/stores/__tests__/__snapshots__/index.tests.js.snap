@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Analytics view - customDimensions 1`] = `
+Array [
+  Object {
+    "dimension1": "dim1_post57",
+    "dimension2": "dim2_post57",
+  },
+  Object {
+    "dimension1": "dim1_post54",
+    "dimension2": "dim2_post54",
+  },
+  Object {},
+]
+`;

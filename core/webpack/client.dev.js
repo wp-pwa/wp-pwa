@@ -5,6 +5,7 @@ const WriteFilePlugin = require('write-file-webpack-plugin'); // here so you can
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
+const { nodeModules, babelrc } = require('./utils');
 const vendors = require('../vendors');
 
 const config = {
@@ -26,6 +27,9 @@ const config = {
     chunkFilename: '[name].js',
     path: path.resolve(__dirname, `../../.build/${process.env.MODE}/client`),
   },
+  resolve: {
+    modules: nodeModules,
+  },
   module: {
     rules: [
       {
@@ -34,7 +38,8 @@ const config = {
         use: {
           loader: 'babel-loader',
           options: {
-            forceEnv: 'devClient',
+            babelrc: false,
+            ...babelrc.devClient,
           },
         },
       },
@@ -71,7 +76,7 @@ const config = {
         MODE: JSON.stringify(process.env.MODE),
       },
     }),
-    new webpack.WatchIgnorePlugin([/\.build/,  /packages$/]),
+    new webpack.WatchIgnorePlugin([/\.build/, /packages$/]),
     new webpack.IgnorePlugin(/vertx/),
     new LodashModuleReplacementPlugin({
       currying: true,
@@ -83,16 +88,20 @@ const config = {
 if (process.env.ANALYZE) {
   const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
   const Visualizer = require('webpack-visualizer-plugin');
-  config.plugins.push(new BundleAnalyzerPlugin({
-    analyzerMode: 'static',
-    reportFilename: '../../analyize/pwa/client-dev-analyzer.html',
-    openAnalyzer: false,
-    generateStatsFile: true,
-    statsFilename: '../../analyize/pwa/client-dev-stats.json',
-  }));
-  config.plugins.push(new Visualizer({
-    filename: '../../analyize/pwa/client-dev-visualizer.html',
-  }));
+  config.plugins.push(
+    new BundleAnalyzerPlugin({
+      analyzerMode: 'static',
+      reportFilename: '../../analyize/pwa/client-dev-analyzer.html',
+      openAnalyzer: false,
+      generateStatsFile: true,
+      statsFilename: '../../analyize/pwa/client-dev-stats.json',
+    }),
+  );
+  config.plugins.push(
+    new Visualizer({
+      filename: '../../analyize/pwa/client-dev-visualizer.html',
+    }),
+  );
 }
 
 module.exports = config;

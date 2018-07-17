@@ -1,0 +1,25 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Analytics > ComScore comScoreIds 1`] = `
+Array [
+  "test1",
+  "test2",
+]
+`;
+
+exports[`Analytics > ComScore sendPageView 1`] = `
+Array [
+  Array [
+    Object {
+      "c1": "2",
+      "c2": "test1",
+    },
+  ],
+  Array [
+    Object {
+      "c1": "2",
+      "c2": "test2",
+    },
+  ],
+]
+`;
