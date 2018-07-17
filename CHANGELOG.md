@@ -1,4 +1,4 @@
-# [1.0.0](https://github.com/frontity/frontity/compare/v0.5.19...v1.0.0) (2018-07-17)
+# [0.6.0](https://github.com/frontity/frontity/compare/v0.5.19...v1.0.0) (2018-07-17)
 
 
 ### Bug Fixes
