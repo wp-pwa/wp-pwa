@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
 import styled from 'react-emotion';
 import Transition from 'react-transition-group/Transition';
-import IconClose from 'react-icons/lib/md/close';
 import Ad from '../Ad';
+import CloseIcon from './CloseIcon';
 
 class Sticky extends Component {
   static propTypes = {
@@ -124,9 +124,13 @@ class Sticky extends Component {
         onEnter={node => node.scrollTop}
       >
         {status => (
-          <Container status={status} stickyHeight={format && format.height} position={position}>
+          <Container
+            status={status}
+            stickyHeight={format && format.height}
+            position={position}
+          >
             <CloseButton onClick={this.handleClick} position={position}>
-              <IconClose size={20} verticalAlign="none" />
+              <CloseIcon size={20} />
             </CloseButton>
             {format && shouldMount && <Ad active isSticky {...format} />}
           </Container>
@@ -188,9 +192,13 @@ const CloseButton = styled.div`
   justify-content: center;
   align-items: center;
   ${({ position }) =>
-    position === 'bottom' ? 'border-top-left-radius: 20px' : 'border-bottom-left-radius: 20px'};
+    position === 'bottom'
+      ? 'border-top-left-radius: 20px'
+      : 'border-bottom-left-radius: 20px'};
   ${({ position }) =>
-    position === 'bottom' ? 'border-top-right-radius: 20px' : 'border-bottom-right-radius: 20px'};
+    position === 'bottom'
+      ? 'border-top-right-radius: 20px'
+      : 'border-bottom-right-radius: 20px'};
   background-color: ${({ theme }) => theme.colors.background};
   color: ${({ theme }) => theme.colors.text};
 `;

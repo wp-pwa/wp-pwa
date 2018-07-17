@@ -83,7 +83,6 @@
     "react-emotion": "^8.0.12",
     "react-helmet": "^5.2.0",
     "react-hot-loader": "3.0.0-beta.7",
-    "react-icons": "git+https://github.com/wp-pwa/react-icons.git#fix-vertical-align-with-lib",
     "react-slot-fill": "^2.0.0",
     "react-transition-group": "^2.3.1",
     "react-universal-component": "^2.8.2",
