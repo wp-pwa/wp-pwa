@@ -10,7 +10,8 @@ class LazyIframe extends Component {
     src: PropTypes.string.isRequired,
     className: PropTypes.string,
     width: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
-    height: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+    height: PropTypes.oneOfType([PropTypes.number, PropTypes.string])
+      .isRequired,
     isSsr: PropTypes.bool.isRequired,
   };
 
@@ -35,15 +36,17 @@ class LazyIframe extends Component {
 
     if (isSsr)
       return (
-        <Iframe
-          title={name}
-          src={src}
-          className={className}
-          width={0}
-          height={0}
-          minWidth={width}
-          minHeight={height}
-        />
+        <Container className={className}>
+          <Iframe
+            title={name}
+            src={src}
+            className={className}
+            width={0}
+            height={0}
+            minWidth={width}
+            minHeight={height}
+          />
+        </Container>
       );
 
     return (
@@ -86,13 +89,16 @@ const StyledLazy = styled(LazyLoad)`
 const Container = styled.div`
   display: block;
   position: relative;
-  width: 100%;
+  width: calc(100% - 30px);
   height: 100%;
+  padding: 15px;
 `;
 
 const Iframe = styled.iframe`
-  min-width: ${({ minWidth }) => (typeof minWidth === 'number' ? `${minWidth}px` : minWidth)};
-  min-height: ${({ minHeight }) => (typeof minHeight === 'number' ? `${minHeight}px` : minHeight)};
+  min-width: ${({ minWidth }) =>
+    typeof minWidth === 'number' ? `${minWidth}px` : minWidth};
+  min-height: ${({ minHeight }) =>
+    typeof minHeight === 'number' ? `${minHeight}px` : minHeight};
   margin: 0 auto;
   display: block;
   border: none;

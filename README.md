@@ -1,8 +1,10 @@
-# ⏩ Frontity
+# » Frontity
 
 [![Build Status](https://travis-ci.org/frontity/frontity.svg?branch=master)](https://travis-ci.org/frontity/frontity)
 
-**Frontity** is a framework to build WordPress themes using **React**.
+> We are in the process of preparing our framework to be used by other developers than us, but we haven't finished yet. If you want to start working with it, please send us an email to hello@frontity.com and we'll help you set up a local environment.
+
+**» Frontity** is a framework to build WordPress themes using **React**.
 
 It is based in a **fully-decoupled** approach. This means it uses Node (and not PHP) to create the final server-side-rendered html.
 

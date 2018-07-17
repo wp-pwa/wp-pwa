@@ -5,7 +5,6 @@ import ReactDOM from 'react-dom';
 import { types } from 'mobx-state-tree';
 import { AppContainer } from 'react-hot-loader';
 import { hydrate } from 'react-emotion';
-import { addPackage } from 'worona-deps';
 import request from 'superagent';
 import App from '../components/App';
 import { importPromises } from '../components/Universal';
@@ -13,7 +12,9 @@ import Store from '../store';
 
 const dev = process.env.NODE_ENV !== 'production';
 
-// const analyticsModule = require(`../packages/analytics/${process.env.MODE}`);
+const analyticsModule = require(`../packages/analytics/${
+  process.env.MODE
+}/client`);
 const iframesModule = require(`../packages/iframes/${process.env.MODE}/client`);
 const adsModule = require(`../packages/ads/${process.env.MODE}/client`);
 const customCssModule = require(`../packages/custom-css/${
@@ -28,7 +29,11 @@ const disqusCommentsModule = require(`../packages/disqus-comments/${
 
 // Define core modules.
 const coreModules = [
-  // { name: 'analytics', namespace: 'analytics', module: analyticsModule },
+  {
+    name: 'analytics',
+    namespace: 'analytics',
+    module: analyticsModule,
+  },
   {
     name: 'iframes',
     namespace: 'iframes',
@@ -95,21 +100,11 @@ const init = async () => {
   const pkgModules = await Promise.all(pkgPromises);
 
   const storesProps = {};
-  const flows = {};
   const envs = {};
-
-  const addModules = pkg => {
-    addPackage({ namespace: pkg.namespace, module: pkg.module });
-  };
-
-  // Add packages to worona-devs.
-  coreModules.forEach(addModules);
-  pkgModules.forEach(addModules);
 
   const mapModules = pkg => {
     if (pkg.module.Store)
       storesProps[pkg.namespace] = types.optional(pkg.module.Store, {});
-    if (pkg.module.flow) flows[`${pkg.namespace}-flow`] = pkg.module.flow;
     if (pkg.module.env) envs[pkg.namespace] = pkg.module.env;
     if (pkg.module.components)
       components[pkg.namespace] = pkg.module.components;
@@ -119,18 +114,20 @@ const init = async () => {
   coreModules.forEach(mapModules);
   pkgModules.forEach(mapModules);
 
-  // Create MST Stores and add flows
-  const Stores = Store.props(storesProps).actions(self => {
-    Object.keys(flows).forEach(flow => {
-      flows[flow] = flows[flow](self);
-    });
-    return flows;
-  });
+  // Create MST Stores
+  const Stores = Store.props(storesProps);
+  const { type, id, page } = window['wp-pwa'];
+  const parsedId = parseInt(id, 10);
 
   stores = Stores.create(window['wp-pwa'].initialState, {
     request,
     machine: 'server',
     ...envs,
+    initialSelectedItem: {
+      type,
+      id: Number.isNaN(parsedId) ? id : parsedId,
+      page: parseInt(page, 10),
+    },
   });
   if (dev) {
     const makeInspectable = require('mobx-devtools-mst').default;
@@ -145,8 +142,10 @@ const init = async () => {
   // Inform that the client has been rendered.
   stores.clientRendered();
 
-  Object.keys(flows).map(flow => stores[flow]());
-  stores.flowsInitialized();
+  // Initializes the afterCSRs.
+  Object.values(stores).forEach(({ afterCsr }) => {
+    if (afterCsr) afterCsr();
+  });
 };
 
 if (process.env.NODE_ENV === 'development' && module.hot) {

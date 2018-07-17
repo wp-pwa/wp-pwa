@@ -7,7 +7,6 @@ import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 import { mapValues } from 'lodash';
 import request from 'superagent';
-import { addPackage } from 'worona-deps';
 import { types } from 'mobx-state-tree';
 import { useStaticRendering } from 'mobx-react';
 import { Helmet } from 'react-helmet';
@@ -19,7 +18,9 @@ import ampTemplate from './templates/amp';
 import requireModules from './requires';
 import { parseQuery } from './utils';
 
-// const analyticsModule = require(`../packages/analytics/${process.env.MODE}`);
+const analyticsModule = require(`../packages/analytics/${
+  process.env.MODE
+}/server`);
 const iframesModule = require(`../packages/iframes/${process.env.MODE}/server`);
 const adsModule = require(`../packages/ads/${process.env.MODE}/server`);
 const customCssModule = require(`../packages/custom-css/${
@@ -79,7 +80,11 @@ export default ({ clientStats }) => async (req, res) => {
 
     // Define core modules.
     const coreModules = [
-      // { name: 'analytics', namespace: 'analytics', module: analyticsModule },
+      {
+        name: 'analytics',
+        namespace: 'analytics',
+        module: analyticsModule,
+      },
       {
         name: 'iframes',
         namespace: 'iframes',
@@ -125,22 +130,12 @@ export default ({ clientStats }) => async (req, res) => {
     const pkgModules = await requireModules(Object.entries(packages));
 
     const storesProps = {};
-    const flows = {};
     const envs = {};
     const components = {};
-
-    const addModules = pkg => {
-      addPackage({ namespace: pkg.namespace, module: pkg.module });
-    };
-
-    // Add packages to worona-devs.
-    coreModules.forEach(addModules);
-    pkgModules.forEach(addModules);
 
     const mapModules = pkg => {
       if (pkg.module.Store)
         storesProps[pkg.namespace] = types.optional(pkg.module.Store, {});
-      if (pkg.module.flow) flows[`${pkg.namespace}-flow`] = pkg.module.flow;
       if (pkg.module.env) envs[pkg.namespace] = pkg.module.env;
       if (pkg.module.components)
         components[pkg.namespace] = pkg.module.components;
@@ -150,13 +145,8 @@ export default ({ clientStats }) => async (req, res) => {
     coreModules.forEach(mapModules);
     pkgModules.forEach(mapModules);
 
-    // Create MST Stores and add flows
-    const Stores = Store.props(storesProps).actions(self => {
-      Object.keys(flows).forEach(flow => {
-        flows[flow] = flows[flow](self);
-      });
-      return flows;
-    });
+    // Create MST Stores.
+    const Stores = Store.props(storesProps);
 
     const stores = Stores.create(
       {
@@ -166,7 +156,7 @@ export default ({ clientStats }) => async (req, res) => {
           device,
           packages,
           isDev: !!req.query.dev,
-          initialUrl,
+          urlFromQuery: initialUrl,
           rendering: 'ssr',
           perPage: parseInt(perPage, 10),
           dynamicUrl,
@@ -174,23 +164,27 @@ export default ({ clientStats }) => async (req, res) => {
         },
         settings,
       },
-      { request, machine: 'server', ...envs },
+      {
+        request,
+        machine: 'server',
+        initialSelectedItem: { type, id, page },
+        ...envs,
+      },
     );
+
     if (typeof window !== 'undefined') window.frontity = stores;
 
     // Notify that server is started.
     stores.serverStarted();
 
-    // Run and wait until all the server sagas have run.
-    const params = {
-      selectedItem: { type, id, page },
-    };
+    const beforeSsrPromises = Object.values(stores).reduce((total, current) => {
+      if (current.beforeSsr) total.push(current.beforeSsr());
+      return total;
+    }, []);
+    await Promise.all(beforeSsrPromises);
 
-    const startFlows = new Date();
-    const flowPromises = Object.keys(flows).map(flow => stores[flow](params));
-    stores.flowsInitialized();
-    await Promise.all(flowPromises);
-    stores.serverFinished({ timeToRunFlows: new Date() - startFlows });
+    // Notify that server has finished.
+    stores.serverFinished();
 
     // Generate React SSR.
     const render =

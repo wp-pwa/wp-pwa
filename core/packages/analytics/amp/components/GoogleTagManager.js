@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
-const ComScore = ({ id }) => (
+const GoogleTagManager = ({ id, vars }) => (
   <Fragment>
     <Helmet>
       <script
@@ -12,23 +12,27 @@ const ComScore = ({ id }) => (
         src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"
       />
     </Helmet>
-    <amp-analytics type="comscore">
+    <amp-analytics
+      config={`https://www.googletagmanager.com/amp.json?id=${id}&gtm.url=SOURCE_URL`}
+      data-credentials="include"
+    >
       <script
         type="application/json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            vars: {
-              c2: id,
-            },
-          }),
+          __html: JSON.stringify({ vars }, null, 2),
         }}
       />
     </amp-analytics>
   </Fragment>
 );
 
-ComScore.propTypes = {
-  id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
+GoogleTagManager.propTypes = {
+  id: PropTypes.string.isRequired,
+  vars: PropTypes.shape({}),
 };
 
-export default ComScore;
+GoogleTagManager.defaultProps = {
+  vars: {},
+};
+
+export default GoogleTagManager;

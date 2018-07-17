@@ -1,31 +1,33 @@
+/* eslint-disable react/no-danger */
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Helmet } from 'react-helmet';
 
-export const gtmScript = gtmId => (
-  <script async src={`https://www.googletagmanager.com/gtm.js?id=${gtmId}`} />
+export const gtmScript = id => (
+  <script async src={`https://www.googletagmanager.com/gtm.js?id=${id}`} />
 );
 
-export const gtmNoScript = gtmId => (
+export const gtmNoScript = id => (
   <noscript>
-    {`<iframe
-      src="https://www.googletagmanager.com/ns.html?id=${gtmId}"
-      height="0"
-      width="0"
-      style={{ display: 'none', visibility: 'hidden' }}
-    ></iframe>`}
+    {`
+<iframe
+  src="https://www.googletagmanager.com/ns.html?id=${id}"
+  height="0"
+  width="0"
+  style={{ display: 'none', visibility: 'hidden' }}
+></iframe>`}
   </noscript>
 );
 
-const GoogleTagManager = ({ gtmId }) => (
+const GoogleTagManager = ({ id }) => (
   <Helmet>
-    {gtmScript(gtmId)}
-    {gtmNoScript(gtmId)}
+    {gtmScript(id)}
+    {gtmNoScript(id)}
   </Helmet>
 );
 
 GoogleTagManager.propTypes = {
-  gtmId: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default GoogleTagManager;

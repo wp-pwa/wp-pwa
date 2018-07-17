@@ -10,15 +10,8 @@
     "@semantic-release/git"
   ],
   "publish": ["@semantic-release/github"],
-  "success": [
-    {
-      "path": "@semantic-release/github",
-      "successComment":
-        ":tada: This issue has been resolved in version ${nextRelease.version} :tada:\n\nThe release is available on [GitHub release](<github_release_url>)"
-    }
-  ],
+  "success": ["@semantic-release/github"],
   "fail": ["@semantic-release/github"],
-
   "branch": "master",
   "npmPublish": false
 }
