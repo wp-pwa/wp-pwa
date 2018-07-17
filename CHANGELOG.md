@@ -1,3 +1,11 @@
+## [0.6.1](https://github.com/frontity/frontity/compare/v0.6.0...v0.6.1) (2018-07-17)
+
+
+### Bug Fixes
+
+* **icons:** changes sticky close icon ([85b2b27](https://github.com/frontity/frontity/commit/85b2b27))
+* **react-icon:** remove package ([7e1137c](https://github.com/frontity/frontity/commit/7e1137c))
+
 # [0.6.0](https://github.com/frontity/frontity/compare/v0.5.19...v1.0.0) (2018-07-17)
 
 
