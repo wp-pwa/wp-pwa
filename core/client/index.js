@@ -5,7 +5,6 @@ import ReactDOM from 'react-dom';
 import { types } from 'mobx-state-tree';
 import { AppContainer } from 'react-hot-loader';
 import { hydrate } from 'react-emotion';
-import { addPackage } from 'worona-deps';
 import request from 'superagent';
 import App from '../components/App';
 import { importPromises } from '../components/Universal';
@@ -102,14 +101,6 @@ const init = async () => {
 
   const storesProps = {};
   const envs = {};
-
-  const addModules = pkg => {
-    addPackage({ namespace: pkg.namespace, module: pkg.module });
-  };
-
-  // Add packages to worona-devs.
-  coreModules.forEach(addModules);
-  pkgModules.forEach(addModules);
 
   const mapModules = pkg => {
     if (pkg.module.Store)
