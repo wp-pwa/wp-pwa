@@ -7,7 +7,6 @@ import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 import { mapValues } from 'lodash';
 import request from 'superagent';
-import { addPackage } from 'worona-deps';
 import { types } from 'mobx-state-tree';
 import { useStaticRendering } from 'mobx-react';
 import { Helmet } from 'react-helmet';
@@ -133,14 +132,6 @@ export default ({ clientStats }) => async (req, res) => {
     const storesProps = {};
     const envs = {};
     const components = {};
-
-    const addModules = pkg => {
-      addPackage({ namespace: pkg.namespace, module: pkg.module });
-    };
-
-    // Add packages to worona-devs.
-    coreModules.forEach(addModules);
-    pkgModules.forEach(addModules);
 
     const mapModules = pkg => {
       if (pkg.module.Store)
