@@ -1,3 +1,11 @@
+## [0.6.2](https://github.com/frontity/frontity/compare/v0.6.1...v0.6.2) (2018-07-18)
+
+
+### Bug Fixes
+
+* **one-signal:** refactor afterSsr ([49e3abb](https://github.com/frontity/frontity/commit/49e3abb))
+* **one-signal:** remove flow and add beforeSsr (WIP) ([93f7fb8](https://github.com/frontity/frontity/commit/93f7fb8))
+
 ## [0.6.1](https://github.com/frontity/frontity/compare/v0.6.0...v0.6.1) (2018-07-17)
 
 
