@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { types, flow } from 'mobx-state-tree';
+import { types, flow, getRoot, getEnv } from 'mobx-state-tree';
 
 const defaultSettings = {
   path: '/wp-content/plugins/onesignal-free-web-push-notifications/sdk_files/',
@@ -16,27 +16,32 @@ export default types
     areSupported: false,
     areEnabled: false,
   })
+  .views(self => ({
+    get root() {
+      return getRoot(self);
+    },
+    get settings() {
+      return self.root.settings.theme.oneSignal;
+    },
+  }))
   .actions(self => ({
     load: flow(function* loadOneSignal() {
       // Load OneSignal SDK
       const oneSignalSDK = window.document.createElement('script');
       oneSignalSDK.src = 'https://cdn.onesignal.com/sdks/OneSignalSDK.js';
       oneSignalSDK.async = 'async';
+
+      const loaded = getEnv(self).notifications.onLoad(oneSignalSDK);
+
       window.document.head.appendChild(oneSignalSDK);
 
-      // Returns if push notifications are supported.
-      self.areSupported = yield new Promise(resolve => {
-        window.OneSignal = window.OneSignal || [];
-        window.OneSignal.push(() => {
-          const supported = window.OneSignal.isPushNotificationsSupported();
-          resolve(supported);
-        });
-      });
+      yield loaded;
+
+      self.areSupported = window.OneSignal.isPushNotificationsSupported();
     }),
-    init: flow(function* initOneSignal({
-      defaultNotificationUrl,
-      ...customSettings
-    }) {
+    init: flow(function* initOneSignal() {
+      const { defaultNotificationUrl, ...customSettings } = self.settings;
+
       window.OneSignal.setDefaultNotificationUrl(defaultNotificationUrl);
       window.OneSignal.SERVICE_WORKER_UPDATER_PATH =
         'OneSignalSDKUpdaterWorker.js.php';
@@ -82,4 +87,10 @@ export default types
     disable() {
       self.areEnabled = false;
     },
+    afterCsr: flow(function* afterCsrOneSignal() {
+      if (!self.settings) return;
+
+      yield self.load();
+      if (self.areSupported) self.init();
+    }),
   }));
