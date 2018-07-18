@@ -82,4 +82,15 @@ export default types
     disable() {
       self.areEnabled = false;
     },
+    afterCsr: flow(function* afterCsrOneSignal() {
+      // Gets OneSignal settings configured in database
+      const oneSignalSettings = self.settings.theme.oneSignal;
+      if (!oneSignalSettings) return;
+
+      // Exits if OneSignal is not supported for current browser.
+      yield self.notifications.load();
+      if (!self.notifications.areSupported) return;
+
+      yield self.notifications.init(oneSignalSettings);
+    }),
   }));
