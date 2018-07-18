@@ -1,0 +1,42 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`OneSignal init oneSignal 1`] = `
+Array [
+  "https://demo.frontity.com",
+]
+`;
+
+exports[`OneSignal init oneSignal 2`] = `
+Array [
+  Object {
+    "allowLocalhostAsSecureOrigin": true,
+    "appId": "00000000-1234-1234-1234-0000000077",
+    "autoRegister": true,
+    "httpPermissionRequest": Object {
+      "enable": true,
+    },
+    "notifyButton": Object {
+      "enable": false,
+    },
+    "path": "https://demo.frontity.com/onesignal/sdk_files/",
+    "welcomeNotification": Object {
+      "message": "You are subscribed!",
+      "title": "Subscription complete",
+    },
+    "wordpress": true,
+  },
+]
+`;
+
+exports[`OneSignal init oneSignal 3`] = `
+Array [
+  Array [
+    "notificationPermissionChange",
+    [Function],
+  ],
+  Array [
+    "customPromptClick",
+    [Function],
+  ],
+]
+`;
