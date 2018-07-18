@@ -63,6 +63,7 @@ export default types
 
       window.OneSignal.on('notificationPermissionChange', permissionChange => {
         if (permissionChange.to === 'denied') self.disable();
+        else if (permissionChange.to === 'granted') self.enable();
       });
       window.OneSignal.on('customPromptClick', ({ result }) => {
         if (result === 'denied') self.disable();
@@ -86,6 +87,9 @@ export default types
     }),
     disable() {
       self.areEnabled = false;
+    },
+    enable() {
+      self.areEnabled = true;
     },
     afterCsr: flow(function* afterCsrOneSignal() {
       if (!self.settings) return;

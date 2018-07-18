@@ -3,7 +3,7 @@ const onLoad = script =>
   new Promise(resolve => {
     const listener = () => {
       resolve();
-      script.removeListener('load', listener);
+      script.removeEventListener('load', listener);
     };
     script.addEventListener('load', listener);
   });
