@@ -1,3 +1,10 @@
+## [0.6.3](https://github.com/frontity/frontity/compare/v0.6.2...v0.6.3) (2018-07-18)
+
+
+### Bug Fixes
+
+* **one-signal:** fix bug enabling notifications ([38a8a92](https://github.com/frontity/frontity/commit/38a8a92))
+
 ## [0.6.2](https://github.com/frontity/frontity/compare/v0.6.1...v0.6.2) (2018-07-18)
 
 
