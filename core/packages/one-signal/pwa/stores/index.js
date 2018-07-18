@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-import { types, flow } from 'mobx-state-tree';
+import { types, flow, getParent } from 'mobx-state-tree';
 
 const defaultSettings = {
   path: '/wp-content/plugins/onesignal-free-web-push-notifications/sdk_files/',
@@ -84,13 +84,13 @@ export default types
     },
     afterCsr: flow(function* afterCsrOneSignal() {
       // Gets OneSignal settings configured in database
-      const oneSignalSettings = self.settings.theme.oneSignal;
+      const oneSignalSettings = getParent(self).settings.theme.oneSignal;
       if (!oneSignalSettings) return;
 
       // Exits if OneSignal is not supported for current browser.
-      yield self.notifications.load();
-      if (!self.notifications.areSupported) return;
+      yield self.load();
+      if (!self.areSupported) return;
 
-      yield self.notifications.init(oneSignalSettings);
+      yield self.init(oneSignalSettings);
     }),
   }));
