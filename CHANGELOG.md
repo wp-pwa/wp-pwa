@@ -1,3 +1,10 @@
+## [0.6.4](https://github.com/frontity/frontity/compare/v0.6.3...v0.6.4) (2018-07-20)
+
+
+### Bug Fixes
+
+* **pwa template:** don't rely on window load to launch our scripts ([0abc030](https://github.com/frontity/frontity/commit/0abc030))
+
 ## [0.6.3](https://github.com/frontity/frontity/compare/v0.6.2...v0.6.3) (2018-07-18)
 
 
