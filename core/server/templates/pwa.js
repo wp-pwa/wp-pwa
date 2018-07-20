@@ -47,9 +47,7 @@ export default ({
           js.src = '${publicPath}' + script;
           ref.parentNode.insertBefore(js, ref);
         };
-        window.addEventListener('load', function() {
-          scripts.forEach(function(sc) { loadScript(sc); });
-        });
+        scripts.forEach(function(sc) { loadScript(sc); });
         ${bootstrapString}
       </script>
     </body>
