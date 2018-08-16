@@ -1,3 +1,10 @@
+## [0.6.5](https://github.com/frontity/frontity/compare/v0.6.4...v0.6.5) (2018-08-16)
+
+
+### Bug Fixes
+
+* **ads:** removes sunmedia ads in AMP ([96dbb2c](https://github.com/frontity/frontity/commit/96dbb2c))
+
 ## [0.6.4](https://github.com/frontity/frontity/compare/v0.6.3...v0.6.4) (2018-07-20)
 
 
