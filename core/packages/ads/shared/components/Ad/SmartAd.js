@@ -21,10 +21,6 @@ class SmartAd extends Component {
       page: PropTypes.number,
       mstId: PropTypes.string,
     }),
-    column: PropTypes.shape({
-      type: PropTypes.string,
-      mstId: PropTypes.string,
-    }),
     slotName: PropTypes.string,
   };
 
@@ -33,17 +29,16 @@ class SmartAd extends Component {
     slotName: '',
     target: null,
     item: null,
-    column: null,
   };
 
   static firstAd = true;
 
   constructor(props) {
     super(props);
-    const { formatId, item, column, slotName } = this.props;
-    this.tagId = `ad${formatId}_${item.mstId || column.mstId}${
-      slotName ? `_${slotName}` : ''
-    }`;
+
+    const { formatId, item, slotName } = props;
+
+    this.tagId = `ad${formatId}_${item.mstId}${slotName ? `_${slotName}` : ''}`;
   }
 
   componentDidMount() {
