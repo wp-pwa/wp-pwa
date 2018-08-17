@@ -1,3 +1,10 @@
+## [0.6.6](https://github.com/frontity/frontity/compare/v0.6.5...v0.6.6) (2018-08-17)
+
+
+### Bug Fixes
+
+* **ads:** removes unnecessary column prop in SmartAd ([78214d8](https://github.com/frontity/frontity/commit/78214d8))
+
 ## [0.6.5](https://github.com/frontity/frontity/compare/v0.6.4...v0.6.5) (2018-08-16)
 
 
