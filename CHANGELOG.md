@@ -1,3 +1,10 @@
+## [0.6.7](https://github.com/frontity/frontity/compare/v0.6.6...v0.6.7) (2018-08-28)
+
+
+### Bug Fixes
+
+* **google-analytics:** remove try-catch when getting trackingOptions ([db09b26](https://github.com/frontity/frontity/commit/db09b26))
+
 ## [0.6.6](https://github.com/frontity/frontity/compare/v0.6.5...v0.6.6) (2018-08-17)
 
 
