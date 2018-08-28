@@ -22,15 +22,14 @@ const GoogleAnalytics = types
       const analyticsSettings = settings.theme.analytics[build.channel];
       const defaultOptions = { sendPageViews: true, sendEvents: true };
 
-      try {
-        return Object.assign(
-          defaultOptions,
-          analyticsSettings.gaTrackingOptions[id],
-        );
-      } catch (error) {
-        console.warn(`Error retrieving options for tracking id ${id}`, error);
-        return defaultOptions;
-      }
+      const trackingOptions =
+        analyticsSettings &&
+        analyticsSettings.gaTrackingOptions &&
+        analyticsSettings.gaTrackingOptions[id];
+
+      return trackingOptions
+        ? Object.assign(defaultOptions, trackingOptions)
+        : defaultOptions;
     },
     get pageView() {
       // Get analytics and connection from the stores
