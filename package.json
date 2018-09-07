@@ -24,7 +24,7 @@
   "scripts": {
     "postinstall": "npm-recursive-install --skip-root",
     "test": "jest  --watch --silent",
-    "test:ci": "jest --silent --testPathPattern=core",
+    "test:ci": "jest --silent --testPathPattern=core --no-cache",
     "test:debug": "node --inspect node_modules/.bin/jest --watch",
     "cz": "git-cz",
     "travis-deploy-once": "travis-deploy-once",
