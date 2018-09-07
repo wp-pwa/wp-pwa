@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'react-emotion';
+import styled from 'styled-components';
 
 class SunMedia extends Component {
   static propTypes = {
@@ -24,7 +24,7 @@ class SunMedia extends Component {
     return active ? (
       <Container
         styles={{ width, height }}
-        innerRef={node => {
+        ref={node => {
           this.node = node;
         }}
       />

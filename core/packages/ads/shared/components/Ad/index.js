@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
 import { computed } from 'mobx';
-import styled from 'react-emotion';
+import styled from 'styled-components';
 import Lazy from '../LazyUnload';
 
 import AdSense from './AdSense';

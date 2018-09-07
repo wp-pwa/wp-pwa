@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
-import styled from 'react-emotion';
+import styled from 'styled-components';
 import Transition from 'react-transition-group/Transition';
 import Ad from '../Ad';
 import CloseIcon from './CloseIcon';
