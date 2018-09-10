@@ -3,7 +3,6 @@
     "test": {
       "presets": [["env", { "targets": { "node": "current" } }], "react"],
       "plugins": [
-        "styled-components",
         "syntax-dynamic-import",
         "transform-object-rest-spread",
         "transform-class-properties",
@@ -24,7 +23,7 @@
         "react"
       ],
       "plugins": [
-        "styled-components",
+        ["styled-components", { "ssr": true }],
         "transform-inline-environment-variables",
         ["lodash", { "id": ["lodash", "recompose"] }],
         "syntax-dynamic-import",
@@ -48,7 +47,7 @@
         "react"
       ],
       "plugins": [
-        "styled-components",
+        ["styled-components", { "ssr": true }],
         "transform-inline-environment-variables",
         ["lodash", { "id": ["lodash", "recompose"] }],
         "syntax-dynamic-import",
