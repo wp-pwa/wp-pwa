@@ -4,13 +4,12 @@ import htmlescape from 'htmlescape';
 export default ({
   dev,
   helmet,
-  css,
+  styleTags,
+  app,
   styles,
   preloadScripts,
-  html,
   cssHash,
   publicPath,
-  ids,
   stores,
   chunksForArray,
   bootstrapString,
@@ -27,16 +26,15 @@ export default ({
       ${helmet.meta.toString()}
       ${helmet.link.toString()}
       ${helmet.script.toString()}
-      <style>${css}</style>
+      ${styleTags}
     </head>
     <body ${helmet.bodyAttributes.toString()}>
-      <div id="root">${html}</div>
+      <div id="root">${app}</div>
       <script>
         if (window.document && window.document.body) window.document.body.scrollTop = 0;
         window.__CSS_CHUNKS__ = ${cssHash};
         window['wp-pwa'] = window['wp-pwa'] || {};
         window['wp-pwa'].publicPath = '${publicPath}';
-        window['wp-pwa'].emotionIds = ${JSON.stringify(ids)};
         window['wp-pwa'].initialState = ${htmlescape(getSnapshot(stores))};
         var scripts = [${chunksForArray}];
         var loadScript = function(script) {

@@ -4,12 +4,12 @@
 */
 
 import React from 'react';
-import styled, { keyframes } from 'react-emotion';
+import styled, { keyframes } from 'styled-components';
 
 const Spinner = () => {
   const circles = Array(12)
     .fill()
-    .map((item, index) => <Circle key={index} circle={index} />);
+    .map((_item, index) => <Circle key={index} circle={index} />);
 
   return (
     <Container>

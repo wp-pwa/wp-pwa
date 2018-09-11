@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'react-emotion';
+import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
 
 const linkCount = {};
@@ -47,7 +47,9 @@ class AdSense extends PureComponent {
     // Removes Google's handler for this ad
     const iframe = this.node.querySelector('iframe');
     if (iframe) {
-      const { google_iframe_oncopy: { handlers } } = window;
+      const {
+        google_iframe_oncopy: { handlers },
+      } = window;
       delete handlers[iframe.id];
     }
   }
@@ -71,17 +73,25 @@ class AdSense extends PureComponent {
             src="https://cdn.ampproject.org/v0/amp-ad-0.1.js"
           />
         </Helmet>,
-        <amp-ad type="adsense" data-ad-client={client} data-ad-slot={slot} layout="fill" />,
+        <amp-ad
+          type="adsense"
+          data-ad-client={client}
+          data-ad-slot={slot}
+          layout="fill"
+        />,
       ];
     }
 
     return (
       <Fragment>
         <Helmet>
-          <script src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" async />
+          <script
+            src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"
+            async
+          />
         </Helmet>
         <StyledIns
-          innerRef={ins => {
+          ref={ins => {
             this.node = ins;
           }}
           className="adsbygoogle"
@@ -101,8 +111,10 @@ export default AdSense;
 
 const StyledIns = styled.ins`
   display: block;
-  background-color: ${({ theme, isMedia }) => (isMedia ? 'transparent' : theme.colors.white)};
+  background-color: ${({ theme, isMedia }) =>
+    isMedia ? 'transparent' : theme.colors.white};
   width: ${({ width }) => (typeof width === 'number' ? `${width}px` : width)};
-  height: ${({ height }) => (typeof height === 'number' ? `${height}px` : height)};
+  height: ${({ height }) =>
+    typeof height === 'number' ? `${height}px` : height};
   margin: 0 auto;
 `;
