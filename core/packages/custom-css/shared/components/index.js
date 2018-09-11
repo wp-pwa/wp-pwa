@@ -1,24 +1,16 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
-import { Helmet } from 'react-helmet';
-import { css } from 'styled-components';
+import { createGlobalStyle } from 'styled-components';
 
 const CustomCss = ({ customCss }) => {
   if (!customCss) return null;
 
-  const className = css`
-    ${customCss};
+  const CustomCssStyles = createGlobalStyle`
+    ${customCss}
   `;
-  return (
-    // this do the trick
-    <Fragment>
-      <span className={className} />
-      <Helmet>
-        <body className={className} />;
-      </Helmet>
-    </Fragment>
-  );
+
+  return <CustomCssStyles />;
 };
 
 CustomCss.propTypes = {
