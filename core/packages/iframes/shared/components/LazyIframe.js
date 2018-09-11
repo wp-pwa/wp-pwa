@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'react-emotion';
+import styled from 'styled-components';
 import { inject } from 'mobx-react';
 import LazyLoad from '@frontity/lazyload';
 
@@ -71,7 +71,6 @@ class LazyIframe extends Component {
             onLoad={this.onLoad}
           />
         </StyledLazy>
-        {/* {!loaded && <SpinnerContainer>{Spinner && <Spinner />}</SpinnerContainer>} */}
       </Container>
     );
   }

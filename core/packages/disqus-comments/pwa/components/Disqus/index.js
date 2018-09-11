@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
-import styled from 'react-emotion';
+import styled from 'styled-components';
 import Spinner from './Spinner';
 
 class Disqus extends Component {
@@ -49,7 +49,8 @@ class Disqus extends Component {
 
   render() {
     const { id, url, title, shortname } = this.props;
-    const iframePath = `${window['wp-pwa'].ssr || '/'}dynamic/disqus-comments/disqus.html`;
+    const iframePath = `${window['wp-pwa'].ssr ||
+      '/'}dynamic/disqus-comments/disqus.html`;
 
     return (
       <Container height={this.state.height}>

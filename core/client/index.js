@@ -4,7 +4,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { types } from 'mobx-state-tree';
 import { AppContainer } from 'react-hot-loader';
-import { hydrate } from 'react-emotion';
 import request from 'superagent';
 import App from '../components/App';
 import { importPromises } from '../components/Universal';
@@ -87,9 +86,6 @@ const render = Component => {
 };
 
 const init = async () => {
-  // Adds server generated styles to emotion cache.
-  hydrate(window['wp-pwa'].emotionIds);
-
   // Wait for activated packages.
   const pkgEntries = Object.entries(
     window['wp-pwa'].initialState.build.packages,

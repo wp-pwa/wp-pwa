@@ -1,6 +1,6 @@
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'react-emotion';
+import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
 
 let firstAd = true;
@@ -58,10 +58,14 @@ class DoubleClick extends PureComponent {
 
         // Extra options
         if (targeting !== undefined) {
-          Object.entries(targeting).forEach(([key, value]) => ad.setTargeting(key, value));
+          Object.entries(targeting).forEach(([key, value]) =>
+            ad.setTargeting(key, value),
+          );
         }
         if (categoryExclusions !== undefined) {
-          categoryExclusions.forEach(exclusion => ad.setCategoryExclusion(exclusion));
+          categoryExclusions.forEach(exclusion =>
+            ad.setCategoryExclusion(exclusion),
+          );
         }
         if (cookieOptions !== undefined) {
           ad.setCookieOptions(cookieOptions);
@@ -115,5 +119,6 @@ export default DoubleClick;
 const AdContainer = styled.div`
   display: block;
   width: ${({ width }) => (typeof width === 'number' ? `${width}px` : width)};
-  height: ${({ height }) => (typeof height === 'number' ? `${height}px` : height)};
+  height: ${({ height }) =>
+    typeof height === 'number' ? `${height}px` : height};
 `;
