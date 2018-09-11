@@ -75,6 +75,7 @@
     "mobx-utils": "^4.0.1",
     "normalizr": "^3.2.4",
     "progress-bar-webpack-plugin": "^1.10.0",
+    "raw-loader": "^0.5.1",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
     "react-helmet": "^5.2.0",
