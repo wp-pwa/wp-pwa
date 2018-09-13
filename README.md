@@ -4,13 +4,13 @@
 
 > We are in the process of preparing our framework to be used by other developers than us, but we haven't finished yet. If you want to start working with it, please send us an email to hello@frontity.com and we'll help you set up a local environment.
 
-**» Frontity** is a framework to build WordPress themes using **React**.
+**» Frontity** is a framework for building WordPress themes made with **React**.
 
-It is based in a **fully-decoupled** approach. This means it uses Node (and not PHP) to create the final server-side-rendered html.
+It is based in a **fully-decoupled** approach. This means it uses NodeJS (and not PHP) to create the final server-side-rendered html.
 
-It uses the **REST API** to fetch content from WordPress and a small PHP plugin (our **Frontity WP Plugin**) to inject **Frontity** in WordPress.
+It uses the **WP REST API** to fetch content from WordPress and a small PHP plugin (our **Frontity WP Plugin**) to inject **Frontity** in WordPress.
 
-Apart from **React**, state is managed with **[MobxStateTree](https://github.com/mobxjs/mobx-state-tree)** and CSS with **[Styled-Components](https://github.com/styled-components/styled-components)**.
+Apart from **React**, state is managed with **[MobxStateTree](https://github.com/mobxjs/mobx-state-tree)** and CSS with **[StyledComponents](https://github.com/styled-components/styled-components)**.
 
 **Frontity** is also extensible. Right now we have extensions like *Disqus comments, OneSignal notifications, Adsense, Doubleclick, SmartAds, Google Analytics, Google Tag Manager, Custom CSS or Custom HTML*. This means, your Frontity Theme won't have to reinvent the wheel each time including stuff than can be outsourced to extensions.
 
@@ -124,7 +124,7 @@ The output `html` files will be located in the `.build/pwa/(client|server)/analy
 
 ## Queries
 
-You should pass some queries to configure the server.
+You can pass some queries to configure the server.
 
 ### Site ID
 
