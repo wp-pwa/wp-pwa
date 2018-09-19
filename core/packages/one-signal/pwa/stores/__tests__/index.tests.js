@@ -123,20 +123,32 @@ describe('OneSignal', () => {
     expect(self.areEnabled).toBe(false);
   });
 
-  test('afterCsr does not execute load if no settings are defined', () => {
+  test('afterCsr does not execute load if no settings are defined', async () => {
     Object.defineProperty(self, 'settings', {
       writable: true,
       value: undefined,
     });
 
-    self.afterCsr();
+    await self.afterCsr();
 
     expect(self.load).not.toHaveBeenCalled();
   });
 
   test('afterCsr execute load but not init if notifications are not supported', async () => {
-    const isPushNotificationsSupported = jest.fn().mockReturnValue(false);
-    window.OneSignal = { isPushNotificationsSupported };
+    Object.defineProperties(self, {
+      areSupported: {
+        writable: true,
+        value: false,
+      },
+      load: {
+        writable: true,
+        value: jest.fn(() => Promise.resolve()),
+      },
+      init: {
+        writable: true,
+        value: jest.fn(() => Promise.resolve()),
+      },
+    });
 
     await self.afterCsr();
 
@@ -145,8 +157,20 @@ describe('OneSignal', () => {
   });
 
   test('afterCsr execute load and init', async () => {
-    const isPushNotificationsSupported = jest.fn().mockReturnValue(true);
-    window.OneSignal = { isPushNotificationsSupported };
+    Object.defineProperties(self, {
+      areSupported: {
+        writable: true,
+        value: true,
+      },
+      load: {
+        writable: true,
+        value: jest.fn(() => Promise.resolve()),
+      },
+      init: {
+        writable: true,
+        value: jest.fn(() => Promise.resolve()),
+      },
+    });
 
     await self.afterCsr();
 
