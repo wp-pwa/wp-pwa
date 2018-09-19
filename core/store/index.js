@@ -7,7 +7,7 @@ const dev = process.env.NODE_ENV !== 'production';
 const Store = types
   .model('Store')
   .props({
-    settings: types.frozen,
+    settings: types.frozen(),
     build: Build,
   })
   .actions(self => ({

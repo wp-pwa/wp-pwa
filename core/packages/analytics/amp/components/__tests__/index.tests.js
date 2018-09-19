@@ -5,10 +5,10 @@ import { Provider } from 'mobx-react';
 import Analytics from '..';
 
 const Stores = types.model('Stores').props({
-  connection: types.optional(types.frozen, {
+  connection: types.frozen({
     selectedItem: { type: 'post', id: 60 },
   }),
-  analytics: types.optional(types.frozen, {
+  analytics: types.frozen({
     googleAnalytics: {
       ids: ['UA-12345678-1', 'UA-12345678-2'],
       trackingOptions: () => ({ sendPageViews: false, sendEvents: true }),
