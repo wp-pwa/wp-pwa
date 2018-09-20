@@ -11,6 +11,6 @@ Object {
   "rendering": "ssr",
   "siteId": "xxx",
   "staticUrl": "https://www.example.com",
-  "urlFromQuery": null,
+  "urlFromQuery": undefined,
 }
 `;

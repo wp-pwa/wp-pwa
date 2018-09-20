@@ -5,10 +5,10 @@ import { types } from 'mobx-state-tree';
 import Analytics from '..';
 
 const Stores = types.model('Stores').props({
-  connection: types.optional(types.frozen, {
+  connection: types.frozen({
     selectedItem: { type: 'post', id: 60 },
   }),
-  analytics: types.optional(types.frozen, {
+  analytics: types.frozen({
     customDimensions: () => ({
       dimension1: 'dim1_post60',
       dimension2: 'dim2_post60',

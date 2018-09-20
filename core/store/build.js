@@ -8,7 +8,7 @@ export default types
     channel: types.enumeration(['amp', 'pwa']),
     device: types.enumeration(['mobile', 'tablet', 'desktop']),
     rendering: types.enumeration(['ssr', 'csr']),
-    packages: types.frozen,
+    packages: types.frozen(),
     isDev: types.optional(types.boolean, false),
     urlFromQuery: types.maybe(types.string),
     perPage: types.number,

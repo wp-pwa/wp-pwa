@@ -5,8 +5,8 @@ import { generateEvent, getTrackerName } from '../utils';
 const GoogleAnalytics = types
   .model('GoogleAnalytics')
   .props({
-    ampVars: types.optional(types.frozen, {}),
-    ampTriggers: types.optional(types.frozen, {}),
+    ampVars: types.frozen({}),
+    ampTriggers: types.frozen({}),
   })
   .views(self => ({
     get ids() {
