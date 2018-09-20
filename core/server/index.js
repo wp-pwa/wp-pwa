@@ -208,7 +208,10 @@ export default ({ clientStats }) => async (req, res) => {
       ),
     );
 
-    const styleTags = sheet.getStyleTags();
+    // Get styles string and replace <style> tag to be AMP compliant.
+    const styleTags = sheet
+      .getStyleTags()
+      .replace('<style', '<style amp-custom');
 
     // Get static helmet strings.
     const helmet = Helmet.renderStatic();
