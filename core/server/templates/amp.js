@@ -1,4 +1,4 @@
-export default ({ helmet, styleTags, app }) => `<!doctype html>
+export default ({ helmet, ampStyleTags, app }) => `<!doctype html>
   <html amp>
     <head>
       <meta charset="utf-8">
@@ -10,7 +10,7 @@ export default ({ helmet, styleTags, app }) => `<!doctype html>
       ${helmet.meta.toString()}
       ${helmet.link.toString()}
       ${helmet.script.toString()}
-      ${styleTags}
+      ${ampStyleTags}
     </head>
     <body ${helmet.bodyAttributes.toString()}>
       ${app}

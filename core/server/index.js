@@ -208,10 +208,7 @@ export default ({ clientStats }) => async (req, res) => {
       ),
     );
 
-    // Get styles string and replace <style> tag to be AMP compliant.
-    const styleTags = sheet
-      .getStyleTags()
-      .replace('<style', '<style amp-custom');
+    const styleTags = sheet.getStyleTags();
 
     // Get static helmet strings.
     const helmet = Helmet.renderStatic();
@@ -276,8 +273,12 @@ export default ({ clientStats }) => async (req, res) => {
       );
     } else if (process.env.MODE === 'amp') {
       console.log('URL', req.url);
+
+      // Replace <style> tag from styled-components to be AMP compliant.
+      const ampStyleTags = styleTags.replace('<style', '<style amp-custom');
+
       res.status(status);
-      res.send(ampTemplate({ helmet, styleTags, app }));
+      res.send(ampTemplate({ helmet, ampStyleTags, app }));
     }
   } catch (error) {
     console.error(error);
