@@ -9,6 +9,7 @@ const vendors = require('../vendors');
 
 const config = {
   name: 'client',
+  mode: 'production',
   target: 'web',
   entry: {
     main: [

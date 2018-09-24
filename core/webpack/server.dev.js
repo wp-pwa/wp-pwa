@@ -6,10 +6,13 @@ const { nodeModules, babelrc, externals } = require('./utils');
 
 const config = {
   name: 'server',
+  mode: 'development',
   target: 'node',
   // devtool: 'source-map',
   devtool: 'eval',
-  entry: [path.resolve(__dirname, `../server`)],
+  entry: {
+    m: [path.resolve(__dirname, `../server`)],
+  },
   externals,
   output: {
     path: path.resolve(__dirname, `../../.build/${process.env.MODE}/server`),
@@ -54,7 +57,6 @@ const config = {
     }),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify('development'),
         MODE: JSON.stringify(process.env.MODE),
       },
     }),

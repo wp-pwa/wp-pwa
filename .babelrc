@@ -1,18 +1,22 @@
 {
   "env": {
     "test": {
-      "presets": [["env", { "targets": { "node": "current" } }], "react"],
+      "presets": [
+        ["@babel/env", { "targets": { "node": "current" } }],
+        "@babel/react"
+      ],
       "plugins": [
-        "syntax-dynamic-import",
-        "transform-object-rest-spread",
-        "transform-class-properties",
+        "@babel/plugin-transform-modules-commonjs",
+        "@babel/syntax-dynamic-import",
+        "@babel/proposal-object-rest-spread",
+        "@babel/proposal-class-properties",
         ["universal-import", { "disableWarnings": true }]
       ]
     },
     "devClient": {
       "presets": [
         [
-          "env",
+          "@babel/env",
           {
             "targets": {
               "browsers": ["android >= 5", "ios_saf > 9", "and_chr >= 40"]
@@ -20,15 +24,16 @@
             "useBuiltIns": "usage"
           }
         ],
-        "react"
+        "@babel/react"
       ],
       "plugins": [
         ["styled-components", { "ssr": true }],
         "transform-inline-environment-variables",
         ["lodash", { "id": ["lodash", "recompose"] }],
-        "syntax-dynamic-import",
-        "transform-object-rest-spread",
-        "transform-class-properties",
+        "@babel/plugin-transform-modules-commonjs",
+        "@babel/syntax-dynamic-import",
+        "@babel/proposal-object-rest-spread",
+        "@babel/proposal-class-properties",
         ["universal-import", { "disableWarnings": true }],
         "react-hot-loader/babel"
       ]
@@ -36,7 +41,7 @@
     "prodClient": {
       "presets": [
         [
-          "env",
+          "@babel/env",
           {
             "targets": {
               "browsers": ["android >= 5", "ios_saf > 9", "and_chr >= 40"]
@@ -44,25 +49,30 @@
             "useBuiltIns": "usage"
           }
         ],
-        "react"
+        "@babel/react"
       ],
       "plugins": [
         ["styled-components", { "ssr": true }],
         "transform-inline-environment-variables",
         ["lodash", { "id": ["lodash", "recompose"] }],
-        "syntax-dynamic-import",
-        "transform-object-rest-spread",
-        "transform-class-properties",
+        "@babel/plugin-transform-modules-commonjs",
+        "@babel/syntax-dynamic-import",
+        "@babel/proposal-object-rest-spread",
+        "@babel/proposal-class-properties",
         ["universal-import", { "disableWarnings": true }]
       ]
     },
     "server": {
-      "presets": [["env", { "targets": { "node": "current" } }], "react"],
+      "presets": [
+        ["@babel/env", { "targets": { "node": "current" } }],
+        "@babel/react"
+      ],
       "plugins": [
         ["styled-components", { "ssr": true }],
-        "syntax-dynamic-import",
-        "transform-object-rest-spread",
-        "transform-class-properties",
+        "@babel/plugin-transform-modules-commonjs",
+        "@babel/syntax-dynamic-import",
+        "@babel/proposal-object-rest-spread",
+        "@babel/proposal-class-properties",
         ["universal-import", { "disableWarnings": true }]
       ]
     }

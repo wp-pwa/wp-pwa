@@ -10,6 +10,7 @@ const vendors = require('../vendors');
 
 const config = {
   name: 'client',
+  mode: 'development',
   target: 'web',
   devtool: 'eval',
   entry: {
@@ -45,34 +46,31 @@ const config = {
       },
       {
         test: /\.css$/,
-        use: ExtractCssChunks.extract({
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                localIdentName: '[name]__[local]--[hash:base64:5]',
-              },
+        use: [
+          ExtractCssChunks.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: '[name]__[local]--[hash:base64:5]',
             },
-          ],
-          publicPath: `${process.env.HMR_PATH || '/'}static/`,
-        }),
+          },
+        ],
+        // publicPath: `${process.env.HMR_PATH || '/'}static/`,
       },
     ],
   },
   plugins: [
     new WriteFilePlugin(),
-    new ExtractCssChunks(),
-    new webpack.optimize.CommonsChunkPlugin({
-      names: ['bootstrap'], // needed to put webpack bootstrap code before chunks
-      filename: '[name].js',
-      minChunks: Infinity,
-    }),
+    new ExtractCssChunks({ hot: true }),
+    // new webpack.optimize.SpliChunksPlugin({
+    //   names: ['bootstrap'], // needed to put webpack bootstrap code before chunks
+    //   filename: '[name].js',
+    //   minChunks: Infinity,
+    // }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify('development'),
         MODE: JSON.stringify(process.env.MODE),
       },
     }),
@@ -83,6 +81,12 @@ const config = {
     }),
     new ProgressBarPlugin(),
   ],
+  // optimization: {
+  //   splitChunks: {
+  //     // name: 'bootstrap', // needed to put webpack bootstrap code before chunks
+  //     // filename: '[name].js',
+  //   },
+  // },
 };
 
 if (process.env.ANALYZE) {
