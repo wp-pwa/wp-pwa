@@ -3,7 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const WriteFilePlugin = require('write-file-webpack-plugin'); // here so you can see what chunks are built
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
-const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+// const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const { nodeModules, babelrc } = require('./utils');
 const vendors = require('../vendors');
@@ -56,18 +56,12 @@ const config = {
             },
           },
         ],
-        // publicPath: `${process.env.HMR_PATH || '/'}static/`,
       },
     ],
   },
   plugins: [
     new WriteFilePlugin(),
     new ExtractCssChunks({ hot: true }),
-    // new webpack.optimize.SpliChunksPlugin({
-    //   names: ['bootstrap'], // needed to put webpack bootstrap code before chunks
-    //   filename: '[name].js',
-    //   minChunks: Infinity,
-    // }),
     new webpack.HotModuleReplacementPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
@@ -76,22 +70,27 @@ const config = {
     }),
     new webpack.WatchIgnorePlugin([/\.build/, /packages$/]),
     new webpack.IgnorePlugin(/vertx/),
-    new LodashModuleReplacementPlugin({
-      currying: true,
-    }),
+    // new LodashModuleReplacementPlugin({
+    //   currying: true,
+    // }),
     new ProgressBarPlugin(),
   ],
-  // optimization: {
-  //   splitChunks: {
-  //     // name: 'bootstrap', // needed to put webpack bootstrap code before chunks
-  //     // filename: '[name].js',
-  //   },
-  // },
+  optimization: {
+    splitChunks: {
+      chunks: 'async',
+      cacheGroups: {
+        vendor: {
+          test: new RegExp(`[\\/]node_modules[\\/](${vendors.join('|')})[\\/]`),
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
+  },
 };
 
 if (process.env.ANALYZE) {
   const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-  const Visualizer = require('webpack-visualizer-plugin');
   config.plugins.push(
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
@@ -99,11 +98,6 @@ if (process.env.ANALYZE) {
       openAnalyzer: false,
       generateStatsFile: true,
       statsFilename: '../../analyize/pwa/client-dev-stats.json',
-    }),
-  );
-  config.plugins.push(
-    new Visualizer({
-      filename: '../../analyize/pwa/client-dev-visualizer.html',
     }),
   );
 }

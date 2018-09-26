@@ -29,7 +29,6 @@
       "plugins": [
         ["styled-components", { "ssr": true }],
         "transform-inline-environment-variables",
-        ["lodash", { "id": ["lodash", "recompose"] }],
         "@babel/plugin-transform-modules-commonjs",
         "@babel/syntax-dynamic-import",
         "@babel/proposal-object-rest-spread",
@@ -54,7 +53,6 @@
       "plugins": [
         ["styled-components", { "ssr": true }],
         "transform-inline-environment-variables",
-        ["lodash", { "id": ["lodash", "recompose"] }],
         "@babel/plugin-transform-modules-commonjs",
         "@babel/syntax-dynamic-import",
         "@babel/proposal-object-rest-spread",

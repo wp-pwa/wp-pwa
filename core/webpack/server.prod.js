@@ -64,7 +64,6 @@ const config = {
 
 if (process.env.ANALYZE) {
   const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-  const Visualizer = require('webpack-visualizer-plugin');
   config.plugins.push(
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
@@ -76,13 +75,6 @@ if (process.env.ANALYZE) {
       statsFilename: `../../analyize/${
         process.env.MODE
       }/server-prod-stats.json`,
-    }),
-  );
-  config.plugins.push(
-    new Visualizer({
-      filename: `../../analyize/${
-        process.env.MODE
-      }/server-prod-visualizer.html`,
     }),
   );
 }
