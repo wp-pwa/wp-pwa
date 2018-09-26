@@ -42,16 +42,16 @@ export const Stores = types.model('Stores').props({
   connection: types.optional(
     types
       .model('Connection', {
-        head: types.optional(types.frozen, {
+        head: types.frozen({
           title: 'The Beauties of Gullfoss &#8211; Demo Frontity',
         }),
-        selectedItem: types.optional(types.frozen, itemPost60),
-        selectedContext: types.optional(types.frozen, {
+        selectedItem: types.frozen(itemPost60),
+        selectedContext: types.frozen({
           options: {
             bar: 'single',
           },
         }),
-        entities: types.optional(types.frozen, {
+        entities: types.frozen({
           post_60: itemPost60.entity,
           category_7: itemCat7.entity,
           post_57: {
@@ -81,7 +81,7 @@ export const Stores = types.model('Stores').props({
       })),
     {},
   ),
-  settings: types.optional(types.frozen, {
+  settings: types.frozen({
     generalSite: {
       _id: 'site1122334455',
       userIds: ['user00', 'user01'],
@@ -109,7 +109,7 @@ export const Stores = types.model('Stores').props({
       },
     },
   }),
-  build: types.optional(types.frozen, {
+  build: types.frozen({
     dev: true,
     channel: 'pwa',
     packages: ['saturn-theme', 'wp-org-connection'],

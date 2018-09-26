@@ -2,7 +2,7 @@
 import { readFile } from 'fs-extra';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
-import { extractCritical } from 'emotion-server';
+import { ServerStyleSheet } from 'styled-components';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 import { mapValues } from 'lodash';
@@ -191,19 +191,24 @@ export default ({ clientStats }) => async (req, res) => {
       process.env.MODE === 'amp'
         ? ReactDOM.renderToStaticMarkup
         : ReactDOM.renderToString;
+
+    const sheet = new ServerStyleSheet();
+
     app = render(
-      <App
-        core={coreModules.map(({ name, module }) => ({
-          name,
-          Component: module.default,
-        }))}
-        packages={Object.values(packages)}
-        stores={stores}
-        components={components}
-      />,
+      sheet.collectStyles(
+        <App
+          core={coreModules.map(({ name, module }) => ({
+            name,
+            Component: module.default,
+          }))}
+          packages={Object.values(packages)}
+          stores={stores}
+          components={components}
+        />,
+      ),
     );
 
-    const { html, ids, css } = extractCritical(app);
+    const styleTags = sheet.getStyleTags();
 
     // Get static helmet strings.
     const helmet = Helmet.renderStatic();
@@ -255,13 +260,12 @@ export default ({ clientStats }) => async (req, res) => {
         pwaTemplate({
           dev,
           helmet,
-          css,
+          styleTags,
+          app,
           styles,
           preloadScripts,
-          html,
           cssHash,
           publicPath,
-          ids,
           stores,
           chunksForArray,
           bootstrapString,
@@ -269,8 +273,12 @@ export default ({ clientStats }) => async (req, res) => {
       );
     } else if (process.env.MODE === 'amp') {
       console.log('URL', req.url);
+
+      // Replace <style> tag from styled-components to be AMP compliant.
+      const ampStyleTags = styleTags.replace('<style', '<style amp-custom');
+
       res.status(status);
-      res.send(ampTemplate({ helmet, css, html }));
+      res.send(ampTemplate({ helmet, ampStyleTags, app }));
     }
   } catch (error) {
     console.error(error);
