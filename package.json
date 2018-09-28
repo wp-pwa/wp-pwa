@@ -9,7 +9,6 @@
     "type": "git",
     "url": "git+https://github.com/frontity/frontity.git"
   },
-  "sideEffects": false,
   "bugs": {
     "url": "https://github.com/frontity/share/issues"
   },
@@ -53,7 +52,6 @@
     "@babel/preset-react": "^7.0.0",
     "@frontity/lazyload": "^1.0.2",
     "babel-loader": "^8.0.2",
-    "babel-plugin-lodash": "^3.3.4",
     "babel-plugin-styled-components": "^1.7.1",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "babel-plugin-universal-import": "^3.0.2",
@@ -67,7 +65,7 @@
     "fs-extra": "^4.0.3",
     "history": "^4.6.3",
     "htmlescape": "^1.1.1",
-    "lodash": "^4.17.11",
+    "lodash-es": "^4.17.11",
     "lodash-webpack-plugin": "^0.11.5",
     "minimist": "^1.2.0",
     "mobx": "^4.4.2",

@@ -3,7 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
-// const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
+const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
 const { nodeModules, babelrc } = require('./utils');
 const vendors = require('../vendors');
@@ -66,9 +66,7 @@ const config = {
     new webpack.IgnorePlugin(
       /vertx|redux-logger|redux-devtools-extension|redbox-react|mobx-devtools-mst/,
     ),
-    // new LodashModuleReplacementPlugin({
-    //   currying: true,
-    // }),
+    new LodashModuleReplacementPlugin(),
     new ProgressBarPlugin(),
   ],
   optimization: {
@@ -80,6 +78,11 @@ const config = {
           name: 'vendors',
           chunks: 'all',
         },
+        // lodash: {
+        //   test: /lodash/,
+        //   name: 'lodash',
+        //   chunks: 'all',
+        // },
       },
     },
     minimizer: [

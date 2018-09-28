@@ -70,9 +70,7 @@ const config = {
     }),
     new webpack.WatchIgnorePlugin([/\.build/, /packages$/]),
     new webpack.IgnorePlugin(/vertx/),
-    // new LodashModuleReplacementPlugin({
-    //   currying: true,
-    // }),
+    // new LodashModuleReplacementPlugin(),
     new ProgressBarPlugin(),
   ],
   optimization: {

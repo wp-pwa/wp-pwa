@@ -45,7 +45,8 @@
             "targets": {
               "browsers": ["android >= 5", "ios_saf > 9", "and_chr >= 40"]
             },
-            "useBuiltIns": "usage"
+            "useBuiltIns": "usage",
+            "modules": false
           }
         ],
         "@babel/react"
@@ -62,7 +63,15 @@
     },
     "server": {
       "presets": [
-        ["@babel/env", { "targets": { "node": "current" } }],
+        [
+          "@babel/env",
+          {
+            "targets": {
+              "node": "current"
+            },
+            "modules": false
+          }
+        ],
         "@babel/react"
       ],
       "plugins": [
