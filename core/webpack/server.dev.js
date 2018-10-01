@@ -8,7 +8,6 @@ const config = {
   name: 'server',
   mode: 'development',
   target: 'node',
-  // devtool: 'source-map',
   devtool: 'eval',
   entry: {
     m: [path.resolve(__dirname, `../server`)],

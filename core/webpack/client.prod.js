@@ -78,11 +78,6 @@ const config = {
           name: 'vendors',
           chunks: 'all',
         },
-        // lodash: {
-        //   test: /lodash/,
-        //   name: 'lodash',
-        //   chunks: 'all',
-        // },
       },
     },
     minimizer: [
