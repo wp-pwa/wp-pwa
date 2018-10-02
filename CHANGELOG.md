@@ -1,3 +1,11 @@
+## [0.7.1](https://github.com/frontity/frontity/compare/v0.7.0...v0.7.1) (2018-10-02)
+
+
+### Bug Fixes
+
+* **iframes:** fix stlyes for custom iframe ([e4a1aae](https://github.com/frontity/frontity/commit/e4a1aae))
+* **mst:** update mobx-state-tree and change mobx version to 4.5 ([ee69663](https://github.com/frontity/frontity/commit/ee69663))
+
 # [0.7.0](https://github.com/frontity/frontity/compare/v0.6.7...v0.7.0) (2018-09-26)
 
 
