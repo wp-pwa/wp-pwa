@@ -88,9 +88,9 @@ const StyledLazy = styled(LazyLoad)`
 const Container = styled.div`
   display: block;
   position: relative;
-  width: calc(100% - 30px);
+  width: 100%;
   height: 100%;
-  padding: 15px;
+  padding: 15px 0;
 `;
 
 const Iframe = styled.iframe`
