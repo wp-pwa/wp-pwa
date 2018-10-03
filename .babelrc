@@ -6,7 +6,7 @@
         "@babel/react"
       ],
       "plugins": [
-        "lodash",
+        ["lodash", { "id": ["lodash"] }],
         "@babel/plugin-transform-modules-commonjs",
         "@babel/syntax-dynamic-import",
         "@babel/proposal-object-rest-spread",
@@ -28,7 +28,7 @@
         "@babel/react"
       ],
       "plugins": [
-        "lodash",
+        ["lodash", { "id": ["lodash"] }],
         ["styled-components", { "ssr": true }],
         "transform-inline-environment-variables",
         "@babel/plugin-transform-modules-commonjs",
@@ -53,7 +53,7 @@
         "@babel/react"
       ],
       "plugins": [
-        "lodash",
+        ["lodash", { "id": ["lodash"] }],
         ["styled-components", { "ssr": true }],
         "transform-inline-environment-variables",
         "@babel/plugin-transform-modules-commonjs",
@@ -76,7 +76,7 @@
         "@babel/react"
       ],
       "plugins": [
-        "lodash",
+        ["lodash", { "id": ["lodash"] }],
         ["styled-components", { "ssr": true }],
         "@babel/plugin-transform-modules-commonjs",
         "@babel/syntax-dynamic-import",
