@@ -31,7 +31,6 @@ const config = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
@@ -83,19 +82,6 @@ const config = {
     minimizer: [
       new UglifyJsPlugin({
         sourceMap: false,
-        // uglifyOptions: {
-        //   compress: {
-        //     screw_ie8: true,
-        //     warnings: false,
-        //   },
-        //   mangle: {
-        //     screw_ie8: true,
-        //   },
-        //   output: {
-        //     screw_ie8: true,
-        //     comments: false,
-        //   },
-        // },
       }),
     ],
   },

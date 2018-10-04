@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
-import { mapValues } from 'lodash';
+import { mapValues } from 'lodash-es';
 import request from 'superagent';
 import { types } from 'mobx-state-tree';
 import { useStaticRendering } from 'mobx-react';

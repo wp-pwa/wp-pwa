@@ -6,8 +6,6 @@
         "@babel/react"
       ],
       "plugins": [
-        ["lodash", { "id": ["lodash"] }],
-        "@babel/plugin-transform-modules-commonjs",
         "@babel/syntax-dynamic-import",
         "@babel/proposal-object-rest-spread",
         "@babel/proposal-class-properties",
@@ -28,10 +26,8 @@
         "@babel/react"
       ],
       "plugins": [
-        ["lodash", { "id": ["lodash"] }],
         ["styled-components", { "ssr": true }],
         "transform-inline-environment-variables",
-        "@babel/plugin-transform-modules-commonjs",
         "@babel/syntax-dynamic-import",
         "@babel/proposal-object-rest-spread",
         "@babel/proposal-class-properties",
@@ -53,10 +49,8 @@
         "@babel/react"
       ],
       "plugins": [
-        ["lodash", { "id": ["lodash"] }],
         ["styled-components", { "ssr": true }],
         "transform-inline-environment-variables",
-        "@babel/plugin-transform-modules-commonjs",
         "@babel/syntax-dynamic-import",
         "@babel/proposal-object-rest-spread",
         "@babel/proposal-class-properties",
@@ -65,20 +59,11 @@
     },
     "server": {
       "presets": [
-        [
-          "@babel/env",
-          {
-            "targets": {
-              "node": "current"
-            }
-          }
-        ],
+        ["@babel/env", { "targets": { "node": "current" } }],
         "@babel/react"
       ],
       "plugins": [
-        ["lodash", { "id": ["lodash"] }],
         ["styled-components", { "ssr": true }],
-        "@babel/plugin-transform-modules-commonjs",
         "@babel/syntax-dynamic-import",
         "@babel/proposal-object-rest-spread",
         "@babel/proposal-class-properties",
