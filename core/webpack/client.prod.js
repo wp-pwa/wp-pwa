@@ -31,6 +31,7 @@ const config = {
     rules: [
       {
         test: /\.js$/,
+        // exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
@@ -92,10 +93,10 @@ if (process.env.ANALYZE) {
   config.plugins.push(
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
-      reportFilename: '../../analyize/pwa/client-prod-analyzer.html',
+      reportFilename: '../../analyze/pwa/client-prod-analyzer.html',
       openAnalyzer: false,
       generateStatsFile: true,
-      statsFilename: '../../analyize/pwa/client-prod-stats.json',
+      statsFilename: '../../analyze/pwa/client-prod-stats.json',
     }),
   );
 }

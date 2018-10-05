@@ -12,7 +12,7 @@ const config = {
   name: 'client',
   mode: 'development',
   target: 'web',
-  devtool: 'eval',
+  // devtool: 'eval',
   entry: {
     main: [
       `webpack-hot-middleware/client?path=${process.env.HMR_PATH ||
@@ -35,7 +35,7 @@ const config = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        // exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
@@ -92,10 +92,10 @@ if (process.env.ANALYZE) {
   config.plugins.push(
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
-      reportFilename: '../../analyize/pwa/client-dev-analyzer.html',
+      reportFilename: '../../analyze/pwa/client-dev-analyzer.html',
       openAnalyzer: false,
       generateStatsFile: true,
-      statsFilename: '../../analyize/pwa/client-dev-stats.json',
+      statsFilename: '../../analyze/pwa/client-dev-stats.json',
     }),
   );
 }

@@ -8,7 +8,7 @@ const config = {
   name: 'server',
   mode: 'development',
   target: 'node',
-  devtool: 'eval',
+  // devtool: 'eval',
   entry: {
     m: [path.resolve(__dirname, `../server`)],
   },
@@ -25,7 +25,7 @@ const config = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
+        // exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
@@ -69,12 +69,12 @@ if (process.env.ANALYZE) {
   config.plugins.push(
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
-      reportFilename: `../../analyize/${
+      reportFilename: `../../analyze/${
         process.env.MODE
       }/server-dev-analyzer.html`,
       openAnalyzer: false,
       generateStatsFile: true,
-      statsFilename: `../../analyize/${process.env.MODE}/server-dev-stats.json`,
+      statsFilename: `../../analyze/${process.env.MODE}/server-dev-stats.json`,
     }),
   );
 }
