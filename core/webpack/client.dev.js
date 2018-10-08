@@ -12,7 +12,7 @@ const config = {
   name: 'client',
   mode: 'development',
   target: 'web',
-  // devtool: 'eval',
+  devtool: 'eval',
   entry: {
     main: [
       `webpack-hot-middleware/client?path=${process.env.HMR_PATH ||
@@ -35,7 +35,7 @@ const config = {
     rules: [
       {
         test: /\.js$/,
-        // exclude: /node_modules/,
+        exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {

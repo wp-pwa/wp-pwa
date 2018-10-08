@@ -8,7 +8,7 @@ const config = {
   name: 'server',
   mode: 'development',
   target: 'node',
-  // devtool: 'eval',
+  devtool: 'eval',
   entry: {
     m: [path.resolve(__dirname, `../server`)],
   },
@@ -25,7 +25,7 @@ const config = {
     rules: [
       {
         test: /\.js$/,
-        // exclude: /node_modules/,
+        exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
