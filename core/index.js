@@ -44,7 +44,7 @@ if (argv.hmr && process.env.NODE_ENV === 'development') {
 }
 
 if (argv.a || argv.analyze) {
-  emptyDirSync('.build/analyize/pwa');
+  emptyDirSync('.build/analyze/pwa');
   process.env.ANALYZE = true;
   console.log('> Using ANALYZE=true');
   console.log('> You can load the stats in https://webpack.github.io/analyse/');
