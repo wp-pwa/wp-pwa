@@ -9,6 +9,27 @@
         ["universal-import", { "disableWarnings": true }]
       ]
     },
+    "fastClient": {
+      "presets": [
+        [
+          "env",
+          {
+            "targets": {
+              "browsers": ["android >= 5", "ios_saf > 9", "and_chr >= 40"]
+            },
+            "useBuiltIns": "usage"
+          }
+        ],
+        "react"
+      ],
+      "plugins": [
+        "transform-inline-environment-variables",
+        ["lodash", { "id": ["lodash", "recompose"] }],
+        "syntax-dynamic-import",
+        "transform-object-rest-spread",
+        "transform-class-properties"
+      ]
+    },
     "devClient": {
       "presets": [
         [
@@ -39,7 +60,7 @@
           "env",
           {
             "targets": {
-              "browsers": ["android >= 5", "ios_saf > 9", "and_chr >= 40"]
+              "browsers": ["and_chr >= 60"]
             },
             "useBuiltIns": "usage"
           }

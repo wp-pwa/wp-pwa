@@ -1,4 +1,5 @@
 /* eslint-disable global-require, no-underscore-dangle, import/no-dynamic-require, no-console */
+console.log('client!', (new Date).getTime() - window.frontityDate);
 import 'babel-polyfill';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -8,6 +9,7 @@ import request from 'superagent';
 import App from '../components/App';
 import { importPromises } from '../components/Universal';
 import Store from '../store';
+
 
 const dev = process.env.NODE_ENV !== 'production';
 

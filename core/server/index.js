@@ -224,7 +224,7 @@ export default ({ clientStats }) => async (req, res) => {
       const cssHash = JSON.stringify(
         mapValues(cssHashRaw, cssPath => `${publicPath}${cssPath}`),
       );
-      const scriptsWithoutBootstrap = scripts.filter(
+      const scriptsWithoutBootstrap = ['fast.js', '3.js', '4.js', ...scripts].filter(
         script => !/bootstrap/.test(script),
       );
       const chunksForArray = scriptsWithoutBootstrap

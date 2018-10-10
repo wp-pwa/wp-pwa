@@ -13,6 +13,10 @@ const config = {
   target: 'web',
   devtool: 'eval',
   entry: {
+    fast: [
+      path.resolve(__dirname, `../client/public-path.js`),
+      path.resolve(__dirname, `../fast`),
+    ],
     main: [
       `webpack-hot-middleware/client?path=${process.env.HMR_PATH ||
         '/'}__webpack_hmr&timeout=20000&reload=false&quiet=false&noInfo=false`,
@@ -35,11 +39,24 @@ const config = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
+        include: /(src|core)\/(?!fast)/,
         use: {
           loader: 'babel-loader',
           options: {
             babelrc: false,
             ...babelrc.devClient,
+          },
+        },
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        include: /(src|core)\/fast/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            babelrc: false,
+            ...babelrc.fastClient,
           },
         },
       },

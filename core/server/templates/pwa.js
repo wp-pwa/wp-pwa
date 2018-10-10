@@ -31,6 +31,8 @@ export default ({
     <body ${helmet.bodyAttributes.toString()}>
       <div id="root">${app}</div>
       <script>
+        window.frontityDate = new Date().getTime();
+        console.log('html!', 0);
         if (window.document && window.document.body) window.document.body.scrollTop = 0;
         window.__CSS_CHUNKS__ = ${cssHash};
         window['wp-pwa'] = window['wp-pwa'] || {};
