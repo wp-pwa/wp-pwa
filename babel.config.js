@@ -6,7 +6,6 @@ module.exports = {
         '@babel/react',
       ],
       plugins: [
-        // '@babel/plugin-transform-modules-commonjs',
         '@babel/syntax-dynamic-import',
         '@babel/proposal-object-rest-spread',
         '@babel/proposal-class-properties',
@@ -21,7 +20,7 @@ module.exports = {
             targets: {
               browsers: ['android >= 5', 'ios_saf > 9', 'and_chr >= 40'],
             },
-            useBuiltIns: 'usage',
+            useBuiltIns: 'entry',
           },
         ],
         '@babel/react',
@@ -44,7 +43,7 @@ module.exports = {
             targets: {
               browsers: ['android >= 5', 'ios_saf > 9', 'and_chr >= 40'],
             },
-            useBuiltIns: 'usage',
+            useBuiltIns: 'entry',
           },
         ],
         '@babel/react',
@@ -64,7 +63,6 @@ module.exports = {
         '@babel/react',
       ],
       plugins: [
-        // '@babel/plugin-transform-modules-commonjs',
         ['styled-components', { ssr: true }],
         '@babel/syntax-dynamic-import',
         '@babel/proposal-object-rest-spread',

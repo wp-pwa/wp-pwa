@@ -25,7 +25,6 @@ const config = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
@@ -36,7 +35,6 @@ const config = {
       },
       {
         test: /\.css$/,
-        exclude: /node_modules/,
         use: [
           {
             loader: 'css-loader/locals',
