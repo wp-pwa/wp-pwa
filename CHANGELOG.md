@@ -1,3 +1,26 @@
+## [0.7.1](https://github.com/frontity/frontity/compare/v0.7.0...v0.7.1) (2018-10-02)
+
+
+### Bug Fixes
+
+* **iframes:** fix stlyes for custom iframe ([e4a1aae](https://github.com/frontity/frontity/commit/e4a1aae))
+* **mst:** update mobx-state-tree and change mobx version to 4.5 ([ee69663](https://github.com/frontity/frontity/commit/ee69663))
+
+# [0.7.0](https://github.com/frontity/frontity/compare/v0.6.7...v0.7.0) (2018-09-26)
+
+
+### Bug Fixes
+
+* **amp:** replace styled-components tag to be AMP compliant ([46d0ef0](https://github.com/frontity/frontity/commit/46d0ef0))
+* **amp:** use amp-custom only in AMP ([6dad508](https://github.com/frontity/frontity/commit/6dad508))
+* **env:** use requestAnimationFrame when reading from innerText ([11e08e5](https://github.com/frontity/frontity/commit/11e08e5))
+* **styled-components:** fixes error of several instances with an update ([8393862](https://github.com/frontity/frontity/commit/8393862))
+
+
+### Features
+
+* **mst:** update mobx-state-tree [WIP] ([932cc99](https://github.com/frontity/frontity/commit/932cc99))
+
 ## [0.6.7](https://github.com/frontity/frontity/compare/v0.6.6...v0.6.7) (2018-08-28)
 
 

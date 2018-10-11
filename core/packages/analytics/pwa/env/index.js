@@ -8,7 +8,11 @@ const innerTextTracker = domElement => {
 
   // Initializes the observer.
   const observer = new window.MutationObserver(
-    () => domElement.innerText === innerTextToMatch && resolver(),
+    // Uses requestAnimationFrame to avoid reflows when accessing innerText
+    () =>
+      window.requestAnimationFrame(
+        () => domElement.innerText === innerTextToMatch && resolver(),
+      ),
   );
   observer.observe(domElement, { childList: true });
 
@@ -22,7 +26,13 @@ const innerTextTracker = domElement => {
     }
 
     // Checks first if innerText is already the same.
-    if (innerText === domElement.innerText) return;
+    const isInnerTextEqual = await new Promise(resolve => {
+      window.requestAnimationFrame(() => {
+        resolve(innerText === domElement.innerText);
+      });
+    });
+
+    if (isInnerTextEqual) return;
 
     // Sets innerText to match.
     innerTextToMatch = innerText;
