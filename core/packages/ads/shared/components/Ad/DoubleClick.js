@@ -108,7 +108,12 @@ class DoubleClick extends PureComponent {
         <Helmet>
           <script src="//www.googletagservices.com/tag/js/gpt.js" async />
         </Helmet>
-        <AdContainer id={this.divId} />
+        <AdContainer
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: `<div id="${this.divId}"></div>`,
+          }}
+        />
       </Fragment>
     );
   }
@@ -117,8 +122,10 @@ class DoubleClick extends PureComponent {
 export default DoubleClick;
 
 const AdContainer = styled.div`
-  display: block;
-  width: ${({ width }) => (typeof width === 'number' ? `${width}px` : width)};
-  height: ${({ height }) =>
-    typeof height === 'number' ? `${height}px` : height};
+  & > div {
+    display: block;
+    width: ${({ width }) => (typeof width === 'number' ? `${width}px` : width)};
+    height: ${({ height }) =>
+      typeof height === 'number' ? `${height}px` : height};
+  }
 `;

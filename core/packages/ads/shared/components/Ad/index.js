@@ -24,8 +24,8 @@ const Ad = ({
   active,
   isAmp,
   isSticky,
-  isLazy,
   isMedia,
+  isAboveTheFold,
   ...adProps
 }) => {
   const SelectedAd = mapAds[type];
@@ -51,7 +51,7 @@ const Ad = ({
         debounce={false}
         minTime={2000}
         maxTime={3000}
-        isLazy={isLazy}
+        isLazy={!isAboveTheFold}
       >
         <SelectedAd
           isMedia={isMedia}
@@ -75,7 +75,7 @@ Ad.propTypes = {
   isAmp: PropTypes.bool.isRequired,
   isSticky: PropTypes.bool,
   isMedia: PropTypes.bool,
-  isLazy: PropTypes.bool,
+  isAboveTheFold: PropTypes.bool.isRequired,
 };
 
 Ad.defaultProps = {
@@ -85,14 +85,11 @@ Ad.defaultProps = {
   height: 80,
   isSticky: false,
   isMedia: false,
-  isLazy: true,
 };
 
 export default inject(
-  ({ stores: { settings, connection, build } }, { item, active }) => ({
+  ({ stores: { connection, build } }, { item, active }) => ({
     isAmp: build.isAmp,
-    isLazy:
-      settings.ads && settings.ads.settings && settings.ads.settings.areLazy,
     active:
       typeof active === 'boolean'
         ? active
