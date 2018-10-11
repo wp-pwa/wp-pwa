@@ -34,6 +34,7 @@ const config = {
         use: {
           loader: 'babel-loader',
           options: {
+            compact: true,
             babelrc: false,
             ...babelrc.prodClient,
           },

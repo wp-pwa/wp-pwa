@@ -28,6 +28,7 @@ const config = {
         use: {
           loader: 'babel-loader',
           options: {
+            cacheDirectory: true,
             babelrc: false,
             ...babelrc.server,
           },
