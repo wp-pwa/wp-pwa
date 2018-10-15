@@ -1,3 +1,4 @@
+/* eslint-disable react/no-danger */
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
@@ -82,12 +83,16 @@ class SmartAd extends Component {
             async
           />
         </Helmet>
-        <InnerContainer
-          suppressHydrationWarning
-          dangerouslySetInnerHTML={{
-            __html: `<div class="sas-ad" id="${tagId}" width="${width}" height="${height}"></div>`,
-          }}
-        />
+        <InnerContainer>
+          <div
+            className="sas-ad"
+            id={tagId}
+            width={width}
+            height={height}
+            suppressHydrationWarning
+            dangerouslySetInnerHTML={{ __html: '' }}
+          />
+        </InnerContainer>
         <Script func={setup} args={[networkId]} />
         <Script
           func={call}
