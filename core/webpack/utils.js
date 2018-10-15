@@ -9,7 +9,7 @@ const nodeModules = [
     .map(dir => path.resolve(__dirname, `../../packages/${dir}/node_modules`)),
 ].filter(folder => pathExistsSync(folder));
 
-const babelrc = JSON.parse(fs.readFileSync('.babelrc', 'utf8')).env;
+const babelrc = require('../../babel.config.js').env;
 
 // if you're specifying externals to leave unbundled, you need to tell Webpack
 // to still bundle `react-universal-component`, `webpack-flush-chunks` and
@@ -17,7 +17,10 @@ const babelrc = JSON.parse(fs.readFileSync('.babelrc', 'utf8')).env;
 // within Webpack and can properly make connections to client modules:
 const externals = fs
   .readdirSync(path.resolve(__dirname, '../../node_modules'))
-  .filter(x => !/\.bin|react-universal-component|webpack-flush-chunks/.test(x))
+  .filter(
+    x =>
+      !/\.bin|react-universal-component|webpack-flush-chunks|lodash-es/.test(x),
+  )
   .reduce((external, mod) => {
     external[mod] = `commonjs ${mod}`;
     return external;

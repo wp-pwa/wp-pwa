@@ -10,6 +10,7 @@ const vendors = require('../vendors');
 
 const config = {
   name: 'client',
+  mode: 'development',
   target: 'web',
   devtool: 'eval',
   entry: {
@@ -34,10 +35,10 @@ const config = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
+            cacheDirectory: true,
             babelrc: false,
             ...babelrc.devClient,
           },
@@ -45,61 +46,56 @@ const config = {
       },
       {
         test: /\.css$/,
-        use: ExtractCssChunks.extract({
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                localIdentName: '[name]__[local]--[hash:base64:5]',
-              },
+        use: [
+          ExtractCssChunks.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: '[name]__[local]--[hash:base64:5]',
             },
-          ],
-          publicPath: `${process.env.HMR_PATH || '/'}static/`,
-        }),
+          },
+        ],
       },
     ],
   },
   plugins: [
     new WriteFilePlugin(),
-    new ExtractCssChunks(),
-    new webpack.optimize.CommonsChunkPlugin({
-      names: ['bootstrap'], // needed to put webpack bootstrap code before chunks
-      filename: '[name].js',
-      minChunks: Infinity,
-    }),
+    new ExtractCssChunks({ hot: true }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: JSON.stringify('development'),
         MODE: JSON.stringify(process.env.MODE),
       },
     }),
     new webpack.WatchIgnorePlugin([/\.build/, /packages$/]),
     new webpack.IgnorePlugin(/vertx/),
-    new LodashModuleReplacementPlugin({
-      currying: true,
-    }),
+    new LodashModuleReplacementPlugin(),
     new ProgressBarPlugin(),
   ],
+  optimization: {
+    splitChunks: {
+      chunks: 'async',
+      cacheGroups: {
+        vendor: {
+          test: new RegExp(`[\\/]node_modules[\\/](${vendors.join('|')})[\\/]`),
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
+  },
 };
 
 if (process.env.ANALYZE) {
   const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
-  const Visualizer = require('webpack-visualizer-plugin');
   config.plugins.push(
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
-      reportFilename: '../../analyize/pwa/client-dev-analyzer.html',
+      reportFilename: '../../analyze/pwa/client-dev-analyzer.html',
       openAnalyzer: false,
       generateStatsFile: true,
-      statsFilename: '../../analyize/pwa/client-dev-stats.json',
-    }),
-  );
-  config.plugins.push(
-    new Visualizer({
-      filename: '../../analyize/pwa/client-dev-visualizer.html',
+      statsFilename: '../../analyze/pwa/client-dev-stats.json',
     }),
   );
 }
