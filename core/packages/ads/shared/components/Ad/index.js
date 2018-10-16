@@ -49,6 +49,7 @@ const Ad = ({
         active={active}
         offset={1000}
         debounce={false}
+        throttle={60}
         minTime={2000}
         maxTime={3000}
         isLazy={!isAboveTheFold}
