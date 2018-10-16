@@ -5,7 +5,11 @@ import styled from 'styled-components';
 import { inject } from 'mobx-react';
 import { Helmet } from 'react-helmet';
 import Script from '../../Script';
-import { setup, call } from './functions';
+
+// eslint-disable-next-line
+import setup from 'raw-loader!babel-loader?forceEnv=devClient!./functions/setup';
+// eslint-disable-next-line
+import call from 'raw-loader!babel-loader?forceEnv=devClient!./functions/call';
 
 class SmartAd extends Component {
   static propTypes = {
