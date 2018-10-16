@@ -75,7 +75,7 @@ Ad.propTypes = {
   isAmp: PropTypes.bool.isRequired,
   isSticky: PropTypes.bool,
   isMedia: PropTypes.bool,
-  isAboveTheFold: PropTypes.bool.isRequired,
+  isAboveTheFold: PropTypes.bool,
 };
 
 Ad.defaultProps = {
@@ -85,6 +85,7 @@ Ad.defaultProps = {
   height: 80,
   isSticky: false,
   isMedia: false,
+  isAboveTheFold: false,
 };
 
 export default inject(
