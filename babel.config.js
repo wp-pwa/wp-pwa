@@ -70,26 +70,5 @@ module.exports = {
         ['universal-import', { disableWarnings: true }],
       ],
     },
-    raw: {
-      presets: [
-        [
-          '@babel/env',
-          {
-            // targets: {
-            //   browsers: ['android >= 5', 'ios_saf > 9', 'and_chr >= 40'],
-            // },
-            // useBuiltIns: 'entry',
-          },
-        ],
-        '@babel/react',
-      ],
-      // plugins: [
-      //   ['styled-components', { ssr: true }],
-      //   'transform-inline-environment-variables',
-      //   '@babel/syntax-dynamic-import',
-      //   '@babel/proposal-object-rest-spread',
-      //   '@babel/proposal-class-properties',
-      // ],
-    },
   },
 };
