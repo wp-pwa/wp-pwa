@@ -11,7 +11,11 @@ const start = async () => {
 
   if (argv.build) {
     // Only build.
-    console.log(`> Building ${process.env.MODE} for ${dev ? 'development' : 'production'}...\n`);
+    console.log(
+      `> Building ${process.env.MODE} for ${
+        dev ? 'development' : 'production'
+      }...\n`,
+    );
     await build();
     console.log('> Finished.\n');
   } else if (argv.serve) {
@@ -31,8 +35,8 @@ const start = async () => {
     const options = { stats: { colors: true, progress: true } };
     app.use(webpackDevMiddleware(compiler, options));
     app.use(webpackHotMiddleware(clientCompiler));
-    app.use(webpackHotServerMiddleware(compiler));
-    compiler.plugin('done', done);
+    app.use(webpackHotServerMiddleware(compiler, { chunkName: 'm' }));
+    compiler.hooks.done.tap('RunningServer', done);
   } else {
     // Start in PROD mode.
     console.log(`> Building ${process.env.MODE} for production...`);
