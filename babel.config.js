@@ -32,7 +32,7 @@ module.exports = {
         '@babel/proposal-object-rest-spread',
         '@babel/proposal-class-properties',
         ['universal-import', { disableWarnings: true }],
-        'react-hot-loader/babel',
+        // 'react-hot-loader/babel',
       ],
     },
     prodClient: {
