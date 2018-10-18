@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet';
 import Script from '../../Script';
 
 // eslint-disable-next-line
-import call from 'raw-loader!babel-loader?forceEnv=devClient!./functions/call';
+import call from '!!raw-loader!babel-loader?envName=devClient!./functions/call';
 
 let counter = 0;
 
