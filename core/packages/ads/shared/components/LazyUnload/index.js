@@ -9,6 +9,7 @@ class LazyUnload extends Component {
     minTime: PropTypes.number.isRequired,
     maxTime: PropTypes.number.isRequired,
     offset: PropTypes.number.isRequired,
+    throttle: PropTypes.number.isRequired,
     debounce: PropTypes.bool,
     active: PropTypes.bool.isRequired,
     children: PropTypes.node.isRequired,
@@ -58,6 +59,7 @@ class LazyUnload extends Component {
       height,
       active,
       offset,
+      throttle,
       debounce,
       children,
       className,
@@ -70,6 +72,7 @@ class LazyUnload extends Component {
       offsetVertical: offset,
       offsetHorizontal: 40,
       debounce,
+      throttle,
     };
 
     return (

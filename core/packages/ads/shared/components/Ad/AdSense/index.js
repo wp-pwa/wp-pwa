@@ -1,7 +1,12 @@
+/* eslint-disable react/no-danger */
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
+import Script from '../../Script';
+
+// eslint-disable-next-line
+import call from '!!raw-loader!babel-loader?envName=devClient!./functions/call';
 
 const linkCount = {};
 
@@ -25,27 +30,23 @@ class AdSense extends PureComponent {
     isMedia: false,
   };
 
-  static push({ client, slot, format }) {
-    try {
-      window.adsbygoogle = window.adsbygoogle || [];
-      window.adsbygoogle.push({});
-
-      if (format === 'link') {
-        const id = `${client}/${slot}`;
-        linkCount[id] = (linkCount[id] || 0) + 1;
-      }
-    } catch (e) {
-      // console.warn(e);
-    }
+  constructor() {
+    super();
+    this.node = React.createRef();
   }
-
   componentDidMount() {
-    if (window) AdSense.push(this.props);
+    const { client, slot, format } = this.props;
+
+    // Count link instances
+    if (format === 'link') {
+      const id = `${client}/${slot}`;
+      linkCount[id] = (linkCount[id] || 0) + 1;
+    }
   }
 
   componentWillUnmount() {
     // Removes Google's handler for this ad
-    const iframe = this.node.querySelector('iframe');
+    const iframe = this.node.current.querySelector('iframe');
     if (iframe) {
       const {
         google_iframe_oncopy: { handlers },
@@ -90,18 +91,18 @@ class AdSense extends PureComponent {
             async
           />
         </Helmet>
-        <StyledIns
-          ref={ins => {
-            this.node = ins;
-          }}
-          className="adsbygoogle"
-          data-ad-client={client}
-          data-ad-slot={slot}
-          data-ad-format={format}
-          width={width}
-          height={height}
-          isMedia={isMedia}
-        />
+        <Container isMedia={isMedia} width={width} height={height}>
+          <ins
+            ref={this.node}
+            className="adsbygoogle"
+            data-ad-client={client}
+            data-ad-slot={slot}
+            data-ad-format={format}
+            suppressHydrationWarning
+            dangerouslySetInnerHTML={{ __html: '' }}
+          />
+        </Container>
+        <Script func={call} />
       </Fragment>
     );
   }
@@ -109,12 +110,14 @@ class AdSense extends PureComponent {
 
 export default AdSense;
 
-const StyledIns = styled.ins`
-  display: block;
-  background-color: ${({ theme, isMedia }) =>
-    isMedia ? 'transparent' : theme.colors.white};
-  width: ${({ width }) => (typeof width === 'number' ? `${width}px` : width)};
-  height: ${({ height }) =>
-    typeof height === 'number' ? `${height}px` : height};
-  margin: 0 auto;
+const Container = styled.div`
+  & > ins {
+    display: block;
+    background-color: ${({ theme, isMedia }) =>
+      isMedia ? 'transparent' : theme.colors.white};
+    width: ${({ width }) => (typeof width === 'number' ? `${width}px` : width)};
+    height: ${({ height }) =>
+      typeof height === 'number' ? `${height}px` : height};
+    margin: 0 auto;
+  }
 `;
