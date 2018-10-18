@@ -212,6 +212,8 @@ export default ({ clientStats }) => async (req, res) => {
       // Flush chunk names and extract scripts, css and css<->scripts object.
       const chunkNames = flushChunkNames();
 
+      console.log('chunkNames:', chunkNames);
+
       const { cssHashRaw, scripts, stylesheets } = flushChunks(clientStats, {
         chunkNames,
       });

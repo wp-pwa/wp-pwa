@@ -14,7 +14,6 @@ const config = {
   target: 'web',
   entry: {
     main: [
-      ...vendors,
       path.resolve(__dirname, `../client/public-path.js`),
       path.resolve(__dirname, `../client`),
     ],

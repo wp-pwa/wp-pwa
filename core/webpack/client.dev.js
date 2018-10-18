@@ -18,7 +18,6 @@ const config = {
       // `webpack-hot-middleware/client?path=${process.env.HMR_PATH ||
       //   '/'}__webpack_hmr&timeout=20000&reload=false&quiet=false&noInfo=false`,
       // 'react-hot-loader/patch',
-      ...vendors,
       path.resolve(__dirname, `../client/public-path.js`),
       path.resolve(__dirname, `../client`),
     ],

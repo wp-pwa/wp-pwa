@@ -4,6 +4,7 @@ const { readFile, pathExists, readdir } = require('fs-extra');
 const express = require('express');
 const compression = require('compression');
 const noFavicon = require('express-no-favicons');
+const path = require('path');
 
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -49,6 +50,22 @@ const createApp = async () => {
     next();
   });
   // Add static files.
+  app.use(
+    '/static/vendors~packages/saturn-app-theme-worona-src-pwa-client.js',
+    (_req, res) => {
+      res.type('application/javascript');
+      setTimeout(() => {
+        res.sendFile(
+          path.resolve(
+            __dirname,
+            `../../.build/${
+              process.env.MODE
+            }/client/vendors~packages/saturn-app-theme-worona-src-pwa-client.js`,
+          ),
+        );
+      }, 1000);
+    },
+  );
   app.use(
     '/static',
     express.static(`.build/${process.env.MODE}/client/`, {
