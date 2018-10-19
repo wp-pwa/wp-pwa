@@ -11,6 +11,7 @@ const Universal = universal(
         promiseCallbacks[name]({ name, namespace, module });
       }
     },
+    ignoreBabelRename: true,
   },
 );
 
