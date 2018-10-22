@@ -4,19 +4,22 @@ import { Helmet } from 'react-helmet';
 import { Provider as MobxProvider } from 'mobx-react';
 import { Provider as SlotFillProvider } from 'react-slot-fill';
 import Universal from './Universal';
+import ErrorBoundary from './ErrorBoundary';
 
 const App = ({ core, packages, stores, components }) => (
-  <MobxProvider stores={stores} components={components}>
-    <SlotFillProvider>
-      <Fragment>
-        <Helmet>
-          <title>WP PWA</title>
-        </Helmet>
-        {core.map(({ name, Component }) => <Component key={name} />)}
-        {packages.map(name => <Universal key={name} name={name} />)}
-      </Fragment>
-    </SlotFillProvider>
-  </MobxProvider>
+  <ErrorBoundary>
+    <MobxProvider stores={stores} components={components}>
+      <SlotFillProvider>
+        <Fragment>
+          <Helmet>
+            <title>WP PWA</title>
+          </Helmet>
+          {core.map(({ name, Component }) => <Component key={name} />)}
+          {packages.map(name => <Universal key={name} name={name} />)}
+        </Fragment>
+      </SlotFillProvider>
+    </MobxProvider>
+  </ErrorBoundary>
 );
 
 App.propTypes = {
