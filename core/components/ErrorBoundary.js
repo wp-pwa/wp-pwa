@@ -7,11 +7,6 @@ class ErrorBoundary extends React.Component {
     children: PropTypes.node.isRequired,
   };
 
-  constructor() {
-    super();
-    this.state = { hasError: false };
-  }
-
   componentDidCatch(error, info) {
     console.warn(error, info);
 
@@ -28,9 +23,7 @@ class ErrorBoundary extends React.Component {
 
   render() {
     const { children } = this.props;
-    const { hasError } = this.state;
-
-    return hasError ? null : children;
+    return children;
   }
 }
 
