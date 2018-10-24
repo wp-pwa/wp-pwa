@@ -12,6 +12,7 @@ export default ({
   publicPath,
   stores,
   chunksForArray,
+  bootstrapString,
 }) => `<!doctype html>
   <html ${helmet.htmlAttributes.toString()}>
     <head>
@@ -45,6 +46,7 @@ export default ({
           ref.parentNode.insertBefore(js, ref);
         };
         scripts.forEach(function(sc) { loadScript(sc); });
+        ${bootstrapString}
       </script>
     </body>
   </html>`;

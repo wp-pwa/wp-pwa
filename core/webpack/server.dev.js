@@ -6,12 +6,10 @@ const { nodeModules, babelrc, externals } = require('./utils');
 
 const config = {
   name: 'server',
-  mode: 'development',
   target: 'node',
+  // devtool: 'source-map',
   devtool: 'eval',
-  entry: {
-    m: [path.resolve(__dirname, `../server`)],
-  },
+  entry: [path.resolve(__dirname, `../server`)],
   externals,
   output: {
     path: path.resolve(__dirname, `../../.build/${process.env.MODE}/server`),
@@ -25,10 +23,10 @@ const config = {
     rules: [
       {
         test: /\.js$/,
+        exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
-            cacheDirectory: true,
             babelrc: false,
             ...babelrc.server,
           },
@@ -36,6 +34,7 @@ const config = {
       },
       {
         test: /\.css$/,
+        exclude: /node_modules/,
         use: [
           {
             loader: 'css-loader/locals',
@@ -55,6 +54,7 @@ const config = {
     }),
     new webpack.DefinePlugin({
       'process.env': {
+        NODE_ENV: JSON.stringify('development'),
         MODE: JSON.stringify(process.env.MODE),
       },
     }),
@@ -65,15 +65,21 @@ const config = {
 
 if (process.env.ANALYZE) {
   const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+  const Visualizer = require('webpack-visualizer-plugin');
   config.plugins.push(
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
-      reportFilename: `../../analyze/${
+      reportFilename: `../../analyize/${
         process.env.MODE
       }/server-dev-analyzer.html`,
       openAnalyzer: false,
       generateStatsFile: true,
-      statsFilename: `../../analyze/${process.env.MODE}/server-dev-stats.json`,
+      statsFilename: `../../analyize/${process.env.MODE}/server-dev-stats.json`,
+    }),
+  );
+  config.plugins.push(
+    new Visualizer({
+      filename: `../../analyize/${process.env.MODE}/server-dev-visualizer.html`,
     }),
   );
 }

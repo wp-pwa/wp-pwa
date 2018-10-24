@@ -1,7 +1,6 @@
 /* eslint-disable global-require */
 const path = require('path');
 const webpack = require('webpack');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const ExtractCssChunks = require('extract-css-chunks-webpack-plugin');
 const LodashModuleReplacementPlugin = require('lodash-webpack-plugin');
 const ProgressBarPlugin = require('progress-bar-webpack-plugin');
@@ -10,7 +9,6 @@ const vendors = require('../vendors');
 
 const config = {
   name: 'client',
-  mode: 'production',
   target: 'web',
   entry: {
     main: [
@@ -31,10 +29,10 @@ const config = {
     rules: [
       {
         test: /\.js$/,
+        exclude: /node_modules/,
         use: {
           loader: 'babel-loader',
           options: {
-            compact: true,
             babelrc: false,
             ...babelrc.prodClient,
           },
@@ -42,61 +40,74 @@ const config = {
       },
       {
         test: /\.css$/,
-        use: [
-          ExtractCssChunks.loader,
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              localIdentName: '[name]__[local]--[hash:base64:5]',
+        use: ExtractCssChunks.extract({
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                localIdentName: '[name]__[local]--[hash:base64:5]',
+              },
             },
-          },
-        ],
+          ],
+        }),
       },
     ],
   },
   plugins: [
     new ExtractCssChunks(),
+    new webpack.optimize.CommonsChunkPlugin({
+      names: ['bootstrap'], // needed to put webpack bootstrap code before chunks
+      filename: '[name].[chunkhash].js',
+      minChunks: Infinity,
+    }),
+
     new webpack.DefinePlugin({
       'process.env': {
+        NODE_ENV: JSON.stringify('production'),
         MODE: JSON.stringify(process.env.MODE),
       },
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        screw_ie8: true,
+        warnings: false,
+      },
+      mangle: {
+        screw_ie8: true,
+      },
+      output: {
+        screw_ie8: true,
+        comments: false,
+      },
+      sourceMap: false,
     }),
     new webpack.WatchIgnorePlugin([/\.build/]),
     new webpack.IgnorePlugin(
       /vertx|redux-logger|redux-devtools-extension|redbox-react|mobx-devtools-mst/,
     ),
-    new LodashModuleReplacementPlugin(),
+    new LodashModuleReplacementPlugin({
+      currying: true,
+    }),
     new ProgressBarPlugin(),
   ],
-  optimization: {
-    splitChunks: {
-      chunks: 'async',
-      cacheGroups: {
-        vendor: {
-          test: new RegExp(`[\\/]node_modules[\\/](${vendors.join('|')})[\\/]`),
-          name: 'vendors',
-          chunks: 'all',
-        },
-      },
-    },
-    minimizer: [
-      new UglifyJsPlugin({
-        sourceMap: false,
-      }),
-    ],
-  },
 };
 
 if (process.env.ANALYZE) {
   const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+  const Visualizer = require('webpack-visualizer-plugin');
   config.plugins.push(
     new BundleAnalyzerPlugin({
       analyzerMode: 'static',
-      reportFilename: '../../analyze/pwa/client-prod-analyzer.html',
+      reportFilename: '../../analyize/pwa/client-prod-analyzer.html',
       openAnalyzer: false,
       generateStatsFile: true,
-      statsFilename: '../../analyze/pwa/client-prod-stats.json',
+      statsFilename: '../../analyize/pwa/client-prod-stats.json',
+    }),
+  );
+  config.plugins.push(
+    new Visualizer({
+      filename: '../../analyize/pwa/client-prod-visualizer.html',
     }),
   );
 }

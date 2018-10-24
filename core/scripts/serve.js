@@ -115,8 +115,9 @@ const serve = async () => {
   const clientStats = require(`../../.build/${
     process.env.MODE
   }/clientStats.json`); // eslint-disable-line
-  const serverRender = require(`../../.build/${process.env.MODE}/server/m.js`)
-    .default; // eslint-disable-line
+  const serverRender = require(`../../.build/${
+    process.env.MODE
+  }/server/main.js`).default; // eslint-disable-line
   app.use(serverRender({ clientStats }));
   done();
 };

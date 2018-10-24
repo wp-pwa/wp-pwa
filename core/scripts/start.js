@@ -35,8 +35,8 @@ const start = async () => {
     const options = { stats: { colors: true, progress: true } };
     app.use(webpackDevMiddleware(compiler, options));
     app.use(webpackHotMiddleware(clientCompiler));
-    app.use(webpackHotServerMiddleware(compiler, { chunkName: 'm' }));
-    compiler.hooks.done.tap('RunningServer', done);
+    app.use(webpackHotServerMiddleware(compiler));
+    compiler.plugin('done', done);
   } else {
     // Start in PROD mode.
     console.log(`> Building ${process.env.MODE} for production...`);

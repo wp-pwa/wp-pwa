@@ -1,10 +1,11 @@
 /* eslint-disable no-console, global-require, import/no-dynamic-require */
+import { readFile } from 'fs-extra';
 import React from 'react';
 import ReactDOM from 'react-dom/server';
 import { ServerStyleSheet } from 'styled-components';
 import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
-import { mapValues } from 'lodash-es';
+import { mapValues } from 'lodash';
 import request from 'superagent';
 import { types } from 'mobx-state-tree';
 import { useStaticRendering } from 'mobx-react';
@@ -33,6 +34,10 @@ const disqusCommentsModule = require(`../packages/disqus-comments/${
 }/server`);
 
 const dev = process.env.NODE_ENV !== 'production';
+
+const { buildPath } = require(`../../.build/${
+  process.env.MODE
+}/buildInfo.json`);
 
 export default ({ clientStats }) => async (req, res) => {
   let status = 200;
@@ -211,7 +216,6 @@ export default ({ clientStats }) => async (req, res) => {
     if (process.env.MODE === 'pwa') {
       // Flush chunk names and extract scripts, css and css<->scripts object.
       const chunkNames = flushChunkNames();
-
       const { cssHashRaw, scripts, stylesheets } = flushChunks(clientStats, {
         chunkNames,
       });
@@ -220,8 +224,20 @@ export default ({ clientStats }) => async (req, res) => {
       const cssHash = JSON.stringify(
         mapValues(cssHashRaw, cssPath => `${publicPath}${cssPath}`),
       );
-      const chunksForArray = scripts.map(script => `'${script}'`).join(',');
-      const preloadScripts = scripts
+      const scriptsWithoutBootstrap = scripts.filter(
+        script => !/bootstrap/.test(script),
+      );
+      const chunksForArray = scriptsWithoutBootstrap
+        .map(script => `'${script}'`)
+        .join(',');
+      const bootstrapFileName = scripts.filter(script =>
+        /bootstrap/.test(script),
+      );
+      const bootstrapString = await readFile(
+        `${buildPath}/.build/${process.env.MODE}/client/${bootstrapFileName}`,
+        'utf8',
+      );
+      const preloadScripts = scriptsWithoutBootstrap
         .map(
           script =>
             `<link rel="preload" href="${publicPath}${script}" as="script">`,
@@ -252,6 +268,7 @@ export default ({ clientStats }) => async (req, res) => {
           publicPath,
           stores,
           chunksForArray,
+          bootstrapString,
         }),
       );
     } else if (process.env.MODE === 'amp') {
