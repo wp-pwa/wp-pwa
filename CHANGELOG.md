@@ -1,3 +1,30 @@
+## [0.7.2](https://github.com/frontity/frontity/compare/v0.7.1...v0.7.2) (2018-10-24)
+
+
+### Bug Fixes
+
+* **ad:** add throttle to LazyUnload ([2839af4](https://github.com/frontity/frontity/commit/2839af4))
+* **ad:** fix hydration warning ([1b3aff1](https://github.com/frontity/frontity/commit/1b3aff1))
+* **ad:** fix webpack loaders ([e1e7c58](https://github.com/frontity/frontity/commit/e1e7c58))
+* **error-boundary:** create ErrorBoundary and use it in App ([1602023](https://github.com/frontity/frontity/commit/1602023))
+* **error-boundary:** do not use state ([231ce76](https://github.com/frontity/frontity/commit/231ce76))
+* **esmodules:** fixes imports in server side [WIP] ([ba09f4b](https://github.com/frontity/frontity/commit/ba09f4b))
+* **imports:** temporarily prevent export warning from happening [WIP] ([623e788](https://github.com/frontity/frontity/commit/623e788))
+* **lazyload:** updates [@frontity](https://github.com/frontity)/lazyload to next version ([0d6e43f](https://github.com/frontity/frontity/commit/0d6e43f))
+* **lazyload:** updates lazyload ([13786f9](https://github.com/frontity/frontity/commit/13786f9))
+* **lodash:** removes lodash-es and installs lodash ([f84336e](https://github.com/frontity/frontity/commit/f84336e))
+* **npm:** update [@frontity](https://github.com/frontity)/lazyload package ([71222d7](https://github.com/frontity/frontity/commit/71222d7))
+* **npm:** update [@frontity](https://github.com/frontity)/lazyload version ([2d5e3ea](https://github.com/frontity/frontity/commit/2d5e3ea))
+* **package.json:** update react-universal-component ([1b1c0bb](https://github.com/frontity/frontity/commit/1b1c0bb))
+* **script:** add script tag in runtime ([0d62902](https://github.com/frontity/frontity/commit/0d62902))
+* **webpack:** adds cacheDirectory and compact options to babel-loader ([cd8b921](https://github.com/frontity/frontity/commit/cd8b921))
+* **webpack:** fix raw imports ([1910d0b](https://github.com/frontity/frontity/commit/1910d0b))
+* **webpack:** fix webpack merge [WIP] ([990fdbf](https://github.com/frontity/frontity/commit/990fdbf))
+* **webpack:** fixes tree shaking with lodash ([3a874a7](https://github.com/frontity/frontity/commit/3a874a7))
+* **webpack:** fixes warnings when transpiling node_modules ([5491229](https://github.com/frontity/frontity/commit/5491229))
+* **webpack:** migrates to lodash-es and fixes tree shaking ([dbbbcb6](https://github.com/frontity/frontity/commit/dbbbcb6))
+* **webpack:** update react-hot-loader ([4960595](https://github.com/frontity/frontity/commit/4960595))
+
 ## [0.7.1](https://github.com/frontity/frontity/compare/v0.7.0...v0.7.1) (2018-10-02)
 
 
