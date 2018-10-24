@@ -11,7 +11,11 @@ const start = async () => {
 
   if (argv.build) {
     // Only build.
-    console.log(`> Building ${process.env.MODE} for ${dev ? 'development' : 'production'}...\n`);
+    console.log(
+      `> Building ${process.env.MODE} for ${
+        dev ? 'development' : 'production'
+      }...\n`,
+    );
     await build();
     console.log('> Finished.\n');
   } else if (argv.serve) {

@@ -6,10 +6,18 @@ const { spawn } = require('child_process');
 // Ignores invalid self-signed ssl certificates
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-if (process.env.MODE !== 'pwa' && process.env.MODE !== 'amp' && !argv.pwa && !argv.amp) {
-  throw new Error('MODE not selected. Please use --pwa, --amp or an environment variable.');
+if (
+  process.env.MODE !== 'pwa' &&
+  process.env.MODE !== 'amp' &&
+  !argv.pwa &&
+  !argv.amp
+) {
+  throw new Error(
+    'MODE not selected. Please use --pwa, --amp or an environment variable.',
+  );
 } else {
-  process.env.MODE = process.env.MODE || (argv.pwa && 'pwa') || (argv.amp && 'amp');
+  process.env.MODE =
+    process.env.MODE || (argv.pwa && 'pwa') || (argv.amp && 'amp');
   console.log(`> Using MODE=${process.env.MODE}`);
 }
 

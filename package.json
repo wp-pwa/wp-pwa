@@ -42,7 +42,7 @@
     "now-start": "npm run serve -- --prod"
   },
   "dependencies": {
-    "@frontity/lazyload": "^1.0.2",
+    "@frontity/lazyload": "^1.0.8",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-lodash": "^3.3.2",

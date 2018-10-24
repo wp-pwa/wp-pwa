@@ -1,8 +1,15 @@
+/* eslint-disable react/no-danger */
 import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import { inject } from 'mobx-react';
 import { Helmet } from 'react-helmet';
+import Script from '../../Script';
+
+// eslint-disable-next-line
+import setup from 'raw-loader!babel-loader?forceEnv=devClient!./functions/setup';
+// eslint-disable-next-line
+import call from 'raw-loader!babel-loader?forceEnv=devClient!./functions/call';
 
 class SmartAd extends Component {
   static propTypes = {
@@ -31,59 +38,6 @@ class SmartAd extends Component {
     item: null,
   };
 
-  static firstAd = true;
-
-  constructor(props) {
-    super(props);
-
-    const { formatId, item, slotName } = props;
-
-    this.tagId = `ad${formatId}_${item.mstId}${slotName ? `_${slotName}` : ''}`;
-  }
-
-  componentDidMount() {
-    const {
-      networkId,
-      siteId,
-      pageId,
-      formatId,
-      target,
-      width,
-      height,
-      callType,
-    } = this.props;
-    const { tagId } = this;
-    const callParams = {
-      siteId,
-      pageId,
-      formatId,
-      target,
-      width,
-      height,
-      tagId,
-      async: true,
-    };
-
-    const sas = window && window.sas ? window.sas : (window.sas = {});
-    sas.cmd = sas.cmd || [];
-
-    if (SmartAd.firstAd) {
-      SmartAd.firstAd = false;
-      sas.cmd.push(() => {
-        sas.setup({
-          networkid: networkId,
-          domain: '//www8.smartadserver.com',
-          async: true,
-        });
-      });
-    }
-
-    sas.cmd.push(() => {
-      const containerExists = window.document.getElementById(tagId) !== null;
-      if (containerExists) sas.call(callType, callParams);
-    });
-  }
-
   render() {
     const {
       networkId,
@@ -94,8 +48,14 @@ class SmartAd extends Component {
       siteId,
       pageId,
       target,
+      callType,
+      item,
+      slotName,
     } = this.props;
-    const { tagId } = this;
+
+    const tagId = `ad${formatId}_${item.mstId}${
+      slotName ? `_${slotName}` : ''
+    }`;
 
     if (isAmp) {
       return [
@@ -127,7 +87,32 @@ class SmartAd extends Component {
             async
           />
         </Helmet>
-        <InnerContainer id={tagId} width={width} height={height} />
+        <InnerContainer>
+          <div
+            className="sas-ad"
+            id={tagId}
+            width={width}
+            height={height}
+            suppressHydrationWarning
+            dangerouslySetInnerHTML={{ __html: '' }}
+          />
+        </InnerContainer>
+        <Script func={setup} args={[networkId]} />
+        <Script
+          func={call}
+          args={[
+            callType,
+            {
+              siteId,
+              pageId,
+              formatId,
+              target,
+              width,
+              height,
+              tagId,
+            },
+          ]}
+        />
       </Fragment>
     );
   }
@@ -141,12 +126,14 @@ export default inject(
 )(SmartAd);
 
 const InnerContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  background-color: ${({ theme }) => theme.colors.white};
+  & > div {
+    width: 100%;
+    height: 100%;
+    background-color: ${({ theme }) => theme.colors.white};
 
-  iframe {
-    max-width: 100%;
-    display: block;
+    iframe {
+      max-width: 100%;
+      display: block;
+    }
   }
 `;
