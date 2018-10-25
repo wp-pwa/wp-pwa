@@ -116,7 +116,7 @@
     "prettier": "^1.13.6",
     "react-test-renderer": "^16.4.1",
     "semantic-release": "^15.10.5",
-    "travis-deploy-once": "^5.0.0",
+    "travis-deploy-once": "^5.0.9",
     "webpack-bundle-analyzer": "^2.10.0",
     "webpack-dev-middleware": "^1.12.2",
     "webpack-hot-middleware": "^2.21.0",
