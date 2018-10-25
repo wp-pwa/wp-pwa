@@ -42,7 +42,7 @@
     "now-start": "npm run serve -- --prod"
   },
   "dependencies": {
-    "@frontity/lazyload": "^1.0.8",
+    "@frontity/lazyload": "^1.0.11",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-plugin-lodash": "^3.3.2",
@@ -76,8 +76,8 @@
     "normalizr": "^3.2.4",
     "progress-bar-webpack-plugin": "^1.10.0",
     "raw-loader": "^0.5.1",
-    "react": "^16.5.0",
-    "react-dom": "^16.5.0",
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
     "react-emotion": "^8.0.12",
     "react-helmet": "^5.2.0",
     "react-hot-loader": "3.0.0-beta.7",
