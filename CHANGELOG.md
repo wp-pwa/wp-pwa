@@ -1,3 +1,17 @@
+## [0.7.3](https://github.com/frontity/frontity/compare/v0.7.2...v0.7.3) (2018-10-26)
+
+
+### Bug Fixes
+
+* **react:** update react and react-dom ([a04147b](https://github.com/frontity/frontity/commit/a04147b))
+* **semantic-release:** fix repository url in pacakge.json ([b7f05ec](https://github.com/frontity/frontity/commit/b7f05ec))
+* **semantic-release:** rollback [@semantic-release](https://github.com/semantic-release)/github ([90cd8db](https://github.com/frontity/frontity/commit/90cd8db))
+* **semantic-release:** rollback semantic-release version ([159245a](https://github.com/frontity/frontity/commit/159245a))
+* **semantic-release:** rollback sr and sr/gh ([03f8fca](https://github.com/frontity/frontity/commit/03f8fca))
+* **semantic-release:** update semantic-release ([18b162b](https://github.com/frontity/frontity/commit/18b162b))
+* **semantic-release:** update to latest version for security reasons ([a0cbc87](https://github.com/frontity/frontity/commit/a0cbc87))
+* **semantic-release:** update travis-deploy-once ([41ba46c](https://github.com/frontity/frontity/commit/41ba46c))
+
 ## [0.7.2](https://github.com/frontity/frontity/compare/v0.7.1...v0.7.2) (2018-10-24)
 
 
