@@ -1,3 +1,10 @@
+## [0.7.4](https://github.com/frontity/frontity/compare/v0.7.3...v0.7.4) (2018-11-15)
+
+
+### Bug Fixes
+
+* **pwa-template:** fixes initial blink caused by a rerender ([351a822](https://github.com/frontity/frontity/commit/351a822))
+
 ## [0.7.3](https://github.com/frontity/frontity/compare/v0.7.2...v0.7.3) (2018-10-26)
 
 
