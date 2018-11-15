@@ -39,11 +39,11 @@ export default ({
         var scripts = [${chunksForArray}];
         var loadScript = function(script) {
           if (document.getElementById(script)) return;
-          var ref = document.getElementsByTagName('script')[0];
+          var ref = document.getElementsByTagName('head')[0];
           var js = document.createElement('script');
           js.id = script;
           js.src = '${publicPath}' + script;
-          ref.parentNode.insertBefore(js, ref);
+          ref.appendChild(js);
         };
         scripts.forEach(function(sc) { loadScript(sc); });
         ${bootstrapString}
