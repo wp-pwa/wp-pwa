@@ -88,7 +88,6 @@ export const Stores = types.model('Stores').props({
       url: 'https://demo.frontity.test',
     },
     theme: {
-      woronaInfo: { name: 'saturn-theme' },
       analytics: {
         anonymize: false,
         amp: {
@@ -112,7 +111,10 @@ export const Stores = types.model('Stores').props({
   build: types.frozen({
     dev: true,
     channel: 'pwa',
-    packages: ['saturn-theme', 'wp-org-connection'],
+    packages: {
+      theme: 'saturn-theme',
+      connection: 'wp-org-connection',
+    },
   }),
   analytics: types.optional(Analytics, {}),
 });
