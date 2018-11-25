@@ -12,7 +12,7 @@ import { useStaticRendering } from 'mobx-react';
 import { Helmet } from 'react-helmet';
 import App from '../components/App';
 import Store from '../store';
-import { getSettings } from './settings';
+import getSettings from './settings';
 import pwaTemplate from './templates/pwa';
 import ampTemplate from './templates/amp';
 import requireModules from './requires';
@@ -70,13 +70,7 @@ export default ({ clientStats }) => async (req, res) => {
     }
 
     // Get settings.
-    const settings = await getSettings({ siteId, env });
-    if (!settings) {
-      status = 404;
-      throw new Error(
-        `Settings for ${siteId} not found in the ${env.toUpperCase()} database.`,
-      );
-    }
+    const { settings, packages } = await getSettings({ siteId, env });
 
     // Define core modules.
     const coreModules = [
@@ -111,20 +105,6 @@ export default ({ clientStats }) => async (req, res) => {
         module: disqusCommentsModule,
       },
     ];
-
-    // Extract activated packages array from settings.
-    const packages = settings
-      ? Object.values(settings)
-          .filter(pkg => pkg.woronaInfo.namespace !== 'generalSite')
-          .filter(pkg => pkg.woronaInfo.namespace !== 'generalApp')
-          .reduce(
-            (obj, pkg) => ({
-              ...obj,
-              [pkg.woronaInfo.namespace]: pkg.woronaInfo.name,
-            }),
-            {},
-          )
-      : {};
 
     // Load the activated modules.
     const pkgModules = await requireModules(Object.entries(packages));
