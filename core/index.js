@@ -1,3 +1,4 @@
+require('dotenv').config();
 /* eslint-disable no-console */
 const argv = require('minimist')(process.argv.slice(2));
 const { emptyDirSync } = require('fs-extra');

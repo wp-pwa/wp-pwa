@@ -21,8 +21,8 @@ const GoogleTagManager = types
 
       // Gets values for custom dimensions
       const { _id: siteId, userIds } = settings.generalSite;
-      const theme = settings.theme.woronaInfo.name;
-      const extensions = packages.toString();
+      const { theme } = packages;
+      const extensions = Object.values(packages).join(',');
       const pageType =
         typeof window !== 'undefined' &&
         /^(pre)?dashboard\./.test(window.location.host)
