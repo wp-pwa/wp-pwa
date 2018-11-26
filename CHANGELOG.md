@@ -1,3 +1,10 @@
+## [0.8.1](https://github.com/frontity/frontity/compare/v0.8.0...v0.8.1) (2018-11-26)
+
+
+### Bug Fixes
+
+* **graphql:** change token name (AUTH_TOKEN is used internally by now) ([f288c04](https://github.com/frontity/frontity/commit/f288c04))
+
 # [0.8.0](https://github.com/frontity/frontity/compare/v0.7.4...v0.8.0) (2018-11-26)
 
 
