@@ -56,7 +56,7 @@ const config = {
       'process.env': {
         NODE_ENV: JSON.stringify('development'),
         MODE: JSON.stringify(process.env.MODE),
-        AUTH_TOKEN: JSON.stringify(process.env.AUTH_TOKEN),
+        GRAPHQL_TOKEN: JSON.stringify(process.env.GRAPHQL_TOKEN),
       },
     }),
     new webpack.WatchIgnorePlugin([/\.build/, /packages$/]),

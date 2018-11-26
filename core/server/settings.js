@@ -5,7 +5,7 @@ import { Transport } from 'lokka-transport-http';
 const client = new Lokka({
   transport: new Transport('https://api.graph.cool/simple/v1/frontity-v1', {
     headers: {
-      Authorization: `Bearer ${process.env.AUTH_TOKEN}`,
+      Authorization: `Bearer ${process.env.GRAPHQL_TOKEN}`,
     },
   }),
 });
