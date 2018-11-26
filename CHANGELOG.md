@@ -1,3 +1,16 @@
+# [0.8.0](https://github.com/frontity/frontity/compare/v0.7.4...v0.8.0) (2018-11-26)
+
+
+### Bug Fixes
+
+* **analytics:** fix theme and package names for analytics ([fd59293](https://github.com/frontity/frontity/commit/fd59293))
+* **settings:** switch to production database ([7335f0d](https://github.com/frontity/frontity/commit/7335f0d))
+
+
+### Features
+
+* **settings:** get settings from Graphcool ([9f73df9](https://github.com/frontity/frontity/commit/9f73df9))
+
 ## [0.7.4](https://github.com/frontity/frontity/compare/v0.7.3...v0.7.4) (2018-11-15)
 
 
