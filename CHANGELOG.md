@@ -1,3 +1,10 @@
+## [0.8.2](https://github.com/frontity/frontity/compare/v0.8.1...v0.8.2) (2018-11-29)
+
+
+### Bug Fixes
+
+* **ads:** prevent scroll on ad destruction in safari ([01e7bd4](https://github.com/frontity/frontity/commit/01e7bd4))
+
 ## [0.8.1](https://github.com/frontity/frontity/compare/v0.8.0...v0.8.1) (2018-11-26)
 
 
