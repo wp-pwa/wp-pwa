@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { inject } from 'mobx-react';
 import { computed } from 'mobx';
@@ -17,55 +17,92 @@ const mapAds = {
   sunmedia: SunMedia,
 };
 
-const Ad = ({
-  type,
-  width,
-  height,
-  active,
-  isAmp,
-  isSticky,
-  isMedia,
-  isAboveTheFold,
-  ...adProps
-}) => {
-  const SelectedAd = mapAds[type];
+class Ad extends Component {
+  componentDidMount() {
+    const { current } = this.container;
 
-  if (!SelectedAd) return null;
+    if (current) {
+      this.permanentHeight = current.offsetHeight;
+    }
+  }
 
-  if (isAmp) {
+  componentDidUpdate() {
+    const { current } = this.container;
+
+    if (current) {
+      this.permanentHeight = current.offsetHeight;
+    }
+  }
+
+  permanentHeight = this.props.height;
+  container = createRef();
+
+  render() {
+    const {
+      type,
+      width,
+      height,
+      active,
+      isAmp,
+      isSticky,
+      isMedia,
+      isAboveTheFold,
+      ...adProps
+    } = this.props;
+
+    const SelectedAd = mapAds[type];
+
+    if (!SelectedAd) return null;
+
+    if (isAmp) {
+      return (
+        <Container
+          className="ad"
+          isSticky={isSticky}
+          styles={{ width, height }}
+        >
+          <SelectedAd
+            width={width}
+            height={height}
+            isAmp={isAmp}
+            {...adProps}
+          />
+        </Container>
+      );
+    }
+
     return (
-      <Container className="ad" isSticky={isSticky} styles={{ width, height }}>
-        <SelectedAd width={width} height={height} isAmp={isAmp} {...adProps} />
+      <Container
+        ref={this.container}
+        className="ad"
+        isSticky={isSticky}
+        styles={{ width, height: this.permanentHeight }}
+      >
+        <IconContainer>
+          <IconText>ad</IconText>
+        </IconContainer>
+        <StyledLazy
+          active={active}
+          offset={1000}
+          debounce={false}
+          throttle={60}
+          minTime={2000}
+          maxTime={3000}
+          isLazy={!isAboveTheFold}
+        >
+          <SelectedAd
+            isMedia={isMedia}
+            width={width}
+            height={height}
+            isAmp={isAmp}
+            {...adProps}
+            active={active}
+          />
+        </StyledLazy>
       </Container>
     );
   }
-
-  return (
-    <Container className="ad" isSticky={isSticky} styles={{ width, height }}>
-      <IconContainer>
-        <IconText>ad</IconText>
-      </IconContainer>
-      <StyledLazy
-        active={active}
-        offset={1000}
-        debounce={false}
-        throttle={60}
-        minTime={2000}
-        maxTime={3000}
-        isLazy={!isAboveTheFold}
-      >
-        <SelectedAd
-          isMedia={isMedia}
-          width={width}
-          height={height}
-          isAmp={isAmp}
-          {...adProps}
-          active={active}
-        />
-      </StyledLazy>
-    </Container>
-  );
-};
+}
 
 Ad.propTypes = {
   type: PropTypes.string,
