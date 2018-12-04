@@ -70,12 +70,15 @@ const GoogleTagManager = types
     },
   }))
   .actions(self => ({
-    sendPageView() {
+    sendPageView(options = {}) {
+      const virtualPageview = self.pageViewProperties;
+
+      const { title, location } = options;
+      if (title) virtualPageview.title = title;
+      if (location) virtualPageview.url = location;
+
       window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: 'virtualPageview',
-        virtualPageview: self.pageViewProperties,
-      });
+      window.dataLayer.push({ event: 'virtualPageview', virtualPageview });
     },
     sendEvent(event) {
       const virtualEvent = generateEvent(self)(event);
