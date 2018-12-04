@@ -16,6 +16,15 @@ describe('Analytics > GoogleTagManager', () => {
     expect(window.dataLayer).toMatchSnapshot();
   });
 
+  test('sendPageView with title and location', () => {
+    window.dataLayer = [];
+    stores.analytics.googleTagManager.sendPageView({
+      title: 'The Beauties of Gullfoss - page 2',
+      location: 'https://demo.frontity.test/the-beauties-of-gullfoss/2',
+    });
+    expect(window.dataLayer).toMatchSnapshot();
+  });
+
   test('sendEvent', () => {
     const event = {
       category: 'test/category',
