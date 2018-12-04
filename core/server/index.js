@@ -16,7 +16,7 @@ import getSettings from './settings';
 import pwaTemplate from './templates/pwa';
 import ampTemplate from './templates/amp';
 import requireModules from './requires';
-import { parseQuery } from './utils';
+import { parseQuery, getCacheOptions } from './utils';
 
 const analyticsModule = require(`../packages/analytics/${
   process.env.MODE
@@ -193,6 +193,9 @@ export default ({ clientStats }) => async (req, res) => {
     // Get static helmet strings.
     const helmet = Helmet.renderStatic();
 
+    // Get custom cache options from settings
+    const cacheOptions = getCacheOptions(settings);
+
     if (process.env.MODE === 'pwa') {
       // Flush chunk names and extract scripts, css and css<->scripts object.
       const chunkNames = flushChunkNames();
@@ -235,6 +238,9 @@ export default ({ clientStats }) => async (req, res) => {
       console.log('SCRIPTS SERVED', scripts);
       console.log('STYLESHEETS SERVED', stylesheets);
 
+      // Set custom cache options
+      if (!dev && cacheOptions) res.header('Cache-Control', cacheOptions);
+
       res.status(status);
       res.send(
         pwaTemplate({
@@ -256,6 +262,9 @@ export default ({ clientStats }) => async (req, res) => {
 
       // Replace <style> tag from styled-components to be AMP compliant.
       const ampStyleTags = styleTags.replace('<style', '<style amp-custom');
+
+      // Set custom cache options
+      if (!dev && cacheOptions) res.header('Cache-Control', cacheOptions);
 
       res.status(status);
       res.send(ampTemplate({ helmet, ampStyleTags, app }));
