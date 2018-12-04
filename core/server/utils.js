@@ -51,3 +51,28 @@ export const parseQuery = query => {
     page,
   };
 };
+
+const mergeOptions = (base, custom) => {
+  const options = Object.assign({ ...base }, custom || {});
+  return Object.entries(options)
+    .map(([k, v]) => (v !== '' ? `${k}=${v}` : k))
+    .join(', ');
+};
+
+export const getCacheOptions = settings => {
+  // Get cache-control options from settings
+  const { queryParams } = settings.connection;
+  const custom = queryParams && queryParams['cache-control'];
+
+  if (custom) {
+    const base = {
+      public: '',
+      'max-age': 0,
+      's-maxage': 120,
+      'stale-while-revalidate': 31536000,
+      'stale-if-error': 31536000,
+    };
+    return mergeOptions(base, custom);
+  }
+  return null;
+};
