@@ -14,13 +14,13 @@ const GoogleTagManager = types
     },
     get clientProperties() {
       const { build, settings } = getRoot(self);
-      const { dev, packages, channel } = build;
+      const { dev, packages, channel, siteId } = build;
 
       // Anonymizes pageview
       const { anonymize = false } = settings.theme.analytics;
 
       // Gets values for custom dimensions
-      const { _id: siteId, userIds } = settings.generalSite;
+      const { userIds } = settings.generalSite;
       const { theme } = packages;
       const extensions = Object.values(packages).join(',');
       const pageType =
