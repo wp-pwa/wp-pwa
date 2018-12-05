@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Analytics > Components renders correctly 1`] = `
+exports[`Analytics > PWA Components renders correctly 1`] = `
 Array [
   <script
     dangerouslySetInnerHTML={

@@ -5,18 +5,28 @@ import { Provider } from 'mobx-react';
 import Analytics from '..';
 
 const Stores = types.model('Stores').props({
+  build: types.frozen({
+    isAmp: true,
+    channel: 'amp',
+    packages: 'saturn-theme,wp-org-connection',
+  }),
   connection: types.frozen({
     selectedItem: { type: 'post', id: 60 },
   }),
   analytics: types.frozen({
     googleAnalytics: {
       ids: ['UA-12345678-1', 'UA-12345678-2'],
-      trackingOptions: () => ({ sendPageViews: false, sendEvents: true }),
+      trackingOptions: id => ({
+        sendPageViews: id !== 'UA-12345678-1',
+        sendEvents: true,
+      }),
       pageView: {
         title: 'The Beauties of Gullfoss – Demo Frontity',
-        url: 'https://demo.frontity.test/the-beauties-of-gullfoss/',
-        cd1: 'dim1_post60',
-        cd2: 'dim2_post60',
+        location: 'https://demo.frontity.test/the-beauties-of-gullfoss/amp/',
+        extraUrlParams: {
+          cd1: 'dim1_post60',
+          cd2: 'dim2_post60',
+        },
       },
       ampVars: {},
       ampTriggers: {
@@ -40,14 +50,14 @@ const Stores = types.model('Stores').props({
         theme: 'saturn-theme',
         extensions: 'saturn-theme,wp-org-connection',
         plan: 'enterprise',
-        pageType: 'pwa',
+        pageType: 'amp',
         dev: true,
         site: 'https://demo.frontity.test',
         title: 'The Beauties of Gullfoss',
-        url: 'https://demo.frontity.test/the-beauties-of-gullfoss/',
+        url: 'https://demo.frontity.test/the-beauties-of-gullfoss/amp/',
         type: 'post',
         id: 60,
-        format: 'pwa',
+        format: 'amp',
         route: 'single',
         hash: 'ZO0H2I9kJ0arOdstZdG',
         customDimensions: {
@@ -62,7 +72,7 @@ const Stores = types.model('Stores').props({
   }),
 });
 
-describe('Analytics > Components', () => {
+describe('Analytics > AMP Components', () => {
   it('renders correctly', () => {
     const stores = Stores.create();
     const tree = renderer.create(

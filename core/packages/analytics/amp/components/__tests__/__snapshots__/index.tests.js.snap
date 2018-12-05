@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Analytics > Components renders correctly 1`] = `
+exports[`Analytics > AMP Components renders correctly 1`] = `
 Array [
   <amp-analytics
     type="googleanalytics"
@@ -48,7 +48,19 @@ Array [
         \\"eventCategory\\": \\"AMP - Post bar\\",
         \\"eventAction\\": \\"AMP - open menu\\"
       }
+    },
+    \\"trackPageview\\": {
+      \\"on\\": \\"visible\\",
+      \\"request\\": \\"pageview\\",
+      \\"vars\\": {
+        \\"title\\": \\"The Beauties of Gullfoss – Demo Frontity\\",
+        \\"documentLocation\\": \\"https://demo.frontity.test/the-beauties-of-gullfoss/amp/\\"
+      }
     }
+  },
+  \\"extraUrlParams\\": {
+    \\"cd1\\": \\"dim1_post60\\",
+    \\"cd2\\": \\"dim2_post60\\"
   }
 }",
         }
@@ -74,14 +86,14 @@ Array [
     \\"theme\\": \\"saturn-theme\\",
     \\"extensions\\": \\"saturn-theme,wp-org-connection\\",
     \\"plan\\": \\"enterprise\\",
-    \\"pageType\\": \\"pwa\\",
+    \\"pageType\\": \\"amp\\",
     \\"dev\\": true,
     \\"site\\": \\"https://demo.frontity.test\\",
     \\"title\\": \\"The Beauties of Gullfoss\\",
-    \\"url\\": \\"https://demo.frontity.test/the-beauties-of-gullfoss/\\",
+    \\"url\\": \\"https://demo.frontity.test/the-beauties-of-gullfoss/amp/\\",
     \\"type\\": \\"post\\",
     \\"id\\": 60,
-    \\"format\\": \\"pwa\\",
+    \\"format\\": \\"amp\\",
     \\"route\\": \\"single\\",
     \\"hash\\": \\"ZO0H2I9kJ0arOdstZdG\\",
     \\"customDimensions\\": {
