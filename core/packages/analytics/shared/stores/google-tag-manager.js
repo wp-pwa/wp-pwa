@@ -1,5 +1,5 @@
 import { types, getRoot } from 'mobx-state-tree';
-import { generateEvent, getHash, getRoute } from '../utils';
+import { generateEvent } from '../utils';
 
 const GoogleTagManager = types
   .model('GoogleTagManager')
@@ -13,60 +13,21 @@ const GoogleTagManager = types
       }
     },
     get clientProperties() {
-      const { build, settings } = getRoot(self);
-      const { dev, packages, channel } = build;
-
-      // Anonymizes pageview
-      const { anonymize = false } = settings.theme.analytics;
-
-      // Gets values for custom dimensions
-      const { _id: siteId, userIds } = settings.generalSite;
-      const { theme } = packages;
-      const extensions = Object.values(packages).join(',');
-      const pageType =
-        typeof window !== 'undefined' &&
-        /^(pre)?dashboard\./.test(window.location.host)
-          ? 'preview'
-          : channel;
-      const plan = 'enterprise';
-
-      return {
-        anonymize,
-        siteId: anonymize ? 'anonymous' : siteId,
-        userIds: anonymize ? 'anonymous' : userIds,
-        theme: anonymize ? 'anonymous' : theme,
-        extensions: anonymize ? 'anonymous' : extensions,
-        plan: anonymize ? 'anonymous' : plan,
-        pageType,
-        dev,
-      };
+      return getRoot(self).analytics.siteProperties;
     },
     get pageViewProperties() {
-      const { connection, analytics, settings, build } = getRoot(self);
-      const { type, id, page, entity } = connection.selectedItem;
-      const { title } = entity.headMeta;
-      const site = settings.generalSite.url;
-      const url = page ? entity.pagedLink(page) : entity.link;
-      const format = build.channel;
-      const route = getRoute(connection.selectedItem);
-      const hash = getHash(site, connection.selectedItem);
-      const customDimensions = analytics.customDimensions({ type, id });
-
-      return {
-        site,
-        title,
-        url,
-        type,
-        id,
-        page,
-        format,
-        route,
-        hash,
-        customDimensions,
-      };
+      const { analytics, connection } = getRoot(self);
+      const { selectedItem } = connection;
+      const itemProperties = analytics.itemProperties(selectedItem);
+      const customDimensions = analytics.customDimensions(selectedItem);
+      return { ...itemProperties, customDimensions };
     },
     get ampVars() {
-      return { ...self.clientProperties, ...self.pageViewProperties };
+      const { analytics } = getRoot(self);
+      return {
+        ...analytics.siteProperties,
+        ...self.pageViewProperties,
+      };
     },
   }))
   .actions(self => ({

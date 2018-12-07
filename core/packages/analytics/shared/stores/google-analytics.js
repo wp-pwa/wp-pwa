@@ -33,33 +33,28 @@ const GoogleAnalytics = types
     },
     get pageView() {
       // Get analytics and connection from the stores
-      const { analytics, connection, build } = getRoot(self);
-
-      // Get needed properties from selectedItem
-      const { type, id, page, entity } = connection.selectedItem || {};
+      const { analytics, connection } = getRoot(self);
 
       // Parameters to be sent in the pageView
-      const { title } = entity.headMeta;
-      const location = page ? entity.pagedLink(page) : entity.link;
+      const title = analytics.title(connection.selectedItem);
+      const location = analytics.location(connection.selectedItem);
+      const customDims = analytics.customDimensions(connection.selectedItem);
 
-      const customDims = analytics.customDimensions({ type, id });
+      return { title, location, ...customDims };
+    },
+    get pageViewAmp() {
+      const { title, location, ...customDims } = self.pageView;
       const ampCustomDims = {};
-
-      if (build.isAmp) {
-        Object.entries(analytics.customDimensions({ type, id })).reduce(
-          (cds, [key, value]) => {
-            const [, number] = /^dimension(\d+)$/.exec(key);
-            cds[`cd${number}`] = value;
-            return cds;
-          },
-          ampCustomDims,
-        );
-      }
+      Object.entries(customDims).reduce((cds, [key, value]) => {
+        const [, number] = /^dimension(\d+)$/.exec(key);
+        cds[`cd${number}`] = value;
+        return cds;
+      }, ampCustomDims);
 
       return {
         title,
-        location,
-        ...(build.isAmp ? ampCustomDims : customDims),
+        documentLocation: location,
+        extraUrlParams: ampCustomDims,
       };
     },
   }))

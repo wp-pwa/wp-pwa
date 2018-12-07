@@ -26,11 +26,7 @@ export const generateEvent = self => event => {
   };
 };
 
-export const getRoute = ({ page }) =>
-  typeof page === 'number' ? 'list' : 'single';
-
-export const getHash = (site, selectedItem) => {
-  const { type, id, page } = selectedItem;
+export const getHash = ({ site, type, id, page }) => {
   const data = JSON.stringify([site, type, id, page]);
   return base64.stringify(sha256(JSON.stringify(data))).slice(0, 19);
 };

@@ -5,6 +5,11 @@ import { types } from 'mobx-state-tree';
 import Analytics from '..';
 
 const Stores = types.model('Stores').props({
+  build: types.frozen({
+    isPwa: true,
+    channel: 'pwa',
+    packages: 'saturn-theme,wp-org-connection',
+  }),
   connection: types.frozen({
     selectedItem: { type: 'post', id: 60 },
   }),
@@ -49,15 +54,9 @@ const Stores = types.model('Stores').props({
   }),
 });
 
-describe('Analytics > Components', () => {
+describe('Analytics > PWA Components', () => {
   it('renders correctly', () => {
-    const stores = Stores.create({
-      build: {
-        isAmp: true,
-        channel: 'amp',
-        packages: 'saturn-theme,wp-org-connection',
-      },
-    });
+    const stores = Stores.create();
     const tree = renderer.create(
       <Provider stores={stores}>
         <Analytics />
