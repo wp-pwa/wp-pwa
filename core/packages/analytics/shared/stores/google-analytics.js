@@ -33,46 +33,43 @@ const GoogleAnalytics = types
     },
     get pageView() {
       // Get analytics and connection from the stores
-      const { analytics, connection, build } = getRoot(self);
-
-      // Get needed properties from selectedItem
-      const { type, id, page, entity } = connection.selectedItem || {};
+      const { analytics, connection } = getRoot(self);
 
       // Parameters to be sent in the pageView
-      const { title } = entity.headMeta;
-      const location = page ? entity.pagedLink(page) : entity.link;
+      const title = analytics.title(connection.selectedItem);
+      const location = analytics.location(connection.selectedItem);
+      const customDims = analytics.customDimensions(connection.selectedItem);
 
-      const customDims = analytics.customDimensions({ type, id });
+      return { title, location, ...customDims };
+    },
+    get pageViewAmp() {
+      const { title, location, ...customDims } = self.pageView;
       const ampCustomDims = {};
-
-      if (build.isAmp) {
-        Object.entries(analytics.customDimensions({ type, id })).reduce(
-          (cds, [key, value]) => {
-            const [, number] = /^dimension(\d+)$/.exec(key);
-            cds[`cd${number}`] = value;
-            return cds;
-          },
-          ampCustomDims,
-        );
-      }
+      Object.entries(customDims).reduce((cds, [key, value]) => {
+        const [, number] = /^dimension(\d+)$/.exec(key);
+        cds[`cd${number}`] = value;
+        return cds;
+      }, ampCustomDims);
 
       return {
         title,
-        location,
-        ...(build.isAmp ? ampCustomDims : customDims),
+        documentLocation: location,
+        extraUrlParams: ampCustomDims,
       };
     },
   }))
   .actions(self => ({
-    sendPageView() {
+    sendPageView(options = {}) {
       // Send the pageview to the trackers.
-      if (typeof window.ga === 'function') {
-        self.ids.map(id => getTrackerName(id)).forEach(name =>
-          window.ga(`${name}.send`, {
-            hitType: 'pageview',
-            ...self.pageView,
-          }),
-        );
+      if (typeof window.ga === 'function' && self.ids.length) {
+        const pageview = { hitType: 'pageview', ...self.pageView };
+        const { title, location } = options;
+        if (title) pageview.title = title;
+        if (location) pageview.location = location;
+
+        self.ids
+          .map(id => getTrackerName(id))
+          .forEach(name => window.ga(`${name}.send`, pageview));
       }
     },
     sendEvent(event) {

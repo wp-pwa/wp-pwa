@@ -54,6 +54,29 @@ Array [
 ]
 `;
 
+exports[`Analytics > GoogleTagManager sendPageView with title and location 1`] = `
+Array [
+  Object {
+    "event": "virtualPageview",
+    "virtualPageview": Object {
+      "customDimensions": Object {
+        "dimension1": "dim1_post60",
+        "dimension2": "dim2_post60",
+      },
+      "format": "pwa",
+      "hash": "ZO0H2I9kJ0arOdstZdG",
+      "id": 60,
+      "page": undefined,
+      "route": "single",
+      "site": "https://demo.frontity.test",
+      "title": "The Beauties of Gullfoss - page 2",
+      "type": "post",
+      "url": "https://demo.frontity.test/the-beauties-of-gullfoss/2",
+    },
+  },
+]
+`;
+
 exports[`Analytics > GoogleTagManager view - ampVars 1`] = `
 Object {
   "anonymize": false,

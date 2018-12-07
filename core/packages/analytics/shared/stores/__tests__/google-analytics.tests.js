@@ -22,6 +22,17 @@ describe('Analytics > GoogleAnalytics', () => {
     expect(window.ga.mock.calls).toMatchSnapshot();
   });
 
+  test('sendPageView with title and location', () => {
+    window.ga = jest.fn();
+
+    stores.connection.selectedItem = itemPost60;
+    stores.analytics.googleAnalytics.sendPageView({
+      title: 'The Beauties of Gullfoss - page 2',
+      location: 'https://demo.frontity.test/the-beauties-of-gullfoss/2',
+    });
+    expect(window.ga.mock.calls).toMatchSnapshot();
+  });
+
   test('sendEvent', () => {
     const event = {
       category: 'test/category',
@@ -60,6 +71,6 @@ describe('Analytics > GoogleAnalytics', () => {
     expect(stores.analytics.googleAnalytics.pageView).toMatchSnapshot();
 
     stores.build = { channel: 'amp', isAmp: true };
-    expect(stores.analytics.googleAnalytics.pageView).toMatchSnapshot();
+    expect(stores.analytics.googleAnalytics.pageViewAmp).toMatchSnapshot();
   });
 });

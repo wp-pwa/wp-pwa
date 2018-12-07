@@ -83,7 +83,6 @@ export const Stores = types.model('Stores').props({
   ),
   settings: types.frozen({
     generalSite: {
-      _id: 'site1122334455',
       userIds: ['user00', 'user01'],
       url: 'https://demo.frontity.test',
     },
@@ -109,6 +108,7 @@ export const Stores = types.model('Stores').props({
     },
   }),
   build: types.frozen({
+    siteId: 'site1122334455',
     dev: true,
     channel: 'pwa',
     packages: {

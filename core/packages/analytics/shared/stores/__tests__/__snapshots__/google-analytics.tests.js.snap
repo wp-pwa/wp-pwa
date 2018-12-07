@@ -25,9 +25,11 @@ Object {
 
 exports[`Analytics > GoogleAnalytics pageView 2`] = `
 Object {
-  "cd1": "dim1_post60",
-  "cd2": "dim2_post60",
-  "location": "https://demo.frontity.test/the-beauties-of-gullfoss/",
+  "documentLocation": "https://demo.frontity.test/the-beauties-of-gullfoss/amp/",
+  "extraUrlParams": Object {
+    "cd1": "dim1_post60",
+    "cd2": "dim2_post60",
+  },
   "title": "The Beauties of Gullfoss",
 }
 `;
@@ -95,6 +97,31 @@ Array [
       "hitType": "pageview",
       "location": "https://demo.frontity.test/wp-cat/photography/page/2",
       "title": "Photography",
+    },
+  ],
+]
+`;
+
+exports[`Analytics > GoogleAnalytics sendPageView with title and location 1`] = `
+Array [
+  Array [
+    "tracker_UA_12345678_1.send",
+    Object {
+      "dimension1": "dim1_post60",
+      "dimension2": "dim2_post60",
+      "hitType": "pageview",
+      "location": "https://demo.frontity.test/the-beauties-of-gullfoss/2",
+      "title": "The Beauties of Gullfoss - page 2",
+    },
+  ],
+  Array [
+    "tracker_UA_12345678_2.send",
+    Object {
+      "dimension1": "dim1_post60",
+      "dimension2": "dim2_post60",
+      "hitType": "pageview",
+      "location": "https://demo.frontity.test/the-beauties-of-gullfoss/2",
+      "title": "The Beauties of Gullfoss - page 2",
     },
   ],
 ]
