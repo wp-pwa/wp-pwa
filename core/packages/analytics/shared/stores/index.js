@@ -67,9 +67,9 @@ const Analytics = types
     },
   }))
   .actions(self => ({
-    sendPageView() {
-      self.googleAnalytics.sendPageView();
-      self.googleTagManager.sendPageView();
+    sendPageView(options) {
+      self.googleAnalytics.sendPageView(options);
+      self.googleTagManager.sendPageView(options);
       self.comScore.sendPageView();
     },
     sendEvent(event) {

@@ -59,15 +59,17 @@ const GoogleAnalytics = types
     },
   }))
   .actions(self => ({
-    sendPageView() {
+    sendPageView(options = {}) {
       // Send the pageview to the trackers.
-      if (typeof window.ga === 'function') {
-        self.ids.map(id => getTrackerName(id)).forEach(name =>
-          window.ga(`${name}.send`, {
-            hitType: 'pageview',
-            ...self.pageView,
-          }),
-        );
+      if (typeof window.ga === 'function' && self.ids.length) {
+        const pageview = { hitType: 'pageview', ...self.pageView };
+        const { title, location } = options;
+        if (title) pageview.title = title;
+        if (location) pageview.location = location;
+
+        self.ids
+          .map(id => getTrackerName(id))
+          .forEach(name => window.ga(`${name}.send`, pageview));
       }
     },
     sendEvent(event) {
