@@ -10,7 +10,7 @@ const GoogleAnalytics = ({ id, pageView, vars, triggers }) => {
   };
 
   if (pageView) {
-    const { title, location: documentLocation, extraUrlParams } = pageView;
+    const { title, documentLocation, extraUrlParams } = pageView;
     json.extraUrlParams = extraUrlParams;
     json.triggers = {
       ...triggers,
@@ -53,7 +53,7 @@ GoogleAnalytics.propTypes = {
   pageView: PropTypes.oneOfType([
     PropTypes.shape({
       title: PropTypes.string.isRequired,
-      location: PropTypes.string.isRequired,
+      documentLocation: PropTypes.string.isRequired,
       extraUrlParams: PropTypes.shape({}),
     }),
     PropTypes.bool,

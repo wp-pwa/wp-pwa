@@ -20,9 +20,10 @@ const Stores = types.model('Stores').props({
         sendPageViews: id !== 'UA-12345678-1',
         sendEvents: true,
       }),
-      pageView: {
+      pageViewAmp: {
         title: 'The Beauties of Gullfoss – Demo Frontity',
-        location: 'https://demo.frontity.test/the-beauties-of-gullfoss/amp/',
+        documentLocation:
+          'https://demo.frontity.test/the-beauties-of-gullfoss/amp/',
         extraUrlParams: {
           cd1: 'dim1_post60',
           cd2: 'dim2_post60',

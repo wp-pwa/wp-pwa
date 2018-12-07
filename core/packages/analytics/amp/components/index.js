@@ -65,7 +65,7 @@ export default inject(({ stores: { analytics } }) => {
     gaTrackingOptions: gaIds.length
       ? analytics.googleAnalytics.trackingOptions
       : {},
-    gaPageView: gaIds.length ? analytics.googleAnalytics.pageView : {},
+    gaPageView: gaIds.length ? analytics.googleAnalytics.pageViewAmp : {},
     gaVars: gaIds.length ? analytics.googleAnalytics.ampVars : {},
     gaTriggers: gaIds.length ? analytics.googleAnalytics.ampTriggers : {},
     gtmIds,

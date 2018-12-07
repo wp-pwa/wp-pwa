@@ -17,13 +17,16 @@ const GoogleTagManager = types
     },
     get pageViewProperties() {
       const { analytics, connection } = getRoot(self);
-      return analytics.itemProperties(connection.selectedItem);
+      const { selectedItem } = connection;
+      const itemProperties = analytics.itemProperties(selectedItem);
+      const customDimensions = analytics.customDimensions(selectedItem);
+      return { ...itemProperties, customDimensions };
     },
     get ampVars() {
-      const { analytics, connection } = getRoot(self);
+      const { analytics } = getRoot(self);
       return {
         ...analytics.siteProperties,
-        ...analytics.itemProperties(connection.selectedItem),
+        ...self.pageViewProperties,
       };
     },
   }))

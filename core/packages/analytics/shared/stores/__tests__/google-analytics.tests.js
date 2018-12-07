@@ -60,6 +60,6 @@ describe('Analytics > GoogleAnalytics', () => {
     expect(stores.analytics.googleAnalytics.pageView).toMatchSnapshot();
 
     stores.build = { channel: 'amp', isAmp: true };
-    expect(stores.analytics.googleAnalytics.pageView).toMatchSnapshot();
+    expect(stores.analytics.googleAnalytics.pageViewAmp).toMatchSnapshot();
   });
 });
