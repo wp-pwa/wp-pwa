@@ -1,3 +1,17 @@
+# [0.9.0](https://github.com/frontity/frontity/compare/v0.8.2...v0.9.0) (2018-12-07)
+
+
+### Bug Fixes
+
+* **analytics:** change a lot of code ([efb254c](https://github.com/frontity/frontity/commit/efb254c))
+* **analytics:** WIP send /amp/ in location and do some refactor ([ee90f85](https://github.com/frontity/frontity/commit/ee90f85))
+
+
+### Features
+
+* **analytics:** send custom title and location in pageviews ([10151bd](https://github.com/frontity/frontity/commit/10151bd))
+* **cache-control:** get custom cache options from settings ([d5a015f](https://github.com/frontity/frontity/commit/d5a015f))
+
 ## [0.8.2](https://github.com/frontity/frontity/compare/v0.8.1...v0.8.2) (2018-11-29)
 
 
