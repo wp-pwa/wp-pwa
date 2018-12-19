@@ -131,10 +131,18 @@ const init = async () => {
   }
   // Add both to window
   if (typeof window !== 'undefined') window.frontity = { stores, components };
+
   // Start all the client sagas.
   stores.clientStarted();
+
+  // Initializes the beforeCSRs.
+  Object.values(stores).forEach(({ beforeCsr }) => {
+    if (beforeCsr) beforeCsr();
+  });
+
   // Start App.
   render(App);
+
   // Inform that the client has been rendered.
   stores.clientRendered();
 
