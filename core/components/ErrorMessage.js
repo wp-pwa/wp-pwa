@@ -1,13 +1,10 @@
 import React, { Fragment } from 'react';
-import styled from 'styled-components';
-import { Helmet } from 'react-helmet';
+import styled, { createGlobalStyle } from 'styled-components';
 import Icon from './Icon';
 
 const ErrorMessage = () => (
   <Fragment>
-    <Helmet>
-      <style>{'body{margin:0}'}</style>
-    </Helmet>
+    <RemoveBodyMargin />
     <Container>
       <span>
         Oops! Something went wrong. Try{' '}
@@ -25,6 +22,12 @@ const ErrorMessage = () => (
 );
 
 export default ErrorMessage;
+
+const RemoveBodyMargin = createGlobalStyle`
+  body {
+    margin: 0;
+  }
+`;
 
 const Container = styled.div`
   width: 100vw;
