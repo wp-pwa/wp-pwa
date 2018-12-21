@@ -1,3 +1,15 @@
+# [0.10.0](https://github.com/frontity/frontity/compare/v0.9.0...v0.10.0) (2018-12-21)
+
+
+### Bug Fixes
+
+* **error-boundary:** replace Helmet by createGlobalStyle ([4d13f2f](https://github.com/frontity/frontity/commit/4d13f2f))
+
+
+### Features
+
+* **stores:** adds support for beforeCsr action ([712562d](https://github.com/frontity/frontity/commit/712562d))
+
 # [0.9.0](https://github.com/frontity/frontity/compare/v0.8.2...v0.9.0) (2018-12-07)
 
 
