@@ -1,3 +1,10 @@
+## [0.10.1](https://github.com/frontity/frontity/compare/v0.10.0...v0.10.1) (2019-01-09)
+
+
+### Bug Fixes
+
+* **ads:** add 1px only if height is equal to permanentHeight ([e83c34a](https://github.com/frontity/frontity/commit/e83c34a))
+
 # [0.10.0](https://github.com/frontity/frontity/compare/v0.9.0...v0.10.0) (2018-12-21)
 
 
