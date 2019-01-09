@@ -54,6 +54,10 @@ class Ad extends Component {
 
     if (!SelectedAd) return null;
 
+    // Extra height to avoid Ad Container to collapse for some implementations
+    // see https://support.google.com/adsense/answer/113262
+    const extraHeight = height === this.permanentHeight ? '1px' : '0px';
+
     if (isAmp) {
       return (
         <Container
@@ -76,7 +80,7 @@ class Ad extends Component {
         ref={this.container}
         className="ad"
         isSticky={isSticky}
-        styles={{ width, height: this.permanentHeight }}
+        styles={{ width, height: this.permanentHeight, extraHeight }}
       >
         <IconContainer>
           <IconText>ad</IconText>
@@ -148,12 +152,12 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   max-width: calc(100% - 30px);
-  min-height: ${({ styles }) =>
-    typeof styles.height === 'string'
-      ? `calc(${styles.height} + 1px)`
-      : `${styles.height + 1}px`};
-  width: ${({ styles }) =>
-    typeof styles.width === 'string' ? styles.width : `${styles.width}px`};
+  min-height: ${({ styles: { height, extraHeight } }) =>
+    `calc(${
+      typeof height === 'string' ? height : `${height}px`
+    } + ${extraHeight})`};
+  width: ${({ styles: { width } }) =>
+    typeof width === 'string' ? width : `${width}px`};
   overflow: hidden;
 
   * {
