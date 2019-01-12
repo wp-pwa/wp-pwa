@@ -69,6 +69,12 @@ export default ({ clientStats }) => async (req, res) => {
       throw new Error(`'?siteid=' query not found in ${req.originalUrl}`);
     }
 
+    const initialSelectedItem = {
+      type,
+      id,
+      page,
+    };
+
     // Get settings.
     const { settings, packages } = await getSettings({ siteId, env });
 
@@ -147,7 +153,7 @@ export default ({ clientStats }) => async (req, res) => {
       {
         request,
         machine: 'server',
-        initialSelectedItem: { type, id, page },
+        initialSelectedItem,
         ...envs,
       },
     );
@@ -252,6 +258,7 @@ export default ({ clientStats }) => async (req, res) => {
           preloadScripts,
           cssHash,
           publicPath,
+          initialSelectedItem,
           stores,
           chunksForArray,
           bootstrapString,
