@@ -4,15 +4,15 @@
   "private": true,
   "version": "0.10.0",
   "author": "luis@frontity.com, eduardo@frontity.com, david@frontity.com",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/frontity/frontity.git"
   },
   "bugs": {
-    "url": "https://github.com/frontity/share/issues"
+    "url": "https://github.com/frontity/frontity/issues"
   },
-  "homepage": "https://github.com/frontity/share#readme",
+  "homepage": "https://github.com/frontity/frontity#readme",
   "keywords": [
     "frontity",
     "wordpress",
