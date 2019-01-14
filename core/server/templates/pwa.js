@@ -10,6 +10,7 @@ export default ({
   preloadScripts,
   cssHash,
   publicPath,
+  initialSelectedItem,
   stores,
   chunksForArray,
   bootstrapString,
@@ -34,6 +35,9 @@ export default ({
         if (window.document && window.document.body) window.document.body.scrollTop = 0;
         window.__CSS_CHUNKS__ = ${cssHash};
         window['wp-pwa'] = window['wp-pwa'] || {};
+        window['wp-pwa'].initialSelectedItem = ${htmlescape(
+          initialSelectedItem,
+        )};
         window['wp-pwa'].publicPath = '${publicPath}';
         window['wp-pwa'].initialState = ${htmlescape(getSnapshot(stores))};
         var scripts = [${chunksForArray}];
