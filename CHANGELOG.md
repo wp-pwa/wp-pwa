@@ -1,3 +1,11 @@
+## [0.10.2](https://github.com/frontity/frontity/compare/v0.10.1...v0.10.2) (2019-01-14)
+
+
+### Bug Fixes
+
+* **ads:** fix wrong ads height in AMP ([9aa52fb](https://github.com/frontity/frontity/commit/9aa52fb))
+* **core:** fixes initialSelectedItem missing in client ([8ddf4c4](https://github.com/frontity/frontity/commit/8ddf4c4))
+
 ## [0.10.1](https://github.com/frontity/frontity/compare/v0.10.0...v0.10.1) (2019-01-09)
 
 
