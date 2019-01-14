@@ -153,9 +153,9 @@ const Container = styled.div`
   align-items: center;
   max-width: calc(100% - 30px);
   min-height: ${({ styles: { height, extraHeight } }) =>
-    `calc(${
-      typeof height === 'string' ? height : `${height}px`
-    } + ${extraHeight})`};
+    `calc(${typeof height === 'string' ? height : `${height}px`}${
+      extraHeight ? ` + ${extraHeight}` : ''
+    })`};
   width: ${({ styles: { width } }) =>
     typeof width === 'string' ? width : `${width}px`};
   overflow: hidden;
