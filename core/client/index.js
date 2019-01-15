@@ -22,7 +22,10 @@ const customCssModule = require(`../packages/custom-css/${
 const oneSignalModule = require(`../packages/one-signal/${
   process.env.MODE
 }/client`);
-const disqusCommentsModule = require(`../packages/disqus-comments/${
+// const disqusCommentsModule = require(`../packages/disqus-comments/${
+//   process.env.MODE
+// }/client`);
+const wpCommentsModule = require(`../packages/wp-comments/${
   process.env.MODE
 }/client`);
 
@@ -53,10 +56,15 @@ const coreModules = [
     namespace: 'notifications',
     module: oneSignalModule,
   },
+  // {
+  //   name: 'disqus-comments',
+  //   namespace: 'comments',
+  //   module: disqusCommentsModule,
+  // },
   {
-    name: 'disqus-comments',
+    name: 'wp-comments',
     namespace: 'comments',
-    module: disqusCommentsModule,
+    module: wpCommentsModule,
   },
 ];
 
