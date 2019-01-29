@@ -5,16 +5,24 @@ const func = (divId, slot, width, height, json) => {
     categoryExclusions,
     cookieOptions,
     tagForChildDirectedTreatment: tagForChild,
-  } =
-    json || {};
+  } = json || {};
 
   window.googletag = window.googletag || {};
   window.googletag.cmd = window.googletag.cmd || [];
+  window.googletag.cmd.push(() => {
+    window.slots = window.slots || {};
+    if (window.slots[slot]) {
+      window.googletag.destroySlots([window.slots[slot]]);
+      delete window.slots[slot];
+    }
+  });
   window.googletag.cmd.push(() => {
     // Define ad
     const ad = window.googletag
       .defineSlot(slot, [width, height], divId)
       .addService(window.googletag.pubads());
+
+    window.slots[slot] = ad;
 
     // Extra options
     if (targeting !== undefined) {
