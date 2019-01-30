@@ -131,10 +131,10 @@ Ad.defaultProps = {
 };
 
 export default inject(
-  ({ stores: { connection, build } }, { item, active }) => ({
+  ({ stores: { connection, build } }, { item, active, type }) => ({
     isAmp: build.isAmp,
     active:
-      typeof active === 'boolean'
+      typeof active === 'boolean' && type !== 'doubleclick'
         ? active
         : computed(
             () =>

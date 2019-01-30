@@ -7,11 +7,14 @@ import Script from '../../Script';
 // eslint-disable-next-line
 import call from 'raw-loader!babel-loader?forceEnv=devClient!./functions/call';
 
-let counter = 0;
-
 class DoubleClick extends PureComponent {
   static propTypes = {
     slot: PropTypes.string.isRequired,
+    slotName: PropTypes.string.isRequired,
+    slotPosition: PropTypes.string.isRequired,
+    item: PropTypes.shape({
+      mstId: PropTypes.string.isRequired,
+    }).isRequired,
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     isAmp: PropTypes.bool.isRequired,
@@ -31,7 +34,10 @@ class DoubleClick extends PureComponent {
 
   constructor(props) {
     super(props);
-    this.divId = `div-gpt-ad-${props.slot}-${(counter += 1)}`;
+    const { slot, slotName, slotPosition, item } = props;
+    const name = slotName.replace(/\s+/g, '_');
+    const position = slotPosition.replace(/\s+/g, '_');
+    this.divId = `div-gpt-ad-${slot}-${name}-${position}-${item.mstId}`;
   }
 
   render() {
