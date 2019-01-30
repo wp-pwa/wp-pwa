@@ -1,3 +1,11 @@
+## [0.10.3](https://github.com/frontity/frontity/compare/v0.10.2...v0.10.3) (2019-01-30)
+
+
+### Bug Fixes
+
+* **double-click:** remove slot before creating it again ([33504c9](https://github.com/frontity/frontity/commit/33504c9))
+* **double-click:** set active only in selectedItem ([e7e6822](https://github.com/frontity/frontity/commit/e7e6822))
+
 ## [0.10.2](https://github.com/frontity/frontity/compare/v0.10.1...v0.10.2) (2019-01-14)
 
 

@@ -2,7 +2,7 @@
   "name": "frontity",
   "description": "Frontity - Create PWAs for WordPress",
   "private": true,
-  "version": "0.10.2",
+  "version": "0.10.3",
   "author": "luis@frontity.com, eduardo@frontity.com, david@frontity.com",
   "license": "Apache-2.0",
   "repository": {
