@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+const slots = '__gtag_slots';
 const func = (divId, slot, width, height, json) => {
   const {
     targeting,
@@ -10,10 +11,10 @@ const func = (divId, slot, width, height, json) => {
   window.googletag = window.googletag || {};
   window.googletag.cmd = window.googletag.cmd || [];
   window.googletag.cmd.push(() => {
-    window.slots = window.slots || {};
-    if (window.slots[slot]) {
-      window.googletag.destroySlots([window.slots[slot]]);
-      delete window.slots[slot];
+    window[slots] = window[slots] || {};
+    if (window[slots][slot]) {
+      window.googletag.destroySlots([window[slots][slot]]);
+      delete window[slots][slot];
     }
   });
   window.googletag.cmd.push(() => {
@@ -22,7 +23,7 @@ const func = (divId, slot, width, height, json) => {
       .defineSlot(slot, [width, height], divId)
       .addService(window.googletag.pubads());
 
-    window.slots[slot] = ad;
+    window[slots][slot] = ad;
 
     // Extra options
     if (targeting !== undefined) {
