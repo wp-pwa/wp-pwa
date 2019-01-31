@@ -1,6 +1,6 @@
+/* eslint-disable react/no-danger */
 import React, { PureComponent, Fragment } from 'react';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
 import { Helmet } from 'react-helmet';
 import Script from '../../Script';
 
@@ -17,6 +17,7 @@ class DoubleClick extends PureComponent {
     }).isRequired,
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    sizes: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
     isAmp: PropTypes.bool.isRequired,
     json: PropTypes.shape({
       targeting: PropTypes.shape({}),
@@ -28,8 +29,9 @@ class DoubleClick extends PureComponent {
 
   static defaultProps = {
     json: null,
-    width: 300,
-    height: 250,
+    width: null,
+    height: null,
+    sizes: null,
   };
 
   constructor(props) {
@@ -41,7 +43,12 @@ class DoubleClick extends PureComponent {
   }
 
   render() {
-    const { isAmp, slot, width, height, json } = this.props;
+    const { isAmp, slot, json } = this.props;
+    let { width, height, sizes } = this.props;
+
+    // Ignores `width` and `height` if `sizes` prop is defined.
+    if (sizes && sizes.length) [[width, height]] = sizes;
+    else sizes = [width, height];
 
     if (isAmp) {
       return [
@@ -67,25 +74,16 @@ class DoubleClick extends PureComponent {
         <Helmet>
           <script src="//www.googletagservices.com/tag/js/gpt.js" async />
         </Helmet>
-        <AdContainer
+        <div
           suppressHydrationWarning
           dangerouslySetInnerHTML={{
             __html: `<div id="${this.divId}"></div>`,
           }}
         />
-        <Script func={call} args={[this.divId, slot, width, height, json]} />
+        <Script func={call} args={[this.divId, slot, sizes, json]} />
       </Fragment>
     );
   }
 }
 
 export default DoubleClick;
-
-const AdContainer = styled.div`
-  & > div {
-    display: block;
-    width: ${({ width }) => (typeof width === 'number' ? `${width}px` : width)};
-    height: ${({ height }) =>
-      typeof height === 'number' ? `${height}px` : height};
-  }
-`;
