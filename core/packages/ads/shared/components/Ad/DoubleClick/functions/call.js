@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 const slots = '__gtag_slots';
-const func = (divId, slot, width, height, json) => {
+const func = (divId, slot, sizes, json) => {
   const {
     targeting,
     categoryExclusions,
@@ -20,7 +20,7 @@ const func = (divId, slot, width, height, json) => {
   window.googletag.cmd.push(() => {
     // Define ad
     const ad = window.googletag
-      .defineSlot(slot, [width, height], divId)
+      .defineSlot(slot, sizes, divId)
       .addService(window.googletag.pubads());
 
     window[slots][slot] = ad;
