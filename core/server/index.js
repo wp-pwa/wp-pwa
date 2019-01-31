@@ -45,7 +45,6 @@ export default ({ clientStats }) => async (req, res) => {
     siteId,
     perPage = 10,
     initialUrl,
-    env,
     device,
     type,
     id,
@@ -76,7 +75,7 @@ export default ({ clientStats }) => async (req, res) => {
     };
 
     // Get settings.
-    const { settings, packages } = await getSettings({ siteId, env });
+    const { settings, packages } = await getSettings({ siteId });
 
     // Define core modules.
     const coreModules = [
