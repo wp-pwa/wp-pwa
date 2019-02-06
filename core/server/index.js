@@ -29,9 +29,6 @@ const customCssModule = require(`../packages/custom-css/${
 const oneSignalModule = require(`../packages/one-signal/${
   process.env.MODE
 }/server`);
-const disqusCommentsModule = require(`../packages/disqus-comments/${
-  process.env.MODE
-}/server`);
 
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -103,11 +100,6 @@ export default ({ clientStats }) => async (req, res) => {
         name: 'one-signal',
         namespace: 'notifications',
         module: oneSignalModule,
-      },
-      {
-        name: 'disqus-comments',
-        namespace: 'comments',
-        module: disqusCommentsModule,
       },
     ];
 
