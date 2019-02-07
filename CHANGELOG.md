@@ -1,3 +1,16 @@
+# [0.11.0](https://github.com/frontity/frontity/compare/v0.10.3...v0.11.0) (2019-02-07)
+
+
+### Bug Fixes
+
+* **core-packages:** remove disqus from core packages ([06a6162](https://github.com/frontity/frontity/commit/06a6162))
+* **server:** removes unnecessary env variable ([f02becd](https://github.com/frontity/frontity/commit/f02becd))
+
+
+### Features
+
+* **double-click:** add `sizes` property ([346f46f](https://github.com/frontity/frontity/commit/346f46f))
+
 ## [0.10.3](https://github.com/frontity/frontity/compare/v0.10.2...v0.10.3) (2019-01-30)
 
 
