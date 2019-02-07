@@ -22,9 +22,6 @@ const customCssModule = require(`../packages/custom-css/${
 const oneSignalModule = require(`../packages/one-signal/${
   process.env.MODE
 }/client`);
-const disqusCommentsModule = require(`../packages/disqus-comments/${
-  process.env.MODE
-}/client`);
 
 // Define core modules.
 const coreModules = [
@@ -52,11 +49,6 @@ const coreModules = [
     name: 'one-signal',
     namespace: 'notifications',
     module: oneSignalModule,
-  },
-  {
-    name: 'disqus-comments',
-    namespace: 'comments',
-    module: disqusCommentsModule,
   },
 ];
 
