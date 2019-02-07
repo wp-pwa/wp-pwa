@@ -39,7 +39,7 @@ const Analytics = ({
 
 Analytics.propTypes = {
   gaIds: PropTypes.arrayOf(PropTypes.string).isRequired,
-  gaTrackingOptions: PropTypes.func.isRequired,
+  gaTrackingOptions: PropTypes.shape({}).isRequired,
   gaPageView: PropTypes.shape({}).isRequired,
   gaVars: PropTypes.shape({}),
   gaTriggers: PropTypes.shape({}),
