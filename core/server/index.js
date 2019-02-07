@@ -29,9 +29,6 @@ const customCssModule = require(`../packages/custom-css/${
 const oneSignalModule = require(`../packages/one-signal/${
   process.env.MODE
 }/server`);
-const disqusCommentsModule = require(`../packages/disqus-comments/${
-  process.env.MODE
-}/server`);
 
 const dev = process.env.NODE_ENV !== 'production';
 
@@ -45,7 +42,6 @@ export default ({ clientStats }) => async (req, res) => {
     siteId,
     perPage = 10,
     initialUrl,
-    env,
     device,
     type,
     id,
@@ -76,7 +72,7 @@ export default ({ clientStats }) => async (req, res) => {
     };
 
     // Get settings.
-    const { settings, packages } = await getSettings({ siteId, env });
+    const { settings, packages } = await getSettings({ siteId });
 
     // Define core modules.
     const coreModules = [
@@ -104,11 +100,6 @@ export default ({ clientStats }) => async (req, res) => {
         name: 'one-signal',
         namespace: 'notifications',
         module: oneSignalModule,
-      },
-      {
-        name: 'disqus-comments',
-        namespace: 'comments',
-        module: disqusCommentsModule,
       },
     ];
 
