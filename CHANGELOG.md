@@ -1,3 +1,12 @@
+## [0.11.1](https://github.com/frontity/frontity/compare/v0.11.0...v0.11.1) (2019-02-13)
+
+
+### Bug Fixes
+
+* **analytics:** fixes proptypes warning ([4b3e853](https://github.com/frontity/frontity/commit/4b3e853))
+* **analytics:** fixes proptypes warning ([77866d2](https://github.com/frontity/frontity/commit/77866d2))
+* **settings:** place 'theme' package in the last position ([527901b](https://github.com/frontity/frontity/commit/527901b))
+
 # [0.11.0](https://github.com/frontity/frontity/compare/v0.10.3...v0.11.0) (2019-02-07)
 
 
