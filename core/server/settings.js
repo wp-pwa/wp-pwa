@@ -64,13 +64,19 @@ export default async ({ siteId }) => {
         .site.users.map(user => user.id)
         .join(', '),
     };
-    const packages = Object.values(entities.packages).reduce(
-      (obj, { name, namespace }) => {
+    const packages = Object.values(entities.packages)
+      // Place 'theme' package in the last position.
+      // This ensures Slot components to be rendered after Fills,
+      // which is required for react-slot-fill's SSR to function properly.
+      .sort((a, b) => {
+        if (a.namespace === 'theme') return 1;
+        if (b.namespace === 'theme') return -1;
+        return 0;
+      })
+      .reduce((obj, { name, namespace }) => {
         obj[namespace] = name;
         return obj;
-      },
-      {},
-    );
+      }, {});
     return { settings, packages };
   } catch (error) {
     console.error(error);
