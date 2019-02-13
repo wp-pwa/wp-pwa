@@ -22,7 +22,7 @@
     "mobx-state-tree"
   ],
   "scripts": {
-    "postinstall": "npm-recursive-install --skip-root",
+    "postinstall": "npm-recursive-install --skip-root --production",
     "test": "jest  --watch --silent",
     "test:ci": "jest --silent --testPathPattern=core --no-cache",
     "test:debug": "node --inspect node_modules/.bin/jest --watch",
