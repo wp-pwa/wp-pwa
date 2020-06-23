@@ -1,14 +1,4 @@
 import { normalize, schema } from 'normalizr';
-import { Lokka } from 'lokka';
-import { Transport } from 'lokka-transport-http';
-
-const client = new Lokka({
-  transport: new Transport('https://api.graph.cool/simple/v1/frontity-v1', {
-    headers: {
-      Authorization: `Bearer ${process.env.GRAPHQL_TOKEN}`,
-    },
-  }),
-});
 
 const packageSchema = new schema.Entity(
   'packages',
@@ -28,28 +18,8 @@ const settingsSchema = [settingSchema];
 // Fetch settings from the backend.
 export default async ({ siteId }) => {
   try {
-    const { allSettings } = await client.query(`
-      {
-        allSettings(filter: {
-          site: {
-            siteId: "${siteId}"
-          }
-          active: true
-        }) {
-          site {
-            url
-            users {
-              id
-            }
-          }
-          package {
-            name
-            namespace
-          }
-          data
-        }
-      }
-    `);
+    // eslint-disable-next-line global-require, import/no-dynamic-require
+    const allSettings = require(`../../sites/${siteId}`);
     const { entities } = normalize(allSettings, settingsSchema);
     const settings = Object.entries(entities.settings).reduce(
       (obj, [namespace, setting]) => {
