@@ -39,7 +39,8 @@
     "build:amp": "npm run build -- --amp",
     "serve:amp": "npm run serve -- --amp",
     "now-build": "npm run build -- --prod",
-    "now-start": "npm run serve -- --prod"
+    "now-start": "npm run serve -- --prod",
+    "gcloud": "gcloud builds submit --tag gcr.io/frontity/frontity-pro"
   },
   "dependencies": {
     "@frontity/lazyload": "^1.0.12",
