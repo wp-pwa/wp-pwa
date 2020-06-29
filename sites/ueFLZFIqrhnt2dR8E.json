@@ -1,0 +1,135 @@
+{
+  "data": {
+    "allSettings": [
+      {
+        "site": {
+          "url": "https://blog.gudog.co.uk/",
+          "users": []
+        },
+        "package": {
+          "name": "saturn-theme",
+          "namespace": "theme"
+        },
+        "data": {
+          "menu": [
+            {
+              "tag": 0,
+              "page": 0,
+              "label": "HOME",
+              "category": 0,
+              "type": "latest"
+            },
+            {
+              "url": "https://blog.gudog.com/",
+              "tag": 0,
+              "page": 0,
+              "label": "Advice",
+              "category": 66,
+              "type": "category"
+            },
+            {
+              "url": "https://blog.gudog.com/",
+              "tag": 0,
+              "page": 0,
+              "label": "Curiosity",
+              "category": 74,
+              "type": "category"
+            },
+            {
+              "url": "https://blog.gudog.com/",
+              "tag": 0,
+              "page": 0,
+              "label": "Tips",
+              "category": 20,
+              "type": "category"
+            },
+            {
+              "url": "https://blog.gudog.com/",
+              "tag": 0,
+              "page": 0,
+              "label": "Facts",
+              "category": 23,
+              "type": "category"
+            },
+            {
+              "url": "https://blog.gudog.com/",
+              "tag": 0,
+              "page": 0,
+              "label": "Breeds",
+              "category": 65,
+              "type": "category"
+            },
+            {
+              "url": "https://blog.gudog.com/",
+              "tag": 0,
+              "page": 0,
+              "label": "Dog Owners",
+              "category": 5,
+              "type": "category"
+            },
+            {
+              "url": "https://gudog.co.uk/dog-sitters",
+              "tag": 0,
+              "page": 0,
+              "label": "FIND A DOG SITTER",
+              "category": 382,
+              "target": "_top",
+              "type": "link"
+            }
+          ],
+          "gdpr": {
+            "pwa": true,
+            "publisherName": "Gudog",
+            "language": "en"
+          },
+          "mainColor": "#ed553b",
+          "logoUrl": "https://blog.gudog.co.uk/wp-content/themes/apollo-mag-uk/images/logo.png",
+          "linkStyles": {
+            "color": "#f87f51",
+            "bold": true,
+            "underline": false
+          },
+          "analytics": {
+            "amp": {
+              "gaTrackingIds": ["UA-91312941-6", "UA-31900305-2"]
+            },
+            "pwa": {
+              "gtmContainers": ["GTM-W5C8L8J"],
+              "gaTrackingIds": ["UA-31900305-2"]
+            }
+          },
+          "lang": "en"
+        }
+      },
+      {
+        "site": {
+          "url": "https://blog.gudog.co.uk/",
+          "users": []
+        },
+        "package": {
+          "name": "wp-org-connection",
+          "namespace": "connection"
+        },
+        "data": {
+          "cdn": {
+            "api": "https://cdn.frontity.cloud/https://frontity-add-media-ids.now.sh/https://blog.gudog.co.uk/"
+          },
+          "queryParams": {
+            "excludeFields": "_links"
+          }
+        }
+      },
+      {
+        "site": {
+          "url": "https://blog.gudog.co.uk/",
+          "users": []
+        },
+        "package": {
+          "name": "wp-org-comments",
+          "namespace": "comments"
+        },
+        "data": {}
+      }
+    ]
+  }
+}

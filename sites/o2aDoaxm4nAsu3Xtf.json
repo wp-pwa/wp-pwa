@@ -1,0 +1,119 @@
+{
+  "data": {
+    "allSettings": [
+      {
+        "site": {
+          "url": "https://blog.gudog.fr/",
+          "users": []
+        },
+        "package": {
+          "name": "saturn-theme",
+          "namespace": "theme"
+        },
+        "data": {
+          "menu": [
+            {
+              "tag": 0,
+              "page": 0,
+              "label": "PAGE D’ACCUEIL",
+              "category": 0,
+              "type": "latest"
+            },
+            {
+              "url": "https://blog.gudog.com/",
+              "tag": 0,
+              "page": 0,
+              "label": "Conseils",
+              "category": 66,
+              "type": "category"
+            },
+            {
+              "url": "https://blog.gudog.com/",
+              "tag": 0,
+              "page": 0,
+              "label": "Santé",
+              "category": 418,
+              "type": "category"
+            },
+            {
+              "url": "https://blog.gudog.com/",
+              "tag": 0,
+              "page": 0,
+              "label": "Hygiène",
+              "category": 376,
+              "type": "category"
+            },
+            {
+              "url": "https://blog.gudog.com/",
+              "tag": 0,
+              "page": 0,
+              "label": "Astuces",
+              "category": 20,
+              "type": "category"
+            },
+            {
+              "url": "https://gudog.fr/dog-sitters",
+              "tag": 0,
+              "page": 0,
+              "label": "TROUVER UN DOG SITTER",
+              "category": 382,
+              "target": "_top",
+              "type": "link"
+            }
+          ],
+          "gdpr": {
+            "pwa": true,
+            "publisherName": "Gudog",
+            "language": "en"
+          },
+          "mainColor": "#ed553b",
+          "logoUrl": "https://blog.gudog.fr/wp-content/themes/apollo-mag-fr/images/logo.png",
+          "linkStyles": {
+            "color": "#f87f51",
+            "bold": true,
+            "underline": false
+          },
+          "analytics": {
+            "amp": {
+              "gaTrackingIds": ["UA-91312941-6", "UA-31900305-6"]
+            },
+            "pwa": {
+              "gtmContainers": ["GTM-W5C8L8J"],
+              "gaTrackingIds": ["UA-31900305-6"]
+            }
+          },
+          "lang": "en"
+        }
+      },
+      {
+        "site": {
+          "url": "https://blog.gudog.fr/",
+          "users": []
+        },
+        "package": {
+          "name": "wp-org-connection",
+          "namespace": "connection"
+        },
+        "data": {
+          "cdn": {
+            "api": "https://cdn.frontity.cloud/https://frontity-add-media-ids.now.sh/https://blog.gudog.fr/"
+          },
+          "queryParams": {
+            "excludeFields": "_links"
+          }
+        }
+      },
+      {
+        "site": {
+          "url": "https://blog.gudog.fr/",
+          "users": []
+        },
+        "package": {
+          "name": "wp-org-comments",
+          "namespace": "comments"
+        },
+        "data": {}
+      }
+    ]
+  }
+}

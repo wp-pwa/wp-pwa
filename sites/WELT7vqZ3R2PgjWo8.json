@@ -1,0 +1,430 @@
+{
+  "data": {
+    "allSettings": [
+      {
+        "site": {
+          "url": "https://noticias.coches.com",
+          "users": [
+            {
+              "id": "cjkwma4h01h110163vnw7j9to"
+            },
+            {
+              "id": "cjkwmb86u1hb40117ga7v3w9x"
+            },
+            {
+              "id": "cjnbwjmy40c4y01107p9n9j7d"
+            },
+            {
+              "id": "cjnbwlqnl0cae0140yftkrjgh"
+            }
+          ]
+        },
+        "package": {
+          "name": "saturn-theme",
+          "namespace": "theme"
+        },
+        "data": {
+          "menu": [
+            {
+              "tag": 728,
+              "page": 176162,
+              "label": "Portada",
+              "category": 20,
+              "type": "latest"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "176162",
+              "label": "Noticias motor",
+              "category": "8",
+              "type": "category"
+            },
+            {
+              "url": "https://noticias.coches.com/fichas",
+              "page": "176162",
+              "label": "Fichas",
+              "category": "20",
+              "target": "_self",
+              "type": "link"
+            },
+            {
+              "url": "https://noticias.coches.com/fotos-de-coches",
+              "page": "176162",
+              "label": "Fotos",
+              "category": "1602",
+              "target": "_self",
+              "type": "link"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "176162",
+              "label": "Videos",
+              "category": "3",
+              "type": "category"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "176162",
+              "label": "Consejos",
+              "category": "9",
+              "type": "category"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "176162",
+              "label": "Pruebas",
+              "category": "10",
+              "type": "category"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "176162",
+              "label": "Informes",
+              "category": "12",
+              "type": "category"
+            },
+            {
+              "url": "https://www.coches.com/",
+              "page": "176162",
+              "label": "Coches.com",
+              "category": "20",
+              "type": "link"
+            },
+            {
+              "url": "https://www.coches.com/coches-nuevos/?_ga=2.71482899.1253999113.1527259001-128853542.1524150023",
+              "page": "176162",
+              "label": "Coches nuevos",
+              "category": "20",
+              "type": "link"
+            },
+            {
+              "url": "https://www.coches.com/km0/?_ga=2.71482899.1253999113.1527259001-128853542.1524150023",
+              "page": "176162",
+              "label": "Coches km0",
+              "category": "20",
+              "type": "link"
+            },
+            {
+              "url": "https://www.coches.com/coches-segunda-mano/?_ga=2.71482899.1253999113.1527259001-128853542.1524150023",
+              "page": "176162",
+              "label": "Coches segunda mano",
+              "category": "20",
+              "type": "link"
+            },
+            {
+              "url": "https://www.coches.com/vender-coche/?_ga=2.71482899.1253999113.1527259001-128853542.1524150023",
+              "page": "176162",
+              "label": "Vender coche",
+              "category": "20",
+              "type": "link"
+            },
+            {
+              "url": "https://comparador-seguros.coches.com/?_ga=2.71482899.1253999113.1527259001-128853542.1524150023",
+              "page": "176162",
+              "label": "Comparador de seguros",
+              "category": "20",
+              "type": "link"
+            }
+          ],
+          "gdpr": {
+            "pwa": true,
+            "publisherName": "Coches.com",
+            "language": "es"
+          },
+          "mainColor": "#f6f6f6",
+          "logoUrl": "https://noticias.coches.com/logo_noticias.png",
+          "ads": {
+            "fills": [
+              {
+                "name": "dfp_mega_1",
+                "height": 100,
+                "type": "doubleclick",
+                "slot": "/5555/coches.com.es/noticiasresto_mega",
+                "width": 320
+              },
+              {
+                "name": "dfp_roba_1_home",
+                "height": 250,
+                "type": "doubleclick",
+                "slot": "/5555/coches.com.es/noticiashome_roba1",
+                "width": 300
+              },
+              {
+                "name": "dfp_roba_1_posts",
+                "height": 250,
+                "type": "doubleclick",
+                "slot": "/5555/coches.com.es/noticiasresto_roba1",
+                "width": 300
+              },
+              {
+                "name": "dfp_roba_2",
+                "height": 600,
+                "type": "doubleclick",
+                "slot": "/5555/coches.com.es/noticiasrestoBTF_roba2",
+                "width": 300
+              },
+              {
+                "name": "dfp_roba_3",
+                "height": 600,
+                "type": "doubleclick",
+                "slot": "/5555/coches.com.es/noticiasrestoBTF2_roba3",
+                "width": 300
+              },
+              {
+                "name": "frontity_ad",
+                "height": 250,
+                "client": "ca-pub-6240751379550204",
+                "type": "adsense",
+                "slot": "9252274929",
+                "width": 300
+              },
+              {
+                "name": "dfp_ofp_1x1",
+                "height": 0,
+                "type": "doubleclick",
+                "slot": "/313092790/Coches.com/seccion/seccion/1x1",
+                "width": 0
+              },
+              {
+                "name": "dfp_ofp_boton_4",
+                "height": 0,
+                "type": "doubleclick",
+                "slot": "/313092790/Coches.com/seccion/seccion/boton_4",
+                "width": 0
+              },
+              {
+                "name": "dfp_ofp_boton_1",
+                "height": 0,
+                "type": "doubleclick",
+                "slot": "/313092790/Coches.com/seccion/seccion/boton_1",
+                "width": 0
+              },
+              {
+                "name": "dfp_ofp_boton_2",
+                "height": 0,
+                "type": "doubleclick",
+                "slot": "/313092790/Coches.com/seccion/seccion/boton_2",
+                "width": 0
+              },
+              {
+                "name": "dfp_ofp_boton_3",
+                "height": 0,
+                "type": "doubleclick",
+                "slot": "/313092790/Coches.com/seccion/seccion/boton_3",
+                "width": 0
+              }
+            ],
+            "settings": {}
+          },
+          "customCss": "iframe {background:white;} a.wpb_button_a.content-link { display: flex; align-items: center; justify-content: center;} a.wpb_button_a.content-link:hover {opacity: 0.8;} span.wpb_button.wpb_default.wpb_size_large { background-color: #fd6a08; text-decoration: none; font-size: 16px; display: inline-block; font-family: 'Open Sans',arial,sans-serif; color: #ffffff; padding: 10px 26px; width: content; line-height: 23px;}",
+          "slots": [
+            {
+              "names": ["dfp_mega_1"],
+              "position": "before post 1",
+              "rules": {
+                "item": [
+                  {
+                    "type": "latest"
+                  },
+                  {
+                    "type": "category"
+                  },
+                  {
+                    "type": "tag"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["dfp_mega_1"],
+              "position": "after 300 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  },
+                  {
+                    "type": "page"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["dfp_mega_1"],
+              "position": "after image",
+              "rules": {
+                "item": [
+                  {
+                    "type": "media"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["dfp_roba_1_home"],
+              "position": "after post 3",
+              "rules": {
+                "item": [
+                  {
+                    "type": "latest"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["dfp_roba_1_posts"],
+              "position": "after post 3",
+              "rules": {
+                "item": [
+                  {
+                    "type": "category"
+                  },
+                  {
+                    "type": "tag"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["dfp_roba_1_posts"],
+              "position": "after 600 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  },
+                  {
+                    "type": "page"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["dfp_roba_2"],
+              "position": "after 1200 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  },
+                  {
+                    "type": "page"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["dfp_roba_2"],
+              "position": "after post 8",
+              "rules": {
+                "item": [
+                  {
+                    "type": "category"
+                  },
+                  {
+                    "type": "tag"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["dfp_roba_3"],
+              "position": "after 1500 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  },
+                  {
+                    "type": "page"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["frontity_ad"],
+              "position": "after post 6",
+              "rules": {
+                "item": [
+                  {
+                    "type": "latest"
+                  },
+                  {
+                    "type": "category"
+                  },
+                  {
+                    "type": "tag"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["frontity_ad"],
+              "position": "after 900 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  },
+                  {
+                    "type": "page"
+                  }
+                ]
+              }
+            }
+          ],
+          "cdn": {
+            "images": "https://frontity.media/https://noticias.coches.com"
+          },
+          "linkStyles": {
+            "color": "#ff9c3a",
+            "bold": true,
+            "underline": false
+          },
+          "analytics": {
+            "amp": {
+              "gaTrackingIds": ["UA-91312941-6"],
+              "gtmContainers": ["GTM-M5L36GD"]
+            },
+            "pwa": {
+              "gtmContainers": ["GTM-W5C8L8J", "GTM-M5L36GD"]
+            }
+          },
+          "lang": "es"
+        }
+      },
+      {
+        "site": {
+          "url": "https://noticias.coches.com",
+          "users": [
+            {
+              "id": "cjkwma4h01h110163vnw7j9to"
+            },
+            {
+              "id": "cjkwmb86u1hb40117ga7v3w9x"
+            },
+            {
+              "id": "cjnbwjmy40c4y01107p9n9j7d"
+            },
+            {
+              "id": "cjnbwlqnl0cae0140yftkrjgh"
+            }
+          ]
+        },
+        "package": {
+          "name": "wp-org-connection",
+          "namespace": "connection"
+        },
+        "data": {
+          "cdn": {
+            "media": "https://cdn.frontity.media/https://noticias.coches.com/",
+            "api": "https://cdn.frontity.cloud/https://noticias.coches.com/"
+          },
+          "queryParams": {
+            "excludeFields": "_links"
+          }
+        }
+      }
+    ]
+  }
+}

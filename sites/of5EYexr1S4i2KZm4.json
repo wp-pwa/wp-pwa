@@ -1,0 +1,151 @@
+{
+  "data": {
+    "allSettings": [
+      {
+        "site": {
+          "url": "https://blog.gudog.com/",
+          "users": []
+        },
+        "package": {
+          "name": "saturn-theme",
+          "namespace": "theme"
+        },
+        "data": {
+          "menu": [
+            {
+              "tag": 0,
+              "page": 0,
+              "label": "INICIO",
+              "category": 0,
+              "type": "latest"
+            },
+            {
+              "url": "https://blog.gudog.com/",
+              "tag": 0,
+              "page": 0,
+              "label": "Consejos",
+              "category": 687,
+              "type": "category"
+            },
+            {
+              "url": "https://blog.gudog.com/",
+              "tag": 0,
+              "page": 0,
+              "label": "Alimentación",
+              "category": 383,
+              "type": "category"
+            },
+            {
+              "url": "https://blog.gudog.com/",
+              "tag": 0,
+              "page": 0,
+              "label": "Salud",
+              "category": 384,
+              "type": "category"
+            },
+            {
+              "url": "https://blog.gudog.com/",
+              "tag": 0,
+              "page": 0,
+              "label": "Accesorios",
+              "category": 386,
+              "type": "category"
+            },
+            {
+              "url": "https://blog.gudog.com/",
+              "tag": 0,
+              "page": 0,
+              "label": "Educación Canina",
+              "category": 382,
+              "type": "category"
+            },
+            {
+              "url": "https://blog.gudog.com/",
+              "tag": 0,
+              "page": 0,
+              "label": "Playas",
+              "category": 642,
+              "type": "category"
+            },
+            {
+              "url": "https://blog.gudog.com/",
+              "tag": 0,
+              "page": 0,
+              "label": "Cuidadores",
+              "category": 180,
+              "type": "category"
+            },
+            {
+              "url": "https://blog.gudog.com/",
+              "tag": 0,
+              "page": 0,
+              "label": "Parques para perros",
+              "category": 292,
+              "type": "category"
+            },
+            {
+              "url": "https://gudog.com/cuidadores-de-perros",
+              "tag": 0,
+              "page": 0,
+              "label": "Buscar cuidadores",
+              "category": 382,
+              "target": "_top",
+              "type": "link"
+            }
+          ],
+          "gdpr": {
+            "pwa": true,
+            "publisherName": "Gudog",
+            "language": "es"
+          },
+          "mainColor": "#ed553b",
+          "logoUrl": "https://blog.gudog.com/wp-content/themes/apollo-mag/images/logo.png",
+          "linkStyles": {
+            "color": "#f87f51",
+            "bold": true,
+            "underline": false
+          },
+          "analytics": {
+            "amp": {
+              "gaTrackingIds": ["UA-91312941-6", "UA-36082441-1"]
+            },
+            "pwa": {
+              "gtmContainers": ["GTM-W5C8L8J"],
+              "gaTrackingIds": ["UA-36082441-1"]
+            }
+          },
+          "lang": "es"
+        }
+      },
+      {
+        "site": {
+          "url": "https://blog.gudog.com/",
+          "users": []
+        },
+        "package": {
+          "name": "wp-org-connection",
+          "namespace": "connection"
+        },
+        "data": {
+          "cdn": {
+            "api": "https://cdn.frontity.cloud/https://frontity-add-media-ids.now.sh/https://blog.gudog.com/"
+          },
+          "queryParams": {
+            "excludeFields": "_links"
+          }
+        }
+      },
+      {
+        "site": {
+          "url": "https://blog.gudog.com/",
+          "users": []
+        },
+        "package": {
+          "name": "wp-org-comments",
+          "namespace": "comments"
+        },
+        "data": {}
+      }
+    ]
+  }
+}

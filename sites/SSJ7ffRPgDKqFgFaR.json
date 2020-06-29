@@ -1,0 +1,599 @@
+{
+  "data": {
+    "allSettings": [
+      {
+        "site": {
+          "url": "https://www.diariomotor.com/competicion",
+          "users": [
+            {
+              "id": "cjkwcr3sk1gjh0159fclu7y1i"
+            },
+            {
+              "id": "cjkwcsi8n1gnr0191f3weblrg"
+            }
+          ]
+        },
+        "package": {
+          "name": "saturn-theme",
+          "namespace": "theme"
+        },
+        "data": {
+          "postBar": {
+            "hide": false,
+            "transparent": true,
+            "opacity": 0.4
+          },
+          "menu": [
+            {
+              "tag": 2104,
+              "page": 69749,
+              "label": "Home",
+              "category": 2628,
+              "type": "latest"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "69749",
+              "label": "Fórmula 1",
+              "category": "61",
+              "type": "category"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "69749",
+              "label": "WEC",
+              "category": "46",
+              "type": "category"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "69749",
+              "label": "WRC",
+              "category": "26",
+              "type": "category"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "69749",
+              "label": "Fórmula E",
+              "category": "62",
+              "type": "category"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "69749",
+              "label": "Dakar",
+              "category": "2",
+              "type": "category"
+            },
+            {
+              "url": "https://www.diariomotor.com",
+              "page": "69749",
+              "label": "Diariomotor",
+              "category": "2628",
+              "type": "link"
+            }
+          ],
+          "readingTime": {
+            "position": "featured-image"
+          },
+          "gdpr": {
+            "pwa": true,
+            "publisherName": "Diariomotor.com",
+            "language": "es"
+          },
+          "mainColor": "#000000",
+          "logoUrl": "https://www.diariomotor.com/competicion/wp-content/themes/competicion2015/images/competicion-semi-logo.png",
+          "listExcerpt": {
+            "display": false
+          },
+          "sharedCount": {
+            "position": "featured-image"
+          },
+          "listBar": {
+            "hide": true
+          },
+          "postAuthor": {
+            "position": "header"
+          },
+          "ads": {
+            "fills": [
+              {
+                "name": "megabanner_home",
+                "height": 100,
+                "pageId": 881073,
+                "callType": "std",
+                "formatId": 33777,
+                "siteId": 78061,
+                "type": "smartads",
+                "width": 375
+              },
+              {
+                "name": "robapaginas1_home",
+                "height": 250,
+                "pageId": 881073,
+                "callType": "std",
+                "formatId": 33780,
+                "siteId": 78061,
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "robapaginas2_home",
+                "height": 250,
+                "pageId": 881073,
+                "callType": "std",
+                "formatId": 33781,
+                "siteId": 78061,
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "robapaginas3_home",
+                "height": 250,
+                "pageId": 881073,
+                "callType": "std",
+                "formatId": 34212,
+                "siteId": 78061,
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "megabanner",
+                "height": 100,
+                "pageId": 881086,
+                "callType": "std",
+                "formatId": 33777,
+                "siteId": 78061,
+                "type": "smartads",
+                "width": 375
+              },
+              {
+                "name": "robapaginas1",
+                "height": 250,
+                "pageId": 881086,
+                "callType": "std",
+                "formatId": 33780,
+                "siteId": 78061,
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "robapaginas2",
+                "height": 250,
+                "pageId": 881086,
+                "callType": "std",
+                "formatId": 33781,
+                "siteId": 78061,
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "robapaginas3",
+                "height": 250,
+                "pageId": 881086,
+                "callType": "std",
+                "formatId": 34212,
+                "siteId": 78061,
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "megabanner_post",
+                "height": 100,
+                "pageId": 881076,
+                "callType": "std",
+                "formatId": 33777,
+                "siteId": 78061,
+                "type": "smartads",
+                "width": 375
+              },
+              {
+                "name": "robapaginas1_post",
+                "height": 250,
+                "pageId": 881076,
+                "callType": "std",
+                "formatId": 33780,
+                "siteId": 78061,
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "robapaginas2_post",
+                "height": 250,
+                "pageId": 881076,
+                "callType": "std",
+                "formatId": 33781,
+                "siteId": 78061,
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "robapaginas3_post",
+                "height": 250,
+                "pageId": 881076,
+                "callType": "std",
+                "formatId": 34212,
+                "siteId": 78061,
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "robapaginas1_media",
+                "height": 250,
+                "pageId": 881078,
+                "callType": "std",
+                "formatId": 33780,
+                "siteId": 78061,
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "ad_worona",
+                "height": 280,
+                "client": "ca-pub-6240751379550204",
+                "type": "adsense",
+                "slot": "1985758140",
+                "width": 336
+              }
+            ],
+            "settings": {
+              "networkId": 1445,
+              "areLazy": false
+            }
+          },
+          "customCss": " span.gallery {height: 70px; li.gallery { height: 70px; width: 120px; }} .kzhwg { background-color: rgba(255, 0, 0, 0.1);}",
+          "slots": [
+            {
+              "names": ["megabanner_home"],
+              "position": "before post 1",
+              "rules": {
+                "item": [
+                  {
+                    "type": "latest"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["robapaginas1_home"],
+              "position": "after post 3",
+              "rules": {
+                "item": [
+                  {
+                    "type": "latest"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["robapaginas2_home"],
+              "position": "after post 13",
+              "rules": {
+                "item": [
+                  {
+                    "type": "latest"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["robapaginas3_home"],
+              "position": "after post 17",
+              "rules": {
+                "item": [
+                  {
+                    "type": "latest"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["megabanner"],
+              "position": "before post 1",
+              "rules": {
+                "item": [
+                  {
+                    "type": "category"
+                  },
+                  {
+                    "type": "tag"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["robapaginas1"],
+              "position": "after post 3",
+              "rules": {
+                "item": [
+                  {
+                    "type": "category"
+                  },
+                  {
+                    "type": "tag"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["robapaginas2"],
+              "position": "after post 13",
+              "rules": {
+                "item": [
+                  {
+                    "type": "category"
+                  },
+                  {
+                    "type": "tag"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["robapaginas3"],
+              "position": "after post 17",
+              "rules": {
+                "item": [
+                  {
+                    "type": "category"
+                  },
+                  {
+                    "type": "tag"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["megabanner_post"],
+              "position": "before content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  },
+                  {
+                    "type": "page"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["megabanner_post"],
+              "position": "before content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "noticia"
+                  },
+                  {
+                    "type": "breve"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["robapaginas1_post"],
+              "position": "after 300 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  },
+                  {
+                    "type": "page"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["robapaginas1_post"],
+              "position": "after 300 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "noticia"
+                  },
+                  {
+                    "type": "breve"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["robapaginas2_post"],
+              "position": "after 1200 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  },
+                  {
+                    "type": "page"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["robapaginas2_post"],
+              "position": "after 1200 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "noticia"
+                  },
+                  {
+                    "type": "breve"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["robapaginas3_post"],
+              "position": "after 1500 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  },
+                  {
+                    "type": "page"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["robapaginas3_post"],
+              "position": "after 1500 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "noticia"
+                  },
+                  {
+                    "type": "breve"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["robapaginas1_media"],
+              "position": "after image",
+              "rules": {
+                "item": [
+                  {
+                    "type": "media"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["ad_worona"],
+              "position": "after post 7",
+              "rules": {
+                "item": [
+                  {
+                    "type": "latest"
+                  },
+                  {
+                    "type": "category"
+                  },
+                  {
+                    "type": "tag"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["ad_worona"],
+              "position": "after 600 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  },
+                  {
+                    "type": "page"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["ad_worona"],
+              "position": "after 600 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "noticia"
+                  },
+                  {
+                    "type": "breve"
+                  }
+                ]
+              }
+            }
+          ],
+          "cdn": {
+            "images": "https://diariomotor-images-cdn.frontity.io"
+          },
+          "linkStyles": {
+            "color": "#ff0000",
+            "bold": true,
+            "underline": false
+          },
+          "analytics": {
+            "amp": {
+              "gaTrackingIds": ["UA-91312941-6", "UA-224263-1"],
+              "comScoreIds": [14143525]
+            },
+            "pwa": {
+              "gaTrackingIds": ["UA-224263-1"],
+              "comScoreIds": [14143525],
+              "gtmContainers": ["GTM-W5C8L8J"]
+            },
+            "anonymize": false
+          },
+          "listShareButton": {
+            "display": false
+          },
+          "postFecha": {
+            "position": "header"
+          },
+          "lang": "es",
+          "disqus": "diariomotorcompeticion"
+        }
+      },
+      {
+        "site": {
+          "url": "https://www.diariomotor.com/competicion",
+          "users": [
+            {
+              "id": "cjkwcr3sk1gjh0159fclu7y1i"
+            },
+            {
+              "id": "cjkwcsi8n1gnr0191f3weblrg"
+            }
+          ]
+        },
+        "package": {
+          "name": "wp-org-connection",
+          "namespace": "connection"
+        },
+        "data": {
+          "cdn": {
+            "media": "https://cdn.frontity.media/https://www.diariomotor.com",
+            "api": "https://cdn.frontity.cloud/https://www.diariomotor.com/competicion"
+          },
+          "perPage": 20,
+          "cptEndpoints": {
+            "breve": "breves",
+            "noticia": "noticias"
+          },
+          "queryParams": {
+            "excludeFields": "_links"
+          }
+        }
+      },
+      {
+        "site": {
+          "url": "https://www.diariomotor.com/competicion",
+          "users": [
+            {
+              "id": "cjkwcr3sk1gjh0159fclu7y1i"
+            },
+            {
+              "id": "cjkwcsi8n1gnr0191f3weblrg"
+            }
+          ]
+        },
+        "package": {
+          "name": "disqus-comments",
+          "namespace": "comments"
+        },
+        "data": {
+          "shortname": "diariomotorcompeticion"
+        }
+      }
+    ]
+  }
+}

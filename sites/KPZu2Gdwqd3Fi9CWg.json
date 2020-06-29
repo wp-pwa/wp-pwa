@@ -1,0 +1,447 @@
+{
+  "data": {
+    "allSettings": [
+      {
+        "site": {
+          "url": "https://adslzone.tv",
+          "users": [
+            {
+              "id": "cjktmcawr07tr01332vi3yd3u"
+            }
+          ]
+        },
+        "package": {
+          "name": "saturn-theme",
+          "namespace": "theme"
+        },
+        "data": {
+          "oneSignal": {
+            "path": "app/plugins/onesignal-free-web-push-notifications/sdk_files/",
+            "welcomeNotification": {
+              "title": "",
+              "message": "Gracias por suscribirte a nuestras noticias!"
+            },
+            "defaultNotificationUrl": "https://www.adslzone.tv/wp",
+            "appId": "6807f9a9-5c9c-40f8-94c5-726035c7cb71",
+            "persistNotification": false,
+            "autoRegister": true
+          },
+          "menu": [
+            {
+              "url": "http://www.example.com",
+              "page": "211",
+              "label": "Home",
+              "category": "5",
+              "type": "latest"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "181822",
+              "label": "Audiencias Ayer",
+              "category": "72",
+              "type": "category"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "181822",
+              "label": "Cine",
+              "category": "74",
+              "type": "category"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "181822",
+              "label": "Series",
+              "category": "37",
+              "type": "category"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "181822",
+              "label": "Canal+",
+              "category": "10",
+              "type": "category"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "181822",
+              "label": "Smart TV",
+              "category": "48",
+              "type": "category"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "181822",
+              "label": "Televisión Digital Terrestre",
+              "category": "11",
+              "type": "category"
+            },
+            {
+              "url": "https://www.adslzone.net/forum99.html",
+              "page": "181822",
+              "label": "Foro Canal+",
+              "category": "50",
+              "type": "link"
+            },
+            {
+              "url": "https://www.adslzone.net/forum44.html",
+              "page": "181822",
+              "label": "Foro TDT",
+              "category": "50",
+              "type": "link"
+            }
+          ],
+          "gdpr": {
+            "pwa": true,
+            "publisherName": "ADSL Zone",
+            "language": "es"
+          },
+          "mainColor": "#194280",
+          "logoUrl": "https://www.adslzone.tv/app/themes/mykonos-child/assets/img/tvzone-logo.png",
+          "cookies": {
+            "url": "https://www.adslzone.tv/aviso-legal/",
+            "amp": false,
+            "pwa": false
+          },
+          "ads": {
+            "fills": [
+              {
+                "name": "ad1",
+                "height": 600,
+                "pageId": 795173,
+                "formatId": 53284,
+                "target": "",
+                "siteId": 155418,
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "ad2",
+                "height": 600,
+                "pageId": 795173,
+                "formatId": 53439,
+                "target": "",
+                "siteId": 155418,
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "ad3",
+                "height": 600,
+                "pageId": 795173,
+                "formatId": 53440,
+                "target": "",
+                "siteId": 155418,
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "ad4",
+                "height": 250,
+                "pageId": 795173,
+                "formatId": 55103,
+                "target": "",
+                "siteId": 155418,
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "ad5",
+                "height": 300,
+                "pageId": 795173,
+                "formatId": 56926,
+                "target": "",
+                "siteId": 155418,
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "ad6",
+                "height": 300,
+                "pageId": 795173,
+                "formatId": 56927,
+                "target": "",
+                "siteId": 155418,
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "ad7",
+                "height": 300,
+                "pageId": 795173,
+                "formatId": 57312,
+                "target": "",
+                "siteId": 155418,
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "ad8",
+                "height": 300,
+                "pageId": 795173,
+                "formatId": 57313,
+                "target": "",
+                "siteId": 155418,
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "ad_worona",
+                "height": 250,
+                "client": "ca-pub-6240751379550204",
+                "type": "adsense",
+                "slot": "9156785395",
+                "width": 300
+              }
+            ],
+            "settings": {
+              "networkId": 2506
+            }
+          },
+          "slots": [
+            {
+              "names": ["ad1"],
+              "position": "after post 3",
+              "rules": {
+                "item": [
+                  {
+                    "type": "latest"
+                  },
+                  {
+                    "type": "category"
+                  },
+                  {
+                    "type": "tag"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["ad1"],
+              "position": "after 300 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  },
+                  {
+                    "type": "page"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["ad1"],
+              "position": "after image",
+              "rules": {
+                "item": [
+                  {
+                    "type": "media"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["ad2"],
+              "position": "after post 6",
+              "rules": {
+                "item": [
+                  {
+                    "type": "latest"
+                  },
+                  {
+                    "type": "category"
+                  },
+                  {
+                    "type": "tag"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["ad2"],
+              "position": "after 600 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  },
+                  {
+                    "type": "page"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["ad3"],
+              "position": "after 1200 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  },
+                  {
+                    "type": "page"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["ad4"],
+              "position": "after 1500 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  },
+                  {
+                    "type": "page"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["ad5"],
+              "position": "after 1800 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  },
+                  {
+                    "type": "page"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["ad6"],
+              "position": "after 2100 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  },
+                  {
+                    "type": "page"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["ad7"],
+              "position": "after 2400 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  },
+                  {
+                    "type": "page"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["ad8"],
+              "position": "after 2700 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  },
+                  {
+                    "type": "page"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["ad_worona"],
+              "position": "after post 9",
+              "rules": {
+                "item": [
+                  {
+                    "type": "latest"
+                  },
+                  {
+                    "type": "category"
+                  },
+                  {
+                    "type": "tag"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["ad_worona"],
+              "position": "after 900 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  },
+                  {
+                    "type": "page"
+                  }
+                ]
+              }
+            }
+          ],
+          "analytics": {
+            "amp": {
+              "gaTrakingIds": ["UA-91312941-6", "UA-261742-12"]
+            },
+            "pwa": {
+              "gaTrackingIds": ["UA-261742-12"],
+              "gtmContainers": ["GTM-W5C8L8J"]
+            },
+            "anonymize": false
+          },
+          "lang": "es",
+          "disqus": "adslzonetv-1"
+        }
+      },
+      {
+        "site": {
+          "url": "https://adslzone.tv",
+          "users": [
+            {
+              "id": "cjktmcawr07tr01332vi3yd3u"
+            }
+          ]
+        },
+        "package": {
+          "name": "wp-org-connection",
+          "namespace": "connection"
+        },
+        "data": {
+          "cdn": {
+            "media": "https://cdn.frontity.media/https://www.adslzone.tv",
+            "api": "https://cdn.frontity.cloud/https://www.adslzone.tv"
+          },
+          "queryParams": {
+            "excludeFields": "_links"
+          }
+        }
+      },
+      {
+        "site": {
+          "url": "https://adslzone.tv",
+          "users": [
+            {
+              "id": "cjktmcawr07tr01332vi3yd3u"
+            }
+          ]
+        },
+        "package": {
+          "name": "disqus-comments",
+          "namespace": "comments"
+        },
+        "data": {
+          "shortname": "adslzonetv-1"
+        }
+      }
+    ]
+  }
+}
