@@ -1,0 +1,595 @@
+{
+  "data": {
+    "allSettings": [
+      {
+        "site": {
+          "url": "https://www.diariomotor.com",
+          "users": [
+            {
+              "id": "cjkwcr3sk1gjh0159fclu7y1i"
+            }
+          ]
+        },
+        "package": {
+          "name": "saturn-theme",
+          "namespace": "theme"
+        },
+        "data": {
+          "oneSignal": {
+            "path": "https://www.diariomotor.com/wp-content/plugins/onesignal-free-web-push-notifications/sdk_files/",
+            "wordpress": true,
+            "promptOptions": {
+              "actionMessage": "Nos gustaría enviarte las notificaciones para las últimas noticias y novedades",
+              "acceptButtonText": "Permitir",
+              "exampleNotificationCaption": "(puedes darte de baja en cualquier momento)",
+              "exampleNotificationMessageDesktop": "Nos gustaría enviarte las notificaciones para las últimas noticias y novedades",
+              "exampleNotificationTitleMobile": "Notificaciones",
+              "exampleNotificationMessageMobile": "Nos gustaría enviarte las notificaciones para las últimas noticias y novedades",
+              "siteName": "https://www.diariomotor.com/",
+              "cancelButtonText": "No, gracias",
+              "defaultNotificationUrl": "https://www.diariomotor.com",
+              "exampleNotificationTitleDesktop": "Notificaciones",
+              "autoAcceptTitle": "Click Permitir"
+            },
+            "welcomeNotification": {
+              "title": "",
+              "message": "Gracias por suscribirte! Empieza a ver todas la novedades navegando a nuestra portada."
+            },
+            "appId": "c6e472df-fbf6-41f8-a251-43768653a312",
+            "autoRegister": false
+          },
+          "menu": [
+            {
+              "tag": 10352,
+              "page": 20415,
+              "label": "HOME",
+              "category": 118,
+              "type": "latest"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "468782",
+              "label": "SUV",
+              "category": "63",
+              "type": "category"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "468782",
+              "label": "COMPACTOS",
+              "category": "16",
+              "type": "category"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "468782",
+              "label": "VÍDEOS",
+              "category": "74",
+              "type": "category"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "468782",
+              "label": "DEPORTIVOS",
+              "category": "22",
+              "type": "category"
+            },
+            {
+              "url": "https://www.diariomotor.com/pruebas/",
+              "page": "468782",
+              "label": "PRUEBAS",
+              "category": "87",
+              "type": "link"
+            },
+            {
+              "url": "https://www.diariomotor.com/no-te-lo-pierdas/",
+              "page": "468782",
+              "label": "DESTACADOS",
+              "category": "87",
+              "type": "link"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "468782",
+              "label": "URBANOS",
+              "category": "14",
+              "type": "category"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "468782",
+              "label": "ECOLÓGICOS",
+              "category": "831",
+              "type": "category"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "468782",
+              "label": "CLÁSICOS",
+              "category": "29",
+              "type": "category"
+            },
+            {
+              "url": "http://www.example.com",
+              "page": "468782",
+              "label": "CURIOSIDADES",
+              "category": "11",
+              "type": "category"
+            },
+            {
+              "url": "https://peta.diariomotor.com/competicion",
+              "page": "468782",
+              "label": "COMPETICIÓN",
+              "category": "87",
+              "type": "link"
+            },
+            {
+              "url": "https://peta.diariomotor.com/marcas/",
+              "page": "468782",
+              "label": "COCHES",
+              "category": "87",
+              "type": "link"
+            }
+          ],
+          "gdpr": {
+            "pwa": true,
+            "publisherName": "Diariomotor",
+            "language": "es"
+          },
+          "mainColor": "#000000",
+          "logoUrl": "https://worona-cdn.sirv.com/logos/diariomotor.png",
+          "iframes": [
+            {
+              "name": "espacio-diariomotor",
+              "height": 400,
+              "className": "espacio-diariomotor",
+              "src": "https://www.diariomotor.com/marfeel_iframes/?&format_type=brand-spaces",
+              "width": "100%",
+              "device": "mobile"
+            }
+          ],
+          "ads": {
+            "fills": [
+              {
+                "name": "home_mega",
+                "height": 100,
+                "pageId": "572163",
+                "callType": "std",
+                "formatId": "33777",
+                "siteId": "78061",
+                "type": "smartads",
+                "width": 320
+              },
+              {
+                "name": "home_roba1",
+                "height": 250,
+                "pageId": "572163",
+                "callType": "std",
+                "formatId": "33780",
+                "siteId": "78061",
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "home_roba2",
+                "height": 250,
+                "pageId": "572163",
+                "callType": "std",
+                "formatId": "33781",
+                "siteId": "78061",
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "home_roba3",
+                "height": 250,
+                "pageId": "572163",
+                "callType": "std",
+                "formatId": "34212",
+                "siteId": "78061",
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "archivo_mega",
+                "height": 100,
+                "pageId": "890057",
+                "callType": "std",
+                "formatId": "33777",
+                "siteId": "78061",
+                "type": "smartads",
+                "width": 320
+              },
+              {
+                "name": "archivo_roba1",
+                "height": 250,
+                "pageId": "890057",
+                "callType": "std",
+                "formatId": "33780",
+                "siteId": "78061",
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "archivo_roba2",
+                "height": 250,
+                "pageId": "890057",
+                "callType": "std",
+                "formatId": "33781",
+                "siteId": "78061",
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "archivo_roba3",
+                "height": 250,
+                "pageId": "890057",
+                "callType": "std",
+                "formatId": "34212",
+                "siteId": "78061",
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "marcasymodelos_articulos_mega",
+                "height": 100,
+                "pageId": "766460",
+                "callType": "std",
+                "formatId": "33777",
+                "siteId": "78061",
+                "type": "smartads",
+                "width": 320
+              },
+              {
+                "name": "marcasymodelos_articulos_roba1",
+                "height": 250,
+                "pageId": "766460",
+                "callType": "std",
+                "formatId": "33780",
+                "siteId": "78061",
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "marcasymodelos_articulos_roba2",
+                "height": 250,
+                "pageId": "766460",
+                "callType": "std",
+                "formatId": "33781",
+                "siteId": "78061",
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "marcasymodelos_articulos_roba3",
+                "height": 250,
+                "pageId": "766460",
+                "callType": "std",
+                "formatId": "34212",
+                "siteId": "78061",
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "galerias_mega",
+                "height": 100,
+                "pageId": "884496",
+                "callType": "std",
+                "formatId": "33777",
+                "siteId": "78061",
+                "type": "smartads",
+                "width": 320
+              },
+              {
+                "name": "galerias_roba1",
+                "height": 250,
+                "pageId": "884496",
+                "callType": "std",
+                "formatId": "33780",
+                "siteId": "78061",
+                "type": "smartads",
+                "width": 300
+              },
+              {
+                "name": "ad_Frontity",
+                "height": 250,
+                "client": "ca-pub-6240751379550204",
+                "type": "adsense",
+                "slot": "6141815566",
+                "width": 300
+              }
+            ],
+            "settings": {
+              "networkId": 1445,
+              "areLazy": false
+            }
+          },
+          "customCss": ".espacio-diariomotor{ height: 795px; } span.gallery {height: 70px; li.gallery { height: 70px; width: 120px; } }",
+          "slots": [
+            {
+              "names": ["espacio-diariomotor"],
+              "position": "after post 10",
+              "rules": {
+                "item": [
+                  {
+                    "type": "latest"
+                  },
+                  {
+                    "type": "category"
+                  },
+                  {
+                    "type": "tag"
+                  }
+                ]
+              },
+              "className": "espacio-diariomotor"
+            },
+            {
+              "names": ["home_mega"],
+              "position": "before post 1",
+              "rules": {
+                "item": [
+                  {
+                    "type": "latest"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["home_roba1"],
+              "position": "after post 3",
+              "rules": {
+                "item": [
+                  {
+                    "type": "latest"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["home_roba2"],
+              "position": "after post 14",
+              "rules": {
+                "item": [
+                  {
+                    "type": "latest"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["home_roba3"],
+              "position": "after post 18",
+              "rules": {
+                "item": [
+                  {
+                    "type": "latest"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["archivo_mega"],
+              "position": "before post 1",
+              "rules": {
+                "item": [
+                  {
+                    "type": "category"
+                  },
+                  {
+                    "type": "tag"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["archivo_roba1"],
+              "position": "after post 3",
+              "rules": {
+                "item": [
+                  {
+                    "type": "category"
+                  },
+                  {
+                    "type": "tag"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["archivo_roba2"],
+              "position": "after post 14",
+              "rules": {
+                "item": [
+                  {
+                    "type": "category"
+                  },
+                  {
+                    "type": "tag"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["archivo_roba3"],
+              "position": "after post 18",
+              "rules": {
+                "item": [
+                  {
+                    "type": "category"
+                  },
+                  {
+                    "type": "tag"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["marcasymodelos_articulos_mega"],
+              "position": "before content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["marcasymodelos_articulos_roba1"],
+              "position": "after 300 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["marcasymodelos_articulos_roba2"],
+              "position": "after 1200 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["marcasymodelos_articulos_roba3"],
+              "position": "after content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["galerias_mega"],
+              "position": "before image",
+              "rules": {
+                "item": [
+                  {
+                    "type": "media"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["galerias_roba1"],
+              "position": "after image",
+              "rules": {
+                "item": [
+                  {
+                    "type": "media"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["ad_Frontity"],
+              "position": "after post 7",
+              "rules": {
+                "item": [
+                  {
+                    "type": "latest"
+                  },
+                  {
+                    "type": "category"
+                  },
+                  {
+                    "type": "tag"
+                  }
+                ]
+              }
+            },
+            {
+              "names": ["ad_Frontity"],
+              "position": "after 600 characters in content",
+              "rules": {
+                "item": [
+                  {
+                    "type": "post"
+                  },
+                  {
+                    "type": "page"
+                  }
+                ]
+              }
+            }
+          ],
+          "linkStyles": {
+            "color": "#21addc",
+            "bold": false,
+            "underline": false
+          },
+          "analytics": {
+            "amp": {
+              "gaTrackingIds": ["UA-91312941-6", "UA-224263-1"],
+              "comScoreIds": ["14143525"]
+            },
+            "pwa": {
+              "gtmContainers": ["GTM-W5C8L8J"],
+              "gaTrackingIds": ["UA-224263-1"],
+              "comScoreIds": ["14143525"]
+            }
+          },
+          "lang": "es",
+          "disqus": "diariomotor"
+        }
+      },
+      {
+        "site": {
+          "url": "https://www.diariomotor.com",
+          "users": [
+            {
+              "id": "cjkwcr3sk1gjh0159fclu7y1i"
+            }
+          ]
+        },
+        "package": {
+          "name": "wp-org-connection",
+          "namespace": "connection"
+        },
+        "data": {
+          "cdn": {
+            "media": "https://cdn.frontity.media/https://www.diariomotor.com/",
+            "api": "https://cdn.frontity.cloud/https://www.diariomotor.com/"
+          },
+          "perPage": 20,
+          "cptEndpoints": {
+            "breve": "breves",
+            "noticia": "noticias",
+            "foto-a-foto": "foto-a-fotos",
+            "altas-prestaciones": "altas-prestacioness",
+            "repost": "reposts"
+          },
+          "queryParams": {
+            "excludeFields": "_links"
+          }
+        }
+      },
+      {
+        "site": {
+          "url": "https://www.diariomotor.com",
+          "users": [
+            {
+              "id": "cjkwcr3sk1gjh0159fclu7y1i"
+            }
+          ]
+        },
+        "package": {
+          "name": "disqus-comments",
+          "namespace": "comments"
+        },
+        "data": {
+          "shortname": "diariomotor"
+        }
+      }
+    ]
+  }
+}
