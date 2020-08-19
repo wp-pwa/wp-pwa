@@ -561,8 +561,8 @@
         },
         "data": {
           "cdn": {
-            "media": "https://cdn.frontity.media/https://www.diariomotor.com",
-            "api": "https://cdn.frontity.cloud/https://www.diariomotor.com/competicion"
+            "media": "https://www.diariomotor.com",
+            "api": "https://www.diariomotor.com/competicion"
           },
           "perPage": 20,
           "cptEndpoints": {

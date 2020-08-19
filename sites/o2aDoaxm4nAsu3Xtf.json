@@ -96,7 +96,7 @@
         },
         "data": {
           "cdn": {
-            "api": "https://cdn.frontity.cloud/https://frontity-add-media-ids.now.sh/https://blog.gudog.fr/"
+            "api": "https://frontity-add-media-ids.now.sh/https://blog.gudog.fr/"
           },
           "queryParams": {
             "excludeFields": "_links"

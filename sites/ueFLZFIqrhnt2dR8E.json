@@ -112,7 +112,7 @@
         },
         "data": {
           "cdn": {
-            "api": "https://cdn.frontity.cloud/https://frontity-add-media-ids.now.sh/https://blog.gudog.co.uk/"
+            "api": "https://frontity-add-media-ids.now.sh/https://blog.gudog.co.uk/"
           },
           "queryParams": {
             "excludeFields": "_links"

@@ -16,8 +16,8 @@
         },
         "data": {
           "cdn": {
-            "media": "https://cdn.frontity.media/https://peta.diariomotor.com",
-            "api": "https://cdn.frontity.cloud/https://peta.diariomotor.com"
+            "media": "https://peta.diariomotor.com",
+            "api": "https://peta.diariomotor.com"
           },
           "perPage": 20,
           "cptEndpoints": {

@@ -557,8 +557,8 @@
         },
         "data": {
           "cdn": {
-            "media": "https://cdn.frontity.media/https://www.diariomotor.com/",
-            "api": "https://cdn.frontity.cloud/https://www.diariomotor.com/"
+            "media": "https://www.diariomotor.com/",
+            "api": "https://www.diariomotor.com/"
           },
           "perPage": 20,
           "cptEndpoints": {
