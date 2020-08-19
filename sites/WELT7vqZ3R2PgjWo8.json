@@ -418,7 +418,7 @@
         "data": {
           "cdn": {
             "media": "https://cdn.frontity.media/https://noticias.coches.com/",
-            "api": "https://cdn.frontity.cloud/https://noticias.coches.com/"
+            "api": "https://noticias.coches.com/"
           },
           "queryParams": {
             "excludeFields": "_links"
